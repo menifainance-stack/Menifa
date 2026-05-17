@@ -1,0 +1,62 @@
+name: התראה על עדכון אתר
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Extract commit info
+        id: commit
+        run: |
+          echo "MSG=$(git log -1 --pretty=%B | head -1)" >> $GITHUB_OUTPUT
+          echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "DATE=$(date '+%d/%m/%Y %H:%M')" >> $GITHUB_OUTPUT
+
+      - name: Send email via Resend
+        if: env.RESEND_API_KEY != ''
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
+          MSG: ${{ steps.commit.outputs.MSG }}
+          SHORT_SHA: ${{ steps.commit.outputs.SHORT_SHA }}
+          DATE: ${{ steps.commit.outputs.DATE }}
+        run: |
+          BODY=$(cat <<EOF
+          {
+            "from": "Manifa Bot <onboarding@resend.dev>",
+            "to": "$NOTIFY_EMAIL",
+            "subject": "📊 עדכון אתר מניפה — $DATE",
+            "html": "<div dir='rtl' style='font-family:Arial,sans-serif;direction:rtl;text-align:right;max-width:600px;margin:auto;padding:24px;background:#FAF6EE'><h2 style='color:#2E363F'>שלום תמיר 👋</h2><p style='color:#5C6068;line-height:1.7'>האתר של מניפה פיננסית עודכן בהצלחה.</p><div style='background:#fff;padding:16px;border-radius:12px;border-right:4px solid #B89259;margin:16px 0'><strong style='color:#2E363F'>סיכום העדכון:</strong><br><span style='color:#5C6068'>$MSG</span></div><p style='color:#5C6068'>קומיט: <code>$SHORT_SHA</code><br>תאריך: $DATE</p><a href='https://github.com/menifainance-stack/Menifa/commit/$SHORT_SHA' style='background:#B89259;color:#fff;padding:12px 24px;border-radius:999px;text-decoration:none;display:inline-block;margin-top:16px;font-weight:600'>צפה בפרטי העדכון</a><p style='color:#97A3B1;font-size:12px;margin-top:32px'>הודעה אוטומטית ממערכת מניפה פיננסית.</p></div>"
+          }
+          EOF
+          )
+          curl -sS -X POST https://api.resend.com/emails \
+            -H "Authorization: Bearer $RESEND_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "$BODY"
+
+      - name: Send WhatsApp via CallMeBot
+        if: env.CALLMEBOT_API_KEY != ''
+        env:
+          CALLMEBOT_API_KEY: ${{ secrets.CALLMEBOT_API_KEY }}
+          WHATSAPP_PHONE: ${{ secrets.WHATSAPP_PHONE }}
+          MSG: ${{ steps.commit.outputs.MSG }}
+          DATE: ${{ steps.commit.outputs.DATE }}
+        run: |
+          TEXT=$(python3 -c "
+          import urllib.parse, os
+          msg = os.environ['MSG']
+          date = os.environ['DATE']
+          text = f'🔔 *מניפה פיננסית*\n\n📊 האתר עודכן ב-{date}\n\n{msg}\n\nhttps://github.com/menifainance-stack/Menifa'
+          print(urllib.parse.quote(text))
+          ")
+          curl -sS "https://api.callmebot.com/whatsapp.php?phone=$WHATSAPP_PHONE&text=$TEXT&apikey=$CALLMEBOT_API_KEY"
