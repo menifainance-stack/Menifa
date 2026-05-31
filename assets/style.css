@@ -2638,3 +2638,40 @@ body.has-ticker .navbar { top: 0; }
   .about-hero-meta { justify-content: center; }
   .about-hero-photo { max-width: 300px; }
 }
+
+/* Article byline (author signature) */
+.article-byline {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-warm);
+  border-right: 4px solid var(--gold);
+  border-radius: var(--radius-sm);
+}
+.article-byline img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--gold-light);
+  flex-shrink: 0;
+}
+.article-byline-info { line-height: 1.4; }
+.article-byline .by-label {
+  font-size: 0.78rem;
+  color: var(--gray-light);
+  letter-spacing: 0.05em;
+}
+.article-byline .by-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 1.05rem;
+  display: block;
+}
+.article-byline .by-role {
+  font-size: 0.88rem;
+  color: var(--gray);
+}
