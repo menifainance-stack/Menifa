@@ -2436,3 +2436,40 @@ body.has-ticker .navbar { top: 0; }
   height: 2px;
   background: var(--gold);
 }
+
+/* Compact hero for subpages */
+.page-hero {
+  padding: 8rem 0 3rem;
+  background:
+    radial-gradient(ellipse at 75% 20%, rgba(222, 197, 152, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 80%, rgba(107, 133, 164, 0.18) 0%, transparent 50%),
+    linear-gradient(135deg, #4F6886 0%, #5F7B98 50%, #7591AC 100%);
+  color: var(--white);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero h1 {
+  color: var(--white);
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+}
+.page-hero p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+.page-hero .eyebrow {
+  justify-content: center;
+  color: var(--gold-light);
+}
+.page-hero .eyebrow::before,
+.page-hero .eyebrow::after {
+  background: var(--gold-light);
+}
+
+@media (max-width: 768px) {
+  .page-hero { padding: 6rem 0 2.5rem; }
+}

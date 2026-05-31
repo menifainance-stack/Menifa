@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#1B2A41">
+<title>בלוג ומדריכים | מניפה פיננסית — תוכן מקצועי על משכנתאות</title>
+<meta name="description" content="מדריכים מקצועיים, ניתוחי שוק והסברים פשוטים. כל מה שצריך לדעת לפני שלוקחים משכנתא, מחזרים, או משקיעים.">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body class="has-ticker">
+
+<a href="#main-content" class="skip-link">דלגו לתוכן הראשי</a>
+
+<!-- ═══ FINANCIAL TICKER ═══ -->
+<div class="market-bar" role="region" aria-label="נתונים פיננסיים מתעדכנים">
+  <div class="market-inner">
+    <div class="market-items">
+      <div class="market-item">
+        <span class="lbl">ריבית בנק ישראל</span>
+        <span class="val" id="m-boi">3.75%</span>
+        <span class="chg up" id="m-boi-chg" aria-label="ללא שינוי">—</span>
+      </div>
+      <div class="market-item">
+        <span class="lbl">מדד מחירים חודשי</span>
+        <span class="val" id="m-cpi-m">+1.2%</span>
+        <span class="chg up" id="m-cpi-m-chg">ע. אחרון</span>
+      </div>
+      <div class="market-item">
+        <span class="lbl">מדד שנתי</span>
+        <span class="val" id="m-cpi-y">1.9%</span>
+        <span class="chg" id="m-cpi-y-chg">12 חודשים</span>
+      </div>
+      <div class="market-item">
+        <span class="lbl">פריים</span>
+        <span class="val" id="m-prime">5.25%</span>
+        <span class="chg up">ריבית בסיס</span>
+      </div>
+    </div>
+    <div class="market-update">
+      <span>עדכון אחרון: <span id="m-update">היום</span></span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">מ</span>
+      <span class="logo-text">
+        מניפה פיננסית
+        <small>תמיר גרמה</small>
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">דף הבית</a></li>
+      <li><a href="calculators.html" >מחשבונים</a></li>
+      <li><a href="blog.html" aria-current="page" class="active">בלוג</a></li>
+      <li><a href="about.html" >עליי</a></li>
+      <li><a href="contact.html" >צור קשר</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="tel:052-4502821" class="nav-phone">
+        <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
+        052-4502821
+      </a>
+      <a href="contact.html" class="btn btn-primary nav-cta">ייעוץ חינם</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="תפריט">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="main-content">
+
+<!-- ═══ PAGE HERO ═══ -->
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">בלוג ומדריכים</span>
+    <h1>הידע שיחסוך לכם כסף</h1>
+    <p>מדריכים מקצועיים, ניתוחי שוק והסברים פשוטים. כל מה שצריך לדעת לפני שלוקחים משכנתא, מחזרים, או משקיעים.</p>
+  </div>
+</header>
+
+<!-- ═══ BLOG ═══ -->
+<section class="blog" id="blog" aria-label="מאמרים ומדריכים">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">בלוג ומדריכים</span>
+      <h2>הידע שיחסוך לכם כסף</h2>
+      <p class="lead">מדריכים מקצועיים, ניתוחי שוק והסברים פשוטים — כל מה שצריך לדעת לפני שלוקחים משכנתא.</p>
+    </div>
+
+    <div class="blog-grid">
+
+      <article class="blog-card reveal" data-delay="1" data-article="art-1" tabindex="0" role="button" aria-label="קרא: 7 טעויות יקרות במשכנתא ראשונה">
+        <div class="blog-img t-turquoise" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-tag">משכנתאות</span><span>•</span><span>8 דקות קריאה</span></div>
+          <h3>7 טעויות יקרות שלוקחי משכנתא ראשונה עושים</h3>
+          <p>הטעויות הכי שכיחות בלקיחת משכנתא ראשונה — וכמה הן באמת עולות. מדריך מבוסס על 500+ תיקים אמיתיים מהשטח.</p>
+          <span class="blog-link">קרא את המאמר <span aria-hidden="true">←</span></span>
+        </div>
+      </article>
+
+      <article class="blog-card reveal" data-delay="2" data-article="art-2" tabindex="0" role="button" aria-label="קרא: השפעת ריבית בנק ישראל">
+        <div class="blog-img t-blue" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-tag">ריבית בנק ישראל</span><span>•</span><span>6 דקות</span></div>
+          <h3>כך משפיעה כל החלטת ריבית של בנק ישראל על המשכנתא שלכם</h3>
+          <p>פריים, מסלולי משתנה צמודה, ועוגן בנק ישראל — מה זה אומר בפועל על ההחזר החודשי שלכם, עם דוגמאות מספריות.</p>
+          <span class="blog-link">קרא את המאמר <span aria-hidden="true">←</span></span>
+        </div>
+      </article>
+
+      <article class="blog-card reveal" data-delay="3" data-article="art-3" tabindex="0" role="button" aria-label="קרא: מתי כדאי למחזר משכנתא">
+        <div class="blog-img t-copper" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-tag">מיחזור</span><span>•</span><span>7 דקות</span></div>
+          <h3>מתי באמת כדאי למחזר משכנתא? המדריך המקצועי</h3>
+          <p>מחזור משכנתא הוא לא רק שאלת ריבית. צ'קליסט של 9 שאלות שכל בעל משכנתא חייב לשאול לפני שמחליט אם למחזר השנה.</p>
+          <span class="blog-link">קרא את המאמר <span aria-hidden="true">←</span></span>
+        </div>
+      </article>
+
+      <article class="blog-card reveal" data-delay="1" data-article="art-4" tabindex="0" role="button" aria-label="קרא: השקעות חכמות לטווח ארוך">
+        <div class="blog-img t-green" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-tag">השקעות</span><span>•</span><span>10 דקות</span></div>
+          <h3>השקעות חכמות לטווח ארוך — בלי להיתפס לטרנדים</h3>
+          <p>קופת גמל להשקעה, קרן השתלמות, מדדים — איפה כדאי לשים את הכסף שלכם ב-2026, ולמה הריבית של בנק ישראל משנה הכל.</p>
+          <span class="blog-link">קרא את המאמר <span aria-hidden="true">←</span></span>
+        </div>
+      </article>
+
+      <article class="blog-card reveal" data-delay="2" data-article="art-5" tabindex="0" role="button" aria-label="קרא: התנהלות כלכלית של משפחה">
+        <div class="blog-img t-purple" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-tag">התנהלות כלכלית</span><span>•</span><span>9 דקות</span></div>
+          <h3>איך לבנות תקציב משפחתי שעובד — מדריך מעשי</h3>
+          <p>שיטת 50/30/20, ניהול חובות, בנייה הדרגתית של הון עצמי. צעדים קטנים שמשנים תוך שנה את התמונה הפיננסית של המשפחה.</p>
+          <span class="blog-link">קרא את המאמר <span aria-hidden="true">←</span></span>
+        </div>
+      </article>
+
+      <article class="blog-card reveal" data-delay="3" data-article="art-6" tabindex="0" role="button" aria-label="קרא: תמהיל משכנתא נכון ב-2026">
+        <div class="blog-img t-turquoise" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-tag">מדריך</span><span>•</span><span>11 דקות</span></div>
+          <h3>תמהיל משכנתא נכון ב-2026 — מסלולים, פרופורציות והאיזון הנכון</h3>
+          <p>פריים, קל"צ, קמ"צ, צמוד מדד — מה לקחת ובאיזו פרופורציה? ניתוח מבוסס נתונים של תמהילים מומלצים לפי גיל וסיכון.</p>
+          <span class="blog-link">קרא את המאמר <span aria-hidden="true">←</span></span>
+        </div>
+      </article>
+
+      <article class="blog-card reveal" data-delay="1" data-article="art-7" tabindex="0" role="button" aria-label="קרא: ביטוחי משכנתא">
+        <div class="blog-img t-blue" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-tag">ביטוחים</span><span>•</span><span>8 דקות</span></div>
+          <h3>ביטוחי משכנתא — מה חובה, מה אפשר לחסוך, ואיפה הבנקים מרוויחים</h3>
+          <p>ביטוח חיים וביטוח מבנה — הבנק ידאג להציע לכם, אבל לא בהכרח את הטוב ביותר. איך לחסוך 30-50% בפרמיות מבלי לוותר על כיסוי.</p>
+          <span class="blog-link">קרא את המאמר <span aria-hidden="true">←</span></span>
+        </div>
+      </article>
+
+      <article class="blog-card reveal" data-delay="2" data-article="art-8" tabindex="0" role="button" aria-label="קרא: דירה להשקעה ב-2026">
+        <div class="blog-img t-copper" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-tag">נדל"ן</span><span>•</span><span>10 דקות</span></div>
+          <h3>דירה להשקעה ב-2026 — האם זה עדיין משתלם?</h3>
+          <p>תשואה משכירות, מס שבח, מס רכישה דרגה ב', מס יסף — חישוב מלא של רווחיות אמיתית של דירה להשקעה במצב השוק הנוכחי.</p>
+          <span class="blog-link">קרא את המאמר <span aria-hidden="true">←</span></span>
+        </div>
+      </article>
+
+      <article class="blog-card reveal" data-delay="3" data-article="art-9" tabindex="0" role="button" aria-label="קרא: מסים לעצמאי 2026">
+        <div class="blog-img t-purple" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2v16z"/></svg>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-tag">מסים</span><span>•</span><span>12 דקות</span></div>
+          <h3>מדריך מסים מלא לעצמאי 2026 — הוצאות מוכרות, מקדמות, פטורים</h3>
+          <p>מדרגות מס עדכניות, אילו הוצאות באמת מוכרות, איך לחשב מקדמות, מתי מגיע פטור — מדריך מעשי עם דוגמאות מספריות לעצמאים בישראל.</p>
+          <span class="blog-link">קרא את המאמר <span aria-hidden="true">←</span></span>
+        </div>
+      </article>
+
+      <article class="blog-card reveal" data-delay="1" data-article="art-10" tabindex="0" role="button" aria-label="קרא: איך לבחור יועץ משכנתאות">
+        <div class="blog-img t-green" aria-hidden="true">
+          <svg fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta"><span class="blog-tag">בחירת יועץ</span><span>•</span><span>7 דקות</span></div>
+          <h3>איך לבחור יועץ משכנתאות נכון — 8 שאלות ששוות זהב</h3>
+          <p>לא כל יועץ הוא יועץ. רוב לוקחי המשכנתא לא יודעים מה להבדיל. הנה 8 השאלות שיגלו לכם אם היועץ שמולכם באמת מקצועי — או רק נראה כזה.</p>
+          <span class="blog-link">קרא את המאמר <span aria-hidden="true">←</span></span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section class="cta-final" id="contact">
+  <div class="container">
+    <div class="cta-content reveal">
+      <span class="eyebrow">בואו נתחיל</span>
+      <h2>המשכנתא שלך, <em>הדרך שלנו.</em></h2>
+      <p>שיחה אחת חינם יכולה לחסוך לכם מאות אלפי שקלים. אין מה להפסיד — יש המון מה לרוויח.</p>
+
+      <div class="cta-buttons">
+        <a href="tel:052-4502821" class="btn btn-primary btn-large">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
+          התקשרו עכשיו
+        </a>
+        <a href="https://wa.me/972524502821" target="_blank" rel="noopener" class="btn btn-ghost btn-large">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+          וואטסאפ
+        </a>
+      </div>
+
+      <a href="tel:052-4502821" class="cta-phone" aria-label="התקשרו למספר 052-4502821">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
+        052-4502821
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-mark">מ</span>
+          <span class="logo-text">
+            מניפה פיננסית
+            <small>תמיר גרמה</small>
+          </span>
+        </div>
+        <p>ייעוץ משכנתאות פרימיום בישראל — 15 שנות ניסיון, שקיפות מלאה, ותוצאות שמדברות. הצד שלך, תמיד.</p>
+        <div class="foot-badges">
+          <span class="foot-badge">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+            יועץ מוסמך
+          </span>
+          <span class="foot-badge">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            SSL מאובטח
+          </span>
+          <span class="foot-badge">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            עומד בתקנות בנק ישראל
+          </span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>השירותים שלנו</h4>
+        <ul>
+          <li><a href="#services">רכישת דירה ראשונה</a></li>
+          <li><a href="#services">מחזור משכנתא</a></li>
+          <li><a href="#services">איחוד הלוואות</a></li>
+          <li><a href="#services">מסורבי בנקים</a></li>
+          <li><a href="#calculator">מחשבון חיסכון</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>צרו קשר</h4>
+        <div class="contact-list">
+          <a href="tel:052-4502821">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
+            052-4502821
+          </a>
+          <a href="mailto:menifainance@gmail.com">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            menifainance@gmail.com
+          </a>
+          <a href="https://wa.me/972524502821" target="_blank" rel="noopener">
+            <svg fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24z"/></svg>
+            וואטסאפ
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <div>
+        © 2026 מניפה פיננסית | תמיר גרמה. כל הזכויות שמורות. ·
+        <a href="#" data-article="policy-privacy" style="text-decoration:underline; cursor:pointer;">מדיניות פרטיות</a> ·
+        <a href="#" data-article="policy-a11y" style="text-decoration:underline; cursor:pointer;">הצהרת נגישות</a> ·
+        <a href="#" data-article="policy-terms" style="text-decoration:underline; cursor:pointer;">תנאי שימוש</a>
+      </div>
+      <div class="disclaimer">
+        אין באמור בכדי להוות תחליף לייעוץ אישי המתחשב בנתונים ובצרכים המיוחדים של כל לקוח.
+        הייעוץ ניתן בכפוף לתקנות בנק ישראל ולחוק הייעוץ הפנסיוני.
+        מחשבונים מציגים הערכות ראשוניות בלבד.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Accessibility Statement Modal target -->
+<section id="accessibility" class="sr-only" aria-label="הצהרת נגישות">
+  <h2>הצהרת נגישות</h2>
+  <p>אתר זה תוכנן להיות נגיש לכלל האוכלוסייה, כולל אנשים עם מוגבלויות, בהתאם לחוק שוויון זכויות לאנשים עם מוגבלות התשנ"ח-1998 ולתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות) התשע"ג-2013, ברמה AA לפי תקן WCAG 2.1. רכיבי האתר כוללים: ניווט מקלדת, תוויות aria, יחסי ניגודיות מתאימים, טקסט חלופי לתמונות, וכפתור דילוג לתוכן הראשי. לבקשות נגישות או דיווח על בעיה: menifainance@gmail.com / 052-4502821.</p>
+</section>
+
+<!-- ═══ ARTICLE MODAL ═══ -->
+<div class="article-modal" id="articleModal" role="dialog" aria-modal="true" aria-labelledby="articleTitle">
+  <div class="article-modal-inner" id="articleContent" role="document">
+    <!-- Content injected by JS -->
+  </div>
+</div>
+
+<!-- ═══ HIDDEN ARTICLE CONTENT (indexed for SEO) ═══ -->
+<div id="article-content-store" style="display:none;" aria-hidden="true">
+
+  <!-- POLICY DOCUMENTS -->
+  <article id="policy-privacy" data-tone="t-blue" data-tag="מדיניות פרטיות" data-readtime="5 דקות קריאה">
+    <h2>מדיניות פרטיות — מניפה פיננסית</h2>
+    <p><strong>תאריך עדכון אחרון:</strong> מאי 2026</p>
+    <p>אנו במניפה פיננסית מחויבים להגנה על פרטיותכם. מדיניות זו מסבירה איזה מידע אנו אוספים, איך אנו משתמשים בו, ואיך אנו מגנים עליו, בהתאם לחוק הגנת הפרטיות התשמ"א-1981 ולתקנות הגנת הפרטיות (אבטחת מידע) התשע"ז-2017.</p>
+
+    <h3>1. איזה מידע אנו אוספים</h3>
+    <ul>
+      <li><strong>מידע שאתם מוסרים מרצונכם</strong>: שם, טלפון, מייל, פרטים פיננסיים שאתם מוסרים בייעוץ.</li>
+      <li><strong>מידע טכני</strong>: כתובת IP, סוג דפדפן, מערכת הפעלה, אופן השימוש באתר.</li>
+      <li><strong>עוגיות (Cookies)</strong>: לשיפור חוויית השימוש וניתוח שימוש סטטיסטי.</li>
+    </ul>
+
+    <h3>2. למה אנו משתמשים במידע</h3>
+    <ul>
+      <li>למתן שירותי ייעוץ משכנתאות איכותיים.</li>
+      <li>ליצירת קשר עם לקוחות שהביעו עניין.</li>
+      <li>לשיפור השירותים והאתר.</li>
+      <li>למטרות שיווק (רק לאחר קבלת הסכמתכם).</li>
+      <li>לעמידה בדרישות חוקיות ורגולטוריות.</li>
+    </ul>
+
+    <h3>3. שיתוף מידע עם צדדים שלישיים</h3>
+    <p>אנחנו <strong>לא מוכרים</strong> ולא משכירים את המידע שלכם. שיתוף מידע עם בנקים וגופים פיננסיים מתבצע <strong>רק לאחר קבלת הסכמתכם המפורשת</strong> ולמטרת ביצוע הבקשה שלכם.</p>
+
+    <h3>4. אבטחת מידע</h3>
+    <p>אנו מיישמים אמצעי אבטחה טכניים וארגוניים סבירים כדי להגן על המידע: SSL/TLS להצפנת תקשורת, אחסון מאובטח, גישה מוגבלת רק לעובדים מורשים.</p>
+
+    <h3>5. הזכויות שלכם</h3>
+    <ul>
+      <li><strong>זכות עיון</strong>: לבקש לראות את המידע השמור עליכם.</li>
+      <li><strong>זכות תיקון</strong>: לבקש לתקן מידע שגוי.</li>
+      <li><strong>זכות מחיקה</strong>: לבקש למחוק את המידע (במגבלות החוק).</li>
+      <li><strong>זכות הסרה</strong>: להסיר את עצמכם מרשימות תפוצה בכל עת.</li>
+    </ul>
+
+    <h3>6. עוגיות (Cookies)</h3>
+    <p>האתר משתמש בעוגיות לשמירת העדפות (כמו הגדרות נגישות) ולניתוח סטטיסטי. תוכלו לחסום עוגיות דרך הגדרות הדפדפן, אבל זה עלול להגביל פונקציונליות מסוימת באתר.</p>
+
+    <h3>7. שינויים במדיניות</h3>
+    <p>אנו עשויים לעדכן מדיניות זו מעת לעת. שינויים מהותיים יפורסמו באתר עם תאריך עדכון. השימוש המתמשך באתר לאחר עדכון מהווה הסכמה למדיניות המעודכנת.</p>
+
+    <h3>8. יצירת קשר</h3>
+    <p>לכל שאלה או בקשה בנושאי פרטיות:</p>
+    <ul>
+      <li>מייל: <strong>menifainance@gmail.com</strong></li>
+      <li>טלפון: <strong>052-4502821</strong></li>
+    </ul>
+
+    <div class="article-cta">
+      <p>שאלה בנושא פרטיות? נשמח לסייע.</p>
+      <a href="tel:052-4502821" class="btn btn-primary">צרו קשר: 052-4502821</a>
+    </div>
+  </article>
+
+  <article id="policy-terms" data-tone="t-copper" data-tag="תנאי שימוש" data-readtime="6 דקות קריאה">
+    <h2>תנאי שימוש — מניפה פיננסית</h2>
+    <p><strong>תאריך עדכון אחרון:</strong> מאי 2026</p>
+    <p>השימוש באתר מניפה פיננסית כפוף לתנאים שלהלן. הגלישה והשימוש באתר מהווים הסכמה לתנאים אלו.</p>
+
+    <h3>1. אודות השירות</h3>
+    <p>מניפה פיננסית (להלן: "החברה") היא שירות ייעוץ משכנתאות עצמאי בבעלות תמיר גרמה, יועץ משכנתאות מוסמך. השירותים כוללים: ייעוץ משכנתאות לרכישת דירה, מחזור משכנתא, איחוד הלוואות, ייעוץ פיננסי כללי.</p>
+
+    <h3>2. אופי המידע באתר</h3>
+    <p>המידע באתר נועד להציג את שירותי החברה ולספק תוכן חינוכי כללי בנושאי משכנתאות ופיננסים. <strong>המידע אינו מהווה ייעוץ פיננסי אישי</strong>, אינו תחליף לייעוץ מקצועי המתחשב בנתונים האישיים של כל לקוח, ואינו מהווה הצעה לקנייה או מכירה של מוצרים פיננסיים.</p>
+
+    <h3>3. מחשבונים ושימוש בנתונים</h3>
+    <p>המחשבונים באתר מציגים <strong>הערכות ראשוניות בלבד</strong> לצרכי המחשה. תוצאות בפועל תלויות בגורמים רבים: היסטוריית אשראי, מאפייני העסקה, תנאי השוק במועד הביצוע, החלטות הבנק. אין להסתמך על תוצאות המחשבונים לקבלת החלטות פיננסיות.</p>
+
+    <h3>4. הגבלת אחריות</h3>
+    <p>החברה ובעליה <strong>אינם אחראים</strong>:</p>
+    <ul>
+      <li>לנזק ישיר, עקיף, מקרי או תוצאתי הנובע משימוש באתר.</li>
+      <li>לדיוק או עדכניות הנתונים הפיננסיים המוצגים (ריביות, מדדים — מתעדכנים מעת לעת).</li>
+      <li>לתוכן באתרים חיצוניים אליהם יש קישור מהאתר.</li>
+      <li>להפסקות בזמינות האתר או תקלות טכניות.</li>
+    </ul>
+
+    <h3>5. קניין רוחני</h3>
+    <p>כל תוכן באתר — לרבות טקסטים, מאמרים, גרפיקה, לוגו, עיצוב — הוא קניין רוחני של החברה ומוגן בדיני זכויות יוצרים. אסור להעתיק, לשכפל, להפיץ או לעשות שימוש מסחרי בתוכן ללא היתר מפורש בכתב.</p>
+
+    <h3>6. שימוש מותר</h3>
+    <p>מותר לכם:</p>
+    <ul>
+      <li>לגלוש באתר לצורך אישי, לא מסחרי.</li>
+      <li>לצטט תוכן עם ייחוס מפורש לאתר ולמחבר.</li>
+      <li>לשתף קישורים לאתר ברשתות חברתיות.</li>
+    </ul>
+
+    <h3>7. התנהגות אסורה</h3>
+    <p>אסור:</p>
+    <ul>
+      <li>לפרוץ או לנסות לפרוץ למערכות האתר.</li>
+      <li>לבצע פעולות שעלולות לפגוע בזמינות האתר (DDoS, scraping אוטומטי).</li>
+      <li>להציג מידע כוזב או להתחזות בטופסי האתר.</li>
+    </ul>
+
+    <h3>8. שירותי ייעוץ אישי</h3>
+    <p>שירותי ייעוץ אישי שמסופקים על ידי החברה כפופים להסכם נפרד שייחתם בין הצדדים. ייעוץ ראשוני הוא ללא עלות וללא התחייבות.</p>
+
+    <h3>9. דין ושיפוט</h3>
+    <p>תנאי שימוש אלו כפופים לדין הישראלי. סמכות השיפוט הייחודית למחלוקות שיתעוררו מהאתר ומשירותי החברה נתונה לבתי המשפט המוסמכים בעיר תל אביב-יפו.</p>
+
+    <h3>10. שינויים</h3>
+    <p>החברה רשאית לעדכן את התנאים מעת לעת. שינויים יפורסמו באתר. המשך השימוש לאחר עדכון מהווה הסכמה לתנאים המעודכנים.</p>
+
+    <div class="article-cta">
+      <p>שאלה בנושא תנאי השימוש?</p>
+      <a href="tel:052-4502821" class="btn btn-primary">052-4502821</a>
+    </div>
+  </article>
+
+  <article id="policy-a11y" data-tone="t-green" data-tag="הצהרת נגישות" data-readtime="5 דקות קריאה">
+    <h2>הצהרת נגישות — מניפה פיננסית</h2>
+    <p><strong>תאריך עדכון אחרון:</strong> מאי 2026</p>
+
+    <h3>מחויבות לנגישות</h3>
+    <p>אתר מניפה פיננסית רואה בנגישות לאנשים עם מוגבלויות ערך מרכזי. אנו פועלים להבטיח שכלל המשתמשים — ללא קשר ליכולותיהם — יוכלו לגלוש, ללמוד ולקבל את השירותים שלנו באופן שווה ומכבד, בהתאם ל<strong>חוק שוויון זכויות לאנשים עם מוגבלות התשנ"ח-1998</strong> ול<strong>תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות) התשע"ג-2013</strong>.</p>
+
+    <h3>תקן הנגישות שמיושם</h3>
+    <p>האתר תוכנן ופותח בהתאם להנחיות הנגישות לאתרי אינטרנט <strong>WCAG 2.1 ברמת AA</strong>, התקן הבינלאומי המקובל.</p>
+
+    <h3>אמצעי הנגישות באתר</h3>
+    <ul>
+      <li><strong>תפריט נגישות צף</strong>: כפתור ייעודי מימין לתחתית המסך פותח תפריט עם אפשרויות התאמה:
+        <ul>
+          <li>שינוי גודל טקסט (4 רמות)</li>
+          <li>מצב ניגודיות גבוהה (שחור/לבן)</li>
+          <li>גופן קריא יותר (Arial)</li>
+          <li>הדגשת כותרות</li>
+          <li>הדגשת קישורים</li>
+          <li>ביטול אנימציות (לבעלי רגישות לתנועה)</li>
+          <li>סמן עכבר מוגדל</li>
+        </ul>
+      </li>
+      <li><strong>ניווט מקלדת מלא</strong>: ניתן להפעיל את כל הפונקציות באמצעות מקלדת בלבד (Tab, Enter, Esc).</li>
+      <li><strong>קישור "דלגו לתוכן הראשי"</strong>: בלחיצת Tab הראשונה מאפשר דילוג ישיר לתוכן.</li>
+      <li><strong>תוויות aria-label</strong>: על כל הרכיבים האינטראקטיביים — כפתורים, סליידרים, טפסים.</li>
+      <li><strong>סמנטיקה תקנית</strong>: שימוש בתגיות HTML5 סמנטיות (main, nav, article, section).</li>
+      <li><strong>טקסט חלופי</strong>: לכל התמונות והאיקונים.</li>
+      <li><strong>יחס ניגודיות</strong>: בכל הטקסטים בהתאם לתקן AA (לפחות 4.5:1 לטקסט רגיל).</li>
+      <li><strong>תמיכה ב-prefers-reduced-motion</strong>: זיהוי אוטומטי של הגדרת מערכת ההפעלה והשבתת אנימציות.</li>
+      <li><strong>תמיכה ב-prefers-contrast</strong>: התאמה אוטומטית לדרישות ניגודיות מוגברת.</li>
+    </ul>
+
+    <h3>מגבלות ידועות</h3>
+    <p>למרות מאמצינו, ייתכנו דפים או פונקציות שטרם הותאמו לחלוטין. אנו פועלים להמשך שיפור ועדכון:</p>
+    <ul>
+      <li>חלק מהאייקונים הדקורטיביים אינם מתוייגים כדקורטיביים בלבד — לא מהווה מכשול שימוש.</li>
+      <li>חלק מהאנימציות עשויות להופיע גם במצב prefers-reduced-motion במקרים מסוימים.</li>
+    </ul>
+
+    <h3>פניות בנושא נגישות</h3>
+    <p>נתקלתם בבעיית נגישות? חשוב לנו לדעת. אנא פנו אלינו:</p>
+    <ul>
+      <li><strong>רכז הנגישות</strong>: תמיר גרמה</li>
+      <li><strong>טלפון</strong>: 052-4502821 (זמין א'-ה' 9:00-19:00)</li>
+      <li><strong>מייל</strong>: menifainance@gmail.com</li>
+      <li><strong>זמן מענה</strong>: עד 7 ימי עסקים</li>
+    </ul>
+    <p>בפנייתכם אנא ציינו: התקלה המדויקת, הדף בו נתקלתם, סוג הדפדפן וטכנולוגיה מסייעת בה אתם משתמשים (אם יש).</p>
+
+    <h3>תאריכי בדיקה ועדכון</h3>
+    <ul>
+      <li><strong>בדיקת נגישות אחרונה</strong>: מאי 2026</li>
+      <li><strong>תקנים שיושמו</strong>: WCAG 2.1 AA, תקנות שוויון זכויות לאנשים עם מוגבלות התשע"ג-2013</li>
+      <li><strong>בדיקה הבאה מתוכננת</strong>: יוני 2026</li>
+    </ul>
+
+    <div class="article-cta">
+      <p>נמצאה תקלת נגישות? נטפל בה מיד.</p>
+      <a href="mailto:menifainance@gmail.com" class="btn btn-primary">דווחו: menifainance@gmail.com</a>
+    </div>
+  </article>
+
+  <!-- SERVICE ARTICLES -->
+  <article id="svc-1" data-tone="t-turquoise" data-tag="רכישת דירה" data-readtime="9 דקות קריאה">
+    <h2>תהליך רכישת דירה ראשונה — 7 שלבים עד החתימה</h2>
+    <p>קניית דירה ראשונה היא ההחלטה הכלכלית הכי משמעותית שרוב המשפחות יעשו בחייהן. רוב הקונים נכנסים לתהליך <strong>בלי תוכנית מסודרת</strong>, וזה עולה להם עשרות עד מאות אלפי שקלים. הנה התהליך המסודר שאנחנו בונים יחד.</p>
+
+    <h3>שלב 1: אבחון פיננסי מעמיק (שבוע 1)</h3>
+    <p>לפני שמסתכלים על דירות, אנחנו עושים אבחון מלא: <strong>הון עצמי, יחס החזר אפשרי, היסטוריית אשראי, וצפי הכנסות עתידי</strong>. התוצאה: סכום משכנתא ריאלי שתקבלו, ותקציב מקסימלי לדירה.</p>
+
+    <h3>שלב 2: אישור עקרוני (שבוע 2)</h3>
+    <p>אנחנו ניגשים ל-3-4 בנקים במקביל ומבקשים אישור עקרוני. <strong>זה נותן לכם כוח משא ומתן מול מוכרים</strong> ומאפשר לזוז במהירות כשמוצאים דירה.</p>
+
+    <h3>שלב 3: חיפוש הדירה (משתנה)</h3>
+    <p>לא תפקיד שלנו ישירות, אבל אנחנו מלווים: מה לחפש, איך לנהל מו"מ במחיר, אילו עלויות נסתרות לבדוק (היטל השבחה, ארנונה, ועד בית, וכו').</p>
+
+    <h3>שלב 4: בחירת תמהיל מותאם (שבוע אחרי החתימה על חוזה)</h3>
+    <p>פה הקסם קורה. <strong>תמהיל אופטימלי</strong> לפי הגיל, הסיכון, צפי השוק, ועצימות החזר. שילוב נכון של פריים, קל"צ ומשתנה צמודה יכול לחסוך לכם 200-400K לאורך חיי המשכנתא.</p>
+
+    <h3>שלב 5: משא ומתן מול הבנקים (1-2 שבועות)</h3>
+    <p>אנחנו <strong>פוגשים את הבנקים בשבילכם</strong>. מציגים תיק מקצועי, מנהלים מו"מ על כל סעיף, ודוחפים את הריביות למטה. הפער בין בנקאי טירון להצעה אחרי מו"מ מקצועי: 0.3-0.7% לאורך 25 שנה — עשרות אלפי שקלים.</p>
+
+    <h3>שלב 6: בדיקה משפטית וביטוחים (1 שבוע)</h3>
+    <p>בודקים כל סעיף בחוזה המשכנתא, מסדרים את הביטוחים הנדרשים (חיים + מבנה) <strong>בעלות נמוכה ב-30-50%</strong> ממה שהבנק מציע.</p>
+
+    <h3>שלב 7: חתימה וסגירה (שבוע אחד)</h3>
+    <p>ליווי צמוד עד החתימה הסופית. אתם בידיים בטוחות — בטוחים שכל סעיף מתאים לכם, ושאתם מקבלים את התנאים הטובים ביותר.</p>
+
+    <blockquote>הסוד הוא לא ב"לחפש את הריבית הכי נמוכה" — אלא בלבנות תמהיל מותאם, ולנהל מו"מ מקצועי.</blockquote>
+
+    <div class="article-cta">
+      <p>חולמים על דירה ראשונה? בואו נתחיל מאבחון חינם.</p>
+      <a href="tel:052-4502821" class="btn btn-primary">התקשרו: 052-4502821</a>
+    </div>
+  </article>
+
+  <article id="svc-2" data-tone="t-turquoise" data-tag="מחזור משכנתא" data-readtime="7 דקות קריאה">
+    <h2>מחזור משכנתא — צעד אחר צעד, ובלי הפתעות</h2>
+    <p>מחזור משכנתא הוא <strong>אחת ההזדמנויות הכלכליות הגדולות</strong> שיש לבעלי משכנתא — אבל רוב האנשים לא מבצעים אותו, או מבצעים אותו ב-Sub-optimal. הנה התהליך כמו שאנחנו עושים אותו.</p>
+
+    <h3>שלב 1: ניתוח המשכנתא הקיימת (יום 1-3)</h3>
+    <p>אנחנו ביחד פותחים את המסמך של המשכנתא הנוכחית. מסתכלים על: <strong>תמהיל מסלולים, ריביות בכל מסלול, מועדי שינוי ריבית, יתרת חוב, ועמלות פירעון מוקדם</strong>. זה הבסיס.</p>
+
+    <h3>שלב 2: חישוב פוטנציאל החיסכון (יום 3-5)</h3>
+    <p>אנחנו מציגים לכם <strong>טבלה מפורטת</strong>: מה תשלמו אם תישארו כמו שאתם, מה תשלמו עם מחזור, ומה ההפרש לאורך כל שנה. אם הפער לא משמעותי — נגיד לכם לא להמחזר. אם משמעותי — נמשיך.</p>
+
+    <h3>שלב 3: בניית תמהיל מחזור אופטימלי (יום 5-7)</h3>
+    <p>זה לא רק "להוריד את הריבית". זה לבנות מחדש את התמהיל לפי המצב הנוכחי שלכם וצפיות השוק. הפעם, <strong>עם הניסיון של 10 שנים — לא הניחוש של הבנקאי בסניף</strong>.</p>
+
+    <h3>שלב 4: ניהול מו"מ מול בנקים (שבועיים)</h3>
+    <p>אנחנו פונים ל-4-5 בנקים ומפעילים תחרות. כל בנק מקבל את אותו תיק מסודר, ומבקשים הצעה. <strong>ההצעה הטובה ביותר משמשת מנוף להוריד עוד את האחרות</strong>.</p>
+
+    <h3>שלב 5: בדיקת עמלות וניתוח כדאיות סופי (יום 1)</h3>
+    <p>בודקים את עמלות הפירעון המוקדם בפועל מול הבנק הקיים. רק אם <strong>החיסכון הכולל אחרי כל העלויות עדיין משמעותי</strong> — מבצעים.</p>
+
+    <h3>שלב 6: ביצוע וחתימה (שבועיים)</h3>
+    <p>אנחנו מלווים את כל התהליך הביצועי: בקשת פירעון מהבנק הישן, חתימה על המשכנתא החדשה, התאמת ביטוחים, וההעברה.</p>
+
+    <h3>תוצאות אמיתיות מהשטח</h3>
+    <ul>
+      <li>לקוחה ברמת גן: יתרת חוב 850K, מחזרה לריבית נמוכה ב-1.4%, <strong>חסכה ₪240,000</strong>.</li>
+      <li>זוג בפ"ת: מחזור עם קונסולידציה, חיסכון של <strong>₪2,800 בחודש</strong> בהחזר.</li>
+      <li>משפחה בחיפה: מחזור פנימי באותו בנק (לא תמיד צריך לעבור), <strong>חסכה ₪180,000</strong> ב-15 שנים נותרות.</li>
+    </ul>
+
+    <div class="article-cta">
+      <p>רוצים בדיקת היתכנות חינמית? תוך 48 שעות תקבלו דוח מסודר.</p>
+      <a href="#contact" class="btn btn-primary">לבדיקה חינם</a>
+    </div>
+  </article>
+
+  <article id="svc-3" data-tone="t-turquoise" data-tag="איחוד הלוואות" data-readtime="8 דקות קריאה">
+    <h2>איחוד הלוואות לתוך המשכנתא — התהליך המלא</h2>
+    <p>אם יש לכם הלוואות צרכניות (חוץ-בנקאיות, צ'יקצ'ק, כרטיסי אשראי) ב<strong>ריביות של 10-15%</strong> — סביר שאתם משלמים אלפי שקלים מיותרים בחודש. איחוד לתוך המשכנתא בריבית של 5% יכול להחזיר אתכם לאיזון. הנה איך זה עובד.</p>
+
+    <h3>למה זה עובד</h3>
+    <p>הריבית על משכנתא היא הזולה ביותר במשק — בגלל שהבנק מקבל בטוחה (הדירה). הריבית על הלוואות צרכניות גבוהה פי 2-3 בגלל שאין בטוחה. כשמאחדים, אנחנו <strong>"מצמידים" את ההלוואה הצרכנית לדירה</strong> ובכך זוכים בריבית הזולה.</p>
+
+    <h3>שלב 1: מיפוי החובות (יום 1)</h3>
+    <p>אנחנו אוספים את כל ההלוואות שלכם: <strong>סכום, ריבית, החזר חודשי, יתרה עד סיום</strong>. רושמים גם חיובים שגרתיים בכרטיסי אשראי. זה הבסיס לחישוב.</p>
+
+    <h3>שלב 2: ניתוח כדאיות (יום 2-3)</h3>
+    <p>לא כל איחוד משתלם. אנחנו בודקים:</p>
+    <ul>
+      <li><strong>סך הריבית</strong> שתשלמו על המסלול הקיים מול האיחוד.</li>
+      <li><strong>אורך החיים החדש</strong> של החוב (איחוד מאריך תקופה — אבל מוריד החזר).</li>
+      <li><strong>עמלות פירעון מוקדם</strong> על הלוואות קיימות.</li>
+      <li><strong>יחס החזר</strong> אחרי האיחוד — חייב להישאר בריא.</li>
+    </ul>
+
+    <h3>שלב 3: הגשת בקשה לבנק (שבועיים)</h3>
+    <p>הבנקים זהירים עם איחוד הלוואות — הם רוצים לראות שלא הולכים לחור פיננסי עמוק יותר. <strong>אנחנו מציגים את התיק כך שיתקבל</strong>: עם תוכנית הוצאות, יחס החזר ברור, וצפי תזרים.</p>
+
+    <h3>שלב 4: ביצוע (חודש)</h3>
+    <p>אחרי האישור, הבנק <strong>מעביר את הכסף ישירות לסילוק החובות הקיימים</strong>. אתם לא מקבלים מזומן ביד — מה שמקטין את הפיתוי לחבק חובות חדשים.</p>
+
+    <h3>מה צריך לזכור</h3>
+    <blockquote>איחוד הלוואות שמתבצע בלי שינוי בהתנהגות הוצאות — חוזר בעוד שנתיים לאותה סיטואציה. <strong>אנחנו תמיד מצרפים תוכנית התנהלות פיננסית.</strong></blockquote>
+
+    <h3>מקרה אמיתי</h3>
+    <p>אבי, אבא לשלושה מפ"ת. היו לו: משכנתא ₪1.1M, 3 הלוואות צרכניות בסכום ₪220K (ריביות 11-13%), חוב כרטיס אשראי ₪35K. החזר חודשי כולל: ₪14,800.</p>
+    <p>אחרי איחוד: יתרת משכנתא ₪1.32M בריבית ממוצעת 4.8%. החזר חודשי: <strong>₪11,200</strong>. חיסכון: <strong>₪3,600 בחודש</strong>, ₪43,200 בשנה. אבי קיבל את החיים שלו בחזרה.</p>
+
+    <div class="article-cta">
+      <p>החובות חונקים? בואו נראה אם איחוד יעזור לכם.</p>
+      <a href="#contact" class="btn btn-primary">לייעוץ חינם</a>
+    </div>
+  </article>
+
+  <article id="svc-4" data-tone="t-turquoise" data-tag="ייעוץ ראשוני" data-readtime="6 דקות קריאה">
+    <h2>מה כולל ייעוץ ראשוני חינם? פירוט מלא לפני הפגישה</h2>
+    <p>הרבה אנשים מתביישים לפנות לייעוץ "כי הם לא בטוחים מה הם רוצים". זו טעות. <strong>הייעוץ הראשוני נועד לזה בדיוק</strong> — לעזור לכם להבין מה אתם רוצים, ולראות אם אנחנו יכולים לעזור. הנה בדיוק מה קורה.</p>
+
+    <h3>איך תיראה השיחה</h3>
+    <p>30 דקות בטלפון או בזום (לפי בחירתכם). שיחה רגועה, פשוטה, בלי לחץ. אנחנו לא "מוכרים" — אנחנו מקשיבים ומאבחנים.</p>
+
+    <h3>מה אנחנו רוצים לדעת</h3>
+    <ol>
+      <li><strong>המצב הנוכחי</strong>: יש משכנתא? מחפשים דירה? יש הלוואות? יש חיסכון?</li>
+      <li><strong>הצרכים</strong>: מה אתם רוצים להשיג? לחסוך כסף? לקנות דירה גדולה יותר? לסגור הלוואות?</li>
+      <li><strong>הציפיות</strong>: כמה זמן יש לכם? איזה החזר חודשי אתם רוצים? מה רמת הסיכון שאתם מוכנים לקחת?</li>
+    </ol>
+
+    <h3>מה אתם מקבלים בשיחה</h3>
+    <ul>
+      <li><strong>הערכה ראשונית בנתונים</strong>: כמה אפשר לחסוך? כמה משכנתא תקבלו? מה ההחזר?</li>
+      <li><strong>זיהוי הזדמנויות</strong>: דברים שאתם לא יודעים עליהם — מסלולים, הטבות, פתרונות.</li>
+      <li><strong>תוכנית פעולה ברורה</strong>: גם אם תחליטו לא להמשיך איתנו, תצאו עם תוכנית.</li>
+      <li><strong>תשובות לשאלות</strong>: כל שאלה שלכם, גם הכי בסיסית. אין שאלות מטופשות.</li>
+    </ul>
+
+    <h3>מה אנחנו לא עושים</h3>
+    <ul>
+      <li><strong>לא לוחצים</strong>: אם זה לא הזמן הנכון, אנחנו אומרים את זה.</li>
+      <li><strong>לא מבטיחים מה שאי אפשר</strong>: אם אין פוטנציאל חיסכון משמעותי — אנחנו אומרים.</li>
+      <li><strong>לא גובים</strong>: אין שום עלות לייעוץ ראשוני. גם אם תחליטו לא להמשיך.</li>
+    </ul>
+
+    <h3>אחרי השיחה — מה הצעדים</h3>
+    <p>אם זיהינו פוטנציאל ואתם רוצים להמשיך, אנחנו עוברים לשלב הייעוץ המלא. <strong>רק אז</strong> נדבר על תמחור — שיהיה ברור מראש ושקוף לחלוטין.</p>
+
+    <h3>איך מתאמים?</h3>
+    <p>שיחה לטלפון <strong>052-4502821</strong>, או הודעת וואטסאפ. אנחנו זמינים א'-ה' 9:00-19:00. בדרך כלל מחזירים תשובה תוך 24 שעות, לעיתים מהר יותר.</p>
+
+    <blockquote>הייעוץ הראשוני הוא <strong>שיחה אחת שיכולה לחסוך לכם 200,000₪</strong>. אין סיבה שלא לעשות אותה.</blockquote>
+
+    <div class="article-cta">
+      <p>30 דקות חינם שיכולות לשנות לכם את ה-25 שנה הבאות.</p>
+      <a href="tel:052-4502821" class="btn btn-primary">קבעו שיחה: 052-4502821</a>
+    </div>
+  </article>
+
+  <!-- ORIGINAL BLOG ARTICLES -->
+
+  <article id="art-1" data-tone="t-turquoise" data-tag="משכנתאות" data-readtime="8 דקות קריאה">
+    <h2>7 טעויות יקרות שלוקחי משכנתא ראשונה עושים — וכמה הן באמת עולות</h2>
+    <p>אחרי 500+ תיקים אמיתיים, אני יכול לומר באחריות: רוב לוקחי המשכנתא הראשונה משלמים יותר ממה שהם צריכים. לא בגלל שהם טיפשים — אלא בגלל ש<strong>הבנק לא מוטרד שאתם תרוויחו</strong>. הנה 7 הטעויות הנפוצות, והעלות האמיתית של כל אחת.</p>
+
+    <h3>1. לקיחת רק 2 הצעות מבנקים</h3>
+    <p>הבנקאי שיושב מולכם בסניף מציג לכם "הצעה אטרקטיבית", ואתם משווים מול הבנק שלכם. זהו. <strong>טעות יקרה</strong> — הפער בין ההצעה הראשונה להצעה האחרונה אחרי משא ומתן מקצועי מול 4-6 בנקים יכול להגיע ל-0.6% בריבית הממוצעת. על משכנתא של 1.5M ל-25 שנה? <strong>זה ₪180,000 לאורך חיי המשכנתא.</strong></p>
+
+    <h3>2. לא מבינים את התמהיל</h3>
+    <p>פריים, צמוד מדד, קל"צ, ק"מ — רוב הלקוחות חותמים בלי להבין באמת מה ההבדל. תמהיל לא נכון יכול להפוך משכנתא של 1.5M לעלות של 2.7M לאורך התקופה במקום 2.3M. <strong>זה ₪400,000 הפרש</strong>.</p>
+
+    <h3>3. מתפתים ל"ההחזר החודשי הנמוך"</h3>
+    <p>הבנק מציע לכם תקופה ארוכה יותר כדי להוריד את ההחזר החודשי. נשמע טוב, נכון? עד שאתם מסתכלים על הסכום הכולל ומגלים שהארכת התקופה מ-25 ל-30 שנה עלתה לכם ₪220,000 בריבית.</p>
+
+    <h3>4. לוקחים יותר מדי במסלולי משתנה</h3>
+    <p>בעידן של ריביות עולות, יותר מ-1/3 משכנתא במסלולי משתנה זה <strong>סיכון כספי משמעותי</strong>. לקוח עם 50% משתנה ראה את ההחזר שלו עולה ב-₪2,400 בחודש כשהריבית עלתה.</p>
+
+    <h3>5. לא בודקים יחס החזר (DTI)</h3>
+    <p>בנק ישראל מגביל ל-40-50% מההכנסה נטו. אבל אם אתם עומדים על 49%, אתם על הסף — ופגיעה כלכלית קטנה תזרוק אתכם לבעיות. השאיפה האידיאלית: <strong>35-40%</strong>.</p>
+
+    <h3>6. לא משאירים כרית ביטחון</h3>
+    <p>אם השתמשתם בכל ההון העצמי ועוד קצת — אין לכם רשת. מומלץ להשאיר 3-6 חודשי החזר בצד, גם אם זה אומר משכנתא מעט גבוהה יותר.</p>
+
+    <h3>7. לא לוקחים יועץ עצמאי</h3>
+    <p>זו הטעות שמעצימה את כל היתר. יועץ עצמאי שמקבל שכר מכם (ולא קומיסיון מהבנק) חוסך בממוצע <strong>פי 10 ממה שהוא עולה</strong>. זה לא קסם — זה ניסיון, נתונים, ומשא ומתן מקצועי.</p>
+
+    <div class="article-cta">
+      <p>רוצים שנעבור איתכם על התיק שלכם? <strong>הייעוץ הראשוני חינם.</strong></p>
+      <a href="tel:052-4502821" class="btn btn-primary">התקשרו: 052-4502821</a>
+    </div>
+  </article>
+
+  <article id="art-2" data-tone="t-blue" data-tag="ריבית בנק ישראל" data-readtime="6 דקות קריאה">
+    <h2>כך משפיעה כל החלטת ריבית של בנק ישראל על המשכנתא שלכם</h2>
+    <p>בנק ישראל מתכנס 8 פעמים בשנה ומחליט על "ריבית בנק ישראל". זו אחת ההחלטות הכלכליות הכי משמעותיות בארץ — והיא משפיעה <strong>ישירות</strong> על מה שאתם משלמים בכל חודש על המשכנתא. הנה איך זה עובד באמת.</p>
+
+    <h3>מהי ריבית בנק ישראל?</h3>
+    <p>ריבית בנק ישראל היא הריבית שבה הבנקים המסחריים מפקידים או לווים מבנק ישראל. נכון להיום היא עומדת על <strong>3.75%</strong>. כשבנק ישראל מעלה את הריבית — הכסף נעשה יקר יותר עבור הבנקים, והם מגלגלים את העלייה הזו ללקוחות.</p>
+
+    <h3>מהו ריבית הפריים?</h3>
+    <p>פריים = ריבית בנק ישראל + 1.5%. <strong>נכון להיום: 5.25%</strong>. מסלול הפריים במשכנתא משתנה ביחד עם בנק ישראל. אם הריבית עולה ב-0.25%, ההחזר על מסלול הפריים שלכם עולה במקביל.</p>
+
+    <h3>דוגמה מספרית</h3>
+    <p>נניח שיש לכם 500,000 ₪ במסלול פריים ל-25 שנה. בריבית של 4.0% (פריים-1.5%): ההחזר החודשי הוא <strong>₪2,638</strong>. אם בנק ישראל יעלה את הריבית ב-0.5% (לפריים של 6.0%), ההחזר שלכם יקפוץ ל-<strong>₪2,779</strong> — <strong>תוספת של ₪141 בחודש, ₪42,300 לאורך התקופה</strong>.</p>
+
+    <h3>למה זה עניין אסטרטגי</h3>
+    <p>הבחירה בכמות הפריים בתמהיל היא בחירה <strong>אסטרטגית</strong>. יותר פריים = יותר חסכון בעת ירידת ריבית, יותר סיכון בעת עלייה. ב-2026, עם הציפיות לירידה הדרגתית של הריבית, יש מקום לפריים בתמהיל — אבל לא יותר מ-1/3.</p>
+
+    <h3>איך משתמשים בזה?</h3>
+    <ul>
+      <li><strong>צופים ירידת ריבית?</strong> פריים גבוה יותר בתמהיל.</li>
+      <li><strong>צופים יציבות?</strong> איזון בין פריים, קבועה לא צמודה, ומשתנה לתקופות.</li>
+      <li><strong>שונאי סיכון?</strong> מעטים פריים, יותר קל"צ ארוכה.</li>
+    </ul>
+
+    <div class="article-cta">
+      <p>רוצים שננתח את תמהיל המשכנתא שלכם לאור הריבית הנוכחית?</p>
+      <a href="#contact" class="btn btn-primary">לייעוץ חינם</a>
+    </div>
+  </article>
+
+  <article id="art-3" data-tone="t-copper" data-tag="מיחזור" data-readtime="7 דקות קריאה">
+    <h2>מתי באמת כדאי למחזר משכנתא? המדריך המקצועי</h2>
+    <p>"שווה לי למחזר?" — זו השאלה הכי שכיחה שאני מקבל. התשובה הקלה: <strong>כמעט תמיד שווה לפחות לבדוק</strong>. התשובה המקצועית: תלוי ב-9 פרמטרים. הנה הצ'קליסט המלא.</p>
+
+    <h3>הצ'קליסט: 9 שאלות לפני שמחזרים</h3>
+    <ol>
+      <li><strong>כמה זמן עבר מאז לקיחת המשכנתא?</strong> אם פחות משנתיים, ייתכן ועדיין חבים עמלת פירעון מוקדם משמעותית.</li>
+      <li><strong>מה הריבית הממוצעת המשוקללת שלכם?</strong> אם היא גבוהה ב-0.5%+ מהריבית הנוכחית בשוק — שווה בדיקה רצינית.</li>
+      <li><strong>איך נראה התמהיל הקיים?</strong> תמהיל "רע" (יותר מדי משתנה, יותר מדי צמוד מדד) שווה למחזר גם בלי הפרש ריבית גדול.</li>
+      <li><strong>מצב הכנסה והוצאות?</strong> שינוי משמעותי במצב הכלכלי משנה את אופי המשכנתא המתאימה.</li>
+      <li><strong>ערך הנכס היום?</strong> אם עלה משמעותית — אתם זכאים לתנאים טובים יותר (LTV נמוך יותר).</li>
+      <li><strong>היסטוריית האשראי שלכם?</strong> שיפור בדירוג = הצעות טובות יותר.</li>
+      <li><strong>תכניות לטווח קצר?</strong> אם מתכננים מכירה תוך 3 שנים — חישוב אחר.</li>
+      <li><strong>עמלות פירעון מוקדם בפועל</strong>: יש לבדוק ספציפית מול הבנק הקיים.</li>
+      <li><strong>אופציית מחזור פנימי</strong>: לפעמים הבנק הקיים מציע תנאים טובים יותר ללקוחות קיימים.</li>
+    </ol>
+
+    <h3>מתי לא כדאי למחזר</h3>
+    <ul>
+      <li>חודשים בודדים מאז לקיחת המשכנתא ועמלת פירעון גבוהה.</li>
+      <li>פער ריבית קטן מ-0.4% והתמהיל הקיים תקין.</li>
+      <li>תכניות למכירה תוך פחות משנה.</li>
+    </ul>
+
+    <h3>כמה אפשר לחסוך — במספרים אמיתיים</h3>
+    <p>לקוח אופייני עם משכנתא של 1.2M, יתרה של 900K, ריבית ממוצעת של 5.5% — מיחזור לריבית של 4.2% חוסך לו <strong>כ-₪660 בחודש, סה"כ ₪158,000 על פני 20 שנים נותרות</strong>.</p>
+
+    <div class="article-cta">
+      <p>קבלו הערכת חיסכון אישית חינם.</p>
+      <a href="#calculator" class="btn btn-primary">למחשבון המיחזור</a>
+    </div>
+  </article>
+
+  <article id="art-4" data-tone="t-green" data-tag="השקעות" data-readtime="10 דקות קריאה">
+    <h2>השקעות חכמות לטווח ארוך — בלי להיתפס לטרנדים</h2>
+    <p>כולם מדברים על קריפטו, על תעודות סל בודדות, על "המניה החמה". אבל הכסף האמיתי, המצטבר לאורך עשרות שנים, נבנה אחרת: <strong>בעקביות, בפיזור, ובניצול נכון של הטבות המס</strong>. הנה איך לבנות פורטפוליו השקעות חכם ב-2026.</p>
+
+    <h3>שלב 1: קודם כל — קופת גמל להשקעה</h3>
+    <p>קופת גמל להשקעה היא אחד הכלים הטובים ביותר ברשותכם. אפשר להפקיד עד <strong>~₪80,000 בשנה</strong> (נכון ל-2026), הכסף צובר תשואה ריאלית של 5-7% היסטורית, ואפשר למשוך אותו <strong>כקצבה פטורה ממס</strong> מגיל 60.</p>
+
+    <h3>שלב 2: קרן השתלמות לעצמאים ושכירים</h3>
+    <p>אם אתם זכאים — <strong>אל תוותרו</strong>. ההטבה: רווחים פטורים ממס לחלוטין. עצמאי שמפקיד 4.5% (השנתי המקסימלי) מההכנסה לקרן השתלמות חוסך לעצמו עשרות אלפי שקלים במיסים לאורך הקריירה.</p>
+
+    <h3>שלב 3: השקעה במדדים רחבים</h3>
+    <p>במקום לנסות "לבחור מניות מנצחות", השקיעו ב<strong>מדדים רחבים</strong>. ה-S&P 500, MSCI World, או ת"א 125 — הם מתפקדים כממוצע משוקלל של כלכלות שלמות. נתון מפתיע: <strong>פחות מ-15% מהמנהלים האקטיביים מנצחים את המדד לאורך 10 שנים</strong>.</p>
+
+    <h3>שלב 4: פיזור, פיזור, פיזור</h3>
+    <p>הכלל הבסיסי: לא לשים את כל הביצים בסל אחד. פיזור אופייני למשפחה ישראלית סבירה:</p>
+    <ul>
+      <li><strong>40-60%</strong> מניות (פיזור גלובלי)</li>
+      <li><strong>20-30%</strong> אג"ח (להפחתת תנודתיות)</li>
+      <li><strong>10-15%</strong> נדל"ן (כולל דירת מגורים)</li>
+      <li><strong>5-10%</strong> כרית מזומן (חירום)</li>
+    </ul>
+
+    <h3>שלב 5: עקביות > גאונות</h3>
+    <p>מחקרים מראים: <strong>הזמן שאתם מבלים בשוק חשוב יותר מהזמן בו אתם מתזמנים אותו</strong>. הפקדה חודשית קבועה (DCA — Dollar Cost Averaging) ב-₪2,000 לחודש למשך 30 שנה, בתשואה ריאלית של 5%, יוצרת כ-<strong>₪1.66 מיליון</strong>.</p>
+
+    <blockquote>"השוק הוא מכונה להעברת כסף מחסרי הסבלנות לסבלניים." — וורן באפט</blockquote>
+
+    <div class="article-cta">
+      <p>רוצים שנעבור איתכם על הפורטפוליו הנוכחי? נחבר אסטרטגיה אישית.</p>
+      <a href="#contact" class="btn btn-primary">לייעוץ פיננסי</a>
+    </div>
+  </article>
+
+  <article id="art-5" data-tone="t-purple" data-tag="התנהלות כלכלית" data-readtime="9 דקות קריאה">
+    <h2>איך לבנות תקציב משפחתי שעובד — מדריך מעשי</h2>
+    <p>רוב המשפחות לא יודעות לאן הולך הכסף שלהן. זה לא בגלל שהן מבזבזות — זה בגלל שאין שיטה. מדריך מעשי לבניית תקציב משפחתי שגם <strong>עובד באמת</strong>, וגם לא הופך את החיים שלכם לטבלת אקסל.</p>
+
+    <h3>שיטת 50/30/20 — הבסיס</h3>
+    <p>הכלל הפשוט שאני ממליץ עליו לרוב המשפחות: חלוקת ההכנסה נטו לשלושה דליים.</p>
+    <ul>
+      <li><strong>50% צרכים</strong>: שכירות/משכנתא, מצרכים, חשבונות, ביטוחים, תחבורה.</li>
+      <li><strong>30% רצונות</strong>: מסעדות, חופשות, בילויים, קניות, תחביבים.</li>
+      <li><strong>20% חיסכון והשקעה</strong>: חיסכון, קופת גמל, קרן השתלמות, השקעות.</li>
+    </ul>
+    <p>אם המספרים שלכם רחוקים מאוד מהיחס הזה — זה דגל אדום שצריך להתעמק בו.</p>
+
+    <h3>שלב 1: לדעת לאן הולך הכסף</h3>
+    <p>קחו <strong>חודשיים</strong> ופשוט תעקבו. אפליקציות כמו "Mint", "ריווחית", או טבלאות אקסל. אחרי חודשיים תתחיל להתבהר תמונה מפתיעה. רוב המשפחות מגלות הוצאות "סמויות" של ₪1,500-2,500 בחודש.</p>
+
+    <h3>שלב 2: לזהות את "הדלפים"</h3>
+    <p>הדלפים הקלאסיים: מנויים שכבר לא משתמשים בהם, ביטוחים כפולים, אוכל בחוץ ביום-יום (לא בחג), עמלות בנקאיות, ריביות על חוב צרכני יקר.</p>
+
+    <h3>שלב 3: לבנות "חירום" קודם כל</h3>
+    <p>לפני שמתחילים להשקיע — <strong>צוברים 3-6 חודשי הוצאות בחיסכון נזיל</strong>. זו הרשת שלכם. בלעדיה, כל מכת חיים קטנה זורקת אתכם לחובות יקרים.</p>
+
+    <h3>שלב 4: אוטומציה</h3>
+    <p>הסוד הגדול: <strong>אל תסמכו על משמעת עצמית</strong>. הגדירו הוראות קבע — ביום שכר הולך ישר 20% להשקעות. מה שנשאר זה התקציב לחיים.</p>
+
+    <h3>שלב 5: בדיקה רבעונית</h3>
+    <p>פעם ב-3 חודשים יושבים יחד (זוג) לחצי שעה, מסתכלים על המספרים, ומחליטים אם משהו צריך התאמה. <strong>שיחות כסף קבועות = פחות מריבות</strong>.</p>
+
+    <div class="article-cta">
+      <p>צריכים יד מקצועית לבניית תקציב? נעבור איתכם על הכל.</p>
+      <a href="#contact" class="btn btn-primary">לייעוץ פיננסי</a>
+    </div>
+  </article>
+
+  <article id="art-6" data-tone="t-turquoise" data-tag="מדריך" data-readtime="11 דקות קריאה">
+    <h2>תמהיל משכנתא נכון ב-2026 — מסלולים, פרופורציות והאיזון הנכון</h2>
+    <p>תמהיל המשכנתא הוא <strong>אחת ההחלטות הכלכליות הכי משמעותיות בחיים</strong>. אותה משכנתא של 1.5M עם תמהיל לא נכון יכולה לעלות 400,000 ₪ יותר מתמהיל אופטימלי. הנה מה צריך לדעת ב-2026.</p>
+
+    <h3>4 המסלולים העיקריים</h3>
+    <ul>
+      <li><strong>פריים</strong>: צמודה לריבית בנק ישראל + 1.5%. נכון להיום <strong>5.25%</strong>. משתנה כל חודש.</li>
+      <li><strong>קל"צ (קבועה לא צמודה)</strong>: ריבית קבועה ב-100% למשך כל התקופה. בטוחה — אבל יקרה יותר.</li>
+      <li><strong>קמ"צ (קבועה צמודה)</strong>: ריבית קבועה אבל הקרן צמודה למדד המחירים לצרכן.</li>
+      <li><strong>משתנה צמודה</strong>: ריבית שמשתנה כל 5 שנים, הקרן צמודה למדד.</li>
+    </ul>
+
+    <h3>תמהיל אופייני מומלץ ב-2026</h3>
+    <p>בהינתן שאנחנו אחרי 3 הורדות ריבית רצופות (ריבית BOI נכון להיום 3.75%, פריים 5.25%), עם מדד שנתי של <strong>1.9%</strong>, ועם שונאות סיכון בינונית:</p>
+    <ul>
+      <li><strong>33%</strong> פריים — תיהנו מירידת הריבית הצפויה</li>
+      <li><strong>33%</strong> קל"צ ל-15 שנה — יציבות ובטחון</li>
+      <li><strong>34%</strong> משתנה לא צמודה ל-5 שנים — איזון</li>
+    </ul>
+    <p><strong>חשוב</strong>: זו המלצה כללית. תמהיל אופטימלי לכם תלוי בגיל, בקיבולת הסיכון, בצפויות הכנסה ובנכסים נוספים.</p>
+
+    <h3>שגיאות תמהיל נפוצות</h3>
+    <ul>
+      <li><strong>יותר מ-50% פריים</strong>: סיכון מוגזם בעת עליית ריבית.</li>
+      <li><strong>יותר מ-30% צמוד מדד</strong>: המדד יכול לאכול לכם מאות אלפים.</li>
+      <li><strong>אי שינוי לאחר 10 שנים</strong>: השוק משתנה — תמהיל שהיה טוב לא בהכרח טוב היום.</li>
+    </ul>
+
+    <h3>נתונים בהירים על מה כל מסלול עולה</h3>
+    <p>על משכנתא של 1.5M ל-25 שנה:</p>
+    <ul>
+      <li>פריים ב-5.25%: ₪9,224/חודש</li>
+      <li>קל"צ ב-4.2%: ₪8,084/חודש</li>
+      <li>קמ"צ ב-3.2% + מדד שנתי 1.9%: ₪7,259 בשנה ראשונה, אבל בשנה ה-20 כבר ₪9,540</li>
+    </ul>
+
+    <blockquote>תמהיל לא נבחר רק לפי המספר ההכי נמוך היום — נבחר לפי איך הוא נראה בכל אחת מ-25 השנים הבאות.</blockquote>
+
+    <div class="article-cta">
+      <p>רוצים תמהיל מותאם אישית עם דוח מקיף? זה מה שאנחנו עושים — חינם בייעוץ הראשוני.</p>
+      <a href="tel:052-4502821" class="btn btn-primary">קבעו פגישה: 052-4502821</a>
+    </div>
+  </article>
+
+  <!-- NEW BLOG ARTICLES -->
+
+  <article id="art-7" data-tone="t-blue" data-tag="ביטוחים" data-readtime="8 דקות קריאה">
+    <h2>ביטוחי משכנתא — מה חובה, מה אפשר לחסוך, ואיפה הבנקים מרוויחים</h2>
+    <p>כשלוקחים משכנתא, הבנק מחייב 2 סוגי ביטוח: <strong>ביטוח חיים</strong> (מבטח אתכם מול הבנק) ו<strong>ביטוח מבנה</strong> (מבטח את הדירה). שני אלה חובה. אבל הבנק מציע לכם אותם מ"שותף" שלו — וזו דרכו להרוויח עוד 30-50% מעלות הביטוח שלכם.</p>
+
+    <h3>ביטוח חיים — מה חשוב לדעת</h3>
+    <p>ביטוח החיים מבטיח שאם חס וחלילה משהו קורה לאחד הלווים, הביטוח מסלק את המשכנתא. <strong>זה מגן על המשפחה שלכם — לא על הבנק</strong>. הביטוח חובה, אבל איפה לקחת אותו זו הבחירה שלכם.</p>
+
+    <h3>איפה הבנקים מנפחים</h3>
+    <ul>
+      <li><strong>פרמיה גבוהה</strong>: לעיתים 30-60% יותר מהשוק.</li>
+      <li><strong>כיסויים מיותרים</strong>: ביטוח כפול שאתם כבר משלמים עליו אצל מעסיק/קרן פנסיה.</li>
+      <li><strong>תקופה נוקשה</strong>: לפעמים ל-30 שנה במקום ל-25 שנה.</li>
+      <li><strong>פרמיה משתנה כל שנה</strong>: עולה ככל שאתם מתבגרים — לפעמים בקצב חד.</li>
+    </ul>
+
+    <h3>חישוב מספרי: כמה זה עולה</h3>
+    <p>זוג צעיר (גילאי 32-30), משכנתא ₪1.5M ל-25 שנה:</p>
+    <ul>
+      <li>הצעה של הבנק: ₪220 בחודש ביטוח חיים</li>
+      <li>הצעת חברת ביטוח חיצונית: ₪140 בחודש</li>
+      <li><strong>חיסכון: ₪960 בשנה, ₪24,000 לאורך התקופה</strong></li>
+    </ul>
+
+    <h3>ביטוח מבנה — שונה לחלוטין</h3>
+    <p>ביטוח המבנה מבטח את הדירה עצמה (לא את ה<em>תכולה</em>). הבנק רוצה ביטוח על ערך מלא של המבנה. <strong>כאן הפערים בין חברות פחות דרמטיים — בערך 15-25%</strong> — אבל עדיין שווה לבדוק.</p>
+
+    <h3>כיסויים שלא חייבים אבל שווה לחשוב</h3>
+    <ul>
+      <li><strong>אובדן כושר עבודה</strong>: כיסוי על נטל ההחזר אם אתם לא יכולים לעבוד.</li>
+      <li><strong>מחלות קשות</strong>: סכום חד-פעמי במקרה של אבחנה רצינית.</li>
+      <li><strong>ביטוח תכולה</strong>: לא קשור למשכנתא, אבל חשוב לבית.</li>
+    </ul>
+
+    <h3>צ'קליסט לפני שחותמים על ביטוח</h3>
+    <ol>
+      <li>השוו ל-3 חברות ביטוח חיצוניות לפחות.</li>
+      <li>בדקו אם יש לכם כיסוי דומה בקרן הפנסיה.</li>
+      <li>שאלו על "פרמיה קבועה לכל התקופה" (לא כדאי משתנה).</li>
+      <li>קראו את החריגים — מה לא מבוטח?</li>
+      <li>בקשו הצעה כתובה תקפה ל-30 יום.</li>
+    </ol>
+
+    <div class="article-cta">
+      <p>נסדר לכם ביטוחים אופטימליים יחד עם המשכנתא — בלי תוספת עלות.</p>
+      <a href="#contact" class="btn btn-primary">לייעוץ חינם</a>
+    </div>
+  </article>
+
+  <article id="art-8" data-tone="t-copper" data-tag="נדל&quot;ן" data-readtime="10 דקות קריאה">
+    <h2>דירה להשקעה ב-2026 — האם זה עדיין משתלם?</h2>
+    <p>"קונים דירה להשקעה כי הנדל"ן רק עולה" — זו הייתה האמונה הרווחת שני עשורים. ב-2026 התמונה <strong>הרבה יותר מורכבת</strong>: ריביות גבוהות, מס שבח מוגבר, מס רכישה דרגה ב', ושכ"ד שלא תמיד מכסה החזרים. הנה החישוב המלא.</p>
+
+    <h3>הנוסחה הבסיסית</h3>
+    <p><strong>תשואה אמיתית = שכ"ד שנתי נטו − החזר משכנתא שנתי − הוצאות שוטפות − מס</strong></p>
+    <p>אם המספר הזה חיובי — אתם ב"תזרים חיובי", הדירה משלמת על עצמה (ועוד). אם שלילי — אתם משלמים כל חודש על "השקעה" שאינה משתלמת בטווח הקצר.</p>
+
+    <h3>דוגמה מספרית מציאותית</h3>
+    <p>דירת 3 חדרים בפתח תקווה, ₪2.3M:</p>
+    <ul>
+      <li><strong>הון עצמי נדרש</strong>: 50% (דרגה ב' — דירה שנייה) = ₪1.15M</li>
+      <li><strong>משכנתא</strong>: ₪1.15M בריבית 5.2% ל-20 שנה = ₪7,720 בחודש</li>
+      <li><strong>שכ"ד צפוי</strong>: ₪5,500 בחודש (תשואה ברוטו ~2.9%)</li>
+      <li><strong>פער חודשי לפני מס</strong>: ₪2,220 שאתם מוסיפים מהכיס</li>
+      <li><strong>הוצאות שוטפות</strong>: ועד בית, ביטוחים, תיקונים, ימי שבת ~₪600 בחודש</li>
+      <li><strong>מס שכירות</strong>: פטור עד ₪5,654/חודש (2026), מעבר לכך 10%</li>
+      <li><strong>סך תזרים שלילי חודשי</strong>: כ-₪2,820</li>
+    </ul>
+
+    <h3>מאיפה מגיע הרווח?</h3>
+    <p>מ-2 מקורות:</p>
+    <ol>
+      <li><strong>עליית ערך הדירה</strong>: בממוצע היסטורי, נדל"ן בישראל עולה ב-3-5% בשנה (ריאלי). על דירה של ₪2.3M זה ₪70-115K בשנה — אבל מס שבח עתידי יכול לקחת 25% מהרווח.</li>
+      <li><strong>סילוק הקרן</strong>: כל החזר ההלוואה — חלק ממנו הולך לקרן (לא ריבית). זו "צבירה אילמת".</li>
+    </ol>
+
+    <h3>מתי כן משתלם?</h3>
+    <ul>
+      <li>יש לכם הון עצמי גבוה (60%+) שמקטין את המשכנתא ולכן את ההחזר.</li>
+      <li>אזור עם פוטנציאל עליית ערך גבוה (מתחדש, תחבורה ציבורית חדשה).</li>
+      <li>אופק השקעה ארוך (10-15 שנה+).</li>
+      <li>יש לכם תזרים יציב שיכול לכסות את הפער החודשי.</li>
+    </ul>
+
+    <h3>מתי בכלל לא שווה</h3>
+    <ul>
+      <li>אם הון עצמי שלכם הוא 50% מינימום והכסף שווה לכם להשקיע במקום אחר.</li>
+      <li>אם תזרים חודשי לוחץ — דירה להשקעה חוסכת לעצמה כסף לאורך עשור+, אבל דורשת תזרים כל חודש.</li>
+      <li>אם אינטרסים גלובליים שלכם דורשים גמישות (מעבר ארץ, מעבר עבודה).</li>
+    </ul>
+
+    <blockquote>נדל"ן הוא לא "השקעה בטוחה" — הוא <strong>השקעה ארוכת טווח</strong> עם מאפיינים ייחודיים. אם נכנסים נכון, זה מנוע צבירת הון. אם לא — זה אבן ריחיים על הצוואר.</blockquote>
+
+    <div class="article-cta">
+      <p>שוקלים דירה להשקעה? בואו נחשב יחד אם זה משתלם לכם ספציפית.</p>
+      <a href="#contact" class="btn btn-primary">לייעוץ חינם</a>
+    </div>
+  </article>
+
+  <article id="art-9" data-tone="t-purple" data-tag="מסים" data-readtime="12 דקות קריאה">
+    <h2>מדריך מסים מלא לעצמאי 2026 — הוצאות, מקדמות, פטורים</h2>
+    <p>עצמאי שלא מבין מסים — משלם ב-2 פעמים: בעבודה כי הוא לא מנצל הוצאות מוכרות, ובמסים כי הוא לא מתכנן נכון. המדריך הזה <strong>חוסך לעצמאי הממוצע ₪15-40K בשנה</strong>.</p>
+
+    <h3>מדרגות מס הכנסה לעצמאי (2026)</h3>
+    <p>על הכנסה חייבת (אחרי הוצאות והפקדות):</p>
+    <ul>
+      <li>עד ₪84,120: <strong>10%</strong></li>
+      <li>₪84,121-120,720: <strong>14%</strong></li>
+      <li>₪120,721-193,800: <strong>20%</strong></li>
+      <li>₪193,801-269,280: <strong>31%</strong></li>
+      <li>₪269,281-560,280: <strong>35%</strong></li>
+      <li>מעל ₪560,280: <strong>47%</strong></li>
+      <li>+ מס יסף 3% מעל ₪721,560</li>
+    </ul>
+
+    <h3>ביטוח לאומי + מס בריאות</h3>
+    <p>עצמאי משלם <strong>~11.79%</strong> על הכנסה חייבת (עד תקרה של ₪534K). זה בנוסף למס הכנסה.</p>
+
+    <h3>הוצאות מוכרות — איפה רוב העצמאים מפסידים</h3>
+
+    <h3>הוצאות נפוצות שאתם <em>חייבים</em> לרשום</h3>
+    <ul>
+      <li><strong>חלק יחסי משכר דירה / משכנתא</strong> — אם עובדים מהבית (לפי שטח החדר).</li>
+      <li><strong>חשבונות בית</strong>: חשמל, מים, אינטרנט — לפי אחוז שימוש לעבודה.</li>
+      <li><strong>טלפון נייד וכלי תקשורת</strong>: 100% או 80% תלוי בשימוש.</li>
+      <li><strong>נסיעות עסקיות</strong>: דלק, חניה, רכבת, מונית.</li>
+      <li><strong>ארוחות עסקיות</strong>: עד 50% מההוצאה.</li>
+      <li><strong>השתלמויות מקצועיות</strong>: כנסים, קורסים, ספרים.</li>
+      <li><strong>ציוד</strong>: מחשב, ריהוט משרדי, ציוד צילום — לפי שיעורי פחת.</li>
+      <li><strong>שירותי עזר</strong>: רואה חשבון, יועץ משפטי, מנהל חשבונות.</li>
+      <li><strong>ביטוחי עסק</strong>: ביטוח אחריות מקצועית, ביטוח עובדים.</li>
+    </ul>
+
+    <h3>מה <em>לא</em> מוכר</h3>
+    <ul>
+      <li>הוצאות פרטיות (גם אם הן "קצת קשורות" לעסק).</li>
+      <li>קנסות וגזרי דין.</li>
+      <li>הוצאות שאין עליהן חשבונית/קבלה.</li>
+      <li>נסיעות לחופשה (גם אם פגשתם לקוח שם).</li>
+    </ul>
+
+    <h3>הפקדות שמורידות מס</h3>
+    <ul>
+      <li><strong>קופת גמל עצמאי</strong>: עד ₪40,200 בשנה (16% מההכנסה עד תקרה) — <strong>ניכוי מההכנסה החייבת</strong>.</li>
+      <li><strong>קרן השתלמות עצמאי</strong>: עד ₪19,920 בשנה (4.5% מהכנסה) — ניכוי + רווחים פטורים ממס.</li>
+      <li><strong>פנסיה</strong>: ניתן להגיע לאחוזים גבוהים, בעיקר אחרי גיל 50.</li>
+    </ul>
+
+    <h3>מקדמות — איך לא לטעות</h3>
+    <p>עצמאי משלם מקדמות מס במהלך השנה. אם המקדמות גבוהות מדי, הכסף "תקוע" עד החזר המס. אם נמוכות מדי, יש קנסות.</p>
+    <p><strong>המלצה</strong>: סקירה רבעונית עם רואה חשבון כדי להתאים מקדמות לתחזית רווחיות אמיתית.</p>
+
+    <h3>החזרי מס — אל תוותרו</h3>
+    <p>אם שילמתם יותר מדי, מגיע לכם החזר. אבל הוא לא בא מעצמו — צריך להגיש דוח שנתי במועד. <strong>הצהרה שמתבצעת באיחור = הפסד החזר</strong>.</p>
+
+    <div class="article-cta">
+      <p>עצמאי שרוצה משכנתא? אנחנו מתמחים בלהציג את התיק כך שיתקבל בתנאים הטובים.</p>
+      <a href="#contact" class="btn btn-primary">לייעוץ חינם</a>
+    </div>
+  </article>
+
+  <article id="art-10" data-tone="t-green" data-tag="בחירת יועץ" data-readtime="7 דקות קריאה">
+    <h2>איך לבחור יועץ משכנתאות נכון — 8 שאלות ששוות זהב</h2>
+    <p>השוק מלא ב"יועצי משכנתאות". חלקם מקצוענים אמיתיים, חלקם <strong>סוכני מכירות בתחפושת</strong> שמקבלים עמלות מהבנקים. הנה 8 השאלות שיגלו לכם איזה מהם נמצא מולכם.</p>
+
+    <h3>1. "האם אתה מקבל עמלה מהבנק?"</h3>
+    <p>זו <strong>השאלה הכי חשובה</strong>. יועץ עצמאי אמיתי מקבל שכר רק מהלקוח. יועץ שמקבל עמלה מהבנק (גם אם הוא קורא לעצמו "יועץ") יש לו ניגוד אינטרסים אינהרנטי — הוא ירוויח יותר אם תקחו את המשכנתא בבנק שמשלם לו הכי טוב, לא בבנק שייתן לכם הכי טוב.</p>
+
+    <h3>2. "כמה תיקים סגרת השנה?"</h3>
+    <p>מקצוען עוסק <strong>בעשרות עד מאות תיקים בשנה</strong>. אם השמיים נופלים על מי שעובד על 3 תיקים בשנה — תזהרו. הניסיון השוטף הוא הכלי החשוב ביותר במו"מ.</p>
+
+    <h3>3. "האם תוכל לתת לי דוגמה לחיסכון אמיתי שהשגת ללקוח?"</h3>
+    <p>מקצוען אמיתי <strong>זוכר את התיקים שלו</strong> — איזה בנק, איזה תמהיל, כמה חסך. אם הוא מגמגם או נותן תשובות כלליות, סימן שאין לו פורטפוליו אמיתי.</p>
+
+    <h3>4. "איך תיראה תהליך העבודה איתך?"</h3>
+    <p>תשובה טובה: <strong>שלבים ברורים, לוחות זמנים מציאותיים, ומה מצופה מכם בכל שלב</strong>. אם התשובה מעורפלת — זה דגל אדום.</p>
+
+    <h3>5. "מה העלות שלך, ומתי משלמים?"</h3>
+    <p>שקיפות תמחור היא חובה. מקצוען נותן <strong>מחיר ברור מראש</strong>, בכתב. נמנעים מאחוזים על המשכנתא (מעלה אינטרס לקחת משכנתא גדולה יותר) או "בונוסים מהבנק" (ניגוד אינטרסים).</p>
+
+    <h3>6. "באילו בנקים אתה עובד?"</h3>
+    <p>יועץ אמיתי עובד עם <strong>כל הבנקים</strong> — לאומי, הפועלים, מזרחי, דיסקונט, הבינלאומי, מרכנתיל. אם הוא "מתמחה" רק ב-1-2 בנקים — סימן שיש שם הסכמים שמעוותים שיקול דעת.</p>
+
+    <h3>7. "מה ההכשרה והרישיון שלך?"</h3>
+    <p>בישראל ייעוץ פיננסי מקצועי דורש <strong>רישיון</strong> מטעם רשות שוק ההון. שאלו לראות את הרישיון. ההכשרה: רקע בבנקאות / כלכלה / ייעוץ פיננסי.</p>
+
+    <h3>8. "אם אחליט לא להמשיך — מה הסיבות שכן ולא להמליץ?"</h3>
+    <p>שאלת זהב. <strong>מקצוען ייתן לכם תשובה כנה</strong> שמראה שהוא דווקא לא רוצה לקחת אתכם כלקוחות אם זה לא מתאים לכם. שרלטן ימכור לכם את שירותיו ללא קשר למצב.</p>
+
+    <h3>דגלים אדומים נוספים</h3>
+    <ul>
+      <li>הבטחות "ריבית הכי נמוכה במשק" — אף אחד לא יכול להבטיח את זה.</li>
+      <li>לחץ לחתום מהר.</li>
+      <li>"מבצע מיוחד עד סוף השבוע".</li>
+      <li>אין כתובת פיזית או פעילות מובהקת.</li>
+      <li>ביקורות חשודות (כולן מצוינות, באותה תקופה, באותו סגנון).</li>
+    </ul>
+
+    <div class="article-cta">
+      <p>רוצים לבדוק אם אנחנו האנשים הנכונים? <strong>שיחה ראשונית חינם.</strong></p>
+      <a href="tel:052-4502821" class="btn btn-primary">קבעו פגישה: 052-4502821</a>
+    </div>
+  </article>
+
+</div>
+
+<!-- ═══ ACCESSIBILITY WIDGET ═══ -->
+<button class="a11y-toggle" id="a11yToggle" aria-label="פתח תפריט נגישות" aria-expanded="false" aria-controls="a11yPanel">
+  <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="3.5" r="1.8"/><path d="M5 7h14v2h-5v13h-2v-6h-2v6H8V9H5z"/></svg>
+</button>
+
+<aside class="a11y-panel" id="a11yPanel" role="dialog" aria-modal="false" aria-labelledby="a11yPanelTitle">
+  <div class="a11y-panel-head">
+    <h3 id="a11yPanelTitle">
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="3.5" r="1.8"/><path d="M5 7h14v2h-5v13h-2v-6h-2v6H8V9H5z"/></svg>
+      תפריט נגישות
+    </h3>
+    <button class="a11y-panel-close" id="a11yClose" aria-label="סגור תפריט נגישות">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M6 6l12 12M6 18L18 6"/></svg>
+    </button>
+  </div>
+  <div class="a11y-panel-body">
+
+    <div class="a11y-section">
+      <h4>גודל טקסט</h4>
+      <div class="a11y-options">
+        <button class="a11y-btn" data-a11y="text-normal" data-group="text"><span class="icon">A</span>גודל רגיל</button>
+        <button class="a11y-btn" data-a11y="text-large" data-group="text"><span class="icon" style="font-size:1.1em">A</span>גודל מוגדל</button>
+        <button class="a11y-btn" data-a11y="text-larger" data-group="text"><span class="icon" style="font-size:1.25em">A</span>גודל גדול יותר</button>
+        <button class="a11y-btn" data-a11y="text-largest" data-group="text"><span class="icon" style="font-size:1.4em">A</span>גודל גדול במיוחד</button>
+      </div>
+    </div>
+
+    <div class="a11y-section">
+      <h4>תצוגה</h4>
+      <div class="a11y-options">
+        <button class="a11y-btn" data-a11y="contrast">
+          <span class="icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 18V4a8 8 0 010 16z"/></svg></span>
+          ניגודיות גבוהה
+        </button>
+        <button class="a11y-btn" data-a11y="readable-font">
+          <span class="icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M9.93 13.5h4.14L12 7.98zM20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-4.05 16l-1.14-3H9.17L8.03 18H5.96l5.11-13h1.86l5.11 13h-2.09z"/></svg></span>
+          גופן קריא
+        </button>
+        <button class="a11y-btn" data-a11y="highlight-headings">
+          <span class="icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M5 4v3h5.5v12h3V7H19V4z"/></svg></span>
+          הדגשת כותרות
+        </button>
+        <button class="a11y-btn" data-a11y="underline-links">
+          <span class="icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></span>
+          הדגשת קישורים
+        </button>
+      </div>
+    </div>
+
+    <div class="a11y-section">
+      <h4>תנועה וסמן</h4>
+      <div class="a11y-options">
+        <button class="a11y-btn" data-a11y="no-animations">
+          <span class="icon"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l14.14 14.14"/></svg></span>
+          ביטול אנימציות
+        </button>
+        <button class="a11y-btn" data-a11y="cursor">
+          <span class="icon"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M5.5 3l8.16 17.5L16.5 14l6.5-2.5z"/></svg></span>
+          סמן מוגדל
+        </button>
+      </div>
+    </div>
+
+    <button class="a11y-reset" id="a11yReset">איפוס הגדרות</button>
+    <a href="#" class="a11y-statement-link" data-article="policy-a11y">קרא את הצהרת הנגישות המלאה ←</a>
+  </div>
+</aside>
+
+<!-- ═══ COOKIE CONSENT ═══ -->
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="הסכמה לעוגיות">
+  <h4>🍪 שימוש בעוגיות</h4>
+  <p>אנו משתמשים בעוגיות לשיפור חוויית הגלישה, ניתוח שימוש ושיווק. המשך גלישה מהווה הסכמה.</p>
+  <div class="cookie-actions">
+    <button class="cookie-accept" onclick="acceptCookies()">מקבל</button>
+    <button class="cookie-decline" onclick="declineCookies()">דחה</button>
+  </div>
+</div>
+
+<!-- ═══ FLOATING CONTACT GROUP ═══ -->
+<div class="fab-group" role="navigation" aria-label="כפתורי יצירת קשר">
+  <a href="tel:052-4502821" class="fab fab-phone" aria-label="התקשרו עכשיו 052-4502821">
+    <svg fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
+    <span class="fab-tooltip">התקשרו עכשיו</span>
+  </a>
+  <a href="https://wa.me/972524502821?text=שלום%20תמיר,%20אשמח%20לייעוץ%20ראשוני" target="_blank" rel="noopener" class="fab fab-whatsapp" aria-label="צרו קשר בוואטסאפ">
+    <svg fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+    <span class="fab-tooltip">וואטסאפ</span>
+  </a>
+</div>
+
+
+<script src="assets/script.js"></script>
+</body>
+</html>
