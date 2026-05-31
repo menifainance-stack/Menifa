@@ -150,8 +150,8 @@ function calc1() {
   document.getElementById('m1-out').textContent = fmt(mo) + ' / חודש';
   document.getElementById('m1-total').textContent = fmt(mo * years * 12);
 }
-['m1-loan','m1-rate','m1-years'].forEach(id => document.getElementById(id).addEventListener('input', calc1));
-calc1();
+if (document.getElementById('m1-loan')) ['m1-loan','m1-rate','m1-years'].forEach(id => document.getElementById(id).addEventListener('input', calc1));
+if (document.getElementById('m1-loan')) calc1();
 
 /* ═══════════════════════════════════════════════════════════════
    CALCULATOR 2 — PROVIDENT FUND (with one-time deposit)
@@ -178,8 +178,8 @@ function calc2() {
   document.getElementById('m2-deposits').textContent = fmt(totalDeposits);
   document.getElementById('m2-profit').textContent = fmt(profit);
 }
-['m2-lump','m2-month','m2-years','m2-yield'].forEach(id => document.getElementById(id).addEventListener('input', calc2));
-calc2();
+if (document.getElementById('m2-lump')) ['m2-lump','m2-month','m2-years','m2-yield'].forEach(id => document.getElementById(id).addEventListener('input', calc2));
+if (document.getElementById('m2-lump')) calc2();
 
 /* ═══════════════════════════════════════════════════════════════
    CALCULATOR 3 — DTI (dynamic green/red)
@@ -211,8 +211,8 @@ function calc3() {
   indicator.style.right = (clamped / 50 * 100) + '%';
   indicator.dataset.value = dti.toFixed(1) + '%';
 }
-['m3-income','m3-mortgage','m3-loans'].forEach(id => document.getElementById(id).addEventListener('input', calc3));
-calc3();
+if (document.getElementById('m3-income')) ['m3-income','m3-mortgage','m3-loans'].forEach(id => document.getElementById(id).addEventListener('input', calc3));
+if (document.getElementById('m3-income')) calc3();
 
 /* ═══════════════════════════════════════════════════════════════
    CALCULATOR 4 — REFINANCE SAVINGS
@@ -232,8 +232,8 @@ function calc4() {
   document.getElementById('m4-out').textContent = fmt(monthlySaving) + ' / חודש';
   document.getElementById('m4-total').textContent = fmt(monthlySaving * years * 12);
 }
-['m4-balance','m4-cur-rate','m4-new-rate','m4-years'].forEach(id => document.getElementById(id).addEventListener('input', calc4));
-calc4();
+if (document.getElementById('m4-balance')) ['m4-balance','m4-cur-rate','m4-new-rate','m4-years'].forEach(id => document.getElementById(id).addEventListener('input', calc4));
+if (document.getElementById('m4-balance')) calc4();
 
 /* ═══════════════════════════════════════════════════════════════
    CALCULATOR 5 — EQUITY TIME-TO-GOAL
@@ -261,8 +261,8 @@ function calc5() {
   if (mons > 0) text += mons + ' חודשים';
   document.getElementById('m5-out').textContent = text || '< חודש';
 }
-['m5-price','m5-have','m5-monthly'].forEach(id => document.getElementById(id).addEventListener('input', calc5));
-calc5();
+if (document.getElementById('m5-price')) ['m5-price','m5-have','m5-monthly'].forEach(id => document.getElementById(id).addEventListener('input', calc5));
+if (document.getElementById('m5-price')) calc5();
 
 /* ═══════════════════════════════════════════════════════════════
    CALCULATOR 6 — CPI IMPACT
@@ -286,8 +286,8 @@ function calc6() {
   document.getElementById('m6-out').textContent = fmt(total);
   document.getElementById('m6-extra').textContent = fmt(extra);
 }
-['m6-loan','m6-rate','m6-cpi','m6-years'].forEach(id => document.getElementById(id).addEventListener('input', calc6));
-calc6();
+if (document.getElementById('m6-loan')) ['m6-loan','m6-rate','m6-cpi','m6-years'].forEach(id => document.getElementById(id).addEventListener('input', calc6));
+if (document.getElementById('m6-loan')) calc6();
 
 /* ═══════════════════════════════════════════════════════════════
    CALCULATOR 7 — NET FOR SELF-EMPLOYED (approx. 2026 Israel)
@@ -330,8 +330,8 @@ function calc7() {
   document.getElementById('m7-out').textContent = fmt(net);
   document.getElementById('m7-monthly').textContent = fmt(net / 12);
 }
-['m7-gross','m7-expenses','m7-pension'].forEach(id => document.getElementById(id).addEventListener('input', calc7));
-calc7();
+if (document.getElementById('m7-gross')) ['m7-gross','m7-expenses','m7-pension'].forEach(id => document.getElementById(id).addEventListener('input', calc7));
+if (document.getElementById('m7-gross')) calc7();
 
 /* ═══════════════════════════════════════════════════════════════
    ARTICLE MODAL
@@ -392,12 +392,14 @@ document.querySelectorAll('[data-article]').forEach(card => {
   });
 });
 
-articleModal.addEventListener('click', (e) => {
-  if (e.target === articleModal) closeArticle();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && articleModal.classList.contains('open')) closeArticle();
-});
+if (articleModal) {
+  articleModal.addEventListener('click', (e) => {
+    if (e.target === articleModal) closeArticle();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && articleModal.classList.contains('open')) closeArticle();
+  });
+}
 
 /* ═══════════════════════════════════════════════════════════════
    ACCESSIBILITY WIDGET
