@@ -2675,3 +2675,83 @@ body.has-ticker .navbar { top: 0; }
   font-size: 0.88rem;
   color: var(--gray);
 }
+
+/* Testimonials personal intro by Tamir */
+.testimonials-intro {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 3rem;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, var(--bg-warm) 0%, var(--gold-soft) 100%);
+  border-radius: var(--radius-lg);
+  border-right: 5px solid var(--gold);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+.testimonials-intro::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  left: -40px;
+  width: 180px; height: 180px;
+  background: radial-gradient(circle, rgba(201, 168, 118, 0.18), transparent 70%);
+  pointer-events: none;
+}
+.ti-photo {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.ti-photo img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--white);
+  box-shadow: 0 8px 24px rgba(27, 42, 65, 0.15);
+}
+.ti-quote {
+  position: relative;
+  z-index: 1;
+}
+.ti-quote-mark {
+  width: 36px;
+  height: 36px;
+  color: var(--gold);
+  opacity: 0.85;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.ti-quote p {
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.7;
+  color: var(--charcoal);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+.ti-quote p strong { color: var(--navy); }
+.ti-sig { display: flex; flex-direction: column; gap: 0.15rem; }
+.ti-sig-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 1rem;
+}
+.ti-sig-role {
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+@media (max-width: 700px) {
+  .testimonials-intro {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 1.75rem 1.5rem;
+  }
+  .ti-photo { margin: 0 auto; }
+  .ti-photo img { width: 90px; height: 90px; }
+  .ti-sig { align-items: center; }
+}
