@@ -24,7 +24,7 @@ const MARKET_FALLBACK = {
   prime: 5.25,       // פריים = BoI + 1.5
   cpiMonthly: 1.2,   // % שינוי חודשי (אפריל 2026)
   cpiYearly: 1.9,    // % שינוי שנתי (12 חודשים אחרונים)
-  updateDate: 'אפריל 2026'
+  updateDate: 'מאי 2026'
 };
 
 function setMarketData(data) {
