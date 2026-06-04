@@ -2755,3 +2755,92 @@ body.has-ticker .navbar { top: 0; }
   .ti-photo img { width: 90px; height: 90px; }
   .ti-sig { align-items: center; }
 }
+
+/* About page — Bio section */
+.about-bio {
+  background: var(--bg);
+  padding: clamp(3.5rem, 6vw, 5.5rem) 0;
+}
+.bio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.bio-card {
+  position: relative;
+  padding: 2rem 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--gray-soft);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+.bio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(201, 168, 118, 0.4);
+}
+.bio-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 50%; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.bio-card:hover::before { opacity: 1; }
+
+.bio-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.85rem;
+  display: inline-block;
+}
+.bio-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.65rem;
+  color: var(--navy);
+  line-height: 1.3;
+}
+.bio-card p {
+  color: var(--gray);
+  font-size: 0.97rem;
+  line-height: 1.7;
+  margin: 0;
+}
+.bio-card p strong {
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+/* Feature card — wider/highlighted */
+.bio-card-feature {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--bg-warm) 0%, var(--gold-soft) 100%);
+  border-right: 4px solid var(--gold);
+  padding: 2.25rem 2rem;
+}
+.bio-card-feature .bio-icon { font-size: 2.5rem; }
+
+/* Closing line */
+.bio-closing {
+  text-align: center;
+  font-size: clamp(1.05rem, 1.4vw, 1.2rem);
+  line-height: 1.75;
+  color: var(--gray);
+  max-width: 760px;
+  margin: 2.5rem auto 0;
+  padding: 1.5rem 1.75rem;
+  background: var(--surface);
+  border-top: 2px solid var(--gold);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+.bio-closing strong { color: var(--navy); }
+
+@media (max-width: 768px) {
+  .bio-grid { grid-template-columns: 1fr; }
+  .bio-card-feature { padding: 1.75rem 1.5rem; }
+}
