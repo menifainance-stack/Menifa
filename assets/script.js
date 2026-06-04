@@ -120,21 +120,35 @@ const counterObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.stats-grid').forEach(el => counterObserver.observe(el));
 
 /* ═══════════════════════════════════════════════════════════════
-   CALCULATOR TABS
+   CALCULATOR TABS (+ deep-link support via URL hash)
    ═══════════════════════════════════════════════════════════════ */
-document.querySelectorAll('.calc-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    const target = tab.dataset.target;
-    document.querySelectorAll('.calc-tab').forEach(t => {
-      t.classList.remove('active');
-      t.setAttribute('aria-selected', 'false');
-    });
-    document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    tab.setAttribute('aria-selected', 'true');
-    document.getElementById(target).classList.add('active');
+function activateCalcTab(targetId) {
+  const tab = document.querySelector(`.calc-tab[data-target="${targetId}"]`);
+  const panel = document.getElementById(targetId);
+  if (!tab || !panel) return false;
+  document.querySelectorAll('.calc-tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
   });
+  document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('active'));
+  tab.classList.add('active');
+  tab.setAttribute('aria-selected', 'true');
+  panel.classList.add('active');
+  // Smooth-scroll to the calculator panel so the user sees it
+  setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  return true;
+}
+
+document.querySelectorAll('.calc-tab').forEach(tab => {
+  tab.addEventListener('click', () => activateCalcTab(tab.dataset.target));
 });
+
+// On page load: if URL contains #calc-XXX hash, activate that tab
+if (window.location.hash && window.location.hash.startsWith('#calc-')) {
+  const targetId = window.location.hash.slice(1);
+  // Wait briefly for layout, then activate
+  setTimeout(() => activateCalcTab(targetId), 150);
+}
 
 /* ═══════════════════════════════════════════════════════════════
    CALCULATOR 1 — MORTGAGE
@@ -199,9 +213,9 @@ function calc3() {
   const panel = document.getElementById('calc-dti');
   const status = document.getElementById('m3-status');
   panel.classList.remove('safe', 'caution', 'danger');
-  if (dti <= 40) { panel.classList.add('safe'); status.textContent = 'מצוין'; }
-  else if (dti <= 50) { panel.classList.add('caution'); status.textContent = 'סביר — בגבול'; }
-  else { panel.classList.add('danger'); status.textContent = 'חורג מהגבול'; }
+  if (dti <= 40) { panel.classList.add('safe'); status.textContent = 'מתאים לבנק'; }
+  else if (dti <= 50) { panel.classList.add('caution'); status.textContent = 'חוץ-בנקאי בלבד'; }
+  else { panel.classList.add('danger'); status.textContent = 'גבוה — מסוכן'; }
 
   // Update meter indicator (clamp at 50% — the regulatory ceiling)
   const indicator = document.getElementById('m3-indicator');
