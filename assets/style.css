@@ -2844,3 +2844,71 @@ body.has-ticker .navbar { top: 0; }
   .bio-grid { grid-template-columns: 1fr; }
   .bio-card-feature { padding: 1.75rem 1.5rem; }
 }
+
+/* Yield reference card — gemel.net 5-year averages */
+.yield-reference {
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, var(--bg-warm) 0%, rgba(201, 168, 118, 0.12) 100%);
+  border: 1px solid rgba(201, 168, 118, 0.25);
+  border-radius: var(--radius-md);
+}
+.yield-ref-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--gray);
+  margin-bottom: 0.85rem;
+}
+.yield-ref-header svg { color: var(--gold); flex-shrink: 0; }
+.yield-presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  margin-bottom: 0.6rem;
+}
+.yield-preset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.85rem 0.75rem;
+  background: var(--white);
+  border: 1.5px solid var(--gray-soft);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-family: inherit;
+  text-align: center;
+}
+.yield-preset:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  box-shadow: var(--shadow-md);
+}
+.yield-preset:focus-visible {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: var(--focus-ring);
+}
+.preset-icon { font-size: 1.3rem; }
+.preset-label {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--charcoal);
+}
+.preset-value {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+.yield-note {
+  font-size: 0.75rem;
+  color: var(--gray-light);
+  margin: 0;
+  text-align: center;
+  line-height: 1.5;
+}

@@ -195,6 +195,22 @@ function calc2() {
 if (document.getElementById('m2-lump')) ['m2-lump','m2-month','m2-years','m2-yield'].forEach(id => document.getElementById(id).addEventListener('input', calc2));
 if (document.getElementById('m2-lump')) calc2();
 
+// Yield preset buttons (gemel.net 5-year averages)
+document.querySelectorAll('.yield-preset').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetYield = parseFloat(btn.dataset.yield);
+    const slider = document.getElementById('m2-yield');
+    if (!slider) return;
+    slider.value = targetYield;
+    slider.dispatchEvent(new Event('input', { bubbles: true }));
+    // Visual feedback — briefly highlight the chosen preset
+    document.querySelectorAll('.yield-preset').forEach(b => b.style.borderColor = '');
+    btn.style.borderColor = 'var(--gold)';
+    btn.style.background = 'rgba(201, 168, 118, 0.1)';
+    setTimeout(() => { btn.style.background = ''; }, 1500);
+  });
+});
+
 /* ═══════════════════════════════════════════════════════════════
    CALCULATOR 3 — DTI (dynamic green/red)
    ═══════════════════════════════════════════════════════════════ */
