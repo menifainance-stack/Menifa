@@ -335,33 +335,37 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
 /* === Brand logo image (gold "מניפה פיננסית" + fan icon) === */
 .navbar .logo,
 .footer-brand .logo {
+  display: inline-flex;
   flex-direction: column;
-  align-items: flex-end; /* RTL — align to right edge */
-  gap: 0.15rem;
+  align-items: flex-start; /* RTL: flex-start = align to RIGHT edge */
+  gap: 2px;
+  line-height: 1;
 }
 .logo-img {
-  height: 44px;
+  height: 40px;
   width: auto;
   display: block;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
 }
 .footer-brand .logo-img {
-  height: 56px;
+  height: 52px;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 .logo-tagline-only {
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-family: var(--font-heading);
   font-weight: 600;
   color: var(--gold);
-  letter-spacing: 0.28em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  margin-top: -1px;
-  padding-right: 4px;
+  text-align: center;
+  width: 100%;
+  margin-top: 0;
+  display: block;
 }
 @media (max-width: 768px) {
-  .logo-img { height: 36px; }
-  .logo-tagline-only { font-size: 0.55rem; letter-spacing: 0.22em; }
+  .logo-img { height: 34px; }
+  .logo-tagline-only { font-size: 0.5rem; letter-spacing: 0.18em; }
 }
 
 .nav-links {
