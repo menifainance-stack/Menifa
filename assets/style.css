@@ -2944,3 +2944,107 @@ body.has-ticker .navbar { top: 0; }
   text-align: center;
   line-height: 1.5;
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   RELATED ARTICLES — SEO Internal Linking Widget
+   ═══════════════════════════════════════════════════════════════ */
+.related-articles {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 4rem 2rem 3rem;
+}
+.related-articles-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--navy);
+  margin: 0 0 0.4rem;
+  text-align: center;
+  font-weight: 700;
+}
+.related-articles-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-light);
+  text-align: center;
+  margin: 0 0 2.5rem;
+}
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.related-card {
+  display: block;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 1.5rem 1.4rem;
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.related-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 4px; height: 100%;
+  background: var(--gold);
+  transition: width var(--transition);
+}
+.related-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--gold);
+}
+.related-card:hover::before {
+  width: 8px;
+}
+.related-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.6rem;
+}
+.related-card h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--navy);
+  margin: 0 0 0.6rem;
+  line-height: 1.4;
+  font-weight: 700;
+}
+.related-card p {
+  font-size: 0.88rem;
+  color: var(--gray);
+  margin: 0 0 1rem;
+  line-height: 1.55;
+}
+.related-card-link {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--blue);
+}
+@media (max-width: 900px) {
+  .related-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .related-articles { padding: 3rem 1.25rem 2rem; }
+}
+
+/* Inline contextual link styling for SEO links inside article body */
+.article-body a:not(.btn):not(.blog-link) {
+  color: var(--blue);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(74,123,200,0.4);
+  transition: all var(--transition);
+}
+.article-body a:not(.btn):not(.blog-link):hover {
+  color: var(--navy);
+  text-decoration-color: var(--gold);
+  text-decoration-thickness: 2px;
+}
