@@ -745,46 +745,76 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     </aside>
   `;
 
-  // Inject drawer into body
-  document.body.insertAdjacentHTML('beforeend', drawerHTML);
+  // Robust init — runs whether DOM is loading or already ready
+  function initDrawer() {
+    // Avoid double-initialization (cache + DOMContentLoaded both firing)
+    if (document.getElementById('sideDrawer')) return;
+    if (!document.body) { setTimeout(initDrawer, 50); return; }
 
-  const drawer = document.getElementById('sideDrawer');
-  const overlay = document.getElementById('drawerOverlay');
-  const closeBtn = document.getElementById('drawerClose');
-  const toggleBtn = document.getElementById('menuToggle');
+    // Inject drawer into body
+    document.body.insertAdjacentHTML('beforeend', drawerHTML);
 
-  function openDrawer() {
-    document.body.classList.add('drawer-open');
-    document.body.style.overflow = 'hidden';
-    drawer.setAttribute('aria-hidden', 'false');
-    closeBtn?.focus();
-  }
-  function closeDrawer() {
-    document.body.classList.remove('drawer-open');
-    document.body.style.overflow = '';
-    drawer.setAttribute('aria-hidden', 'true');
-    toggleBtn?.focus();
-  }
+    const drawer = document.getElementById('sideDrawer');
+    const overlay = document.getElementById('drawerOverlay');
+    const closeBtn = document.getElementById('drawerClose');
+    const toggleBtn = document.getElementById('menuToggle');
 
-  toggleBtn?.addEventListener('click', openDrawer);
-  closeBtn?.addEventListener('click', closeDrawer);
-  overlay?.addEventListener('click', closeDrawer);
-
-  // Close on ESC
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) {
-      closeDrawer();
+    if (!drawer || !toggleBtn) {
+      console.warn('[Drawer] missing elements', { drawer: !!drawer, toggleBtn: !!toggleBtn });
+      return;
     }
-  });
 
-  // Close when clicking nav links inside
-  drawer.querySelectorAll('a[href]').forEach(link => {
-    link.addEventListener('click', (e) => {
-      // Don't close for tel: / mailto: / wa.me — those open external apps
-      const href = link.getAttribute('href');
-      if (href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('https://wa.me')) return;
-      // Small delay so user sees the click feedback
-      setTimeout(closeDrawer, 100);
+    function openDrawer() {
+      document.body.classList.add('drawer-open');
+      document.body.style.overflow = 'hidden';
+      drawer.setAttribute('aria-hidden', 'false');
+      try { closeBtn?.focus(); } catch(_) {}
+    }
+    function closeDrawer() {
+      document.body.classList.remove('drawer-open');
+      document.body.style.overflow = '';
+      drawer.setAttribute('aria-hidden', 'true');
+      try { toggleBtn?.focus(); } catch(_) {}
+    }
+
+    // Use both 'click' and 'touchend' for max mobile compatibility
+    function bindOpen(el) {
+      if (!el) return;
+      el.addEventListener('click', (e) => { e.preventDefault(); openDrawer(); });
+      el.addEventListener('touchend', (e) => { e.preventDefault(); openDrawer(); }, { passive: false });
+    }
+    function bindClose(el) {
+      if (!el) return;
+      el.addEventListener('click', (e) => { e.preventDefault(); closeDrawer(); });
+      el.addEventListener('touchend', (e) => { e.preventDefault(); closeDrawer(); }, { passive: false });
+    }
+    bindOpen(toggleBtn);
+    bindClose(closeBtn);
+    bindClose(overlay);
+
+    // Close on ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) {
+        closeDrawer();
+      }
     });
-  });
+
+    // Close when clicking nav links inside
+    drawer.querySelectorAll('a[href]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('https://wa.me')) return;
+        setTimeout(closeDrawer, 100);
+      });
+    });
+  }
+
+  // Init at multiple stages to maximize reliability across browsers
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDrawer);
+  } else {
+    initDrawer();
+  }
+  // Final fallback after window load
+  window.addEventListener('load', () => { if (!document.getElementById('sideDrawer')) initDrawer(); });
 })();

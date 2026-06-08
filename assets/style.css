@@ -3137,12 +3137,14 @@ body.has-ticker .navbar { top: 42px; }
    ═══════════════════════════════════════════════════════════════ */
 
 /* Override: hamburger always visible (desktop + mobile) */
-.navbar .menu-toggle {
-  display: flex;
+.navbar .menu-toggle,
+.navbar #menuToggle {
+  display: flex !important;
   width: 44px; height: 44px;
   border: 1px solid rgba(184, 146, 89, 0.3);
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 12px;
   color: var(--navy);
   align-items: center; justify-content: center;
@@ -3150,6 +3152,12 @@ body.has-ticker .navbar { top: 42px; }
   transition: all .3s cubic-bezier(.2,.8,.2,1);
   position: relative;
   margin-inline-start: 0.5rem;
+  z-index: 51;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (max-width: 768px) {
+  .navbar .menu-toggle,
+  .navbar #menuToggle { display: flex !important; }
 }
 .navbar .menu-toggle:hover {
   background: var(--gold);
