@@ -339,13 +339,18 @@ section[style*="background:"] .btn-ghost,
   top: 0; left: 0; right: 0;
   z-index: 1000;
   padding: 1.25rem 0;
+  background: rgba(250, 246, 238, 0.92); /* always opaque — no content bleed-through */
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid rgba(184, 146, 89, 0.15);
   transition: all var(--transition);
 }
 .navbar.scrolled {
-  background: rgba(250, 249, 247, 0.85);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: var(--shadow-sm);
+  background: rgba(250, 246, 238, 0.96);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 4px 24px -8px rgba(27, 42, 65, 0.08);
+  border-bottom-color: rgba(184, 146, 89, 0.25);
   padding: 0.8rem 0;
 }
 
@@ -1853,8 +1858,6 @@ body.a11y-cursor input { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http:/
   padding: 0.6rem 0;
   font-size: 0.88rem;
   border-bottom: 1px solid rgba(184, 146, 89, 0.18);
-  position: relative;
-  z-index: 1001;
 }
 .market-inner {
   max-width: var(--container);
