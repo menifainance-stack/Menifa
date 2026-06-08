@@ -3169,6 +3169,16 @@ body.has-ticker .navbar { top: 42px; }
   .navbar .logo-tagline-only { font-size: 0.6rem !important; letter-spacing: 0.15em !important; }
   .navbar .nav-actions { gap: 0.4rem; }
   .navbar .nav-inner { gap: 0.5rem; }
+
+  /* MOBILE: hide financial ticker (wastes vertical space + wraps badly) and pin navbar to top */
+  .market-bar { display: none !important; }
+  body.has-ticker .navbar { top: 0 !important; }
+  .navbar {
+    background: rgba(250, 246, 238, 0.97) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(184, 146, 89, 0.18);
+  }
 }
 @media (max-width: 380px) {
   .navbar .logo-tagline-only { display: none !important; }
