@@ -13,7 +13,10 @@
 <meta name="author" content="תמיר גרמה — מניפה פיננסית">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="geo.region" content="IL">
+<meta name="geo.placename" content="Tel Aviv, Israel">
 <link rel="canonical" href="https://menifa.org/">
+<link rel="alternate" hreflang="he-IL" href="https://menifa.org/">
+<link rel="alternate" hreflang="x-default" href="https://menifa.org/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="he_IL">
 <meta property="og:site_name" content="מניפה פיננסית">
@@ -23,7 +26,229 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/style.css?v=2026-06-09">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FinancialService","name":"מניפה פיננסית","alternateName":"Manifa Financial","description":"ייעוץ משכנתאות מקצועי בישראל","url":"https://menifa.org/","telephone":"+972-52-4502821","email":"menifainance@gmail.com","priceRange":"₪₪","areaServed":{"@type":"Country","name":"Israel"},"founder":{"@type":"Person","name":"תמיר גרמה","jobTitle":"יועץ משכנתאות מוסמך","image":"https://menifa.org/assets/images/tamir-medium.jpg"},"image":"https://menifa.org/assets/images/tamir-og.jpg","aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"500","bestRating":"5"}}
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://menifa.org/#organization",
+      "name": "מניפה פיננסית",
+      "alternateName": ["Manifa Financial", "מניפה — תמיר גרמה"],
+      "url": "https://menifa.org/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://menifa.org/assets/images/logo-nav.png",
+        "width": 360,
+        "height": 125
+      },
+      "image": "https://menifa.org/assets/images/tamir-og.jpg",
+      "description": "ייעוץ משכנתאות פרמיום בישראל. גישה אנליטית, שקיפות מלאה, ליווי עד החתימה.",
+      "founder": { "@id": "https://menifa.org/#tamir" },
+      "sameAs": [
+        "https://www.linkedin.com/in/tamir-garma"
+      ]
+    },
+    {
+      "@type": ["LocalBusiness", "FinancialService"],
+      "@id": "https://menifa.org/#business",
+      "name": "מניפה פיננסית — תמיר גרמה",
+      "image": "https://menifa.org/assets/images/tamir-og.jpg",
+      "url": "https://menifa.org/",
+      "telephone": "+972-52-4502821",
+      "email": "menifainance@gmail.com",
+      "priceRange": "₪₪",
+      "currenciesAccepted": "ILS",
+      "paymentAccepted": "העברה בנקאית, אשראי",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "תל אביב",
+        "addressRegion": "מחוז תל אביב",
+        "addressCountry": "IL"
+      },
+      "areaServed": [
+        { "@type": "Country", "name": "Israel" },
+        { "@type": "AdministrativeArea", "name": "ישראל — ארצי" }
+      ],
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
+          "opens": "09:00",
+          "closes": "19:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Friday",
+          "opens": "09:00",
+          "closes": "14:00"
+        }
+      ],
+      "founder": { "@id": "https://menifa.org/#tamir" },
+      "employee": { "@id": "https://menifa.org/#tamir" },
+      "knowsAbout": [
+        "ייעוץ משכנתאות",
+        "מחזור משכנתא",
+        "איחוד הלוואות",
+        "תמהיל משכנתא",
+        "משכנתא חוץ בנקאית",
+        "יחס החזר משכנתא",
+        "ריבית בנק ישראל"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "500",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://menifa.org/#tamir",
+      "name": "תמיר גרמה",
+      "alternateName": "Tamir Garma",
+      "jobTitle": "יועץ משכנתאות מוסמך",
+      "description": "יועץ משכנתאות מוסמך עם 15 שנות ניסיון בתעשייה הבנקאית והפיננסית. 8 שנים כאנליסט BI בחברות ביטוח, מומחיות עמוקה בשוק ההון ובאסטרטגיות מינוף.",
+      "image": "https://menifa.org/assets/images/tamir-medium.jpg",
+      "url": "https://menifa.org/about.html",
+      "telephone": "+972-52-4502821",
+      "email": "menifainance@gmail.com",
+      "worksFor": { "@id": "https://menifa.org/#organization" },
+      "knowsAbout": [
+        "ייעוץ משכנתאות",
+        "ניתוח פיננסי",
+        "שוק ההון",
+        "מינוף כספים",
+        "BI Analytics"
+      ],
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "name": "יועץ משכנתאות מוסמך",
+          "credentialCategory": "License",
+          "recognizedBy": {
+            "@type": "Organization",
+            "name": "משרד האוצר — ישראל"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://menifa.org/#website",
+      "url": "https://menifa.org/",
+      "name": "מניפה פיננסית",
+      "description": "ייעוץ משכנתאות פרמיום בישראל — תמיר גרמה",
+      "publisher": { "@id": "https://menifa.org/#organization" },
+      "inLanguage": "he-IL",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://menifa.org/blog.html?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://menifa.org/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "כמה עולה ייעוץ משכנתאות במניפה פיננסית?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "שיחת היכרות ראשונית של 30 דקות — ללא עלות וללא התחייבות. אחרי שיחת ההיכרות, אם תרצו להמשיך, נציג מודל תמחור שקוף לפני שמתחילים. אין עמלות נסתרות מהבנק."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "מתי באמת כדאי למחזר משכנתא?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "מחזור משכנתא משתלם כאשר 1) הריבית בשוק ירדה משמעותית (לפחות 0.5%-1%), 2) המצב הפיננסי שלכם השתפר וניתן להגיע לתנאים טובים יותר, 3) יש שינוי בצרכים — כמו רצון להאריך את התקופה ולהוריד החזר חודשי. החיסכון הממוצע ללקוח שלנו על חיי המשכנתא: 180,000 ש״ח."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "מה ההבדל בין יועץ משכנתאות לבנקאי?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "בנקאי עובד עבור הבנק ומציע רק את המוצרים של הבנק שלו, עם אינטרס לקצור עמלות גבוהות. יועץ משכנתאות עצמאי כמוני עובד עבור הלקוח, מנהל מו״מ מול כל הבנקים, ומקבל החלטות על בסיס נתונים — לא על בסיס יעדי מכירה."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "מה היחס החזר המקסימלי שהבנק מאשר?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "בנקים מסחריים בישראל מאשרים בדרך כלל יחס החזר של עד 40% מההכנסה נטו (DTI - Debt to Income). בגופים חוץ-בנקאיים אפשר להגיע ל-50%. מומלץ לא לחצות 35-40% כדי לשמור על כרית ביטחון פיננסית."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "כמה זמן לוקח תהליך משכנתא מתחילתו ועד הסוף?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "תהליך מלא של משכנתא חדשה — מאבחון ועד החתימה — לוקח בדרך כלל 4-8 שבועות. מחזור משכנתא קצר יותר (2-4 שבועות). אישור עקרוני אפשר לקבל תוך 7-14 ימים."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "האם אפשר לקבל משכנתא בלי הון עצמי?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "בנק ישראל מחייב הון עצמי מינימלי של 25% עבור דירה ראשונה ו-50% עבור דירה שנייה ואילך. יש מסלולים חוץ-בנקאיים שמאפשרים פחות הון עצמי, אבל בריביות גבוהות יותר. בייעוץ אישי אפשר למצוא את הפתרון המתאים."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "האם תמיר עובד עם כל הבנקים בישראל?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "כן — לאומי, הפועלים, מזרחי טפחות, דיסקונט, הבינלאומי, אגוד, ושותפים חוץ-בנקאיים נוספים. אנחנו מנהלים מו״מ מקביל מול כל הבנקים כדי לקבל את ההצעה הטובה ביותר עבור כל לקוח באופן אישי."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "האם השירות זמין בכל הארץ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "כן — מניפה פיננסית פועלת בכל רחבי ישראל. שיחות יעוץ נעשות בזום או טלפון, וניתן להיפגש פיזית בתל אביב לפי תיאום."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://menifa.org/#mortgage-service",
+      "name": "ייעוץ משכנתאות פרטי",
+      "provider": { "@id": "https://menifa.org/#business" },
+      "areaServed": { "@type": "Country", "name": "Israel" },
+      "serviceType": "ייעוץ פיננסי משכנתאות",
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "רוכשי דירה, בעלי משכנתא, יזמי נדל״ן, משפחות"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "שירותי משכנתא",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "רכישת דירה ראשונה" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "מחזור משכנתא" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "איחוד הלוואות" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ייעוץ ראשוני חינם" } }
+        ]
+      }
+    },
+    {
+      "@type": "SpeakableSpecification",
+      "@id": "https://menifa.org/#speakable",
+      "cssSelector": ["h1", ".hero-sub", ".section-head h2", ".section-head p"]
+    }
+  ]
+}
 </script>
 <meta property="og:url" content="https://menifa.org/">
 <meta property="og:image" content="https://menifa.org/assets/images/tamir-og.jpg">
