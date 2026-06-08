@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3 פלטות עוד יותר — אפקטים חדשים לגמרי</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/images/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;900&family=Frank+Ruhl+Libre:wght@500;700;900&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { font-family: 'Heebo', sans-serif; line-height: 1.6; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; cursor: pointer; }
+
+.top-bar {
+  background: linear-gradient(135deg, #0F1B2D, #1A2E4A);
+  color: #fff; padding: 1.2rem 2rem; text-align: center;
+  position: relative; z-index: 100;
+}
+.top-bar h2 { font-family: 'Frank Ruhl Libre', serif; font-size: 1.5rem; font-weight: 700; }
+.top-bar p { font-size: 0.95rem; opacity: 0.8; margin-top: 0.4rem; }
+.top-bar a { color: #C9A878; text-decoration: underline; font-weight: 600; }
+
+/* === SHARED === */
+.hero-x {
+  min-height: 100vh; padding: 5rem 2rem 6rem;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center;
+}
+.hero-x-inner {
+  max-width: 1200px; width: 100%; margin: 0 auto;
+  position: relative; z-index: 5;
+}
+.hero-x h1 {
+  font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+  line-height: 1.05; margin-bottom: 1.2rem; font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.hero-x .subtitle {
+  font-size: 1.18rem; line-height: 1.7;
+  margin-bottom: 2.2rem; max-width: 580px;
+}
+.hero-x .cta-row {
+  display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem;
+}
+.hero-x .cta-primary, .hero-x .cta-secondary {
+  padding: 1.1rem 2.4rem; border-radius: 14px;
+  font-weight: 700; font-size: 1.02rem;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  transition: all .4s cubic-bezier(.2,.8,.2,1);
+  border: 1.5px solid transparent;
+  position: relative; overflow: hidden; isolation: isolate;
+  cursor: pointer;
+}
+
+.palette-label {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  padding: 0.6rem 1.2rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; z-index: 50;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+  color: #1a1a1a; border: 1px solid rgba(0,0,0,0.08);
+}
+.palette-chip {
+  display: inline-block; width: 12px; height: 12px;
+  border-radius: 50%; margin-left: 6px; vertical-align: middle;
+}
+.choose-btn {
+  position: absolute; bottom: 1.5rem; left: 1.5rem;
+  padding: 0.85rem 1.8rem; border-radius: 999px;
+  font-size: 0.9rem; font-weight: 700; z-index: 50;
+  color: #fff;
+  box-shadow: 0 12px 28px -8px rgba(0,0,0,0.3);
+  transition: all .3s;
+}
+.choose-btn:hover { transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════════════════
+   OPTION 7: PURE EDITORIAL (Vogue/Aesop)
+   Bento Grid layout + Kinetic typography
+   ═══════════════════════════════════════════════════ */
+.p7 {
+  --bg: #F4EFE6;
+  --primary: #2A1F18;        /* Dark coffee */
+  --coral: #D67860;          /* Coral terracotta */
+  --coral-dark: #B85F49;
+  --brass: #C19E63;          /* Brushed brass */
+  --cream: #FAF6EE;
+  --text-soft: #6B5C4F;
+  background: var(--bg); color: var(--primary);
+}
+.p7 .hero-x-inner { display: block; }
+.p7 h1 { font-family: 'Playfair Display', serif; }
+.p7 h1 .word {
+  display: inline-block;
+  opacity: 0; transform: translateY(40px) rotateX(-30deg);
+  animation: word-rise .8s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.p7 h1 .word:nth-child(1) { animation-delay: .1s; }
+.p7 h1 .word:nth-child(2) { animation-delay: .3s; }
+.p7 h1 .word:nth-child(3) { animation-delay: .55s; }
+.p7 h1 .word:nth-child(4) { animation-delay: .75s; }
+.p7 h1 .accent {
+  color: var(--coral); font-style: italic; font-weight: 900;
+  position: relative; display: inline-block;
+}
+.p7 h1 .accent::after {
+  content: ''; position: absolute;
+  left: 0; right: 0; bottom: 8%; height: 8px;
+  background: var(--brass); opacity: 0.45;
+  z-index: -1; border-radius: 2px;
+}
+@keyframes word-rise {
+  to { opacity: 1; transform: translateY(0) rotateX(0); }
+}
+.p7 .subtitle { color: var(--text-soft); }
+.p7 .cta-primary {
+  background: var(--primary); color: var(--cream);
+  box-shadow: 0 12px 28px -8px rgba(42, 31, 24, 0.4);
+}
+.p7 .cta-primary:hover { transform: translateY(-3px); background: #1A130D; }
+.p7 .cta-secondary {
+  background: transparent; color: var(--primary);
+  border-color: rgba(42, 31, 24, 0.3);
+}
+.p7 .cta-secondary:hover { border-color: var(--coral); color: var(--coral); }
+
+/* Bento grid for advisor + stats */
+.p7 .bento {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1.2rem; margin-top: 3rem;
+}
+.p7 .bento-cell {
+  background: var(--cream); border-radius: 18px; padding: 1.8rem;
+  border: 1px solid rgba(193, 158, 99, 0.2);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s;
+  position: relative; overflow: hidden;
+}
+.p7 .bento-cell:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px -15px rgba(42, 31, 24, 0.25);
+}
+.p7 .bento-advisor {
+  grid-row: span 2;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  background: linear-gradient(135deg, var(--cream), #F8F1E0);
+  border: 1px solid var(--brass);
+}
+.p7 .bento-advisor img {
+  width: 100px; height: 100px; border-radius: 50%;
+  border: 3px solid var(--brass);
+  margin-bottom: 1rem; object-fit: cover;
+}
+.p7 .bento-advisor h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 700; margin-bottom: 0.2rem;
+}
+.p7 .bento-advisor p { color: var(--coral); font-size: 0.9rem; margin-bottom: 1rem; }
+.p7 .bento-advisor .quote {
+  font-style: italic; color: var(--text-soft);
+  font-size: 0.9rem; line-height: 1.55;
+  border-right: 2px solid var(--coral); padding-right: 0.8rem;
+  text-align: right; margin-top: auto;
+}
+.p7 .bento-stat .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.4rem; font-weight: 900;
+  color: var(--coral); line-height: 1; margin-bottom: 0.4rem;
+}
+.p7 .bento-stat .label { font-size: 0.82rem; color: var(--text-soft); }
+.p7 .bento-tall {
+  display: flex; flex-direction: column; justify-content: center;
+}
+.p7 .bento-wide {
+  grid-column: span 2;
+  background: var(--primary); color: var(--cream);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.p7 .bento-wide .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem; font-weight: 900; color: var(--brass);
+}
+.p7 .bento-wide .label { font-size: 1rem; opacity: 0.85; max-width: 200px; }
+.p7 .choose-btn { background: var(--coral); }
+
+/* ═══════════════════════════════════════════════════
+   OPTION 8: CYBER NOIR (premium dark tech)
+   HUD lines + Glitch h1 + Scan effect
+   ═══════════════════════════════════════════════════ */
+.p8 {
+  --bg: #0A0A0A;
+  --bg-card: #14181F;
+  --accent: #00D4AA;          /* Electric teal */
+  --accent-glow: rgba(0, 212, 170, 0.6);
+  --warm: #FFF8E7;
+  --text: #F5F5F5;
+  --text-soft: #8E97A3;
+  --line: #2A3340;
+  background: var(--bg); color: var(--text);
+}
+.p8::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background:
+    linear-gradient(to right, rgba(0, 212, 170, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 212, 170, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+}
+.p8::after {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(circle at 50% 50%, transparent, rgba(0, 212, 170, 0.06));
+  pointer-events: none;
+}
+.p8 .hero-x-inner {
+  display: grid; grid-template-columns: 1.3fr 1fr; gap: 4rem; align-items: center;
+}
+.p8 .badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.4rem 1rem; border: 1px solid var(--accent);
+  border-radius: 4px; font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem; font-weight: 700; color: var(--accent);
+  text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.8rem;
+  position: relative; overflow: hidden;
+}
+.p8 .badge::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+  transform: translateX(-100%);
+  animation: scan 3s ease-in-out infinite;
+}
+@keyframes scan {
+  0%, 100% { transform: translateX(-100%); }
+  50%      { transform: translateX(100%); }
+}
+.p8 h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700; letter-spacing: -0.02em;
+  text-shadow: 0 0 24px rgba(0, 212, 170, 0.15);
+}
+.p8 h1 .glitch {
+  position: relative; display: inline-block;
+  color: var(--accent);
+}
+.p8 h1 .glitch::before,
+.p8 h1 .glitch::after {
+  content: attr(data-text); position: absolute;
+  top: 0; left: 0; width: 100%; opacity: 0.8;
+}
+.p8 h1 .glitch::before {
+  color: #FF005C; clip-path: inset(0 0 60% 0);
+  transform: translate(-2px, -2px);
+  animation: glitch1 3s infinite linear alternate-reverse;
+}
+.p8 h1 .glitch::after {
+  color: #0080FF; clip-path: inset(60% 0 0 0);
+  transform: translate(2px, 2px);
+  animation: glitch2 3s infinite linear alternate-reverse;
+}
+@keyframes glitch1 {
+  0%, 90%, 100% { transform: translate(0); }
+  91% { transform: translate(-3px, -2px); }
+  93% { transform: translate(2px, 1px); }
+  95% { transform: translate(-1px, 2px); }
+  97% { transform: translate(3px, -1px); }
+}
+@keyframes glitch2 {
+  0%, 88%, 100% { transform: translate(0); }
+  89% { transform: translate(2px, 1px); }
+  91% { transform: translate(-1px, -1px); }
+  94% { transform: translate(1px, 2px); }
+}
+.p8 .subtitle { color: var(--text-soft); }
+.p8 .subtitle strong { color: var(--warm); font-weight: 600; }
+.p8 .cta-primary {
+  background: var(--accent); color: var(--bg);
+  border-radius: 4px;
+  box-shadow: 0 0 20px var(--accent-glow), 0 12px 28px -8px var(--accent-glow);
+  font-family: 'JetBrains Mono', monospace; text-transform: uppercase;
+  letter-spacing: 0.1em; font-size: 0.92rem;
+}
+.p8 .cta-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 32px var(--accent), 0 18px 36px -10px var(--accent-glow);
+}
+.p8 .cta-secondary {
+  background: transparent; color: var(--accent);
+  border: 1px solid var(--accent); border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace; text-transform: uppercase;
+  letter-spacing: 0.1em; font-size: 0.92rem;
+}
+.p8 .cta-secondary:hover { background: rgba(0, 212, 170, 0.08); }
+.p8 .stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+}
+.p8 .stat-card {
+  padding: 1.4rem 1rem; border: 1px solid var(--line);
+  border-top: 1px solid var(--accent);
+  background: rgba(0, 212, 170, 0.03);
+  text-align: center; transition: all .3s;
+}
+.p8 .stat-card:hover {
+  background: rgba(0, 212, 170, 0.08);
+  border-color: var(--accent);
+  box-shadow: 0 0 24px -10px var(--accent-glow);
+}
+.p8 .stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem; font-weight: 700; color: var(--accent);
+  display: block; line-height: 1; margin-bottom: 0.4rem;
+}
+.p8 .stat-lab {
+  font-size: 0.72rem; color: var(--text-soft);
+  text-transform: uppercase; letter-spacing: 0.12em;
+}
+.p8 .terminal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  padding: 0; border-radius: 8px;
+  position: relative; overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+}
+.p8 .terminal-card::before {
+  content: '● ● ●'; position: absolute;
+  top: 12px; left: 16px; color: var(--line); font-size: 0.7rem;
+}
+.p8 .terminal-card .title-bar {
+  height: 40px; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; color: var(--text-soft);
+}
+.p8 .terminal-card .content { padding: 2rem 1.8rem; text-align: center; }
+.p8 .terminal-card img {
+  width: 90px; height: 90px; border-radius: 4px;
+  margin: 0 auto 1rem; object-fit: cover;
+  border: 1px solid var(--accent);
+}
+.p8 .terminal-card .name {
+  font-size: 1.2rem; color: var(--accent); font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+.p8 .terminal-card .role {
+  font-size: 0.78rem; color: var(--text-soft);
+  text-transform: uppercase; letter-spacing: 0.12em;
+  margin-bottom: 1.2rem;
+}
+.p8 .terminal-card .quote {
+  font-size: 0.88rem; color: var(--text); font-style: italic;
+  line-height: 1.55; padding-right: 0.8rem;
+  border-right: 2px solid var(--accent); text-align: right;
+}
+.p8 .terminal-card .line {
+  display: block; height: 1px; background: var(--line);
+  margin: 1.2rem 0;
+}
+.p8 .choose-btn { background: var(--accent); color: var(--bg); border-radius: 4px; }
+
+/* ═══════════════════════════════════════════════════
+   OPTION 9: ROYAL FOREST (luxury + nature)
+   Spotlight cursor + Wave divider + Floating leaves
+   ═══════════════════════════════════════════════════ */
+.p9 {
+  --bg: #FAF4E8;
+  --section-bg: #F2EAD6;
+  --primary: #0E3D2F;         /* Deep forest emerald */
+  --primary-soft: #1F5C45;
+  --champagne: #D4B895;       /* Champagne gold */
+  --champagne-bright: #E5CDA9;
+  --burgundy: #5C2A2A;
+  --cream: #FAF4E8;
+  --text: #1F2A23;
+  --text-soft: #5A6B5F;
+  background: var(--bg); color: var(--text);
+  --cursor-x: 50%; --cursor-y: 50%;
+}
+.p9::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(212, 184, 149, 0.25) 0%, transparent 25%),
+    radial-gradient(circle at 20% 30%, rgba(14, 61, 47, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(212, 184, 149, 0.10) 0%, transparent 50%);
+  pointer-events: none;
+  transition: background .15s ease-out;
+}
+.p9 .hero-x-inner {
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center;
+}
+.p9 .badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.45rem 1.1rem;
+  background: rgba(14, 61, 47, 0.08); color: var(--primary);
+  border: 1px solid rgba(14, 61, 47, 0.2);
+  border-radius: 999px; font-size: 0.85rem; font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+.p9 .pulse {
+  width: 8px; height: 8px; background: var(--primary-soft);
+  border-radius: 50%; animation: pulse-glow 2s infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(31, 92, 69, 0.5); }
+  50%      { box-shadow: 0 0 0 10px rgba(31, 92, 69, 0); }
+}
+.p9 h1 { font-family: 'Frank Ruhl Libre', serif; color: var(--primary); }
+.p9 h1 .accent {
+  background: linear-gradient(110deg, var(--champagne) 0%, var(--champagne-bright) 30%, #F0D9B0 50%, var(--champagne-bright) 70%, var(--champagne) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: italic;
+  animation: shimmer 6s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% center; } }
+.p9 .subtitle { color: var(--text-soft); }
+.p9 .cta-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-soft) 100%);
+  color: var(--cream);
+  box-shadow: 0 14px 32px -8px rgba(14, 61, 47, 0.5);
+}
+.p9 .cta-primary:hover { transform: translateY(-3px); box-shadow: 0 22px 44px -12px rgba(14, 61, 47, 0.7); }
+.p9 .cta-secondary {
+  background: transparent; color: var(--primary);
+  border: 1.5px solid var(--champagne);
+}
+.p9 .cta-secondary:hover {
+  background: rgba(212, 184, 149, 0.12);
+  border-color: var(--primary);
+}
+.p9 .stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+}
+.p9 .stat-card {
+  padding: 1.4rem 1rem; text-align: center;
+  background: rgba(255, 252, 244, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 184, 149, 0.3);
+  border-radius: 14px;
+  transition: all .35s;
+}
+.p9 .stat-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--primary);
+  box-shadow: 0 16px 36px -12px rgba(14, 61, 47, 0.2);
+}
+.p9 .stat-num {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.7rem; font-weight: 700; color: var(--primary);
+  display: block; line-height: 1; margin-bottom: 0.4rem;
+}
+.p9 .stat-lab { font-size: 0.82rem; color: var(--text-soft); }
+.p9 .card-art {
+  position: relative; padding: 2.4rem 2rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-soft) 100%);
+  color: var(--cream); border-radius: 22px; text-align: center;
+  box-shadow: 0 32px 80px -20px rgba(14, 61, 47, 0.5);
+  overflow: hidden;
+}
+.p9 .card-art::before {
+  content: ''; position: absolute; top: -30%; right: -30%;
+  width: 80%; height: 160%;
+  background: radial-gradient(circle, rgba(212, 184, 149, 0.3) 0%, transparent 60%);
+  filter: blur(20px); pointer-events: none;
+}
+.p9 .card-art img {
+  width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 1rem;
+  border: 3px solid var(--champagne);
+  box-shadow: 0 12px 32px -6px rgba(212, 184, 149, 0.5);
+  object-fit: cover; position: relative;
+}
+.p9 .card-art .name {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.5rem; font-weight: 700; margin-bottom: 0.3rem;
+  position: relative;
+}
+.p9 .card-art .role {
+  font-size: 0.95rem; color: var(--champagne);
+  letter-spacing: 0.05em; margin-bottom: 1.4rem;
+  position: relative;
+}
+.p9 .card-art .quote {
+  font-style: italic; font-size: 0.95rem; line-height: 1.6;
+  padding-right: 1rem; text-align: right;
+  border-right: 2px solid var(--champagne);
+  opacity: 0.92; position: relative;
+}
+
+/* Floating leaves */
+.p9 .leaf {
+  position: absolute; pointer-events: none;
+  width: 24px; height: 24px;
+  animation: leaf-fall linear infinite;
+  z-index: 1; opacity: 0.6;
+}
+@keyframes leaf-fall {
+  0%   { transform: translate(0, -50px) rotate(0); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.6; }
+  100% { transform: translate(80px, 100vh) rotate(360deg); opacity: 0; }
+}
+.p9 .choose-btn { background: var(--primary); }
+
+/* === Wave divider === */
+.wave-divider {
+  width: 100%; height: 80px; display: block;
+}
+
+@media (max-width: 768px) {
+  .hero-x-inner, .p7 .hero-x-inner, .p8 .hero-x-inner, .p9 .hero-x-inner {
+    grid-template-columns: 1fr !important; gap: 2rem;
+    display: block !important;
+  }
+  .p7 .bento { grid-template-columns: 1fr 1fr; }
+  .p7 .bento-advisor { grid-row: auto; grid-column: span 2; }
+  .p7 .bento-wide { grid-column: span 2; }
+  .palette-label { font-size: 0.78rem; right: 1rem; top: 1rem; padding: 0.5rem 1rem; }
+  .choose-btn { font-size: 0.8rem; left: 1rem; bottom: 1rem; padding: 0.7rem 1.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+  <h2>3 כיוונים שונים לחלוטין — אפקטים חדשים</h2>
+  <p>גלול למטה. כל סגנון מדגים <strong>אפקטים שונים</strong>: Bento grid, Glitch HUD, Spotlight cursor. השווה ל-<a href="preview-palettes-v2.html">v2</a> · <a href="preview-palettes.html">v1</a></p>
+</div>
+
+<!-- ═══ OPTION 7: PURE EDITORIAL ═══ -->
+<section class="hero-x p7">
+  <div class="palette-label">
+    <span class="palette-chip" style="background:#D67860;"></span>
+    <span class="palette-chip" style="background:#C19E63;"></span>
+    <span class="palette-chip" style="background:#F4EFE6;"></span>
+    אופציה 7: Pure Editorial — וויג / אסופ
+  </div>
+
+  <div class="hero-x-inner">
+    <h1>
+      <span class="word">המשכנתא</span>
+      <span class="word">הנכונה.</span><br>
+      <span class="word">ההחלטה</span>
+      <span class="word"><span class="accent">הנכונה.</span></span>
+    </h1>
+    <p class="subtitle" style="max-width:640px;">15 שנים בבנקאות וייעוץ פיננסי. לא עובד מול הבנק — עובד בשבילך. חיסכון ממוצע של <strong>180,000 ₪</strong> ללקוח על חיי המשכנתא.</p>
+
+    <div class="cta-row">
+      <a class="cta-primary">לייעוץ חינם עכשיו ←</a>
+      <a class="cta-secondary">→ נסו מחשבון</a>
+    </div>
+
+    <!-- Bento Grid -->
+    <div class="bento">
+      <div class="bento-cell bento-advisor">
+        <img src="assets/images/tamir-small.jpg" alt="תמיר">
+        <h3>תמיר גרמה</h3>
+        <p>יועץ משכנתאות מוסמך</p>
+        <p class="quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+      </div>
+      <div class="bento-cell bento-stat bento-tall"><div class="num">+500</div><div class="label">לקוחות מרוצים</div></div>
+      <div class="bento-cell bento-stat bento-tall"><div class="num">₪180K</div><div class="label">חיסכון ממוצע</div></div>
+      <div class="bento-cell bento-wide">
+        <div class="num">15</div>
+        <div class="label">שנות ניסיון מקצועי בבנקאות וייעוץ פיננסי</div>
+      </div>
+    </div>
+  </div>
+
+  <a class="choose-btn">★ אני בוחר אופציה 7</a>
+</section>
+
+<!-- ═══ OPTION 8: CYBER NOIR ═══ -->
+<section class="hero-x p8">
+  <div class="palette-label">
+    <span class="palette-chip" style="background:#00D4AA;"></span>
+    <span class="palette-chip" style="background:#0A0A0A;"></span>
+    <span class="palette-chip" style="background:#FFF8E7;"></span>
+    אופציה 8: Cyber Noir — לוגו טכנולוגי
+  </div>
+
+  <div class="hero-x-inner">
+    <div>
+      <div class="badge">// SYSTEM_ONLINE — AVAILABLE_NOW</div>
+      <h1>המשכנתא הנכונה.<br><span class="glitch" data-text="ההחלטה הנכונה.">ההחלטה הנכונה.</span></h1>
+      <p class="subtitle">15 שנים בבנקאות וייעוץ פיננסי. לא עובד מול הבנק — עובד בשבילך. חיסכון ממוצע של <strong>180,000 ₪</strong> ללקוח.</p>
+
+      <div class="cta-row">
+        <a class="cta-primary">[ INITIATE_CONSULTATION ]</a>
+        <a class="cta-secondary">→ run_calculator()</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num">+500</span><span class="stat-lab">CLIENTS_DB</span></div>
+        <div class="stat-card"><span class="stat-num">₪180K</span><span class="stat-lab">AVG_SAVINGS</span></div>
+        <div class="stat-card"><span class="stat-num">15Y</span><span class="stat-lab">EXPERIENCE</span></div>
+      </div>
+    </div>
+
+    <div class="terminal-card">
+      <div class="title-bar">~ /advisor_profile.exe</div>
+      <div class="content">
+        <img src="assets/images/tamir-small.jpg" alt="תמיר">
+        <div class="name">tamir.garma</div>
+        <div class="role">CERTIFIED_MORTGAGE_ADVISOR</div>
+        <span class="line"></span>
+        <p class="quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+      </div>
+    </div>
+  </div>
+
+  <a class="choose-btn">★ אני בוחר אופציה 8</a>
+</section>
+
+<!-- ═══ OPTION 9: ROYAL FOREST ═══ -->
+<section class="hero-x p9" id="p9-section">
+  <div class="palette-label">
+    <span class="palette-chip" style="background:#0E3D2F;"></span>
+    <span class="palette-chip" style="background:#D4B895;"></span>
+    <span class="palette-chip" style="background:#FAF4E8;"></span>
+    אופציה 9: Royal Forest — יער מלכותי
+  </div>
+
+  <div class="hero-x-inner">
+    <div>
+      <div class="badge"><span class="pulse"></span>פנוי עכשיו לשיחת ייעוץ — בלי עלות</div>
+      <h1>המשכנתא הנכונה.<br><span class="accent">ההחלטה הנכונה.</span></h1>
+      <p class="subtitle">15 שנים בבנקאות וייעוץ פיננסי. לא עובד מול הבנק — עובד בשבילך. חיסכון ממוצע של <strong>180,000 ₪</strong> ללקוח.</p>
+
+      <div class="cta-row">
+        <a class="cta-primary">לייעוץ חינם עכשיו ←</a>
+        <a class="cta-secondary">→ נסו מחשבון</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num">+500</span><span class="stat-lab">לקוחות מרוצים</span></div>
+        <div class="stat-card"><span class="stat-num">₪180K</span><span class="stat-lab">חיסכון ממוצע</span></div>
+        <div class="stat-card"><span class="stat-num">15 שנים</span><span class="stat-lab">ניסיון</span></div>
+      </div>
+    </div>
+
+    <div class="card-art">
+      <img src="assets/images/tamir-small.jpg" alt="תמיר גרמה">
+      <div class="name">תמיר גרמה</div>
+      <div class="role">יועץ משכנתאות מוסמך · מומחה פיננסי</div>
+      <p class="quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+    </div>
+  </div>
+
+  <a class="choose-btn">★ אני בוחר אופציה 9</a>
+</section>
+
+<div class="top-bar" style="padding:2rem;">
+  <p style="font-size:1.05rem; opacity:1;">בחרת? תגיד לי "אופציה 7/8/9" — אטמיע ב-preview הראשי. אפשר גם לערבב בין הקבוצות (1-9).</p>
+</div>
+
+<script>
+// Spotlight cursor effect for option 9
+(function() {
+  const section = document.getElementById('p9-section');
+  if (!section || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  section.addEventListener('mousemove', function(e) {
+    const rect = this.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    this.style.setProperty('--cursor-x', x + '%');
+    this.style.setProperty('--cursor-y', y + '%');
+  });
+
+  // Floating leaves for option 9
+  const leafCount = 8;
+  for (let i = 0; i < leafCount; i++) {
+    const leaf = document.createElement('div');
+    leaf.className = 'leaf';
+    leaf.innerHTML = '<svg viewBox="0 0 24 24" fill="#D4B895" xmlns="http://www.w3.org/2000/svg"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3c.5.12 1 .2 1.5.2C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/></svg>';
+    leaf.style.left = (Math.random() * 100) + '%';
+    leaf.style.animationDuration = (15 + Math.random() * 20) + 's';
+    leaf.style.animationDelay = (-Math.random() * 30) + 's';
+    leaf.style.opacity = (0.4 + Math.random() * 0.3);
+    section.appendChild(leaf);
+  }
+})();
+</script>
+
+</body>
+</html>
