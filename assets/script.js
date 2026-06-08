@@ -620,22 +620,171 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 });
 
 /* ═══════════════════════════════════════════════════════════════
-   MOBILE MENU (simple show/hide)
+   PREMIUM SIDE DRAWER — always-visible hamburger
    ═══════════════════════════════════════════════════════════════ */
-document.getElementById('menuToggle')?.addEventListener('click', () => {
-  const links = document.querySelector('.nav-links');
-  if (links.style.display === 'flex') {
-    links.style.display = '';
-  } else {
-    links.style.display = 'flex';
-    links.style.position = 'absolute';
-    links.style.top = '100%';
-    links.style.right = '0';
-    links.style.left = '0';
-    links.style.flexDirection = 'column';
-    links.style.background = 'var(--bg)';
-    links.style.padding = '1.5rem 2rem';
-    links.style.boxShadow = 'var(--shadow-md)';
-    links.style.borderTop = '1px solid var(--gray-soft)';
+(function() {
+  // Determine path prefix (root vs blog/ subdirectory)
+  const pathPrefix = location.pathname.includes('/blog/') ? '../' : '';
+
+  // Build drawer HTML
+  const drawerHTML = `
+    <div class="drawer-overlay" id="drawerOverlay"></div>
+    <aside class="side-drawer" id="sideDrawer" role="dialog" aria-modal="true" aria-label="תפריט ראשי">
+
+      <div class="drawer-header">
+        <a href="${pathPrefix}index.html" class="drawer-brand">
+          <img src="${pathPrefix}assets/images/logo-nav.png" alt="מניפה פיננסית">
+          <div class="drawer-brand-text">
+            <div class="name">מניפה פיננסית</div>
+            <div class="tag">תמיר גרמה</div>
+          </div>
+        </a>
+        <button class="drawer-close" id="drawerClose" aria-label="סגור תפריט">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="drawer-hero-cta">
+        <div class="eyebrow">פנוי עכשיו</div>
+        <h3>שיחת ייעוץ — חינם וללא התחייבות</h3>
+        <p>30 דקות שיכולות לחסוך לכם 180,000 ₪ על חיי המשכנתא</p>
+        <div class="btn-row">
+          <a href="tel:052-4502821">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
+            052-4502821
+          </a>
+          <a href="https://wa.me/972524502821?text=שלום%20תמיר,%20אשמח%20לייעוץ" target="_blank" rel="noopener" class="alt">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24z"/></svg>
+            וואטסאפ
+          </a>
+        </div>
+      </div>
+
+      <div class="drawer-nav">
+        <div class="drawer-section-label">ניווט</div>
+        <ul class="drawer-nav-list">
+          <li><a href="${pathPrefix}index.html">
+            <span class="icon-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3"/></svg></span>
+            <span class="nav-text"><span class="title">דף הבית</span><span class="desc">הכרות עם השירות</span></span>
+          </a></li>
+          <li><a href="${pathPrefix}calculators.html">
+            <span class="icon-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></span>
+            <span class="nav-text"><span class="title">מחשבונים</span><span class="desc">7 מחשבונים פיננסיים</span></span>
+          </a></li>
+          <li><a href="${pathPrefix}madrich-mashkanta.html">
+            <span class="icon-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></span>
+            <span class="nav-text"><span class="title">מדריך משכנתא 2026</span><span class="desc">4500 מילים — הכל מא' עד ת'</span></span>
+          </a></li>
+          <li><a href="${pathPrefix}blog.html">
+            <span class="icon-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg></span>
+            <span class="nav-text"><span class="title">בלוג</span><span class="desc">20+ מאמרים פיננסיים</span></span>
+          </a></li>
+          <li><a href="${pathPrefix}faq.html">
+            <span class="icon-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></span>
+            <span class="nav-text"><span class="title">שאלות נפוצות</span><span class="desc">20 תשובות לשאלות שמטרידות</span></span>
+          </a></li>
+          <li><a href="${pathPrefix}about.html">
+            <span class="icon-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></span>
+            <span class="nav-text"><span class="title">עליי</span><span class="desc">15 שנות ניסיון בנקאי</span></span>
+          </a></li>
+          <li><a href="${pathPrefix}contact.html">
+            <span class="icon-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></span>
+            <span class="nav-text"><span class="title">צור קשר</span><span class="desc">טלפון · וואטסאפ · אימייל</span></span>
+          </a></li>
+        </ul>
+      </div>
+
+      <div class="drawer-quick">
+        <div class="drawer-section-label">קשר מהיר</div>
+        <div class="drawer-quick-row">
+          <a href="tel:052-4502821" class="drawer-quick-card">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
+            <span class="lab">טלפון</span>
+            <span class="val">052-4502821</span>
+          </a>
+          <a href="https://wa.me/972524502821" target="_blank" rel="noopener" class="drawer-quick-card">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24z"/></svg>
+            <span class="lab">וואטסאפ</span>
+            <span class="val">מענה מיידי</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="drawer-articles">
+        <div class="drawer-section-label">מאמרים מומלצים</div>
+        <a href="${pathPrefix}blog/art-15.html" class="drawer-article-card">
+          <span class="article-tag">ניתוח שוק</span>
+          <div class="article-title">משבר המשכנתאות 2026 — 4.28 מיליארד ₪ בפיגורים</div>
+        </a>
+        <a href="${pathPrefix}blog/art-14.html" class="drawer-article-card">
+          <span class="article-tag">ריבית</span>
+          <div class="article-title">הורדת ריבית נוספת בדרך ל-3.5% — מה לעשות?</div>
+        </a>
+        <a href="${pathPrefix}blog/art-3.html" class="drawer-article-card">
+          <span class="article-tag">מחזור</span>
+          <div class="article-title">מתי באמת כדאי למחזר משכנתא? המדריך המקצועי</div>
+        </a>
+      </div>
+
+      <div class="drawer-footer">
+        <p style="font-family: var(--font-display); font-size: 1rem; color: #fff; font-weight: 600;">מניפה פיננסית · תמיר גרמה</p>
+        <p>יועץ משכנתאות מוסמך · 15 שנות ניסיון</p>
+        <div class="drawer-social">
+          <a href="mailto:menifainance@gmail.com" aria-label="אימייל">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          </a>
+          <a href="https://wa.me/972524502821" target="_blank" rel="noopener" aria-label="וואטסאפ">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24z"/></svg>
+          </a>
+          <a href="tel:052-4502821" aria-label="טלפון">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
+          </a>
+        </div>
+        <p class="small">© 2026 מניפה פיננסית · כל הזכויות שמורות</p>
+      </div>
+    </aside>
+  `;
+
+  // Inject drawer into body
+  document.body.insertAdjacentHTML('beforeend', drawerHTML);
+
+  const drawer = document.getElementById('sideDrawer');
+  const overlay = document.getElementById('drawerOverlay');
+  const closeBtn = document.getElementById('drawerClose');
+  const toggleBtn = document.getElementById('menuToggle');
+
+  function openDrawer() {
+    document.body.classList.add('drawer-open');
+    document.body.style.overflow = 'hidden';
+    drawer.setAttribute('aria-hidden', 'false');
+    closeBtn?.focus();
   }
-});
+  function closeDrawer() {
+    document.body.classList.remove('drawer-open');
+    document.body.style.overflow = '';
+    drawer.setAttribute('aria-hidden', 'true');
+    toggleBtn?.focus();
+  }
+
+  toggleBtn?.addEventListener('click', openDrawer);
+  closeBtn?.addEventListener('click', closeDrawer);
+  overlay?.addEventListener('click', closeDrawer);
+
+  // Close on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.body.classList.contains('drawer-open')) {
+      closeDrawer();
+    }
+  });
+
+  // Close when clicking nav links inside
+  drawer.querySelectorAll('a[href]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      // Don't close for tel: / mailto: / wa.me — those open external apps
+      const href = link.getAttribute('href');
+      if (href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('https://wa.me')) return;
+      // Small delay so user sees the click feedback
+      setTimeout(closeDrawer, 100);
+    });
+  });
+})();
