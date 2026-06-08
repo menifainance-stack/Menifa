@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3 פלטות מתקדמות + אפקטים 3D — מניפה פיננסית</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/images/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;900&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { font-family: 'Heebo', sans-serif; line-height: 1.6; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { text-decoration: none; color: inherit; cursor: pointer; }
+
+/* === TOP BAR === */
+.top-bar {
+  background: linear-gradient(135deg, #0F1B2D 0%, #1A2E4A 100%);
+  color: #fff;
+  padding: 1.2rem 2rem;
+  text-align: center;
+  position: relative; z-index: 100;
+}
+.top-bar h2 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.5rem; font-weight: 700;
+}
+.top-bar p { font-size: 0.95rem; opacity: 0.8; margin-top: 0.4rem; }
+.top-bar a { color: #C9A878; text-decoration: underline; font-weight: 600; }
+
+/* === SHARED HERO LAYOUT === */
+.hero-3d {
+  min-height: 100vh;
+  padding: 5rem 2rem 6rem;
+  position: relative;
+  overflow: hidden;
+  perspective: 1500px;
+  display: flex; align-items: center;
+}
+.hero-3d-inner {
+  max-width: 1200px; width: 100%; margin: 0 auto;
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem;
+  align-items: center; position: relative; z-index: 5;
+}
+.hero-3d h1 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.1; margin-bottom: 1.2rem; font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.hero-3d .subtitle {
+  font-size: 1.18rem; line-height: 1.7;
+  margin-bottom: 2.2rem; max-width: 540px;
+}
+.hero-3d .cta-row {
+  display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.8rem;
+}
+.hero-3d .cta-primary, .hero-3d .cta-secondary {
+  padding: 1.1rem 2.2rem; border-radius: 14px;
+  font-weight: 600; font-size: 1.02rem;
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  transition: all .4s cubic-bezier(.2,.8,.2,1);
+  border: 1.5px solid transparent;
+  position: relative; overflow: hidden; isolation: isolate;
+  transform-style: preserve-3d; cursor: pointer;
+}
+.hero-3d .cta-primary::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform .9s cubic-bezier(.2,.8,.2,1);
+}
+.hero-3d .cta-primary:hover::after { transform: translateX(100%); }
+.hero-3d .cta-primary:hover { transform: translateY(-4px) translateZ(20px); }
+.hero-3d .stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+  transform-style: preserve-3d;
+}
+.hero-3d .stat-card {
+  padding: 1.2rem 0.9rem; border-radius: 14px; text-align: center;
+  transform-style: preserve-3d; transition: transform .35s ease;
+}
+.hero-3d .stat-card:hover { transform: translateZ(15px); }
+.hero-3d .stat-num {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.7rem; font-weight: 700; display: block;
+  line-height: 1; margin-bottom: 0.3rem;
+}
+.hero-3d .stat-lab { font-size: 0.8rem; opacity: 0.75; }
+
+/* === 3D Advisor Card with mouse-tracked tilt === */
+.hero-3d .card-3d {
+  padding: 2.2rem 1.8rem; border-radius: 22px; text-align: center;
+  position: relative; transform-style: preserve-3d;
+  transition: transform .15s cubic-bezier(.2,.8,.2,1);
+  cursor: pointer;
+}
+.hero-3d .card-3d::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.18), transparent 50%);
+  opacity: 0; transition: opacity .3s;
+  pointer-events: none; border-radius: inherit;
+}
+.hero-3d .card-3d:hover::before { opacity: 1; }
+.hero-3d .card-3d img {
+  width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 1rem;
+  object-fit: cover; transform: translateZ(40px);
+}
+.hero-3d .card-3d .advisor-name {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.4rem; font-weight: 700; margin-bottom: 0.2rem;
+  transform: translateZ(25px);
+}
+.hero-3d .card-3d .advisor-title {
+  font-size: 0.92rem; margin-bottom: 1.3rem;
+  letter-spacing: 0.05em; transform: translateZ(20px);
+}
+.hero-3d .card-3d .advisor-quote {
+  font-style: italic; font-size: 0.92rem; opacity: 0.85;
+  line-height: 1.6; padding-right: 1rem; text-align: right;
+  border-right: 3px solid currentColor; transform: translateZ(15px);
+}
+
+/* === Floating orbs (decorative 3D depth) === */
+.hero-3d .orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(60px); opacity: 0.6;
+  animation: orb-float 20s ease-in-out infinite alternate;
+  pointer-events: none; z-index: 1;
+}
+.hero-3d .orb-1 { width: 380px; height: 380px; top: -80px; right: 10%; }
+.hero-3d .orb-2 { width: 280px; height: 280px; bottom: 5%; left: 5%; animation-duration: 24s; animation-delay: -8s; }
+.hero-3d .orb-3 { width: 220px; height: 220px; top: 35%; left: 38%; animation-duration: 30s; animation-delay: -15s; opacity: 0.3; }
+@keyframes orb-float {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, -30px) scale(1.15); }
+}
+
+/* === Badge with pulse === */
+.hero-3d .badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.1rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem;
+  backdrop-filter: blur(8px);
+}
+.hero-3d .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 currentColor; }
+  70%  { box-shadow: 0 0 0 12px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.hero-3d h1 .accent-text {
+  font-style: italic;
+  font-family: 'Frank Ruhl Libre', serif;
+  background-clip: text; -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% auto;
+  animation: shimmer 6s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% center; } }
+
+/* === Label + Choose button === */
+.palette-label {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  padding: 0.6rem 1.2rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; z-index: 50;
+  background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+  color: #1a1a1a; border: 1px solid rgba(0,0,0,0.08);
+}
+.palette-chip {
+  display: inline-block; width: 12px; height: 12px;
+  border-radius: 50%; margin-left: 6px; vertical-align: middle;
+}
+.choose-btn {
+  position: absolute; bottom: 1.5rem; left: 1.5rem;
+  padding: 0.8rem 1.8rem; border-radius: 999px;
+  font-size: 0.9rem; font-weight: 700; z-index: 50;
+  color: #fff;
+  box-shadow: 0 12px 28px -8px rgba(0,0,0,0.3);
+  transition: all .3s;
+}
+.choose-btn:hover { transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════════════════
+   PALETTE 4: MIDNIGHT VELVET (חצות קטיפה)
+   Deep midnight + champagne gold + ivory
+   ═══════════════════════════════════════════════════ */
+.p4 {
+  --bg: #0F0B1F;
+  --section-bg: #1A1432;
+  --primary: #2D1B4E;
+  --primary-light: #4A3370;
+  --accent: #C9A878;       /* Champagne */
+  --accent-bright: #E8C896;
+  --accent-soft: #8B6F47;
+  --text: #F5EFE0;         /* Ivory */
+  --text-soft: #B0A38A;
+  --border: rgba(201, 168, 120, 0.2);
+  background: var(--bg); color: var(--text);
+}
+.p4 .orb-1 { background: radial-gradient(circle, rgba(201, 168, 120, 0.45), transparent); }
+.p4 .orb-2 { background: radial-gradient(circle, rgba(74, 51, 112, 0.55), transparent); }
+.p4 .orb-3 { background: radial-gradient(circle, rgba(232, 200, 150, 0.35), transparent); }
+.p4 .badge {
+  background: rgba(201, 168, 120, 0.12);
+  color: var(--accent-bright);
+  border: 1px solid rgba(201, 168, 120, 0.3);
+}
+.p4 .pulse { background: var(--accent); color: rgba(201, 168, 120, 0.5); }
+.p4 h1 .accent-text {
+  background: linear-gradient(110deg, var(--accent) 0%, var(--accent-bright) 30%, #F0D9B0 50%, var(--accent-bright) 70%, var(--accent) 100%);
+}
+.p4 .subtitle { color: var(--text-soft); }
+.p4 .cta-primary {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-bright) 100%);
+  color: var(--bg);
+  box-shadow: 0 14px 32px -8px rgba(201, 168, 120, 0.5);
+  font-weight: 700;
+}
+.p4 .cta-primary:hover { box-shadow: 0 22px 44px -12px rgba(232, 200, 150, 0.7); }
+.p4 .cta-secondary {
+  background: transparent; color: var(--text);
+  border-color: rgba(201, 168, 120, 0.4);
+}
+.p4 .cta-secondary:hover {
+  border-color: var(--accent);
+  background: rgba(201, 168, 120, 0.08);
+}
+.p4 .stat-card {
+  background: linear-gradient(155deg, rgba(45, 27, 78, 0.7), rgba(15, 11, 31, 0.5));
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 24px -8px rgba(0,0,0,0.5);
+}
+.p4 .stat-num { color: var(--accent-bright); }
+.p4 .stat-lab { color: var(--text-soft); }
+.p4 .card-3d {
+  background: linear-gradient(135deg, rgba(45, 27, 78, 0.85), rgba(26, 20, 50, 0.95));
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 30px 80px -20px rgba(0, 0, 0, 0.7),
+    0 12px 32px -10px rgba(201, 168, 120, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+.p4 .card-3d img { border: 3px solid var(--accent); box-shadow: 0 8px 24px -4px rgba(201, 168, 120, 0.4); }
+.p4 .card-3d .advisor-name { color: var(--text); }
+.p4 .card-3d .advisor-title { color: var(--accent); }
+.p4 .card-3d .advisor-quote { color: var(--text-soft); border-color: var(--accent); }
+.p4 .choose-btn { background: var(--accent); color: var(--bg); }
+
+/* ═══════════════════════════════════════════════════
+   PALETTE 5: TUSCAN STONE (אבן טוסקנית)
+   Terracotta + sage olive + alabaster
+   ═══════════════════════════════════════════════════ */
+.p5 {
+  --bg: #F5EFE4;
+  --section-bg: #EDE3CE;
+  --primary: #3D2818;       /* Deep walnut */
+  --accent: #B85839;        /* Terracotta */
+  --accent-bright: #D47451;
+  --olive: #6B7A4B;         /* Sage olive */
+  --olive-soft: #8FA070;
+  --text: #2A1E14;
+  --text-soft: #6B5847;
+  --border: rgba(184, 88, 57, 0.18);
+  background: var(--bg); color: var(--text);
+}
+.p5 .orb-1 { background: radial-gradient(circle, rgba(184, 88, 57, 0.4), transparent); }
+.p5 .orb-2 { background: radial-gradient(circle, rgba(107, 122, 75, 0.45), transparent); }
+.p5 .orb-3 { background: radial-gradient(circle, rgba(212, 116, 81, 0.3), transparent); }
+.p5 .badge {
+  background: rgba(107, 122, 75, 0.14);
+  color: var(--olive);
+  border: 1px solid rgba(107, 122, 75, 0.35);
+}
+.p5 .pulse { background: var(--olive); color: rgba(143, 160, 112, 0.55); }
+.p5 h1 .accent-text {
+  background: linear-gradient(110deg, var(--accent) 0%, var(--accent-bright) 30%, var(--olive) 50%, var(--accent-bright) 70%, var(--accent) 100%);
+}
+.p5 .subtitle { color: var(--text-soft); }
+.p5 .cta-primary {
+  background: linear-gradient(135deg, var(--accent) 0%, #A04B30 100%);
+  color: #fff;
+  box-shadow: 0 14px 32px -8px rgba(184, 88, 57, 0.5);
+}
+.p5 .cta-primary:hover { box-shadow: 0 22px 44px -12px rgba(184, 88, 57, 0.7); }
+.p5 .cta-secondary {
+  background: transparent; color: var(--primary);
+  border-color: rgba(107, 122, 75, 0.4);
+}
+.p5 .cta-secondary:hover {
+  border-color: var(--olive);
+  background: rgba(107, 122, 75, 0.08);
+}
+.p5 .stat-card {
+  background: linear-gradient(155deg, rgba(255, 251, 244, 0.9), rgba(237, 227, 206, 0.7));
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 28px -10px rgba(61, 40, 24, 0.18);
+}
+.p5 .stat-num { color: var(--accent); }
+.p5 .stat-lab { color: var(--text-soft); }
+.p5 .card-3d {
+  background: rgba(255, 251, 244, 0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 40px 90px -20px rgba(61, 40, 24, 0.3),
+    0 16px 36px -10px rgba(184, 88, 57, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.p5 .card-3d img { border: 3px solid var(--accent); box-shadow: 0 8px 24px -4px rgba(184, 88, 57, 0.4); }
+.p5 .card-3d .advisor-name { color: var(--primary); }
+.p5 .card-3d .advisor-title { color: var(--accent); }
+.p5 .card-3d .advisor-quote { color: var(--text-soft); border-color: var(--accent); }
+.p5 .choose-btn { background: var(--accent); }
+
+/* ═══════════════════════════════════════════════════
+   PALETTE 6: ARCTIC AURORA (אורות הצפון)
+   Deep arctic teal + ice white + copper accent
+   ═══════════════════════════════════════════════════ */
+.p6 {
+  --bg: #F0F4F6;
+  --section-bg: #DCE6EB;
+  --primary: #0B2A38;       /* Deep arctic */
+  --primary-soft: #1F4A60;
+  --accent: #D17F4A;        /* Copper accent */
+  --accent-bright: #E89968;
+  --teal: #2D7388;
+  --teal-bright: #4A9DB5;
+  --text: #0D2330;
+  --text-soft: #5A6E7B;
+  --border: rgba(45, 115, 136, 0.18);
+  background: var(--bg); color: var(--text);
+}
+.p6 .orb-1 { background: radial-gradient(circle, rgba(45, 115, 136, 0.5), transparent); }
+.p6 .orb-2 { background: radial-gradient(circle, rgba(209, 127, 74, 0.35), transparent); }
+.p6 .orb-3 { background: radial-gradient(circle, rgba(74, 157, 181, 0.4), transparent); }
+.p6 .badge {
+  background: rgba(45, 115, 136, 0.12);
+  color: var(--teal);
+  border: 1px solid rgba(45, 115, 136, 0.35);
+}
+.p6 .pulse { background: var(--teal-bright); color: rgba(74, 157, 181, 0.5); }
+.p6 h1 .accent-text {
+  background: linear-gradient(110deg, var(--teal) 0%, var(--accent) 30%, var(--accent-bright) 50%, var(--accent) 70%, var(--teal) 100%);
+}
+.p6 .subtitle { color: var(--text-soft); }
+.p6 .cta-primary {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--primary-soft) 100%);
+  color: #fff;
+  box-shadow: 0 14px 32px -8px rgba(45, 115, 136, 0.5);
+}
+.p6 .cta-primary:hover { box-shadow: 0 22px 44px -12px rgba(45, 115, 136, 0.7); }
+.p6 .cta-secondary {
+  background: transparent; color: var(--primary);
+  border-color: rgba(209, 127, 74, 0.4);
+}
+.p6 .cta-secondary:hover {
+  border-color: var(--accent);
+  background: rgba(209, 127, 74, 0.08);
+  color: var(--accent);
+}
+.p6 .stat-card {
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.95), rgba(220, 230, 235, 0.7));
+  border: 1px solid var(--border);
+  box-shadow: 0 12px 28px -10px rgba(11, 42, 56, 0.15);
+}
+.p6 .stat-num {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.p6 .stat-lab { color: var(--text-soft); }
+.p6 .card-3d {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid var(--border);
+  box-shadow:
+    0 40px 90px -20px rgba(11, 42, 56, 0.25),
+    0 16px 36px -10px rgba(45, 115, 136, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+.p6 .card-3d img { border: 3px solid var(--accent); box-shadow: 0 8px 24px -4px rgba(209, 127, 74, 0.4); }
+.p6 .card-3d .advisor-name { color: var(--primary); }
+.p6 .card-3d .advisor-title { color: var(--teal); }
+.p6 .card-3d .advisor-quote { color: var(--text-soft); border-color: var(--accent); }
+.p6 .choose-btn { background: var(--teal); }
+
+@media (max-width: 768px) {
+  .hero-3d-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .palette-label { right: 1rem; top: 1rem; font-size: 0.78rem; }
+  .choose-btn { left: 1rem; bottom: 1rem; font-size: 0.8rem; padding: 0.6rem 1.2rem; }
+  .hero-3d .stat-num { font-size: 1.4rem; }
+  .hero-3d .orb { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-3d .orb { animation: none; }
+  .hero-3d h1 .accent-text { animation: none; }
+  .hero-3d .pulse { animation: none; }
+  .hero-3d .card-3d { transition: none; transform: none !important; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <h2>3 פלטות מתקדמות + אפקטים 3D מלאים</h2>
+  <p>גרור עם העכבר על הכרטיס של תמיר → תראה אפקט תלת-מימד. עוד הצעות: <a href="preview-palettes.html">3 פלטות בסיסיות</a> · <a href="preview.html">Preview הראשי</a></p>
+</div>
+
+<!-- ═══ PALETTE 4: MIDNIGHT VELVET ═══ -->
+<section class="hero-3d p4">
+  <div class="palette-label">
+    <span class="palette-chip" style="background:#2D1B4E;"></span>
+    <span class="palette-chip" style="background:#C9A878;"></span>
+    <span class="palette-chip" style="background:#F5EFE0;"></span>
+    אופציה 4: Midnight Velvet — חצות קטיפה
+  </div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-3d-inner">
+    <div>
+      <div class="badge"><span class="pulse"></span>פנוי עכשיו לשיחת ייעוץ — בלי עלות</div>
+      <h1>המשכנתא הנכונה.<br><span class="accent-text">ההחלטה הנכונה.</span></h1>
+      <p class="subtitle">15 שנים בבנקאות וייעוץ פיננסי. לא עובד מול הבנק — עובד בשבילך. חיסכון ממוצע של <strong>180,000 ₪</strong> ללקוח.</p>
+
+      <div class="cta-row">
+        <a class="cta-primary">לייעוץ חינם עכשיו ←</a>
+        <a class="cta-secondary">→ נסו מחשבון</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num">+500</span><span class="stat-lab">לקוחות מרוצים</span></div>
+        <div class="stat-card"><span class="stat-num">₪180K</span><span class="stat-lab">חיסכון ממוצע</span></div>
+        <div class="stat-card"><span class="stat-num">15 שנים</span><span class="stat-lab">ניסיון</span></div>
+      </div>
+    </div>
+
+    <div class="card-3d" data-tilt>
+      <img src="assets/images/tamir-small.jpg" alt="תמיר גרמה">
+      <div class="advisor-name">תמיר גרמה</div>
+      <div class="advisor-title">יועץ משכנתאות מוסמך</div>
+      <p class="advisor-quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+    </div>
+  </div>
+
+  <a class="choose-btn">★ אני בוחר אופציה 4</a>
+</section>
+
+<!-- ═══ PALETTE 5: TUSCAN STONE ═══ -->
+<section class="hero-3d p5">
+  <div class="palette-label">
+    <span class="palette-chip" style="background:#B85839;"></span>
+    <span class="palette-chip" style="background:#6B7A4B;"></span>
+    <span class="palette-chip" style="background:#F5EFE4;"></span>
+    אופציה 5: Tuscan Stone — אבן טוסקנית
+  </div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-3d-inner">
+    <div>
+      <div class="badge"><span class="pulse"></span>פנוי עכשיו לשיחת ייעוץ — בלי עלות</div>
+      <h1>המשכנתא הנכונה.<br><span class="accent-text">ההחלטה הנכונה.</span></h1>
+      <p class="subtitle">15 שנים בבנקאות וייעוץ פיננסי. לא עובד מול הבנק — עובד בשבילך. חיסכון ממוצע של <strong>180,000 ₪</strong> ללקוח.</p>
+
+      <div class="cta-row">
+        <a class="cta-primary">לייעוץ חינם עכשיו ←</a>
+        <a class="cta-secondary">→ נסו מחשבון</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num">+500</span><span class="stat-lab">לקוחות מרוצים</span></div>
+        <div class="stat-card"><span class="stat-num">₪180K</span><span class="stat-lab">חיסכון ממוצע</span></div>
+        <div class="stat-card"><span class="stat-num">15 שנים</span><span class="stat-lab">ניסיון</span></div>
+      </div>
+    </div>
+
+    <div class="card-3d" data-tilt>
+      <img src="assets/images/tamir-small.jpg" alt="תמיר גרמה">
+      <div class="advisor-name">תמיר גרמה</div>
+      <div class="advisor-title">יועץ משכנתאות מוסמך</div>
+      <p class="advisor-quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+    </div>
+  </div>
+
+  <a class="choose-btn">★ אני בוחר אופציה 5</a>
+</section>
+
+<!-- ═══ PALETTE 6: ARCTIC AURORA ═══ -->
+<section class="hero-3d p6">
+  <div class="palette-label">
+    <span class="palette-chip" style="background:#2D7388;"></span>
+    <span class="palette-chip" style="background:#D17F4A;"></span>
+    <span class="palette-chip" style="background:#F0F4F6;"></span>
+    אופציה 6: Arctic Aurora — אורות הצפון
+  </div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="hero-3d-inner">
+    <div>
+      <div class="badge"><span class="pulse"></span>פנוי עכשיו לשיחת ייעוץ — בלי עלות</div>
+      <h1>המשכנתא הנכונה.<br><span class="accent-text">ההחלטה הנכונה.</span></h1>
+      <p class="subtitle">15 שנים בבנקאות וייעוץ פיננסי. לא עובד מול הבנק — עובד בשבילך. חיסכון ממוצע של <strong>180,000 ₪</strong> ללקוח.</p>
+
+      <div class="cta-row">
+        <a class="cta-primary">לייעוץ חינם עכשיו ←</a>
+        <a class="cta-secondary">→ נסו מחשבון</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num">+500</span><span class="stat-lab">לקוחות מרוצים</span></div>
+        <div class="stat-card"><span class="stat-num">₪180K</span><span class="stat-lab">חיסכון ממוצע</span></div>
+        <div class="stat-card"><span class="stat-num">15 שנים</span><span class="stat-lab">ניסיון</span></div>
+      </div>
+    </div>
+
+    <div class="card-3d" data-tilt>
+      <img src="assets/images/tamir-small.jpg" alt="תמיר גרמה">
+      <div class="advisor-name">תמיר גרמה</div>
+      <div class="advisor-title">יועץ משכנתאות מוסמך</div>
+      <p class="advisor-quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+    </div>
+  </div>
+
+  <a class="choose-btn">★ אני בוחר אופציה 6</a>
+</section>
+
+<!-- BOTTOM CTA -->
+<div class="top-bar" style="padding:2rem;">
+  <p style="font-size:1.05rem; opacity:1;">בחרת? תגיד לי "אופציה 4/5/6" — אטמיע ב-preview הראשי תוך 5 דקות. אפשר גם לערבב — "אופציה 4 אבל בלי הרקע הסגול".</p>
+</div>
+
+<script>
+// === 3D Tilt + Light Reflection — mouse-tracked === //
+(function() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+
+  document.querySelectorAll('[data-tilt]').forEach(el => {
+    el.addEventListener('mousemove', function(e) {
+      const rect = this.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const rotateY = (x - 0.5) * 14;
+      const rotateX = (y - 0.5) * -14;
+      this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) translateZ(10px)`;
+      this.style.setProperty('--mx', (x * 100) + '%');
+      this.style.setProperty('--my', (y * 100) + '%');
+    });
+    el.addEventListener('mouseleave', function() {
+      this.style.transform = '';
+    });
+  });
+
+  // Subtle parallax on orbs while scrolling
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        const y = window.scrollY;
+        document.querySelectorAll('.orb-1').forEach(o => o.style.transform = `translateY(${y * 0.08}px)`);
+        document.querySelectorAll('.orb-2').forEach(o => o.style.transform = `translateY(${y * -0.05}px)`);
+        document.querySelectorAll('.orb-3').forEach(o => o.style.transform = `translateY(${y * 0.03}px)`);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+})();
+</script>
+
+</body>
+</html>
