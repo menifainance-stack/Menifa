@@ -2525,10 +2525,11 @@ body.has-ticker .navbar { top: 42px; }
   .calc-tabs { gap: 0.4rem; }
   .calc-tab { padding: 0.55rem 0.95rem; font-size: 0.85rem; }
   .calc-panel { padding: 1.5rem; }
-  .market-bar { font-size: 0.78rem; padding: 0.5rem 0; }
-  .market-inner { gap: 0.75rem; justify-content: center; }
-  .market-item { gap: 0.35rem; }
-  .market-update { width: 100%; justify-content: center; margin-top: 0.25rem; }
+  .market-bar { font-size: 0.7rem; padding: 0.35rem 0; }
+  .market-inner { gap: 0.6rem; justify-content: center; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .market-inner::-webkit-scrollbar { display: none; }
+  .market-item { gap: 0.3rem; flex-shrink: 0; }
+  .market-update { display: none; } /* hide auxiliary text on mobile to keep ticker single-row */
   .cookie-banner { right: 12px; left: 12px; bottom: 88px; max-width: none; }
 }
 
