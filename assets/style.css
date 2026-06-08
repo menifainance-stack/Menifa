@@ -438,10 +438,10 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
   padding: 8rem 0 4rem;
   position: relative;
   background:
-    radial-gradient(ellipse at 82% 18%, rgba(208, 176, 127, 0.28) 0%, transparent 55%),
-    radial-gradient(ellipse at 15% 88%, rgba(208, 176, 127, 0.10) 0%, transparent 50%),
-    linear-gradient(135deg, #353C44 0%, #424A53 50%, #545D68 100%);
-  color: var(--white);
+    radial-gradient(ellipse at 82% 18%, rgba(184, 146, 89, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 15% 88%, rgba(74, 123, 200, 0.10) 0%, transparent 50%),
+    linear-gradient(135deg, #FAF6EE 0%, #F5EFE3 50%, #EFE6D3 100%);
+  color: var(--navy);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -452,8 +452,8 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle at 90% 10%, rgba(255, 250, 240, 0.10) 0%, transparent 40%),
-    radial-gradient(circle at 10% 95%, rgba(184, 146, 89, 0.14) 0%, transparent 45%);
+    radial-gradient(circle at 90% 10%, rgba(184, 146, 89, 0.10) 0%, transparent 40%),
+    radial-gradient(circle at 10% 95%, rgba(27, 42, 65, 0.06) 0%, transparent 45%);
   pointer-events: none;
 }
 
@@ -503,7 +503,7 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
 }
 
 .hero h1 {
-  color: var(--white);
+  color: var(--navy);
   margin-bottom: 1.5rem;
   animation: fadeUp 1s ease-out 0.15s both;
 }
@@ -519,7 +519,7 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
 
 .hero-sub {
   font-size: clamp(1.1rem, 1.5vw, 1.3rem);
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(27, 42, 65, 0.78);
   line-height: 1.65;
   margin-bottom: 2.5rem;
   max-width: 560px;
@@ -539,25 +539,26 @@ section { padding: clamp(4rem, 8vw, 7rem) 0; position: relative; }
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   padding: 1.4rem 1.6rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(184, 146, 89, 0.22);
   border-radius: var(--radius-md);
   backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px -8px rgba(27, 42, 65, 0.08);
   animation: fadeUp 1s ease-out 0.6s both;
 }
 .trust-item { text-align: center; }
 .trust-item .icon { font-size: 1.4rem; margin-bottom: 0.35rem; }
 .trust-item .val {
   font-family: var(--font-mono);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.1rem;
-  color: var(--gold-light);
+  color: var(--gold-dark, #8B6F3F);
   display: block;
   line-height: 1.1;
 }
 .trust-item .lbl {
   font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(27, 42, 65, 0.7);
   display: block;
   margin-top: 0.25rem;
 }
