@@ -163,4 +163,18 @@
     <priority>0.95</priority>
   </url>
 
+  <url>
+    <loc>https://menifa.org/blog/art-17.html</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <url>
+    <loc>https://menifa.org/blog/art-18.html</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
 </urlset>
