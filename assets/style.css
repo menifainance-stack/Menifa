@@ -1827,9 +1827,12 @@ body.a11y-cursor input { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http:/
   animation: pulse-dot 2s infinite;
 }
 
-/* Adjust navbar to sit below ticker */
+/* Adjust navbar to sit below ticker (fixes overlap bug) */
 .navbar { top: 0; }
-body.has-ticker .navbar { top: 0; }
+body.has-ticker .navbar { top: 42px; }
+@media (max-width: 768px) {
+  body.has-ticker .navbar { top: 36px; }
+}
 
 /* ═══════════════════════════════════════════════════════════════
    CALCULATOR HUB — 7 מחשבונים
