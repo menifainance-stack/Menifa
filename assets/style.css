@@ -3157,7 +3157,21 @@ body.has-ticker .navbar { top: 42px; }
 }
 @media (max-width: 768px) {
   .navbar .menu-toggle,
-  .navbar #menuToggle { display: flex !important; }
+  .navbar #menuToggle {
+    display: flex !important;
+    margin-inline-start: auto; /* push to the far left edge */
+    flex-shrink: 0;
+  }
+  /* Free up space for hamburger by hiding CTA on mobile (still available in drawer) */
+  .navbar .nav-cta { display: none !important; }
+  /* Make logo smaller on narrow phones */
+  .navbar .logo-img { height: 32px !important; }
+  .navbar .logo-tagline-only { font-size: 0.6rem !important; letter-spacing: 0.15em !important; }
+  .navbar .nav-actions { gap: 0.4rem; }
+  .navbar .nav-inner { gap: 0.5rem; }
+}
+@media (max-width: 380px) {
+  .navbar .logo-tagline-only { display: none !important; }
 }
 .navbar .menu-toggle:hover {
   background: var(--gold);
