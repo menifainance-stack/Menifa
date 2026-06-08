@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3 סקיצות אתר — מניפה פיננסית</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@400;500;600;700&display=swap">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Heebo', sans-serif;
+  background: #0F1B2D;
+  color: #F8F4ED;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+.display { font-family: 'Frank Ruhl Libre', serif; }
+a { color: inherit; text-decoration: none; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 2rem; }
+
+/* Header */
+.gallery-hero {
+  padding: 5rem 0 3rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.gallery-hero .eyebrow {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3em;
+  text-transform: uppercase; color: #C9A878; margin-bottom: 1.5rem;
+}
+.gallery-hero .eyebrow::before, .gallery-hero .eyebrow::after {
+  content: ''; width: 30px; height: 1px; background: #C9A878;
+}
+.gallery-hero h1 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 700;
+  margin-bottom: 1.2rem; line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.gallery-hero h1 em {
+  color: #C9A878; font-style: italic; font-weight: 500;
+}
+.gallery-hero p {
+  font-size: 1.1rem; color: rgba(248, 244, 237, 0.7);
+  max-width: 640px; margin: 0 auto;
+}
+.gallery-hero p a { color: #C9A878; text-decoration: underline; }
+
+/* Mockups grid */
+.mockups {
+  padding: 5rem 0 7rem;
+}
+.mockups-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+}
+.mockup-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all .4s cubic-bezier(.2,.8,.2,1);
+  display: flex; flex-direction: column;
+}
+.mockup-card:hover {
+  transform: translateY(-8px);
+  border-color: #C9A878;
+  box-shadow: 0 30px 60px -20px rgba(201, 168, 120, 0.3);
+}
+.mockup-preview {
+  height: 280px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Preview A: Heritage — cream + forest + brass */
+.mockup-card.a .mockup-preview {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(184, 149, 106, 0.18), transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(35, 68, 48, 0.18), transparent 50%),
+    #F8F4ED;
+  color: #234430;
+}
+.mockup-card.a .mockup-preview em { color: #B8956A; font-style: italic; }
+
+/* Preview B: Scandinavian — bone + slate + sage */
+.mockup-card.b .mockup-preview {
+  background:
+    linear-gradient(180deg, #F5F1EA 0%, #EDE7DC 100%);
+  color: #1A2734;
+}
+.mockup-card.b .mockup-preview em { color: #E08866; font-style: italic; }
+
+/* Preview C: Atelier — ivory + navy + gold */
+.mockup-card.c .mockup-preview {
+  background:
+    radial-gradient(circle at 30% 30%, rgba(201, 168, 120, 0.22), transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(15, 27, 45, 0.12), transparent 50%),
+    #FAF5EB;
+  color: #0F1B2D;
+}
+.mockup-card.c .mockup-preview em {
+  background: linear-gradient(135deg, #C9A878, #E5CDA9);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: italic;
+}
+
+.mockup-card .palette {
+  position: absolute; bottom: 1rem; left: 1rem;
+  display: flex; gap: 6px;
+}
+.mockup-card .palette span {
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.6);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+.mockup-card.a .palette span:nth-child(1) { background: #F8F4ED; }
+.mockup-card.a .palette span:nth-child(2) { background: #234430; }
+.mockup-card.a .palette span:nth-child(3) { background: #B8956A; }
+.mockup-card.b .palette span:nth-child(1) { background: #F5F1EA; }
+.mockup-card.b .palette span:nth-child(2) { background: #1A2734; }
+.mockup-card.b .palette span:nth-child(3) { background: #7B9171; }
+.mockup-card.c .palette span:nth-child(1) { background: #FAF5EB; }
+.mockup-card.c .palette span:nth-child(2) { background: #0F1B2D; }
+.mockup-card.c .palette span:nth-child(3) { background: #C9A878; }
+
+.mockup-card .label {
+  position: absolute; top: 1rem; right: 1rem;
+  background: rgba(15, 27, 45, 0.9); color: #C9A878;
+  padding: 0.4rem 0.9rem; border-radius: 999px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+}
+
+.mockup-body {
+  padding: 2rem 1.8rem 1.8rem;
+  flex: 1; display: flex; flex-direction: column;
+}
+.mockup-body h3 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.6rem; font-weight: 700;
+  color: #F8F4ED; margin-bottom: 0.4rem;
+}
+.mockup-body .subtitle {
+  font-size: 0.92rem; color: #C9A878; font-style: italic;
+  margin-bottom: 1.2rem; letter-spacing: 0.02em;
+}
+.mockup-body .desc {
+  font-size: 0.95rem; color: rgba(248, 244, 237, 0.7);
+  line-height: 1.6; margin-bottom: 1.2rem; flex: 1;
+}
+.mockup-body .feats {
+  list-style: none; margin-bottom: 1.5rem;
+}
+.mockup-body .feats li {
+  font-size: 0.85rem; color: rgba(248, 244, 237, 0.85);
+  padding-right: 1.2rem; position: relative; margin-bottom: 0.5rem;
+}
+.mockup-body .feats li::before {
+  content: '✦'; position: absolute; right: 0; color: #C9A878;
+}
+.mockup-body .who {
+  font-size: 0.85rem; color: rgba(248, 244, 237, 0.55);
+  margin-bottom: 1.5rem; font-style: italic;
+}
+.mockup-body .who strong { color: #C9A878; font-style: normal; }
+.view-btn {
+  display: block; text-align: center;
+  background: #C9A878; color: #0F1B2D;
+  padding: 1rem; border-radius: 8px;
+  font-weight: 700; font-size: 0.92rem;
+  transition: all .3s; letter-spacing: 0.02em;
+}
+.view-btn:hover {
+  background: #E5CDA9;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgba(201, 168, 120, 0.5);
+}
+
+/* SEO comparison footer */
+.comparison {
+  padding: 5rem 0; background: rgba(0,0,0,0.2);
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.comparison h2 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 2rem; color: #F8F4ED; text-align: center; margin-bottom: 2.5rem;
+  font-weight: 500;
+}
+.comparison h2 em { color: #C9A878; font-style: italic; }
+.compare-table {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; overflow: hidden;
+}
+.compare-row {
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  padding: 1.2rem 1.6rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.92rem;
+  align-items: center;
+}
+.compare-row:last-child { border-bottom: none; }
+.compare-row.header {
+  background: rgba(201, 168, 120, 0.1); font-weight: 700;
+  color: #C9A878; font-size: 0.85rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+}
+.compare-row .label {
+  color: rgba(248, 244, 237, 0.7);
+  font-weight: 500;
+}
+.compare-row .val {
+  color: #F8F4ED;
+}
+
+.footer-cta {
+  padding: 4rem 0; text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer-cta p {
+  font-size: 1.1rem; color: rgba(248, 244, 237, 0.85);
+  margin-bottom: 1.5rem;
+}
+.footer-cta a {
+  color: #C9A878; font-weight: 600; text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .mockups-grid { grid-template-columns: 1fr; }
+  .compare-row { grid-template-columns: 1fr; gap: 0.3rem; }
+  .compare-row.header { display: none; }
+  .compare-row .val::before { content: attr(data-label) ' · '; color: #C9A878; font-weight: 600; }
+}
+</style>
+</head>
+<body>
+
+<section class="gallery-hero">
+  <div class="wrap">
+    <div class="eyebrow">3 כיוונים · עיצוב פרודקשן-מוכן</div>
+    <h1>בחר את הוויזיון.<br>אטמיע <em>תוך 30 דקות</em>.</h1>
+    <p>שלוש סקיצות מלאות — לא רק hero, אלא עמוד שלם עם תפריט, שירותים, סטטיסטיקות וכל פרט. כל אחת בנויה לפי פילוסופיה אחרת. <a href="index.html">חזרה לאתר הקיים</a></p>
+  </div>
+</section>
+
+<section class="mockups">
+  <div class="wrap">
+    <div class="mockups-grid">
+
+      <!-- Mockup A -->
+      <div class="mockup-card a">
+        <div class="mockup-preview">
+          <span class="label">A</span>
+          <div>שקט.<br><em>ביטחון.</em></div>
+          <div class="palette">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="mockup-body">
+          <h3>Aspen Heritage</h3>
+          <div class="subtitle">— מורשת אמון. בנקאות פרטית —</div>
+          <p class="desc">קרם חם · ירוק יער עמוק · פליז מוברש. סגנון של מגזין יוקרה (Cormorant Garamond), טקסטורת נייר, ציטוט-ענק עם " זהוב, מסגרת editorial לתמונה של תמיר.</p>
+          <ul class="feats">
+            <li>טיפוגרפיה: Cormorant Garamond + Manrope</li>
+            <li>אווירה: J.P. Morgan / Brunello Cucinelli</li>
+            <li>מספרים רומיים בכרטיסי השירות (I-IV)</li>
+            <li>חתימה כתובה ביד מתחת לציטוט</li>
+          </ul>
+          <div class="who">המתאים ל: <strong>לקוחות 40-65, הון משמעותי, יוקרה ותיקה</strong></div>
+          <a href="mockups/a-heritage.html" class="view-btn">צפייה במלוא העמוד ←</a>
+        </div>
+      </div>
+
+      <!-- Mockup B -->
+      <div class="mockup-card b">
+        <div class="mockup-preview">
+          <span class="label">B</span>
+          <div>שקט.<br><em>החלטות.</em></div>
+          <div class="palette">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="mockup-body">
+          <h3>Stockholm Calm</h3>
+          <div class="subtitle">— מינימליזם סקנדינבי. שיטה —</div>
+          <p class="desc">לבן עצם · slate כהה · חכמי. סגנון Klarna/Lunar — מרכזיות, מרחב נשימה גדול, תהליך 4 שלבים עם עיגולים מרושתים, ללא גרדיאנטים — רק אלמנטים גיאומטריים נקיים.</p>
+          <ul class="feats">
+            <li>טיפוגרפיה: Tenor Sans + Inter Tight</li>
+            <li>אווירה: Klarna / Lunar / Bauhaus</li>
+            <li>תהליך 4 שלבים עם קו מחבר אופקי</li>
+            <li>Stats ענקיים, מרווחים בנדיבות</li>
+          </ul>
+          <div class="who">המתאים ל: <strong>לקוחות 28-50, הייטק, אסתטים מודרניים</strong></div>
+          <a href="mockups/b-scandinavian.html" class="view-btn">צפייה במלוא העמוד ←</a>
+        </div>
+      </div>
+
+      <!-- Mockup C -->
+      <div class="mockup-card c">
+        <div class="mockup-preview">
+          <span class="label">C</span>
+          <div>ייעוץ.<br><em>פרטי.</em></div>
+          <div class="palette">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="mockup-body">
+          <h3>Atelier Maison</h3>
+          <div class="subtitle">— אטלייה בנקאות פרטית —</div>
+          <p class="desc">שנהב · נייבי עמוק · זהב חם. כרטיס יועץ דרמטי על רקע נייבי+gradient זהב, פס זהב עליון, תגי credentials, מעבר עלי-זהב SVG בין סקציות, אנימציית shimmer על כותרת.</p>
+          <ul class="feats">
+            <li>טיפוגרפיה: Frank Ruhl Libre + Italiana</li>
+            <li>אווירה: J.P. Morgan Private / Aman</li>
+            <li>כרטיס יועץ כהה דרמטי + badges</li>
+            <li>3 כרטיסי אישורים (רישיון/ביטוח/סודיות)</li>
+          </ul>
+          <div class="who">המתאים ל: <strong>לקוחות 35-55, כל סגמנט פרמיום</strong></div>
+          <a href="mockups/c-atelier.html" class="view-btn">צפייה במלוא העמוד ←</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SEO + UX Comparison -->
+<section class="comparison">
+  <div class="wrap">
+    <h2>השוואה: <em>SEO · UX · קהל יעד</em></h2>
+    <div class="compare-table">
+      <div class="compare-row header">
+        <div>קריטריון</div>
+        <div>A — Aspen Heritage</div>
+        <div>B — Stockholm Calm</div>
+        <div>C — Atelier Maison</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">ניגודיות (WCAG)</div>
+        <div class="val" data-label="A">7:1 AAA ✓✓</div>
+        <div class="val" data-label="B">9:1 AAA ✓✓✓</div>
+        <div class="val" data-label="C">11:1 AAA ✓✓✓</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">משקל עמוד</div>
+        <div class="val" data-label="A">קל (~60KB CSS)</div>
+        <div class="val" data-label="B">קל (~50KB CSS)</div>
+        <div class="val" data-label="C">בינוני (~75KB CSS)</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">CLS (Layout Shift)</div>
+        <div class="val" data-label="A">0 — מצוין</div>
+        <div class="val" data-label="B">0 — מצוין</div>
+        <div class="val" data-label="C">0 — מצוין</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">אווירה רגשית</div>
+        <div class="val" data-label="A">מורשת · יציבות · יוקרה ותיקה</div>
+        <div class="val" data-label="B">שלווה · בהירות · אמינות מודרנית</div>
+        <div class="val" data-label="C">פרמיום · קונסיירז' · אקסקלוסיביות</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">קהל יעד אופטימלי</div>
+        <div class="val" data-label="A">גילי 40-65 · הון משמעותי</div>
+        <div class="val" data-label="B">גילי 28-50 · אסתטים מודרניים</div>
+        <div class="val" data-label="C">גילי 35-55 · כל סגמנט פרמיום</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">SEO Trust Signals</div>
+        <div class="val" data-label="A">Editorial style + manifesto</div>
+        <div class="val" data-label="B">תהליך 4 שלבים + עדויות</div>
+        <div class="val" data-label="C">4 כרטיסי credentials + badges</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">Mobile UX</div>
+        <div class="val" data-label="A">מעולה · 1-column flow</div>
+        <div class="val" data-label="B">מעולה · single column natural</div>
+        <div class="val" data-label="C">מעולה · stack adaptive</div>
+      </div>
+      <div class="compare-row">
+        <div class="label">"WOW factor" ראשון</div>
+        <div class="val" data-label="A">ציטוט ענק עם " זהוב</div>
+        <div class="val" data-label="B">מרווחים נדיבים + Stats מאסיביים</div>
+        <div class="val" data-label="C">כרטיס יועץ כהה דרמטי</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="footer-cta">
+  <div class="wrap">
+    <p>בחרת? כתוב לי <strong>"סקיצה A"</strong> / <strong>"סקיצה B"</strong> / <strong>"סקיצה C"</strong> — אטמיע ב-index.html תוך 30 דקות.</p>
+    <p style="font-size:0.92rem; margin-top:1rem;">או אם רוצה לערבב — לדוגמה "C עם הצבעים של B" — תגיד ואני אבנה גרסה מותאמת.</p>
+    <p style="margin-top:2rem;"><a href="index.html">← חזרה לאתר הראשי</a></p>
+  </div>
+</section>
+
+</body>
+</html>

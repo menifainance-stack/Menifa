@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>סקיצה C — Atelier Maison | מניפה פיננסית</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;500;700;900&family=Heebo:wght@300;400;500;600;700;800&family=Italiana&display=swap">
+<style>
+:root {
+  --ivory: #FAF5EB;
+  --ivory-deep: #F2EAD5;
+  --navy: #0F1B2D;
+  --navy-soft: #1F3052;
+  --gold: #C9A878;
+  --gold-bright: #D9BC8E;
+  --gold-deep: #A8884F;
+  --forest: #2D4A3E;
+  --burgundy: #6B2E3F;
+  --ink: #0A1322;
+  --muted: #5A6677;
+  --line: rgba(15, 27, 45, 0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Heebo', sans-serif;
+  background: var(--ivory); color: var(--ink);
+  line-height: 1.6; font-weight: 400; overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+.display { font-family: 'Frank Ruhl Libre', serif; letter-spacing: -0.01em; }
+.italiana { font-family: 'Italiana', serif; letter-spacing: 0.02em; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; cursor: pointer; }
+.wrap { max-width: 1300px; margin: 0 auto; padding: 0 clamp(1.5rem, 4vw, 3rem); }
+
+.sketch-badge {
+  position: fixed; top: 1.2rem; left: 1.2rem;
+  background: var(--ink); color: var(--gold);
+  padding: 0.6rem 1.2rem; font-size: 0.74rem; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase; z-index: 100;
+  border: 1px solid var(--gold);
+}
+
+/* ─── Top utility bar ─── */
+.top-bar {
+  background: var(--ink); color: var(--ivory); padding: 0.6rem 0;
+  font-size: 0.78rem; letter-spacing: 0.05em;
+}
+.top-bar .wrap {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+.top-bar .left { display: flex; gap: 1.8rem; align-items: center; }
+.top-bar .pulse-dot {
+  width: 7px; height: 7px; background: var(--gold);
+  border-radius: 50%; display: inline-block;
+  box-shadow: 0 0 0 0 rgba(201, 168, 120, 0.7);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 120, 0.7); }
+  50% { box-shadow: 0 0 0 8px rgba(201, 168, 120, 0); }
+}
+.top-bar .right span { margin-right: 1.5rem; }
+
+/* ─── Header ─── */
+header {
+  background: var(--ivory); border-bottom: 1px solid var(--line);
+  padding: 1.5rem 0; position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(12px);
+}
+header .wrap {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem;
+}
+.brand {
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.brand-mark {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+  display: grid; place-items: center; color: var(--ivory);
+  font-family: 'Italiana', serif; font-size: 1.5rem;
+  box-shadow: 0 6px 16px -4px rgba(201, 168, 120, 0.5);
+  border-radius: 4px;
+}
+.brand-text { line-height: 1.1; }
+.brand-text .name {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.3rem; font-weight: 700; color: var(--navy);
+}
+.brand-text .sub {
+  font-size: 0.65rem; letter-spacing: 0.32em;
+  color: var(--gold-deep); font-weight: 700; text-transform: uppercase;
+}
+nav ul { list-style: none; display: flex; gap: 2.2rem; justify-content: center; }
+nav a {
+  font-size: 0.92rem; font-weight: 500; color: var(--navy-soft);
+  position: relative; padding: 0.4rem 0; transition: color .3s;
+}
+nav a::after {
+  content: ''; position: absolute; bottom: 0; right: 50%; left: 50%; height: 1.5px;
+  background: var(--gold); transition: left .35s, right .35s;
+}
+nav a:hover { color: var(--navy); }
+nav a:hover::after, nav a.active::after { left: 0; right: 0; }
+nav a.active { color: var(--navy); }
+.header-actions { display: flex; gap: 1rem; align-items: center; justify-content: flex-end; }
+.phone-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: 'Frank Ruhl Libre', serif; font-size: 1.1rem;
+  font-weight: 600; color: var(--navy);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-soft) 100%);
+  color: var(--ivory); padding: 0.9rem 1.8rem;
+  font-size: 0.88rem; font-weight: 600; letter-spacing: 0.03em;
+  border-radius: 4px; position: relative; overflow: hidden; isolation: isolate;
+  transition: all .35s cubic-bezier(.2,.8,.2,1);
+  box-shadow: 0 10px 24px -8px rgba(15, 27, 45, 0.4);
+}
+.btn-primary::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(201, 168, 120, 0.4) 50%, transparent 70%);
+  transform: translateX(-100%); transition: transform .8s;
+}
+.btn-primary:hover::after { transform: translateX(100%); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -10px rgba(15, 27, 45, 0.5); }
+
+/* ─── Hero — editorial asymmetric spread ─── */
+.hero {
+  padding: 6rem 0 5rem; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: 0; right: -10%;
+  width: 80%; height: 100%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(201, 168, 120, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 70% 70%, rgba(45, 74, 62, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero .wrap {
+  display: grid; grid-template-columns: 1.15fr 1fr; gap: 5rem; align-items: center;
+  position: relative;
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.32em;
+  text-transform: uppercase; color: var(--gold-deep); margin-bottom: 1.5rem;
+}
+.eyebrow .leaf-svg { color: var(--gold); }
+.hero h1 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+  line-height: 1.05; font-weight: 500; color: var(--navy);
+  letter-spacing: -0.02em; margin-bottom: 1.8rem;
+}
+.hero h1 em {
+  font-style: italic; font-weight: 500;
+  background: linear-gradient(110deg, var(--gold) 0%, var(--gold-bright) 30%, #F0D9B0 50%, var(--gold-bright) 70%, var(--gold) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% center; } }
+.hero h1 .underline {
+  position: relative; display: inline-block;
+}
+.hero h1 .underline::after {
+  content: ''; position: absolute; bottom: 0.15em; left: -3%; right: -3%; height: 10px;
+  background: var(--gold); opacity: 0.18; z-index: -1; transform: skewX(-8deg);
+}
+.hero .lead {
+  font-size: 1.18rem; line-height: 1.7; color: var(--muted);
+  margin-bottom: 2.5rem; max-width: 540px;
+}
+.hero .lead strong { color: var(--navy); font-weight: 600; }
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+.btn-ghost {
+  background: transparent; color: var(--navy);
+  padding: 0.9rem 1.8rem; border: 1px solid var(--navy);
+  font-size: 0.88rem; font-weight: 600; border-radius: 4px;
+  transition: all .35s cubic-bezier(.2,.8,.2,1);
+}
+.btn-ghost:hover { background: var(--navy); color: var(--ivory); }
+
+/* Hero credentials row */
+.hero-creds {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  padding-top: 2rem; border-top: 1px solid var(--line);
+}
+.hero-creds > div {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+}
+.hero-creds .cred-icon {
+  width: 32px; height: 32px; flex-shrink: 0;
+  border-radius: 4px; background: rgba(201, 168, 120, 0.12);
+  border: 1px solid rgba(201, 168, 120, 0.25);
+  display: grid; place-items: center; color: var(--gold-deep);
+}
+.hero-creds .cred-content .label { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+.hero-creds .cred-content .value { font-family: 'Frank Ruhl Libre', serif; font-size: 1rem; color: var(--navy); font-weight: 600; }
+
+/* Concierge advisor card (premium) */
+.advisor-card {
+  background: linear-gradient(160deg, var(--navy) 0%, var(--navy-soft) 100%);
+  border-radius: 4px; padding: 0;
+  color: var(--ivory); position: relative; overflow: hidden;
+  box-shadow:
+    0 40px 80px -25px rgba(15, 27, 45, 0.5),
+    0 16px 36px -10px rgba(201, 168, 120, 0.15);
+}
+.advisor-card::before {
+  content: ''; position: absolute; top: -30%; left: -30%;
+  width: 70%; height: 70%;
+  background: radial-gradient(circle, rgba(201, 168, 120, 0.4) 0%, transparent 60%);
+  filter: blur(40px);
+}
+.advisor-card .gold-strip {
+  height: 4px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-bright) 50%, var(--gold) 100%);
+}
+.advisor-card .content { padding: 2.5rem; position: relative; }
+.advisor-card .num {
+  position: absolute; top: 1.5rem; left: 1.5rem;
+  font-family: 'Italiana', serif; font-size: 0.85rem;
+  letter-spacing: 0.2em; color: var(--gold);
+}
+.advisor-card .num::after {
+  content: ''; display: block; width: 24px; height: 1px;
+  background: var(--gold); margin-top: 0.4rem;
+}
+.advisor-card img {
+  width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
+  margin-bottom: 1.4rem; border: 2px solid var(--gold);
+  box-shadow: 0 10px 24px -6px rgba(201, 168, 120, 0.4);
+}
+.advisor-card .name {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.7rem; font-weight: 600; margin-bottom: 0.3rem; color: var(--ivory);
+}
+.advisor-card .role {
+  font-size: 0.85rem; color: var(--gold-bright); margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+.advisor-card .badges {
+  display: flex; gap: 0.5rem; margin-bottom: 1.8rem; flex-wrap: wrap;
+}
+.advisor-card .badge {
+  font-size: 0.72rem; padding: 0.3rem 0.7rem;
+  background: rgba(201, 168, 120, 0.15);
+  border: 1px solid rgba(201, 168, 120, 0.3);
+  border-radius: 999px; color: var(--gold-bright); font-weight: 500;
+}
+.advisor-card .quote {
+  font-family: 'Frank Ruhl Libre', serif; font-style: italic;
+  font-size: 1.05rem; line-height: 1.6; color: rgba(250, 245, 235, 0.85);
+  padding-right: 1rem; border-right: 2px solid var(--gold);
+}
+.advisor-card .signature {
+  font-family: 'Italiana', serif; font-size: 1.5rem;
+  color: var(--gold); margin-top: 1.5rem; transform: rotate(-3deg);
+  display: inline-block;
+}
+
+/* ─── Gold leaf divider ─── */
+.gold-divider {
+  display: flex; align-items: center; justify-content: center;
+  padding: 3rem 0; gap: 1rem;
+}
+.gold-divider::before, .gold-divider::after {
+  content: ''; flex: 1; max-width: 120px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-deep), transparent);
+}
+.gold-divider svg { color: var(--gold); }
+
+/* ─── Services (Bento with gold accents) ─── */
+.services { padding: 5rem 0 7rem; }
+.section-head { text-align: center; max-width: 720px; margin: 0 auto 4rem; }
+.section-head h2 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 500;
+  color: var(--navy); margin-bottom: 1.2rem; line-height: 1.1; letter-spacing: -0.02em;
+}
+.section-head h2 em {
+  color: var(--gold-deep); font-style: italic;
+}
+.section-head p {
+  font-size: 1.1rem; color: var(--muted); line-height: 1.65;
+}
+.svc-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+}
+.svc {
+  background: var(--ivory); padding: 2.8rem 2.4rem;
+  border: 1px solid var(--line); border-radius: 4px;
+  position: relative; overflow: hidden;
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease, border-color .35s;
+  text-decoration: none; color: inherit; display: block;
+}
+.svc::before {
+  content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 3px;
+  background: linear-gradient(180deg, var(--gold) 0%, var(--gold-deep) 100%);
+  transform: scaleY(0); transform-origin: top; transition: transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.svc:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 30px 60px -20px rgba(15, 27, 45, 0.2);
+}
+.svc:hover::before { transform: scaleY(1); }
+.svc-icon {
+  width: 56px; height: 56px; border-radius: 4px;
+  background: linear-gradient(135deg, rgba(201, 168, 120, 0.15) 0%, rgba(201, 168, 120, 0.05) 100%);
+  border: 1px solid rgba(201, 168, 120, 0.3);
+  display: grid; place-items: center; color: var(--gold-deep);
+  margin-bottom: 1.5rem; transition: all .35s;
+}
+.svc:hover .svc-icon { background: var(--gold); color: var(--ivory); border-color: var(--gold); }
+.svc h3 {
+  font-family: 'Frank Ruhl Libre', serif; font-size: 1.6rem;
+  font-weight: 600; color: var(--navy); margin-bottom: 0.7rem; line-height: 1.2;
+}
+.svc p { font-size: 0.98rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.5rem; }
+.svc-link {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1rem; font-weight: 600; color: var(--gold-deep);
+  display: inline-flex; align-items: center; gap: 0.5rem; transition: gap .25s;
+}
+.svc:hover .svc-link { gap: 0.9rem; color: var(--navy); }
+
+/* ─── Trust (3 columns, certifications) ─── */
+.trust { padding: 6rem 0; background: var(--ivory-deep); }
+.trust .head { text-align: center; margin-bottom: 4rem; }
+.trust-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
+}
+.trust-card {
+  background: var(--ivory); padding: 2.2rem 1.5rem; text-align: center;
+  border: 1px solid var(--line); border-top: 3px solid var(--gold);
+  transition: transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.trust-card:hover { transform: translateY(-4px); }
+.trust-card .icon {
+  width: 48px; height: 48px; margin: 0 auto 1rem;
+  background: linear-gradient(135deg, var(--navy), var(--navy-soft));
+  color: var(--gold); border-radius: 50%; display: grid; place-items: center;
+}
+.trust-card h4 {
+  font-family: 'Frank Ruhl Libre', serif; font-size: 1.1rem;
+  font-weight: 600; color: var(--navy); margin-bottom: 0.5rem;
+}
+.trust-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+/* ─── Stats (luxury hero block) ─── */
+.stats {
+  padding: 6rem 0; background: var(--navy); color: var(--ivory);
+  position: relative; overflow: hidden;
+}
+.stats::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 25% 30%, rgba(201, 168, 120, 0.18) 0%, transparent 50%),
+    radial-gradient(circle at 75% 70%, rgba(45, 74, 62, 0.18) 0%, transparent 50%);
+}
+.stats .wrap { position: relative; z-index: 1; }
+.stats .head { text-align: center; max-width: 760px; margin: 0 auto 5rem; }
+.stats .head .eyebrow {
+  color: var(--gold); margin-bottom: 1.5rem; justify-content: center;
+}
+.stats h2 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 500;
+  color: var(--ivory); line-height: 1.15; letter-spacing: -0.02em;
+}
+.stats h2 em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+.stat-tile {
+  background: rgba(250, 245, 235, 0.04);
+  border: 1px solid rgba(201, 168, 120, 0.25);
+  border-radius: 4px; padding: 2.5rem 1.5rem; text-align: center;
+  backdrop-filter: blur(8px); transition: all .35s;
+}
+.stat-tile:hover {
+  background: rgba(250, 245, 235, 0.08);
+  border-color: var(--gold);
+  transform: translateY(-4px);
+}
+.stat-tile .num {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(2.8rem, 5vw, 4rem); font-weight: 500;
+  color: var(--gold-bright); line-height: 1; margin-bottom: 0.7rem;
+  letter-spacing: -0.02em;
+}
+.stat-tile .lab {
+  font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: rgba(250, 245, 235, 0.65); font-weight: 500;
+}
+
+/* ─── Final CTA — concierge ─── */
+.cta-final {
+  padding: 8rem 0; text-align: center; background: var(--ivory);
+  position: relative;
+}
+.cta-final::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(201, 168, 120, 0.08), transparent 60%);
+  pointer-events: none;
+}
+.cta-final .wrap { max-width: 780px; position: relative; }
+.cta-final h2 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(2.6rem, 5vw, 4rem); font-weight: 500;
+  color: var(--navy); margin-bottom: 1.5rem; line-height: 1.1; letter-spacing: -0.02em;
+}
+.cta-final h2 em {
+  color: var(--gold-deep); font-style: italic;
+}
+.cta-final p {
+  font-size: 1.18rem; color: var(--muted);
+  margin-bottom: 3rem; max-width: 580px; margin-inline: auto;
+}
+.cta-final .ctas { display: inline-flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.cta-final .micro {
+  margin-top: 3rem; display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap;
+  font-size: 0.85rem; color: var(--muted);
+}
+.cta-final .micro span::before {
+  content: ''; display: inline-block; width: 16px; height: 16px;
+  background: var(--gold); border-radius: 50%; margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* ─── Footer ─── */
+footer { background: var(--navy); color: var(--ivory); padding: 4.5rem 0 2rem; position: relative; }
+footer::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-bright) 50%, var(--gold) 100%);
+}
+footer .wrap {
+  display: grid; grid-template-columns: 1.2fr repeat(3, 1fr); gap: 3rem;
+  padding-bottom: 3rem; border-bottom: 1px solid rgba(250, 245, 235, 0.12);
+}
+.foot-brand .name {
+  font-family: 'Frank Ruhl Libre', serif; font-size: 1.6rem; color: var(--ivory); font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.foot-brand .sub { font-family: 'Italiana', serif; color: var(--gold); font-size: 0.85rem; letter-spacing: 0.2em; }
+.foot-brand p { font-size: 0.88rem; color: rgba(250, 245, 235, 0.7); margin-top: 1.5rem; line-height: 1.7; max-width: 280px; }
+footer h4 {
+  font-family: 'Frank Ruhl Libre', serif; font-size: 1.05rem;
+  color: var(--gold); margin-bottom: 1.2rem; font-weight: 600;
+}
+footer ul { list-style: none; }
+footer li { margin-bottom: 0.6rem; }
+footer li a { font-size: 0.88rem; color: rgba(250, 245, 235, 0.7); transition: color .25s; }
+footer li a:hover { color: var(--gold-bright); }
+.foot-meta {
+  display: flex; justify-content: space-between; padding-top: 2rem;
+  font-size: 0.78rem; color: rgba(250, 245, 235, 0.5); flex-wrap: wrap; gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  header .wrap { grid-template-columns: 1fr; gap: 1rem; text-align: center; }
+  nav ul { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .header-actions { justify-content: center; }
+  .hero .wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+  .hero-creds, .svc-grid, .trust-grid, .stats-grid, footer .wrap { grid-template-columns: 1fr 1fr; }
+  .trust-grid { gap: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="sketch-badge">סקיצה C · ATELIER MAISON</div>
+
+<!-- Top bar -->
+<div class="top-bar">
+  <div class="wrap">
+    <div class="left">
+      <span><span class="pulse-dot"></span> פנוי לייעוץ אישי</span>
+      <span>מענה תוך 24 שעות</span>
+      <span>סודיות מלאה</span>
+    </div>
+    <div class="right">
+      <span>menifainance@gmail.com</span>
+      <span>052-4502821</span>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <a class="brand">
+      <div class="brand-mark italiana">M</div>
+      <div class="brand-text">
+        <div class="name">מניפה פיננסית</div>
+        <div class="sub">Atelier · Est. 2018</div>
+      </div>
+    </a>
+    <nav>
+      <ul>
+        <li><a class="active">דף הבית</a></li>
+        <li><a>שירותים</a></li>
+        <li><a>הגישה</a></li>
+        <li><a>מקרי בוחן</a></li>
+        <li><a>צור קשר</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a class="phone-link">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
+        052-4502821
+      </a>
+      <a class="btn-primary">קבעו פגישה</a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">
+        <svg class="leaf-svg" width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3c.5.12 1 .2 1.5.2C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"/></svg>
+        אטלייה ייעוץ משכנתאות · מאז 2018
+      </div>
+      <h1>
+        ייעוץ פרטי.<br>
+        תוצאה <span class="underline"><em>יוצאת דופן</em></span>.
+      </h1>
+      <p class="lead">
+        שיטה של בנקאות פרטית — בהישג ידכם. ניתוח עומק של התיק הפיננסי, ליווי אישי, ו<strong>חיסכון ממוצע של 180,000 ₪</strong> ללקוח. השוק מלא ביועצים. אנחנו מציעים שיטה שונה.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn-primary">קביעת פגישה — חינם</a>
+        <a class="btn-ghost">← קראו את השיטה</a>
+      </div>
+      <div class="hero-creds">
+        <div>
+          <div class="cred-icon">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <div class="cred-content">
+            <div class="label">רישיון</div>
+            <div class="value">משרד האוצר</div>
+          </div>
+        </div>
+        <div>
+          <div class="cred-icon">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <div class="cred-content">
+            <div class="label">סודיות</div>
+            <div class="value">תקני אבטחת מידע</div>
+          </div>
+        </div>
+        <div>
+          <div class="cred-icon">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div class="cred-content">
+            <div class="label">ביטוח</div>
+            <div class="value">אחריות מקצועית</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="advisor-card">
+      <div class="gold-strip"></div>
+      <div class="content">
+        <div class="num italiana">N° 001 · YOUR ADVISOR</div>
+        <div style="text-align:center;">
+          <img src="../assets/images/tamir-medium.jpg" alt="תמיר גרמה">
+          <div class="name">תמיר גרמה</div>
+          <div class="role">יועץ משכנתאות מוסמך</div>
+          <div class="badges">
+            <span class="badge">15+ שנות ניסיון</span>
+            <span class="badge">500+ תיקים</span>
+            <span class="badge">BI · שוק ההון</span>
+          </div>
+          <p class="quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+          <div class="signature">~ תמיר</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gold divider -->
+<div class="gold-divider">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L9 9H2l5.5 4-2 7L12 16l6.5 4-2-7L22 9h-7z"/></svg>
+</div>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow" style="justify-content:center;">תחומי התמחות</div>
+      <h2>ארבעה שירותים — <em>שיטה אחת</em></h2>
+      <p>כל לקוח מקבל ליווי אישי מקצה לקצה. אבחון מעמיק, אסטרטגיה מותאמת, ביצוע מקצועי, ומעקב לטווח ארוך.</p>
+    </div>
+
+    <div class="svc-grid">
+      <a class="svc">
+        <div class="svc-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        </div>
+        <h3>רכישת דירה</h3>
+        <p>תמהיל שמתאים לכלכלת המשפחה לטווח ארוך. מו"מ מול הבנקים. ליווי עד החתימה.</p>
+        <span class="svc-link">למחשבון משכנתא ←</span>
+      </a>
+      <a class="svc">
+        <div class="svc-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+        </div>
+        <h3>מחזור משכנתא</h3>
+        <p>בדיקת כדאיות מקיפה. אם יש חיסכון — נבצע. אם לא — נאמר זאת בכנות.</p>
+        <span class="svc-link">בדיקת חיסכון ←</span>
+      </a>
+      <a class="svc">
+        <div class="svc-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        </div>
+        <h3>איחוד הלוואות</h3>
+        <p>הלוואות יקרות מאוחדות במשכנתא בריבית נמוכה. ההחזר יורד. התזרים נושם.</p>
+        <span class="svc-link">חישוב חיסכון ←</span>
+      </a>
+      <a class="svc">
+        <div class="svc-icon">
+          <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+        </div>
+        <h3>שיחת ייעוץ — חינם</h3>
+        <p>30 דקות, ללא עלות וללא התחייבות. אבחון, מיפוי הזדמנויות, תמונה ברורה.</p>
+        <span class="svc-link">קבעו שיחה ←</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<section class="trust">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow" style="justify-content:center;">הבטחת אמון</div>
+      <h2 class="display" style="font-size:clamp(2rem,4vw,3rem); color:var(--navy); margin-bottom:0.8rem; font-weight:500;">ההגנה שלכם — <em style="color:var(--gold-deep);">בראש סדר העדיפויות</em></h2>
+      <p style="font-size:1rem; color:var(--muted);">מורשה, מבוטח, ומחויב לסטנדרטים הגבוהים ביותר בתעשייה</p>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+        <h4>רישיון משרד האוצר</h4>
+        <p>יועץ מוסמך, רישיון פעיל ומעודכן</p>
+      </div>
+      <div class="trust-card">
+        <div class="icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg></div>
+        <h4>סודיות מלאה</h4>
+        <p>נתונים מוצפנים, ללא חשיפה לגורם שלישי</p>
+      </div>
+      <div class="trust-card">
+        <div class="icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <h4>ביטוח מקצועי</h4>
+        <p>אחריות מקצועית מלאה — לבטחונכם</p>
+      </div>
+      <div class="trust-card">
+        <div class="icon"><svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"/></svg></div>
+        <h4>שקיפות מחיר</h4>
+        <p>מחיר ברור מראש, ללא עמלות נסתרות</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="wrap">
+    <div class="head">
+      <div class="eyebrow">ההישגים</div>
+      <h2>500+ תיקים. ₪90 מיליון <em>חיסכון מצטבר.</em></h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-tile">
+        <div class="num">+500</div>
+        <div class="lab">תיקים סגורים</div>
+      </div>
+      <div class="stat-tile">
+        <div class="num">₪180K</div>
+        <div class="lab">חיסכון ממוצע</div>
+      </div>
+      <div class="stat-tile">
+        <div class="num">15</div>
+        <div class="lab">שנות ניסיון</div>
+      </div>
+      <div class="stat-tile">
+        <div class="num">98%</div>
+        <div class="lab">שביעות רצון</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-final">
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center;">קביעת פגישה</div>
+    <h2>נתחיל מ<em>שיחה</em>.<br>נסיים בחיסכון משמעותי.</h2>
+    <p>שיחת היכרות של 30 דקות. ללא עלות. ללא התחייבות. בסופה תקבלו תמונה ברורה של איפה אפשר לחסוך — והכי חשוב, אם בכלל כדאי לכם.</p>
+    <div class="ctas">
+      <a class="btn-primary">קביעת פגישה אישית</a>
+      <a class="btn-ghost">052-4502821</a>
+    </div>
+    <div class="micro">
+      <span>ללא עלות</span>
+      <span>ללא התחייבות</span>
+      <span>סודיות מלאה</span>
+      <span>תוך 24 שעות</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-brand">
+      <div class="name">מניפה פיננסית</div>
+      <div class="sub italiana">Atelier · Est. 2018</div>
+      <p>אטלייה ייעוץ פיננסי לבעלי בתים. שיטה של בנקאות פרטית, בהישג ידכם.</p>
+    </div>
+    <div>
+      <h4>שירותים</h4>
+      <ul>
+        <li><a>רכישת דירה</a></li>
+        <li><a>מחזור משכנתא</a></li>
+        <li><a>איחוד הלוואות</a></li>
+        <li><a>ייעוץ ראשוני</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>מידע</h4>
+      <ul>
+        <li><a>הגישה שלנו</a></li>
+        <li><a>מקרי בוחן</a></li>
+        <li><a>מאמרים</a></li>
+        <li><a>שאלות נפוצות</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>צרו קשר</h4>
+      <ul>
+        <li><a>052-4502821</a></li>
+        <li><a>menifainance@gmail.com</a></li>
+        <li><a>תל אביב, ישראל</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-meta">
+    <span>© 2026 מניפה פיננסית · תמיר גרמה · כל הזכויות שמורות</span>
+    <span><a href="../mockups.html" style="color:var(--gold);">חזרה לגלריית הסקיצות ←</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>סקיצה A — Aspen Heritage | מניפה פיננסית</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Manrope:wght@300;400;500;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap">
+<style>
+:root {
+  --bg: #F8F4ED;          /* Warm bone */
+  --bg-deep: #EEE7D8;     /* Aged paper */
+  --ink: #1F2A24;         /* Deep forest ink */
+  --forest: #234430;      /* Deep forest */
+  --forest-soft: #3A5B47;
+  --brass: #B8956A;       /* Brushed brass */
+  --brass-deep: #8E6E47;
+  --burgundy: #5A2326;    /* Wine accent */
+  --muted: #6B6356;
+  --line: rgba(31, 42, 36, 0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Manrope', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  font-weight: 400;
+  overflow-x: hidden;
+  /* Paper grain texture */
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(184, 149, 106, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(35, 68, 48, 0.03) 0%, transparent 50%);
+}
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' /%3E%3CfeColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.4 0 0 0 0 0.3 0 0 0 0.025 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 1; opacity: 0.5;
+}
+.serif { font-family: 'Cormorant Garamond', 'Frank Ruhl Libre', serif; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 clamp(1.5rem, 4vw, 3rem); position: relative; z-index: 2; }
+
+/* ─── Sketch label ─── */
+.sketch-badge {
+  position: fixed; top: 1.2rem; left: 1.2rem;
+  background: var(--ink); color: var(--bg);
+  padding: 0.6rem 1.2rem; border-radius: 0;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; z-index: 100;
+  border-left: 3px solid var(--brass);
+}
+
+/* ─── Top utility strip ─── */
+.utility-strip {
+  background: var(--ink); color: var(--bg);
+  padding: 0.65rem 0; font-size: 0.78rem; letter-spacing: 0.05em;
+}
+.utility-strip .wrap {
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+.utility-strip .left, .utility-strip .right { display: flex; gap: 1.5rem; align-items: center; }
+.utility-strip .dot {
+  width: 6px; height: 6px; background: var(--brass);
+  border-radius: 50%; display: inline-block; margin-left: 0.4rem;
+}
+
+/* ─── Header ─── */
+header {
+  padding: 1.8rem 0; border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; background: rgba(248, 244, 237, 0.88);
+  backdrop-filter: blur(12px); z-index: 50;
+}
+header .wrap {
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 2rem;
+}
+.logo-mark {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem; font-weight: 600;
+  color: var(--ink); letter-spacing: -0.01em;
+}
+.logo-mark em {
+  color: var(--brass); font-style: italic; font-weight: 500;
+}
+.logo-mark small {
+  display: block; font-family: 'Manrope', sans-serif;
+  font-size: 0.65rem; letter-spacing: 0.32em;
+  color: var(--brass-deep); margin-top: 0.15rem; text-transform: uppercase; font-weight: 600;
+}
+nav ul {
+  list-style: none; display: flex; gap: 2.5rem; justify-content: center;
+}
+nav ul a {
+  font-size: 0.92rem; font-weight: 500; color: var(--ink);
+  position: relative; padding: 0.3rem 0; transition: color .3s;
+}
+nav ul a::before {
+  content: ''; position: absolute; bottom: 0; right: 50%; left: 50%; height: 1px;
+  background: var(--brass); transition: left .35s, right .35s;
+}
+nav ul a:hover { color: var(--forest); }
+nav ul a:hover::before { left: 0; right: 0; }
+nav ul a.is-active { color: var(--forest); }
+nav ul a.is-active::before { left: 0; right: 0; background: var(--forest); }
+.header-actions { display: flex; gap: 1rem; align-items: center; justify-content: flex-start; }
+.btn-phone {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600; color: var(--forest);
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-primary {
+  background: var(--forest); color: var(--bg);
+  padding: 0.85rem 1.6rem; font-size: 0.88rem; font-weight: 600;
+  letter-spacing: 0.03em; transition: all .4s cubic-bezier(.2,.8,.2,1);
+  position: relative; overflow: hidden;
+}
+.btn-primary::after {
+  content: ''; position: absolute; inset: 0;
+  background: var(--brass); transform: translateX(100%);
+  transition: transform .5s cubic-bezier(.2,.8,.2,1); z-index: 0;
+}
+.btn-primary:hover::after { transform: translateX(0); }
+.btn-primary span { position: relative; z-index: 1; }
+.btn-primary:hover { color: var(--ink); }
+
+/* ─── Hero (editorial) ─── */
+.hero {
+  padding: 6rem 0 4rem; position: relative;
+}
+.hero .wrap {
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: center;
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.32em;
+  text-transform: uppercase; color: var(--brass-deep); margin-bottom: 1.5rem;
+}
+.eyebrow::before {
+  content: ''; width: 28px; height: 1px; background: var(--brass);
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.6rem, 5.5vw, 4.6rem);
+  line-height: 1.05; font-weight: 500;
+  color: var(--ink); margin-bottom: 1.8rem; letter-spacing: -0.02em;
+}
+.hero h1 em {
+  color: var(--brass); font-weight: 500; font-style: italic;
+  position: relative; display: inline-block;
+}
+.hero h1 em::after {
+  content: ''; position: absolute;
+  bottom: 0.1em; left: -2%; right: -2%; height: 8px;
+  background: var(--brass); opacity: 0.18; z-index: -1;
+}
+.hero .lead {
+  font-size: 1.18rem; line-height: 1.65; color: var(--muted);
+  margin-bottom: 2.5rem; max-width: 520px; font-weight: 400;
+}
+.hero .lead strong { color: var(--ink); font-weight: 600; }
+.hero-ctas { display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; margin-bottom: 3rem; }
+.btn-ghost {
+  background: transparent; color: var(--ink);
+  padding: 0.85rem 1.6rem; font-size: 0.88rem; font-weight: 600;
+  letter-spacing: 0.03em; border: 1px solid var(--ink);
+  transition: all .35s cubic-bezier(.2,.8,.2,1);
+}
+.btn-ghost:hover { background: var(--ink); color: var(--bg); }
+.hero-trust {
+  display: flex; gap: 2.5rem; padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+.hero-trust > div { font-size: 0.85rem; color: var(--muted); }
+.hero-trust strong {
+  display: block; font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem; font-weight: 600; color: var(--forest); line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+/* Advisor portrait card — editorial */
+.portrait-card {
+  position: relative; aspect-ratio: 3/4;
+}
+.portrait-card .frame {
+  background: var(--bg-deep);
+  padding: 1.5rem 1.5rem 2rem;
+  height: 100%; display: flex; flex-direction: column;
+  border: 1px solid var(--line);
+  box-shadow: 0 40px 80px -30px rgba(31, 42, 36, 0.25);
+  position: relative;
+}
+.portrait-card .frame::before {
+  content: ''; position: absolute;
+  top: 8px; right: 8px; bottom: 8px; left: 8px;
+  border: 1px solid var(--brass); opacity: 0.4; pointer-events: none;
+}
+.portrait-card img {
+  width: 100%; aspect-ratio: 1; object-fit: cover;
+  margin-bottom: 1.5rem; filter: sepia(0.08) contrast(1.02);
+}
+.portrait-card .meta {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 0.8rem; padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+.portrait-card .meta .name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem; font-weight: 600; color: var(--ink);
+}
+.portrait-card .meta .num {
+  font-size: 0.7rem; letter-spacing: 0.2em; color: var(--brass-deep); font-weight: 600;
+}
+.portrait-card .role {
+  font-size: 0.82rem; color: var(--muted); margin-bottom: 1.2rem;
+  font-style: italic;
+}
+.portrait-card .quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-style: italic; color: var(--forest);
+  line-height: 1.55; padding-right: 0.8rem;
+  border-right: 2px solid var(--brass); margin-top: auto;
+}
+.portrait-card .signature {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color: var(--burgundy); font-size: 1.1rem;
+  margin-top: 1rem; transform: rotate(-2deg) translateX(8px);
+}
+
+/* ─── Trust strip ─── */
+.trust-strip {
+  padding: 3rem 0; border-block: 1px solid var(--line);
+  background: var(--bg-deep);
+}
+.trust-strip .wrap {
+  display: flex; align-items: center; gap: 3rem; flex-wrap: wrap; justify-content: center;
+}
+.trust-strip .label {
+  font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--muted); font-weight: 700;
+}
+.trust-items {
+  display: flex; gap: 2.5rem; flex-wrap: wrap; align-items: center;
+}
+.trust-items > div {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-weight: 500; color: var(--forest);
+  display: inline-flex; align-items: center; gap: 0.5rem; font-style: italic;
+}
+.trust-items > div::before {
+  content: '✦'; color: var(--brass);
+}
+
+/* ─── Services (editorial spread) ─── */
+.services { padding: 7rem 0 5rem; }
+.section-head { max-width: 720px; margin-bottom: 4rem; }
+.section-head h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+  font-weight: 500; line-height: 1.1; margin-bottom: 1.2rem;
+  color: var(--ink); letter-spacing: -0.01em;
+}
+.section-head h2 em { color: var(--brass); font-style: italic; }
+.section-head p {
+  font-size: 1.08rem; color: var(--muted); line-height: 1.6; max-width: 580px;
+}
+.services-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+}
+.svc {
+  background: var(--bg-deep); padding: 2.5rem 2.2rem;
+  border: 1px solid var(--line); position: relative; overflow: hidden;
+  transition: transform .5s cubic-bezier(.2,.8,.2,1), background .5s ease;
+}
+.svc::before {
+  content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brass), transparent);
+  transform: translateX(-100%); transition: transform .8s cubic-bezier(.2,.8,.2,1);
+}
+.svc:hover { background: #F2EAD8; transform: translateY(-4px); }
+.svc:hover::before { transform: translateX(0); }
+.svc .roman {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem; font-weight: 500; color: var(--brass-deep);
+  letter-spacing: 0.2em; margin-bottom: 1.5rem; font-style: italic;
+}
+.svc h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem; font-weight: 500; color: var(--ink);
+  margin-bottom: 0.8rem; line-height: 1.2;
+}
+.svc p {
+  font-size: 0.96rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.5rem;
+}
+.svc .arrow {
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--forest);
+  display: inline-flex; align-items: center; gap: 0.5rem; transition: gap .3s;
+}
+.svc:hover .arrow { gap: 0.9rem; color: var(--brass-deep); }
+
+/* ─── Manifesto (large pull quote) ─── */
+.manifesto {
+  padding: 7rem 0; background: var(--forest); color: var(--bg);
+  position: relative; overflow: hidden;
+}
+.manifesto::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(184, 149, 106, 0.18), transparent 60%);
+}
+.manifesto .wrap {
+  display: grid; grid-template-columns: auto 1fr; gap: 4rem; align-items: center;
+  position: relative;
+}
+.manifesto .opening-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12rem; line-height: 0.8; color: var(--brass);
+  font-style: italic; opacity: 0.7;
+}
+.manifesto blockquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  line-height: 1.25; font-weight: 500; font-style: italic;
+  margin-bottom: 1.8rem;
+}
+.manifesto cite {
+  font-family: 'Manrope', sans-serif; font-style: normal;
+  font-size: 0.85rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--brass); font-weight: 600;
+}
+.manifesto cite::before { content: '— '; }
+
+/* ─── Stats ─── */
+.stats { padding: 6rem 0; }
+.stats .wrap {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+}
+.stat {
+  text-align: center; padding: 1rem; position: relative;
+}
+.stat + .stat { border-right: 1px solid var(--line); }
+.stat .num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 5vw, 4.4rem);
+  font-weight: 500; color: var(--forest); line-height: 1;
+  margin-bottom: 0.6rem; letter-spacing: -0.02em;
+}
+.stat .num em { color: var(--brass); font-style: italic; }
+.stat .lab {
+  font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); font-weight: 600;
+}
+
+/* ─── CTA ─── */
+.cta-final {
+  padding: 7rem 0; background: var(--bg-deep);
+  border-top: 1px solid var(--line); position: relative;
+}
+.cta-final .wrap { text-align: center; max-width: 760px; }
+.cta-final h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 500; line-height: 1.15; margin-bottom: 1.2rem;
+  color: var(--ink); letter-spacing: -0.01em;
+}
+.cta-final h2 em { color: var(--brass); font-style: italic; }
+.cta-final p { font-size: 1.1rem; color: var(--muted); margin-bottom: 2.5rem; }
+.cta-final .ctas { display: inline-flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+.cta-final .micro {
+  margin-top: 2.5rem; display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+  font-size: 0.82rem; color: var(--muted); letter-spacing: 0.05em;
+}
+.cta-final .micro span::before { content: '✓ '; color: var(--brass); font-weight: 700; }
+
+/* ─── Footer ─── */
+footer {
+  background: var(--ink); color: var(--bg); padding: 4rem 0 2rem;
+}
+footer .wrap {
+  display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 3rem;
+  padding-bottom: 3rem; border-bottom: 1px solid rgba(248,244,237,0.12);
+}
+footer h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; color: var(--brass); margin-bottom: 1.2rem;
+  letter-spacing: 0.05em; font-weight: 500; font-style: italic;
+}
+footer ul { list-style: none; }
+footer li { margin-bottom: 0.6rem; }
+footer li a { font-size: 0.88rem; color: rgba(248,244,237,0.7); transition: color .25s; }
+footer li a:hover { color: var(--brass); }
+.footer-meta {
+  display: flex; justify-content: space-between; padding-top: 2rem;
+  font-size: 0.78rem; color: rgba(248,244,237,0.5); flex-wrap: wrap; gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  header .wrap { grid-template-columns: 1fr; gap: 1rem; text-align: center; }
+  nav ul { gap: 1.2rem; flex-wrap: wrap; justify-content: center; }
+  .header-actions { justify-content: center; }
+  .hero .wrap, .manifesto .wrap { grid-template-columns: 1fr; gap: 2.5rem; }
+  .manifesto .opening-quote { font-size: 6rem; text-align: center; }
+  .services-grid { grid-template-columns: 1fr; }
+  .stats .wrap { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 1rem; }
+  .stat + .stat { border-right: none; }
+  footer .wrap { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="sketch-badge">סקיצה A · ASPEN HERITAGE</div>
+
+<!-- Utility strip -->
+<div class="utility-strip">
+  <div class="wrap">
+    <div class="left">
+      <span>פנוי לייעוץ <span class="dot"></span></span>
+      <span>מענה תוך 24 שעות</span>
+    </div>
+    <div class="right">
+      <span>052-4502821</span>
+      <span>menifainance@gmail.com</span>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="wrap">
+    <a class="logo-mark">
+      מניפה <em>פיננסית</em>
+      <small>est. 2018 · Tamir Garma</small>
+    </a>
+    <nav>
+      <ul>
+        <li><a class="is-active">דף הבית</a></li>
+        <li><a>פילוסופיה</a></li>
+        <li><a>שירותים</a></li>
+        <li><a>מקרי בוחן</a></li>
+        <li><a>יצירת קשר</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a class="btn-phone">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
+        052-4502821
+      </a>
+      <a class="btn-primary"><span>קביעת פגישה</span></a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">משכנתאות · ייעוץ פרטי · מאז 2018</div>
+      <h1>
+        החלטה אחת.<br>
+        עשרות שנות <em>שקט</em>.
+      </h1>
+      <p class="lead">
+        ייעוץ משכנתאות בגישה של בנקאות פרטית. 15 שנים בעולם הבנקאי, גישה ניתוחית לתיק הפיננסי המלא,
+        וליווי עד אחרי החתימה. <strong>חיסכון ממוצע של 180,000 ₪</strong> ללקוח על חיי המשכנתא.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn-primary"><span>שיחת היכרות — בלי עלות</span></a>
+        <a class="btn-ghost">קראו את הפילוסופיה ←</a>
+      </div>
+      <div class="hero-trust">
+        <div><strong>+500</strong>תיקים מוצלחים</div>
+        <div><strong>15<em>'</em></strong>שנות ניסיון</div>
+        <div><strong>4.9<em>★</em></strong>דירוג ממוצע</div>
+      </div>
+    </div>
+    <div class="portrait-card">
+      <div class="frame">
+        <img src="../assets/images/tamir-medium.jpg" alt="תמיר גרמה">
+        <div class="meta">
+          <span class="name">תמיר גרמה</span>
+          <span class="num">N° 001</span>
+        </div>
+        <div class="role">יועץ משכנתאות מוסמך · מומחה פיננסי</div>
+        <p class="quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+        <div class="signature">~ תמיר</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<section class="trust-strip">
+  <div class="wrap">
+    <span class="label">בנקים ושותפים</span>
+    <div class="trust-items">
+      <div>לאומי</div>
+      <div>הפועלים</div>
+      <div>מזרחי טפחות</div>
+      <div>דיסקונט</div>
+      <div>הבינלאומי</div>
+      <div>כלכליסט</div>
+      <div>דה־מרקר</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">הגישה שלנו</div>
+      <h2>ארבע נקודות מוצא <em>לפתרון נכון</em></h2>
+      <p>כל תיק נפתח באבחון מעמיק. לא תבנית. לא אוטומציה. ניתוח אישי שבונה את הפתרון בדיוק לצרכים שלכם.</p>
+    </div>
+    <div class="services-grid">
+      <a class="svc">
+        <div class="roman">I · Acquisition</div>
+        <h3>רכישת דירה ראשונה</h3>
+        <p>בונים תמהיל שמתאים לכלכלת המשפחה לטווח ארוך. מנהלים מו"מ מול הבנקים. מלווים עד החתימה.</p>
+        <span class="arrow">למחשבון משכנתא ←</span>
+      </a>
+      <a class="svc">
+        <div class="roman">II · Refinancing</div>
+        <h3>מחזור משכנתא קיימת</h3>
+        <p>בודקים את המסלולים הקיימים מול תנאי השוק. מאתרים פערים. מבצעים מחזור שחוסך מאות אלפי שקלים.</p>
+        <span class="arrow">בדיקת כדאיות מחזור ←</span>
+      </a>
+      <a class="svc">
+        <div class="roman">III · Consolidation</div>
+        <h3>איחוד הלוואות</h3>
+        <p>אוספים הלוואות יקרות ומאחדים אותן למשכנתא בריבית נמוכה. התזרים החודשי נושם, החיסכון מצטבר.</p>
+        <span class="arrow">חישוב חיסכון אישי ←</span>
+      </a>
+      <a class="svc">
+        <div class="roman">IV · Consultation</div>
+        <h3>שיחת ייעוץ ראשונית</h3>
+        <p>30 דקות, ללא עלות וללא התחייבות. אבחון מהיר של המצב, מיפוי הזדמנויות, תמונה ברורה לפעולה.</p>
+        <span class="arrow">קבעו שיחה ←</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <div class="wrap">
+    <div class="opening-quote">"</div>
+    <div>
+      <blockquote>
+        השוק מלא ביועצים שעובדים <em>מול</em> הבנק. אני עובד <em>בשבילכם</em>.
+        אין עמלות מהבנק. אין קונפליקט אינטרסים. רק תוצאה שמדידה בשקלים.
+      </blockquote>
+      <cite>תמיר גרמה · מייסד מניפה פיננסית</cite>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="wrap">
+    <div class="stat">
+      <div class="num">+500</div>
+      <div class="lab">תיקים סגורים</div>
+    </div>
+    <div class="stat">
+      <div class="num">₪<em>180K</em></div>
+      <div class="lab">חיסכון ממוצע</div>
+    </div>
+    <div class="stat">
+      <div class="num">15</div>
+      <div class="lab">שנות ניסיון</div>
+    </div>
+    <div class="stat">
+      <div class="num">98<em>%</em></div>
+      <div class="lab">שביעות רצון</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-final">
+  <div class="wrap">
+    <div class="eyebrow" style="justify-content:center;">קביעת פגישה</div>
+    <h2>נתחיל מ<em>שיחה</em>.<br>נסיים בחיסכון משמעותי.</h2>
+    <p>שיחת היכרות של 30 דקות. ללא עלות. ללא התחייבות. עם תמונה אמיתית של איפה אפשר לחסוך.</p>
+    <div class="ctas">
+      <a class="btn-primary"><span>קביעת פגישה — חינם</span></a>
+      <a class="btn-ghost">052-4502821</a>
+    </div>
+    <div class="micro">
+      <span>ללא עלות</span>
+      <span>ללא התחייבות</span>
+      <span>מענה תוך 24 שעות</span>
+      <span>סודיות מלאה</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo-mark" style="color: var(--bg); font-size:1.5rem;">
+        מניפה <em>פיננסית</em>
+        <small style="color: var(--brass);">est. 2018 · Tamir Garma</small>
+      </div>
+      <p style="font-size:0.88rem; color: rgba(248,244,237,0.6); margin-top:1.5rem; line-height:1.7; max-width:280px;">
+        ייעוץ משכנתאות בגישה של בנקאות פרטית. שקיפות מלאה, ללא קונפליקט אינטרסים.
+      </p>
+    </div>
+    <div>
+      <h4>שירותים</h4>
+      <ul>
+        <li><a>רכישת דירה</a></li>
+        <li><a>מחזור משכנתא</a></li>
+        <li><a>איחוד הלוואות</a></li>
+        <li><a>ייעוץ ראשוני</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>מידע</h4>
+      <ul>
+        <li><a>הפילוסופיה</a></li>
+        <li><a>מקרי בוחן</a></li>
+        <li><a>בלוג</a></li>
+        <li><a>שאלות נפוצות</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>יצירת קשר</h4>
+      <ul>
+        <li><a>052-4502821</a></li>
+        <li><a>menifainance@gmail.com</a></li>
+        <li><a>תל אביב, ישראל</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-meta">
+    <span>© 2026 מניפה פיננסית · תמיר גרמה · כל הזכויות שמורות</span>
+    <span><a href="../mockups.html" style="color:var(--brass);">חזרה לגלריית הסקיצות ←</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
