@@ -4,36 +4,36 @@
    DESIGN SYSTEM — מניפה פיננסית
    ═══════════════════════════════════════════════════════════════ */
 :root {
-  /* Warm "private bank" palette — refined charcoal + cream + gold */
-  --navy: #2E363F;          /* warm charcoal — less blue, more sophisticated */
-  --navy-deep: #1F262D;
-  --navy-light: #4E5A66;
-  --navy-50: #F4F2EE;
-  --navy-100: #E5E1D8;
+  /* Fresh Air palette — white + sky blue + soft mint (premium fintech) */
+  --navy: #0E3C5C;          /* Deep ocean navy — primary brand color */
+  --navy-deep: #082945;
+  --navy-light: #2D6F95;
+  --navy-50: #F0F7FB;
+  --navy-100: #DCEBF4;
 
-  /* Refined gold — warm bronze undertone */
-  --gold: #B89259;
-  --gold-light: #D0B07F;
-  --gold-soft: #F2E7CC;
-  --gold-deep: #957237;
+  /* Sky/mint accent — replaces gold across the site */
+  --gold: #5BAFD8;          /* Sky bright (was gold) — primary accent */
+  --gold-light: #7BC1E0;    /* Sky soft */
+  --gold-soft: #E8F4FA;     /* Sky mist — light bg */
+  --gold-deep: #3D8B6E;     /* Mint deep — for dark accents */
 
-  /* Calculator accent colors — refined, less saturated */
-  --turquoise: #6FAFA6;
-  --turquoise-soft: #ECF4F2;
-  --blue: #6A89B5;
-  --blue-soft: #ECF0F6;
-  --green: #7AB892;
-  --green-soft: #EEF5F0;
-  --red: #C97878;
-  --red-soft: #F6EAEA;
-  --copper: #C19068;
-  --copper-soft: #F4EADE;
-  --purple: #9B8AB8;
-  --purple-soft: #EFEBF4;
+  /* Calculator accent colors — refreshed bright/clean */
+  --turquoise: #5BAFD8;
+  --turquoise-soft: #E8F4FA;
+  --blue: #2D6F95;
+  --blue-soft: #DCEBF4;
+  --green: #7DC9A3;
+  --green-soft: #E6F5EC;
+  --red: #E08866;
+  --red-soft: #FAEDE6;
+  --copper: #5DAB87;
+  --copper-soft: #E6F5EC;
+  --purple: #7BC1E0;
+  --purple-soft: #E8F4FA;
 
-  /* Backgrounds — warm ivory */
-  --bg: #FAF6EE;
-  --bg-warm: #F2ECDD;
+  /* Backgrounds — pure airy white */
+  --bg: #FCFDFE;
+  --bg-warm: #F0F7FB;
   --surface: #FFFFFF;
 
   /* Text — refined */
@@ -511,9 +511,9 @@ section[style*="background:"] .btn-ghost,
   padding: 8rem 0 4rem;
   position: relative;
   background:
-    radial-gradient(ellipse at 82% 18%, rgba(184, 146, 89, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 15% 88%, rgba(74, 123, 200, 0.10) 0%, transparent 50%),
-    linear-gradient(135deg, #FAF6EE 0%, #F5EFE3 50%, #EFE6D3 100%);
+    radial-gradient(ellipse at 82% 18%, rgba(91, 175, 216, 0.16) 0%, transparent 55%),
+    radial-gradient(ellipse at 15% 88%, rgba(125, 201, 163, 0.14) 0%, transparent 50%),
+    linear-gradient(135deg, #FCFDFE 0%, #F0F7FB 50%, #E8F4FA 100%);
   color: var(--navy);
   display: flex;
   align-items: center;
@@ -525,8 +525,8 @@ section[style*="background:"] .btn-ghost,
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(circle at 90% 10%, rgba(184, 146, 89, 0.10) 0%, transparent 40%),
-    radial-gradient(circle at 10% 95%, rgba(27, 42, 65, 0.06) 0%, transparent 45%);
+    radial-gradient(circle at 90% 10%, rgba(91, 175, 216, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 10% 95%, rgba(125, 201, 163, 0.10) 0%, transparent 45%);
   pointer-events: none;
 }
 
