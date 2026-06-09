@@ -369,6 +369,25 @@
             <p class="calc-desc">משכנתא צמודת מדד יכולה לעלות בעשרות אלפי שקלים. בדקו את ההשפעה הצפויה.</p>
           </div>
 
+          <!-- ═══ פאנל אינדיקציה — נתוני מדד מחירים לצרכן (למ"ס + בנק ישראל) ═══ -->
+          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;line-height:1.65;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-weight:700;color:#0E3C5C;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linejoin="round"/></svg>
+              מדד המחירים לצרכן — נתוני הלמ"ס / בנק ישראל
+            </div>
+            <ul style="margin:0;padding-right:1.2rem;color:#1A2B45;">
+              <li><strong>מתחילת 2026 (Jan-May):</strong> ~1.2% מצטבר · אנואליזציה ~<strong>1.9%</strong></li>
+              <li><strong>שנת 2025 (סוף):</strong> ~<strong>2.5%</strong> שנתי</li>
+              <li><strong>שנת 2024:</strong> ~<strong>2.4%</strong> שנתי</li>
+              <li><strong>שנת 2023:</strong> ~<strong>3.0%</strong> שנתי</li>
+              <li><strong>ממוצע 3 שנים (2023-2025):</strong> ~<strong>2.6%</strong></li>
+              <li><strong>ממוצע 5 שנים (2021-2025):</strong> ~<strong>3.2%</strong> (כולל שיא 2022 של 5.3%)</li>
+            </ul>
+            <p style="margin:0.7rem 0 0;font-size:0.8rem;color:#5C7090;">
+              💡 <strong>ברירת המחדל במחשבון (2.8%)</strong> = ממוצע 3 שנים + 0.2% מרווח שמרני. מקור: <a href="https://www.cbs.gov.il/he/subjects/Pages/%D7%9E%D7%93%D7%93%D7%99-%D7%9E%D7%97%D7%99%D7%A8%D7%99%D7%9D-%D7%9C%D7%A6%D7%A8%D7%9B%D7%9F.aspx" target="_blank" rel="noopener" style="color:#2D6F95;">למ"ס — מדדי מחירים לצרכן</a> · <a href="https://www.boi.org.il/roles/statistics/" target="_blank" rel="noopener" style="color:#2D6F95;">בנק ישראל — נתונים סטטיסטיים</a>. מתעדכן מדי 15 לחודש.
+            </p>
+          </div>
+
           <div class="input-group">
             <label for="m6-loan"><span>גובה הלוואה צמודה</span><span class="val" id="m6-loan-val">₪500,000</span></label>
             <input type="range" id="m6-loan" min="50000" max="2000000" step="25000" value="500000" aria-label="גובה הלוואה צמודה">
@@ -380,8 +399,8 @@
             <div class="range-meta"><span>0.5%</span><span>6%</span></div>
           </div>
           <div class="input-group">
-            <label for="m6-cpi"><span>מדד שנתי צפוי</span><span class="val" id="m6-cpi-val">3%</span></label>
-            <input type="range" id="m6-cpi" min="0" max="8" step="0.1" value="3" aria-label="מדד שנתי">
+            <label for="m6-cpi"><span>מדד שנתי צפוי <small style="font-weight:400;color:#5C7090;">(ממוצע 3 שנים + 0.2%)</small></span><span class="val" id="m6-cpi-val">2.8%</span></label>
+            <input type="range" id="m6-cpi" min="0" max="8" step="0.1" value="2.8" aria-label="מדד שנתי">
             <div class="range-meta"><span>0%</span><span>8%</span></div>
           </div>
           <div class="input-group">
