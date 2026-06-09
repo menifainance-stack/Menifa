@@ -182,27 +182,6 @@
             <input type="range" id="m2-yield" min="2" max="50" step="0.1" value="5" aria-label="תשואה שנתית">
             <div class="range-meta"><span>2%</span><span>50%</span></div>
           </div>
-
-          <!-- Reference data from gemel.net — 5 year industry average -->
-          <div class="yield-reference">
-            <div class="yield-ref-header">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              <span>ממוצע 5 שנים אחרונות לפי <a href="http://gemelnet.cma.gov.il/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">גמל נט</a></span>
-            </div>
-            <div class="yield-presets">
-              <button type="button" class="yield-preset" data-yield="8" aria-label="בחר תשואה של מסלול מנייתי">
-                <span class="preset-icon">📈</span>
-                <span class="preset-label">מסלול מנייתי</span>
-                <span class="preset-value">~8%</span>
-              </button>
-              <button type="button" class="yield-preset" data-yield="5.5" aria-label="בחר תשואה של מסלול כללי">
-                <span class="preset-icon">⚖️</span>
-                <span class="preset-label">מסלול כללי</span>
-                <span class="preset-value">~4.7%</span>
-              </button>
-            </div>
-            <p class="yield-note">לחיצה תכוון את הסליידר לערך. נתונים נכון למאי 2026 — ממוצע ענפי.</p>
-          </div>
         </div>
         <div>
           <div class="calc-output">
@@ -210,6 +189,32 @@
             <div class="out-val" id="m2-out">₪0</div>
             <div class="out-sub">סך הפקדות: <span id="m2-deposits" class="num-display">₪0</span> · רווח: <span id="m2-profit" class="num-display">₪0</span></div>
           </div>
+
+          <!-- ═══ פאנל אינדיקציה — ממוצעי תשואה (מתחת לפלט) ═══ -->
+          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;font-size:0.88rem;line-height:1.65;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-weight:700;color:#0E3C5C;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              ממוצעי תשואה — גמל נט (5 שנים)
+            </div>
+            <ul style="margin:0;padding:0;color:#1A2B45;list-style:none;">
+              <li style="border-bottom:1px dashed rgba(91,175,216,0.2);">
+                <button type="button" class="yield-preset" data-yield="8" aria-label="בחר תשואה של מסלול מנייתי" style="display:flex;justify-content:space-between;align-items:center;width:100%;padding:0.4rem 0;background:transparent;border:0;cursor:pointer;font-family:inherit;font-size:inherit;color:#1A2B45;text-align:right;">
+                  <span>📈 מסלול מנייתי</span>
+                  <strong>~8%</strong>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="yield-preset" data-yield="5.5" aria-label="בחר תשואה של מסלול כללי" style="display:flex;justify-content:space-between;align-items:center;width:100%;padding:0.4rem 0;background:transparent;border:0;cursor:pointer;font-family:inherit;font-size:inherit;color:#1A2B45;text-align:right;">
+                  <span>⚖️ מסלול כללי</span>
+                  <strong>~4.7%</strong>
+                </button>
+              </li>
+            </ul>
+            <p style="margin:0.7rem 0 0;font-size:0.78rem;color:#5C7090;">
+              💡 לחיצה תכוון את הסליידר לערך. מקור: <a href="http://gemelnet.cma.gov.il/" target="_blank" rel="noopener" style="color:#2D6F95;">גמל נט</a> · מאי 2026.
+            </p>
+          </div>
+
           <div class="calc-cta">
             <a href="#contact" class="calc-cta-link">רוצים לבדוק אם הקופה שלכם הכי טובה? ←</a>
           </div>
@@ -295,28 +300,29 @@
           </div>
         </div>
         <div>
-          <!-- ═══ פאנל אינדיקציה — ממוצעי ריבית בנק ישראל (צד שמאל) ═══ -->
-          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:0.88rem;line-height:1.65;">
+          <div class="calc-output">
+            <div class="out-label">חיסכון חודשי משוער</div>
+            <div class="out-val" id="m4-out">₪0</div>
+            <div class="out-sub">סך חיסכון לתקופה: <span id="m4-total" class="num-display">₪0</span></div>
+          </div>
+
+          <!-- ═══ פאנל אינדיקציה — ממוצעי ריבית בנק ישראל (מתחת לפלט) ═══ -->
+          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;font-size:0.88rem;line-height:1.65;">
             <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-weight:700;color:#0E3C5C;">
               <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
               ממוצעי ריבית — בנק ישראל (מאי 2026)
             </div>
-            <ul style="margin:0;padding-right:1.2rem;color:#1A2B45;list-style:none;">
-              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>קל"צ</span><strong>~4.7%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>ק"צ צמודה</span><strong>~3.5%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>משתנה (כל 5 שנים)</span><strong>~4.25%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;"><span>פריים</span><strong>5.25%</strong></li>
+            <ul style="margin:0;padding-right:0;color:#1A2B45;list-style:none;">
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>קל"צ</span><strong>~4.7%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>ק"צ צמודה</span><strong>~3.5%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>משתנה (כל 5 שנים)</span><strong>~4.25%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;"><span>פריים</span><strong>5.25%</strong></li>
             </ul>
             <p style="margin:0.7rem 0 0;font-size:0.78rem;color:#5C7090;">
               💡 ברירת המחדל (4.9%) = ממוצע קל"צ + 0.2% מרווח שמרני.
             </p>
           </div>
 
-          <div class="calc-output">
-            <div class="out-label">חיסכון חודשי משוער</div>
-            <div class="out-val" id="m4-out">₪0</div>
-            <div class="out-sub">סך חיסכון לתקופה: <span id="m4-total" class="num-display">₪0</span></div>
-          </div>
           <div class="calc-cta">
             <a href="#contact" class="calc-cta-link">בואו נחסוך לכם את הכסף הזה ←</a>
           </div>
@@ -391,30 +397,31 @@
           </div>
         </div>
         <div>
-          <!-- ═══ פאנל אינדיקציה — מדד מחירים לצרכן (צד שמאל) ═══ -->
-          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:0.88rem;line-height:1.65;">
+          <div class="calc-output">
+            <div class="out-label">סך תשלום משוער (כולל הצמדה)</div>
+            <div class="out-val" id="m6-out">₪0</div>
+            <div class="out-sub">תוספת מדד: <span id="m6-extra" class="num-display">₪0</span></div>
+          </div>
+
+          <!-- ═══ פאנל אינדיקציה — מדד מחירים לצרכן (מתחת לפלט) ═══ -->
+          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;font-size:0.88rem;line-height:1.65;">
             <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-weight:700;color:#0E3C5C;">
               <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linejoin="round"/></svg>
               מדד המחירים לצרכן — למ"ס / בנק ישראל
             </div>
-            <ul style="margin:0;padding-right:1.2rem;color:#1A2B45;list-style:none;">
-              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>מתחילת 2026 (אנואליזציה)</span><strong>~1.9%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>שנת 2025</span><strong>~2.5%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>שנת 2024</span><strong>~2.4%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>שנת 2023</span><strong>~3.0%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>ממוצע 3 שנים</span><strong>~2.6%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;"><span>ממוצע 5 שנים</span><strong>~3.2%</strong></li>
+            <ul style="margin:0;padding-right:0;color:#1A2B45;list-style:none;">
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>מתחילת 2026 (אנואליזציה)</span><strong>~1.9%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>שנת 2025</span><strong>~2.5%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>שנת 2024</span><strong>~2.4%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>שנת 2023</span><strong>~3.0%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>ממוצע 3 שנים</span><strong>~2.6%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;"><span>ממוצע 5 שנים</span><strong>~3.2%</strong></li>
             </ul>
             <p style="margin:0.7rem 0 0;font-size:0.78rem;color:#5C7090;">
               💡 ברירת המחדל (2.8%) = ממוצע 3 שנים + 0.2% מרווח שמרני.
             </p>
           </div>
 
-          <div class="calc-output">
-            <div class="out-label">סך תשלום משוער (כולל הצמדה)</div>
-            <div class="out-val" id="m6-out">₪0</div>
-            <div class="out-sub">תוספת מדד: <span id="m6-extra" class="num-display">₪0</span></div>
-          </div>
           <div class="calc-cta">
             <a href="#contact" class="calc-cta-link">מסלול לא צמוד? אפשרי. בואו נדבר ←</a>
           </div>
