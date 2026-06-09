@@ -273,6 +273,23 @@
             <p class="calc-desc">קבלו תחזית חיסכון אם תמחזרו את המשכנתא הקיימת לריבית עדכנית.</p>
           </div>
 
+          <!-- ═══ פאנל אינדיקציה — ממוצעי ריבית מבנק ישראל/למ"ס ═══ -->
+          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;line-height:1.65;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-weight:700;color:#0E3C5C;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              ממוצעי ריבית עדכניים — בנק ישראל / הלמ"ס (מאי 2026)
+            </div>
+            <ul style="margin:0;padding-right:1.2rem;color:#1A2B45;">
+              <li><strong>קל"צ (קבועה לא צמודה):</strong> 4.5%-4.9% · ממוצע ~<strong>4.7%</strong></li>
+              <li><strong>ק"צ צמודה למדד:</strong> 3.2%-3.8% · ממוצע ~<strong>3.5%</strong></li>
+              <li><strong>משתנה (כל 5 שנים):</strong> 4.0%-4.5% · ממוצע ~<strong>4.25%</strong></li>
+              <li><strong>פריים:</strong> בנק ישראל 3.75% + 1.5% = <strong>5.25%</strong></li>
+            </ul>
+            <p style="margin:0.7rem 0 0;font-size:0.8rem;color:#5C7090;">
+              💡 <strong>ברירת המחדל במחשבון (4.9%)</strong> נקבעה כממוצע קל"צ + 0.2% — מרווח שמרני כדי להציג חיסכון ריאלי ולא מנופח. הריבית שתקבלו בפועל תלויה בפרופיל האשראי שלכם, יחס מימון, ובמשא ומתן.
+            </p>
+          </div>
+
           <div class="input-group">
             <label for="m4-balance"><span>יתרת חוב נוכחית</span><span class="val" id="m4-balance-val">₪900,000</span></label>
             <input type="range" id="m4-balance" min="100000" max="3000000" step="50000" value="900000" aria-label="יתרת חוב">
@@ -284,8 +301,8 @@
             <div class="range-meta"><span>2%</span><span>9%</span></div>
           </div>
           <div class="input-group">
-            <label for="m4-new-rate"><span>ריבית חדשה אפשרית</span><span class="val" id="m4-new-rate-val">4.7%</span></label>
-            <input type="range" id="m4-new-rate" min="2" max="8" step="0.1" value="4.7" aria-label="ריבית חדשה">
+            <label for="m4-new-rate"><span>ריבית חדשה אפשרית <small style="font-weight:400;color:#5C7090;">(ממוצע + 0.2% מרווח שמרני)</small></span><span class="val" id="m4-new-rate-val">4.9%</span></label>
+            <input type="range" id="m4-new-rate" min="2" max="8" step="0.1" value="4.9" aria-label="ריבית חדשה">
             <div class="range-meta"><span>2%</span><span>8%</span></div>
           </div>
           <div class="input-group">
