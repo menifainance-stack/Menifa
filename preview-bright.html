@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3 פלטות בהירות — מניפה פיננסית</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/images/favicon-32x32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;900&family=Frank+Ruhl+Libre:wght@500;700&display=swap">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Heebo', sans-serif; line-height: 1.6; overflow-x: hidden; }
+.display { font-family: 'Frank Ruhl Libre', serif; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; cursor: pointer; }
+
+/* === TOP BAR === */
+.top-bar {
+  background: #0F1B2D; color: #fff;
+  padding: 1.2rem 2rem; text-align: center;
+  position: relative; z-index: 100;
+}
+.top-bar h2 { font-family: 'Frank Ruhl Libre', serif; font-size: 1.5rem; font-weight: 700; }
+.top-bar p { font-size: 0.95rem; opacity: 0.8; margin-top: 0.4rem; }
+.top-bar a { color: #C9A878; text-decoration: underline; font-weight: 600; }
+
+/* === SHARED HERO LAYOUT === */
+.hero-bright {
+  min-height: 90vh; padding: 5rem 2rem 6rem;
+  position: relative; overflow: hidden;
+  display: flex; align-items: center;
+}
+.hero-bright-inner {
+  max-width: 1200px; width: 100%; margin: 0 auto;
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem;
+  align-items: center; position: relative; z-index: 5;
+}
+.hero-bright h1 {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.1; margin-bottom: 1.2rem; font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.hero-bright .subtitle {
+  font-size: 1.15rem; line-height: 1.7;
+  margin-bottom: 2rem; max-width: 540px;
+}
+.hero-bright .cta-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.hero-bright .cta-primary, .hero-bright .cta-secondary {
+  padding: 1rem 2rem; border-radius: 12px;
+  font-weight: 700; font-size: 1rem;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  transition: all .35s cubic-bezier(.2,.8,.2,1);
+  border: 1.5px solid transparent;
+}
+.hero-bright .stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+}
+.hero-bright .stat-card { padding: 1.2rem 0.9rem; border-radius: 14px; text-align: center; }
+.hero-bright .stat-num {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.65rem; font-weight: 700; display: block;
+  line-height: 1; margin-bottom: 0.3rem;
+}
+.hero-bright .stat-lab { font-size: 0.8rem; opacity: 0.75; }
+
+.hero-bright .advisor-card {
+  padding: 2.2rem 1.8rem; border-radius: 22px; text-align: center;
+  transition: transform .4s cubic-bezier(.2,.8,.2,1);
+}
+.hero-bright .advisor-card:hover { transform: translateY(-6px); }
+.hero-bright .advisor-card img {
+  width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 1rem;
+  object-fit: cover;
+}
+.hero-bright .advisor-name {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1.4rem; font-weight: 700; margin-bottom: 0.2rem;
+}
+.hero-bright .advisor-title {
+  font-size: 0.92rem; margin-bottom: 1.3rem; letter-spacing: 0.05em;
+}
+.hero-bright .advisor-quote {
+  font-style: italic; font-size: 0.92rem; opacity: 0.85;
+  line-height: 1.6; padding-right: 1rem; text-align: right;
+  border-right: 3px solid currentColor;
+}
+
+.hero-bright .badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 1.1rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 600; margin-bottom: 1.5rem;
+}
+.hero-bright .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 currentColor; }
+  70%  { box-shadow: 0 0 0 10px transparent; }
+}
+
+.palette-label {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  padding: 0.6rem 1.2rem; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 700; z-index: 50;
+  background: rgba(255,255,255,0.96); backdrop-filter: blur(10px);
+  color: #1a1a1a; border: 1px solid rgba(0,0,0,0.08);
+}
+.palette-chip {
+  display: inline-block; width: 12px; height: 12px;
+  border-radius: 50%; margin-left: 6px; vertical-align: middle;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+.choose-btn {
+  position: absolute; bottom: 1.5rem; left: 1.5rem;
+  padding: 0.85rem 1.8rem; border-radius: 999px;
+  font-size: 0.9rem; font-weight: 700; z-index: 50;
+  color: #fff;
+  box-shadow: 0 12px 28px -8px rgba(0,0,0,0.2);
+  transition: all .3s;
+}
+.choose-btn:hover { transform: translateY(-2px); }
+
+/* ═══════════════════════════════════════════════════
+   PALETTE A: PURE SKY (לבן + תכלת רך + זהב שמש)
+   ═══════════════════════════════════════════════════ */
+.pa {
+  --bg: #FFFFFF;
+  --bg-soft: #F4F8FB;
+  --primary: #1A2B4D;
+  --accent: #5B9BD5;
+  --gold: #E2B868;
+  --gold-bright: #F0CD86;
+  --text: #1F2D45;
+  --text-soft: #5A6D85;
+  background: var(--bg); color: var(--text);
+}
+.pa::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(91, 155, 213, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(226, 184, 104, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+.pa .badge { background: rgba(91, 155, 213, 0.12); color: var(--accent); border: 1px solid rgba(91, 155, 213, 0.3); }
+.pa .pulse { background: #4FAA7B; color: rgba(79, 170, 123, 0.5); }
+.pa h1 .accent { background: linear-gradient(110deg, var(--accent), var(--gold)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-style: italic; }
+.pa .subtitle { color: var(--text-soft); }
+.pa .cta-primary { background: var(--primary); color: #fff; box-shadow: 0 10px 25px -8px rgba(26, 43, 77, 0.35); }
+.pa .cta-primary:hover { background: #0F1B2D; transform: translateY(-2px); }
+.pa .cta-secondary { background: transparent; color: var(--primary); border-color: rgba(91, 155, 213, 0.4); }
+.pa .cta-secondary:hover { background: rgba(91, 155, 213, 0.08); border-color: var(--accent); }
+.pa .stat-card { background: linear-gradient(155deg, #FFFFFF, var(--bg-soft)); border: 1px solid rgba(91, 155, 213, 0.18); box-shadow: 0 6px 18px -8px rgba(26, 43, 77, 0.08); }
+.pa .stat-num { color: var(--accent); }
+.pa .stat-lab { color: var(--text-soft); }
+.pa .advisor-card { background: #FFFFFF; border: 1px solid rgba(91, 155, 213, 0.2); box-shadow: 0 22px 50px -18px rgba(26, 43, 77, 0.15); }
+.pa .advisor-card img { border: 3px solid var(--gold); }
+.pa .advisor-name { color: var(--primary); }
+.pa .advisor-title { color: var(--accent); }
+.pa .advisor-quote { color: var(--text-soft); border-color: var(--gold); }
+.pa .choose-btn { background: var(--accent); }
+
+/* ═══════════════════════════════════════════════════
+   PALETTE B: SOFT IVORY (שנהב טהור + זהב עדין)
+   ═══════════════════════════════════════════════════ */
+.pb {
+  --bg: #FEFCF7;
+  --bg-soft: #FAF6EE;
+  --primary: #2D3E5C;
+  --accent: #D4AF7C;
+  --accent-bright: #E5C99B;
+  --text: #2A3A55;
+  --text-soft: #6B7A92;
+  background: var(--bg); color: var(--text);
+}
+.pb::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(circle at 18% 28%, rgba(212, 175, 124, 0.10) 0%, transparent 50%),
+    radial-gradient(circle at 82% 72%, rgba(45, 62, 92, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+.pb .badge { background: rgba(212, 175, 124, 0.15); color: #A88656; border: 1px solid rgba(212, 175, 124, 0.4); }
+.pb .pulse { background: #4FAA7B; color: rgba(79, 170, 123, 0.5); }
+.pb h1 .accent { background: linear-gradient(110deg, var(--accent), var(--accent-bright), var(--accent)); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-style: italic; animation: shimmer 5s linear infinite; }
+@keyframes shimmer { to { background-position: -200% center; } }
+.pb .subtitle { color: var(--text-soft); }
+.pb .cta-primary { background: linear-gradient(135deg, var(--primary), #1F2D45); color: #fff; box-shadow: 0 10px 25px -8px rgba(45, 62, 92, 0.4); }
+.pb .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -10px rgba(45, 62, 92, 0.5); }
+.pb .cta-secondary { background: transparent; color: var(--primary); border-color: rgba(212, 175, 124, 0.5); }
+.pb .cta-secondary:hover { background: rgba(212, 175, 124, 0.08); border-color: var(--accent); color: #A88656; }
+.pb .stat-card { background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(212, 175, 124, 0.22); backdrop-filter: blur(10px); box-shadow: 0 6px 18px -8px rgba(45, 62, 92, 0.08); }
+.pb .stat-num { color: #A88656; }
+.pb .stat-lab { color: var(--text-soft); }
+.pb .advisor-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(14px); border: 1px solid rgba(212, 175, 124, 0.25); box-shadow: 0 24px 56px -18px rgba(45, 62, 92, 0.15); }
+.pb .advisor-card img { border: 3px solid var(--accent); }
+.pb .advisor-name { color: var(--primary); }
+.pb .advisor-title { color: #A88656; }
+.pb .advisor-quote { color: var(--text-soft); border-color: var(--accent); }
+.pb .choose-btn { background: var(--accent); color: var(--primary); }
+
+/* ═══════════════════════════════════════════════════
+   PALETTE C: FRESH MINT (מנטה + קרם + נחושת)
+   ═══════════════════════════════════════════════════ */
+.pc {
+  --bg: #FCFDFB;
+  --bg-soft: #F0F6F2;
+  --primary: #2F4A40;
+  --accent: #6FB298;
+  --accent-deep: #5A9580;
+  --copper: #D17F4A;
+  --text: #1F352D;
+  --text-soft: #5B6F65;
+  background: var(--bg); color: var(--text);
+}
+.pc::before {
+  content: ''; position: absolute; inset: 0; z-index: 1;
+  background:
+    radial-gradient(circle at 15% 25%, rgba(111, 178, 152, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(209, 127, 74, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+}
+.pc .badge { background: rgba(111, 178, 152, 0.14); color: var(--accent-deep); border: 1px solid rgba(111, 178, 152, 0.35); }
+.pc .pulse { background: var(--accent-deep); color: rgba(90, 149, 128, 0.5); }
+.pc h1 .accent { background: linear-gradient(110deg, var(--accent), var(--copper), var(--accent)); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-style: italic; animation: shimmer 6s linear infinite; }
+.pc .subtitle { color: var(--text-soft); }
+.pc .cta-primary { background: linear-gradient(135deg, var(--primary), #243930); color: #fff; box-shadow: 0 10px 25px -8px rgba(47, 74, 64, 0.4); }
+.pc .cta-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -10px rgba(47, 74, 64, 0.5); }
+.pc .cta-secondary { background: transparent; color: var(--primary); border-color: rgba(111, 178, 152, 0.4); }
+.pc .cta-secondary:hover { background: rgba(111, 178, 152, 0.08); border-color: var(--accent); }
+.pc .stat-card { background: rgba(255, 255, 255, 0.8); border: 1px solid rgba(111, 178, 152, 0.2); backdrop-filter: blur(10px); box-shadow: 0 6px 18px -8px rgba(47, 74, 64, 0.08); }
+.pc .stat-num { background: linear-gradient(135deg, var(--accent-deep), var(--copper)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.pc .stat-lab { color: var(--text-soft); }
+.pc .advisor-card { background: rgba(255, 255, 255, 0.92); border: 1px solid rgba(111, 178, 152, 0.22); box-shadow: 0 24px 56px -18px rgba(47, 74, 64, 0.15); }
+.pc .advisor-card img { border: 3px solid var(--copper); }
+.pc .advisor-name { color: var(--primary); }
+.pc .advisor-title { color: var(--accent-deep); }
+.pc .advisor-quote { color: var(--text-soft); border-color: var(--copper); }
+.pc .choose-btn { background: var(--accent-deep); }
+
+@media (max-width: 900px) {
+  .hero-bright-inner { grid-template-columns: 1fr; gap: 2rem; }
+  .palette-label { right: 1rem; top: 1rem; font-size: 0.78rem; }
+  .choose-btn { left: 1rem; bottom: 1rem; font-size: 0.8rem; padding: 0.7rem 1.4rem; }
+  .hero-bright .stats-row { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+  .hero-bright .stat-num { font-size: 1.3rem; }
+  .hero-bright .stat-lab { font-size: 0.7rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pa::before, .pb::before, .pc::before { animation: none; }
+  .pb h1 .accent, .pc h1 .accent { animation: none; }
+  .pulse { animation: none; }
+  .hero-bright .advisor-card { transition: none; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+  <h2>3 פלטות בהירות לבחירה</h2>
+  <p>גלול למטה. אחרי שתבחר, חזור ותגיד "פלטה A / B / C" ואטמיע באתר הראשי תוך 10 דקות. <a href="index.html">חזרה לאתר הקיים</a></p>
+</div>
+
+<!-- ═══ PALETTE A: PURE SKY ═══ -->
+<section class="hero-bright pa">
+  <div class="palette-label">
+    <span class="palette-chip" style="background:#FFFFFF;"></span>
+    <span class="palette-chip" style="background:#5B9BD5;"></span>
+    <span class="palette-chip" style="background:#E2B868;"></span>
+    פלטה A: Pure Sky — לבן + תכלת + זהב
+  </div>
+
+  <div class="hero-bright-inner">
+    <div>
+      <div class="badge"><span class="pulse"></span>פנוי עכשיו לשיחת ייעוץ — בלי עלות</div>
+      <h1>המשכנתא הנכונה.<br><span class="accent">ההחלטה הנכונה.</span></h1>
+      <p class="subtitle">15 שנים בבנקאות וייעוץ פיננסי. לא עובד מול הבנק — עובד בשבילך. חיסכון ממוצע של <strong>180,000 ₪</strong> ללקוח.</p>
+
+      <div class="cta-row">
+        <a class="cta-primary">לייעוץ חינם עכשיו ←</a>
+        <a class="cta-secondary">→ נסו מחשבון</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num">+500</span><span class="stat-lab">לקוחות מרוצים</span></div>
+        <div class="stat-card"><span class="stat-num">₪180K</span><span class="stat-lab">חיסכון ממוצע</span></div>
+        <div class="stat-card"><span class="stat-num">15 שנים</span><span class="stat-lab">ניסיון</span></div>
+      </div>
+    </div>
+
+    <div class="advisor-card">
+      <img src="assets/images/tamir-small.jpg" alt="תמיר גרמה">
+      <div class="advisor-name">תמיר גרמה</div>
+      <div class="advisor-title">יועץ משכנתאות מוסמך</div>
+      <p class="advisor-quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+    </div>
+  </div>
+
+  <a class="choose-btn">★ אני בוחר פלטה A</a>
+</section>
+
+<!-- ═══ PALETTE B: SOFT IVORY ═══ -->
+<section class="hero-bright pb">
+  <div class="palette-label">
+    <span class="palette-chip" style="background:#FEFCF7;"></span>
+    <span class="palette-chip" style="background:#D4AF7C;"></span>
+    <span class="palette-chip" style="background:#2D3E5C;"></span>
+    פלטה B: Soft Ivory — שנהב + זהב עדין + נייבי רך
+  </div>
+
+  <div class="hero-bright-inner">
+    <div>
+      <div class="badge"><span class="pulse"></span>פנוי עכשיו לשיחת ייעוץ — בלי עלות</div>
+      <h1>המשכנתא הנכונה.<br><span class="accent">ההחלטה הנכונה.</span></h1>
+      <p class="subtitle">15 שנים בבנקאות וייעוץ פיננסי. לא עובד מול הבנק — עובד בשבילך. חיסכון ממוצע של <strong>180,000 ₪</strong> ללקוח.</p>
+
+      <div class="cta-row">
+        <a class="cta-primary">לייעוץ חינם עכשיו ←</a>
+        <a class="cta-secondary">→ נסו מחשבון</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num">+500</span><span class="stat-lab">לקוחות מרוצים</span></div>
+        <div class="stat-card"><span class="stat-num">₪180K</span><span class="stat-lab">חיסכון ממוצע</span></div>
+        <div class="stat-card"><span class="stat-num">15 שנים</span><span class="stat-lab">ניסיון</span></div>
+      </div>
+    </div>
+
+    <div class="advisor-card">
+      <img src="assets/images/tamir-small.jpg" alt="תמיר גרמה">
+      <div class="advisor-name">תמיר גרמה</div>
+      <div class="advisor-title">יועץ משכנתאות מוסמך</div>
+      <p class="advisor-quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+    </div>
+  </div>
+
+  <a class="choose-btn">★ אני בוחר פלטה B</a>
+</section>
+
+<!-- ═══ PALETTE C: FRESH MINT ═══ -->
+<section class="hero-bright pc">
+  <div class="palette-label">
+    <span class="palette-chip" style="background:#FCFDFB;"></span>
+    <span class="palette-chip" style="background:#6FB298;"></span>
+    <span class="palette-chip" style="background:#D17F4A;"></span>
+    פלטה C: Fresh Mint — קרם + מנטה רגוע + נחושת
+  </div>
+
+  <div class="hero-bright-inner">
+    <div>
+      <div class="badge"><span class="pulse"></span>פנוי עכשיו לשיחת ייעוץ — בלי עלות</div>
+      <h1>המשכנתא הנכונה.<br><span class="accent">ההחלטה הנכונה.</span></h1>
+      <p class="subtitle">15 שנים בבנקאות וייעוץ פיננסי. לא עובד מול הבנק — עובד בשבילך. חיסכון ממוצע של <strong>180,000 ₪</strong> ללקוח.</p>
+
+      <div class="cta-row">
+        <a class="cta-primary">לייעוץ חינם עכשיו ←</a>
+        <a class="cta-secondary">→ נסו מחשבון</a>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-num">+500</span><span class="stat-lab">לקוחות מרוצים</span></div>
+        <div class="stat-card"><span class="stat-num">₪180K</span><span class="stat-lab">חיסכון ממוצע</span></div>
+        <div class="stat-card"><span class="stat-num">15 שנים</span><span class="stat-lab">ניסיון</span></div>
+      </div>
+    </div>
+
+    <div class="advisor-card">
+      <img src="assets/images/tamir-small.jpg" alt="תמיר גרמה">
+      <div class="advisor-name">תמיר גרמה</div>
+      <div class="advisor-title">יועץ משכנתאות מוסמך</div>
+      <p class="advisor-quote">"משכנתא היא ההלוואה הכי גדולה בחיים שלכם. מגיע לכם מישהו שמסתכל עליה כמו על שלו."</p>
+    </div>
+  </div>
+
+  <a class="choose-btn">★ אני בוחר פלטה C</a>
+</section>
+
+<div class="top-bar" style="padding:2rem;">
+  <p style="font-size:1.05rem; opacity:1;">בחרת? תגיד לי <strong>"פלטה A / B / C"</strong> ואטמיע באתר הראשי תוך 10 דקות. אפשר גם לערבב — לדוגמה "A עם הזהב של B".</p>
+</div>
+
+</body>
+</html>
