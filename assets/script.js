@@ -818,3 +818,65 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   // Final fallback after window load
   window.addEventListener('load', () => { if (!document.getElementById('sideDrawer')) initDrawer(); });
 })();
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO PREMIUM EFFECTS — 3D tilt on advisor card + floating particles
+   ═══════════════════════════════════════════════════════════════ */
+(function() {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = window.matchMedia('(pointer: fine)').matches;
+
+  function initHeroEffects() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+
+    // Inject particles container (only on hero pages)
+    if (!reduced && !hero.querySelector('.hero-particles')) {
+      const particlesEl = document.createElement('div');
+      particlesEl.className = 'hero-particles';
+      particlesEl.setAttribute('aria-hidden', 'true');
+      const count = 16;
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'hero-particle ' + (i % 2 === 0 ? 'sky' : 'mint');
+        const size = 2 + Math.random() * 3;
+        p.style.cssText = `
+          left: ${Math.random() * 100}%;
+          bottom: -10px;
+          width: ${size}px; height: ${size}px;
+          animation-duration: ${14 + Math.random() * 20}s;
+          animation-delay: ${-Math.random() * 28}s;
+          opacity: ${0.4 + Math.random() * 0.4};
+        `;
+        particlesEl.appendChild(p);
+      }
+      hero.insertBefore(particlesEl, hero.firstChild);
+    }
+
+    // 3D tilt on the advisor card
+    if (!reduced && fine) {
+      const card = document.querySelector('.advisor-card');
+      if (card) {
+        card.addEventListener('mousemove', function(e) {
+          const rect = this.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width;
+          const y = (e.clientY - rect.top) / rect.height;
+          const rotateY = (x - 0.5) * 12;
+          const rotateX = (y - 0.5) * -12;
+          this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+          this.style.setProperty('--mx', (x * 100) + '%');
+          this.style.setProperty('--my', (y * 100) + '%');
+        });
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = '';
+        });
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroEffects);
+  } else {
+    initHeroEffects();
+  }
+})();

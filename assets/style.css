@@ -584,10 +584,51 @@ section[style*="background:"] .btn-ghost,
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 600;
-  color: var(--gold);
   display: block;
   font-size: 0.85em;
   margin-top: 0.25rem;
+  /* Shimmer animation — navy → sky → mint → sky → navy */
+  background: linear-gradient(110deg,
+    #0E3C5C 0%,
+    #5BAFD8 25%,
+    #7DC9A3 45%,
+    #C5E8D5 50%,
+    #7DC9A3 55%,
+    #5BAFD8 75%,
+    #0E3C5C 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: hero-shimmer 6s linear infinite;
+}
+@keyframes hero-shimmer {
+  to { background-position: -200% center; }
+}
+
+/* === HERO PARTICLES (sky + mint floating dots) === */
+.hero-particles {
+  position: absolute; inset: 0; z-index: 1;
+  pointer-events: none; overflow: hidden;
+}
+.hero-particle {
+  position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  animation: hero-particle-rise linear infinite;
+}
+.hero-particle.sky {
+  background: #5BAFD8;
+  box-shadow: 0 0 8px rgba(91, 175, 216, 0.55);
+}
+.hero-particle.mint {
+  background: #7DC9A3;
+  box-shadow: 0 0 8px rgba(125, 201, 163, 0.55);
+}
+@keyframes hero-particle-rise {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  10%  { opacity: 0.75; }
+  90%  { opacity: 0.75; }
+  100% { transform: translateY(-100vh) translateX(25px); opacity: 0; }
 }
 
 .hero-sub {
@@ -644,13 +685,20 @@ section[style*="background:"] .btn-ghost,
 
 .advisor-card {
   position: relative;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.96) 0%, rgba(240, 247, 251, 0.92) 100%);
+  border: 1px solid rgba(91, 175, 216, 0.22);
   border-radius: var(--radius-xl);
   padding: 2.5rem;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: var(--shadow-xl);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow:
+    0 30px 70px -25px rgba(14, 60, 92, 0.22),
+    0 14px 32px -10px rgba(91, 175, 216, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  /* 3D tilt — mouse-tracked via JS */
+  transform-style: preserve-3d;
+  transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  overflow: hidden;
 }
 .advisor-card::before {
   content: '';
@@ -669,10 +717,42 @@ section[style*="background:"] .btn-ghost,
   margin-bottom: 1.25rem;
   font-family: var(--font-display);
   font-size: 2rem;
+  position: relative;
+}
+/* Rotating conic-gradient glow (sky ↔ mint) around avatar */
+.advisor-avatar::before {
+  content: ''; position: absolute; inset: -8px;
+  background: conic-gradient(from 0deg, #5BAFD8, #7DC9A3, #5BAFD8);
+  border-radius: 50%;
+  filter: blur(8px); opacity: 0.55;
+  animation: avatar-conic-glow 4s linear infinite;
+  z-index: -1;
+}
+@keyframes avatar-conic-glow {
+  to { transform: rotate(360deg); }
+}
+.advisor-card .advisor-avatar img {
+  position: relative; z-index: 1;
+  transform: translateZ(35px);
+}
+.advisor-card > * {
+  position: relative;
+  transform-style: preserve-3d;
+}
+/* Mouse-follow radial glow inside the card */
+.advisor-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(125, 201, 163, 0.22), transparent 50%);
+  opacity: 0; transition: opacity .35s ease;
+  pointer-events: none; border-radius: inherit;
+}
+.advisor-card:hover::after { opacity: 1; }
+
+/* Restore avatar visual properties merged into .advisor-avatar */
+.advisor-avatar {
   font-weight: 700;
   color: var(--navy);
-  position: relative;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 6px 20px rgba(14, 60, 92, 0.18);
   border: 3px solid var(--gold-light);
 }
 .advisor-avatar img {
