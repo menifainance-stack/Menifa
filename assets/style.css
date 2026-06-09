@@ -883,6 +883,20 @@ section[style*="background:"] .btn-ghost,
   animation: scroll-x 35s linear infinite;
   width: max-content;
 }
+.proof-item img.proof-logo {
+  width: 28px; height: 28px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fff;
+  padding: 2px;
+  box-shadow: 0 1px 4px rgba(14, 60, 92, 0.08);
+  transition: transform .3s ease, box-shadow .3s ease;
+  flex-shrink: 0;
+}
+.proof-item:hover img.proof-logo {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(91, 175, 216, 0.25);
+}
 .proof-item {
   display: flex;
   align-items: center;
