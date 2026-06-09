@@ -273,23 +273,6 @@
             <p class="calc-desc">קבלו תחזית חיסכון אם תמחזרו את המשכנתא הקיימת לריבית עדכנית.</p>
           </div>
 
-          <!-- ═══ פאנל אינדיקציה — ממוצעי ריבית מבנק ישראל/למ"ס ═══ -->
-          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;line-height:1.65;">
-            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-weight:700;color:#0E3C5C;">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              ממוצעי ריבית עדכניים — בנק ישראל / הלמ"ס (מאי 2026)
-            </div>
-            <ul style="margin:0;padding-right:1.2rem;color:#1A2B45;">
-              <li><strong>קל"צ (קבועה לא צמודה):</strong> 4.5%-4.9% · ממוצע ~<strong>4.7%</strong></li>
-              <li><strong>ק"צ צמודה למדד:</strong> 3.2%-3.8% · ממוצע ~<strong>3.5%</strong></li>
-              <li><strong>משתנה (כל 5 שנים):</strong> 4.0%-4.5% · ממוצע ~<strong>4.25%</strong></li>
-              <li><strong>פריים:</strong> בנק ישראל 3.75% + 1.5% = <strong>5.25%</strong></li>
-            </ul>
-            <p style="margin:0.7rem 0 0;font-size:0.8rem;color:#5C7090;">
-              💡 <strong>ברירת המחדל במחשבון (4.9%)</strong> נקבעה כממוצע קל"צ + 0.2% — מרווח שמרני כדי להציג חיסכון ריאלי ולא מנופח. הריבית שתקבלו בפועל תלויה בפרופיל האשראי שלכם, יחס מימון, ובמשא ומתן.
-            </p>
-          </div>
-
           <div class="input-group">
             <label for="m4-balance"><span>יתרת חוב נוכחית</span><span class="val" id="m4-balance-val">₪900,000</span></label>
             <input type="range" id="m4-balance" min="100000" max="3000000" step="50000" value="900000" aria-label="יתרת חוב">
@@ -312,6 +295,23 @@
           </div>
         </div>
         <div>
+          <!-- ═══ פאנל אינדיקציה — ממוצעי ריבית בנק ישראל (צד שמאל) ═══ -->
+          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:0.88rem;line-height:1.65;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-weight:700;color:#0E3C5C;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              ממוצעי ריבית — בנק ישראל (מאי 2026)
+            </div>
+            <ul style="margin:0;padding-right:1.2rem;color:#1A2B45;list-style:none;">
+              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>קל"צ</span><strong>~4.7%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>ק"צ צמודה</span><strong>~3.5%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>משתנה (כל 5 שנים)</span><strong>~4.25%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;"><span>פריים</span><strong>5.25%</strong></li>
+            </ul>
+            <p style="margin:0.7rem 0 0;font-size:0.78rem;color:#5C7090;">
+              💡 ברירת המחדל (4.9%) = ממוצע קל"צ + 0.2% מרווח שמרני.
+            </p>
+          </div>
+
           <div class="calc-output">
             <div class="out-label">חיסכון חודשי משוער</div>
             <div class="out-val" id="m4-out">₪0</div>
@@ -369,25 +369,6 @@
             <p class="calc-desc">משכנתא צמודת מדד יכולה לעלות בעשרות אלפי שקלים. בדקו את ההשפעה הצפויה.</p>
           </div>
 
-          <!-- ═══ פאנל אינדיקציה — נתוני מדד מחירים לצרכן (למ"ס + בנק ישראל) ═══ -->
-          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.4rem;font-size:0.88rem;line-height:1.65;">
-            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-weight:700;color:#0E3C5C;">
-              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linejoin="round"/></svg>
-              מדד המחירים לצרכן — נתוני הלמ"ס / בנק ישראל
-            </div>
-            <ul style="margin:0;padding-right:1.2rem;color:#1A2B45;">
-              <li><strong>מתחילת 2026 (Jan-May):</strong> ~1.2% מצטבר · אנואליזציה ~<strong>1.9%</strong></li>
-              <li><strong>שנת 2025 (סוף):</strong> ~<strong>2.5%</strong> שנתי</li>
-              <li><strong>שנת 2024:</strong> ~<strong>2.4%</strong> שנתי</li>
-              <li><strong>שנת 2023:</strong> ~<strong>3.0%</strong> שנתי</li>
-              <li><strong>ממוצע 3 שנים (2023-2025):</strong> ~<strong>2.6%</strong></li>
-              <li><strong>ממוצע 5 שנים (2021-2025):</strong> ~<strong>3.2%</strong> (כולל שיא 2022 של 5.3%)</li>
-            </ul>
-            <p style="margin:0.7rem 0 0;font-size:0.8rem;color:#5C7090;">
-              💡 <strong>ברירת המחדל במחשבון (2.8%)</strong> = ממוצע 3 שנים + 0.2% מרווח שמרני. מקור: <a href="https://www.cbs.gov.il/he/subjects/Pages/%D7%9E%D7%93%D7%93%D7%99-%D7%9E%D7%97%D7%99%D7%A8%D7%99%D7%9D-%D7%9C%D7%A6%D7%A8%D7%9B%D7%9F.aspx" target="_blank" rel="noopener" style="color:#2D6F95;">למ"ס — מדדי מחירים לצרכן</a> · <a href="https://www.boi.org.il/roles/statistics/" target="_blank" rel="noopener" style="color:#2D6F95;">בנק ישראל — נתונים סטטיסטיים</a>. מתעדכן מדי 15 לחודש.
-            </p>
-          </div>
-
           <div class="input-group">
             <label for="m6-loan"><span>גובה הלוואה צמודה</span><span class="val" id="m6-loan-val">₪500,000</span></label>
             <input type="range" id="m6-loan" min="50000" max="2000000" step="25000" value="500000" aria-label="גובה הלוואה צמודה">
@@ -410,6 +391,25 @@
           </div>
         </div>
         <div>
+          <!-- ═══ פאנל אינדיקציה — מדד מחירים לצרכן (צד שמאל) ═══ -->
+          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin-bottom:1.2rem;font-size:0.88rem;line-height:1.65;">
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-weight:700;color:#0E3C5C;">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linejoin="round"/></svg>
+              מדד המחירים לצרכן — למ"ס / בנק ישראל
+            </div>
+            <ul style="margin:0;padding-right:1.2rem;color:#1A2B45;list-style:none;">
+              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>מתחילת 2026 (אנואליזציה)</span><strong>~1.9%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>שנת 2025</span><strong>~2.5%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>שנת 2024</span><strong>~2.4%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>שנת 2023</span><strong>~3.0%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>ממוצע 3 שנים</span><strong>~2.6%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.2rem 0;"><span>ממוצע 5 שנים</span><strong>~3.2%</strong></li>
+            </ul>
+            <p style="margin:0.7rem 0 0;font-size:0.78rem;color:#5C7090;">
+              💡 ברירת המחדל (2.8%) = ממוצע 3 שנים + 0.2% מרווח שמרני.
+            </p>
+          </div>
+
           <div class="calc-output">
             <div class="out-label">סך תשלום משוער (כולל הצמדה)</div>
             <div class="out-val" id="m6-out">₪0</div>
