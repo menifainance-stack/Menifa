@@ -719,17 +719,12 @@ section[style*="background:"] .btn-ghost,
   font-size: 2rem;
   position: relative;
 }
-/* Rotating conic-gradient glow (sky ↔ mint) around avatar */
+/* Subtle static glow around avatar (no rotation, no green circle) */
 .advisor-avatar::before {
-  content: ''; position: absolute; inset: -8px;
-  background: conic-gradient(from 0deg, #5BAFD8, #7DC9A3, #5BAFD8);
+  content: ''; position: absolute; inset: -4px;
+  background: radial-gradient(circle, rgba(91, 175, 216, 0.18) 0%, transparent 70%);
   border-radius: 50%;
-  filter: blur(8px); opacity: 0.55;
-  animation: avatar-conic-glow 4s linear infinite;
   z-index: -1;
-}
-@keyframes avatar-conic-glow {
-  to { transform: rotate(360deg); }
 }
 .advisor-card .advisor-avatar img {
   position: relative; z-index: 1;
@@ -781,12 +776,13 @@ section[style*="background:"] .btn-ghost,
   font-family: var(--font-heading);
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--white);
+  color: #082945; /* deep navy — high contrast on white card */
   margin-bottom: 0.25rem;
 }
 .advisor-title {
   font-size: 0.95rem;
-  color: var(--gold-light);
+  color: #0E3C5C; /* navy — readable on white card */
+  font-weight: 500;
   margin-bottom: 1.5rem;
 }
 
@@ -800,25 +796,27 @@ section[style*="background:"] .btn-ghost,
 .adv-stat .num {
   font-family: var(--font-mono);
   font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--gold);
+  font-weight: 700;
+  color: #082945; /* deep navy — strong contrast on white card */
   display: block;
   letter-spacing: -0.03em;
 }
 .adv-stat .lab {
   font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #5C7090; /* navy-grey — readable on white card */
+  font-weight: 500;
   margin-top: 0.15rem;
 }
 
 .advisor-quote {
   margin-top: 1.5rem;
   padding: 1rem 1.25rem;
-  background: rgba(184, 146, 89, 0.08);
-  border-right: 3px solid var(--gold);
+  background: rgba(91, 175, 216, 0.08);
+  border-right: 3px solid #5BAFD8;
   border-radius: var(--radius-sm);
   font-size: 0.92rem;
-  color: rgba(255, 255, 255, 0.85);
+  color: #1A2B45; /* dark navy — readable on white card */
+  font-weight: 500;
   line-height: 1.6;
   font-style: italic;
 }
