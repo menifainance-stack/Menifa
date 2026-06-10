@@ -18,21 +18,24 @@ WebFetch ו-curl מהסביבה הזו מחזירים 403 עבור menifa.org ג
 
 אם כלי מחזיר שגיאה — אמור "הכלי לא מצליח לגשת" ואל תסיק מסקנות על האתר עצמו.
 
-## סטטוס נוכחי (עודכן 10/06/2026 — לאחר 4 commits נוספים)
+## סטטוס נוכחי (עודכן 10/06/2026 — לאחר 23 commits של SEO push)
 
-### ✅ שלם — קוד באוויר (סך 49+ commits עד 10/06/2026):
-- **29 דפי תוכן באתר** (אינדקס, FAQ, מדריך, 5 דפים, **24 מאמרי בלוג**)
-- 9 סוגי Schema.org מקיפים (Org, LocalBusiness, FinancialService, Person, FAQPage, Service, WebSite, Speakable, BreadcrumbList, HowTo, NewsArticle)
+### ✅ שלם — קוד באוויר (סך 67+ commits עד 10/06/2026):
+- **30 דפי תוכן באתר** (אינדקס, FAQ, מדריך, 5 דפים, **25 מאמרי בלוג**)
+- 11 סוגי Schema.org מקיפים על דפים ראשיים — Organization, LocalBusiness, FinancialService, Person/ProfilePage, FAQPage, Service, WebSite, SpeakableSpecification, BreadcrumbList, HowTo, NewsArticle, CollectionPage, ContactPage, Blog
 - robots.txt עם 14 בוטי AI search מורשים
-- llms.txt + llms-full.txt **עודכנו 10/06/2026** (24 מאמרים, 10 שנים ניסיון, נתוני שוק יוני 2026)
-- hreflang he-IL בכל הדפים הראשיים
-- Sitemap עם priorities + hreflang annotations + lastmod 2026-06-10
-- 4 מאמרי SEO חדשים מ-10/06: art-21, art-22, art-23, **art-24 (ריבית משכנתא יוני 2026)**
-- 5 מאמרים מ-09/06: art-16 (DTI), art-17 (חוץ בנקאית), art-18 (השוואת ריביות), art-19 (מסורבי בנק), art-20 (25 vs 30)
-- Pillar Page של 4,500 מילים: `/madrich-mashkanta.html`
+- llms.txt + llms-full.txt — סינכרון מלא ל-25 מאמרים + ניסיון נכון (10 שנים)
+- hreflang he-IL בכל **25 המאמרים** + 7 הדפים הראשיים
+- Sitemap עם priorities + hreflang annotations + lastmod 2026-06-10 (30 URLs)
+- מאמרים חדשים מ-10/06: art-21, art-22, art-23, art-24 (ריבית יוני 2026), **art-25 (דיור בהישג יד 2026)**
+- כל 25 המאמרים: Article schema עם image + dateModified + author + publisher + breadcrumbList
+- **10 מאמרים** עם FAQPage schema (art-3, 6, 10, 16, 17, 21, 22, 23, 24, 25) ל-rich results
+- Pillar Page של 4,500 מילים: `/madrich-mashkanta.html` (Article+HowTo+FAQPage+BreadcrumbList)
 - FAQ Page עם 20 שאלות: `/faq.html`
-- **Title דף הבית עודכן 10/06:** מוביל ב-"מניפה פיננסית" לאופטימיזציה לחיפושים ממותגים
+- **דף הבית — Title מוביל ב-"מניפה פיננסית"** + 6 קישורים פנימיים למאמרים החדשים
+- about.html + contact.html + calculators.html + blog.html — כולם עם schema מלא (נוסף 10/06)
 - מחשבונים עם אינדיקטורי בנק ישראל + למ"ס (מחשבון 04 מיחזור, מחשבון 06 מדד, מחשבון 02 קופת גמל)
+- PageRank distribution: art-1, art-3, art-6, art-10 מקשרים גם ל-art-17/18/19/22/23/24/25
 
 ### ⏳ ממתין לפעולה ידנית של תמיר (אני לא יכול לעשות):
 1. **Google Search Console — Request Indexing** על דפים מרכזיים (כולל החדשים: art-21, art-22, art-23, art-24)
