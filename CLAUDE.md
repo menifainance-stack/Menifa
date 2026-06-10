@@ -18,30 +18,33 @@ WebFetch ו-curl מהסביבה הזו מחזירים 403 עבור menifa.org ג
 
 אם כלי מחזיר שגיאה — אמור "הכלי לא מצליח לגשת" ואל תסיק מסקנות על האתר עצמו.
 
-## סטטוס נוכחי (עודכן 09/06/2026 — אחרי SEO Push מקיף)
+## סטטוס נוכחי (עודכן 10/06/2026 — לאחר 4 commits נוספים)
 
-### ✅ שלם — קוד באוויר (10 commits ב-09/06/2026):
-- 20 דפי תוכן באתר (אינדקס, FAQ, מדריך, 5 דפים, 18 מאמרי בלוג)
-- 9 סוגי Schema.org מקיפים (Org, LocalBusiness, FinancialService, Person, FAQPage, Service, WebSite, Speakable, BreadcrumbList, HowTo)
+### ✅ שלם — קוד באוויר (סך 49+ commits עד 10/06/2026):
+- **29 דפי תוכן באתר** (אינדקס, FAQ, מדריך, 5 דפים, **24 מאמרי בלוג**)
+- 9 סוגי Schema.org מקיפים (Org, LocalBusiness, FinancialService, Person, FAQPage, Service, WebSite, Speakable, BreadcrumbList, HowTo, NewsArticle)
 - robots.txt עם 14 בוטי AI search מורשים
-- llms.txt + llms-full.txt (תקן 2024-2025 ל-AI search)
+- llms.txt + llms-full.txt **עודכנו 10/06/2026** (24 מאמרים, 10 שנים ניסיון, נתוני שוק יוני 2026)
 - hreflang he-IL בכל הדפים הראשיים
-- Sitemap עם priorities + hreflang annotations + lastmod 2026-06-09
-- 5 מאמרי SEO חדשים: art-16 (DTI), art-17 (חוץ בנקאית), art-18 (השוואת ריביות), art-19 (מסורבי בנק), art-20 (25 vs 30 שנה)
+- Sitemap עם priorities + hreflang annotations + lastmod 2026-06-10
+- 4 מאמרי SEO חדשים מ-10/06: art-21, art-22, art-23, **art-24 (ריבית משכנתא יוני 2026)**
+- 5 מאמרים מ-09/06: art-16 (DTI), art-17 (חוץ בנקאית), art-18 (השוואת ריביות), art-19 (מסורבי בנק), art-20 (25 vs 30)
 - Pillar Page של 4,500 מילים: `/madrich-mashkanta.html`
 - FAQ Page עם 20 שאלות: `/faq.html`
-- SEO_ACTION_PLAN.md עם תוכנית פעולה ידנית לתמיר
-- מסמכי mockups (3 סקיצות עיצוב + 9 פלטות צבע)
+- **Title דף הבית עודכן 10/06:** מוביל ב-"מניפה פיננסית" לאופטימיזציה לחיפושים ממותגים
+- מחשבונים עם אינדיקטורי בנק ישראל + למ"ס (מחשבון 04 מיחזור, מחשבון 06 מדד, מחשבון 02 קופת גמל)
 
 ### ⏳ ממתין לפעולה ידנית של תמיר (אני לא יכול לעשות):
-1. **Google Search Console — Request Indexing** על 6 דפים מרכזיים
+1. **Google Search Console — Request Indexing** על דפים מרכזיים (כולל החדשים: art-21, art-22, art-23, art-24)
 2. **Submit Sitemap** מחדש ב-GSC
 3. **יצירת Google Business Profile** (קטגוריה: Mortgage Broker)
 4. **רישום ב-4 ספריות:** midrag.co.il, pro.co.il, bizreviews.co.il, moti.org.il
 5. **חוות דעת מלקוחות** ב-Google + מידרג
 
-### ⚠️ מצב בגוגל (לפי live WebSearch 09/06/2026):
+### ⚠️ מצב בגוגל (לפי live WebSearch 10/06/2026):
 - `site:menifa.org` מציג רק תוצאה אחת: "מניפה | עיצוב גרפי" — **Cache ישן!**
+- חיפוש "מניפה פיננסית תמיר גרמה" — האתר לא בעמוד הראשון
+- חיפוש "תמיר גרמה יועץ משכנתאות" — האתר לא מופיע, יש מתחרים אחרים בשם תמיר (תמיר פרחי, תמיר מור)
 - האתר אכן מאונדקס, אבל עם תוכן ישן (לפני המעבר לייעוץ משכנתאות)
 - אחרי שתמיר יעשה Request Indexing → Cache יתעדכן תוך 24-72 שעות
 - אז דירוג #1 לbranded terms ("מניפה פיננסית", "תמיר גרמה") תוך 7-14 יום
