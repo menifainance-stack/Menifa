@@ -3257,6 +3257,37 @@ body.has-ticker .navbar { top: 42px; }
   }
   /* Free up space for hamburger by hiding CTA on mobile (still available in drawer) */
   .navbar .nav-cta { display: none !important; }
+
+  /* MOBILE FIX: bring back .nav-phone in compact pill form to fill empty navbar */
+  .navbar .nav-phone {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.85rem;
+    background: linear-gradient(135deg, rgba(91, 175, 216, 0.15), rgba(125, 201, 163, 0.15));
+    border: 1px solid rgba(91, 175, 216, 0.3);
+    border-radius: 999px;
+    color: var(--navy);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    min-height: 38px;
+    box-shadow: 0 2px 8px -2px rgba(91, 175, 216, 0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .navbar .nav-phone:hover,
+  .navbar .nav-phone:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px -2px rgba(91, 175, 216, 0.4);
+    background: linear-gradient(135deg, rgba(91, 175, 216, 0.25), rgba(125, 201, 163, 0.25));
+  }
+  .navbar .nav-phone svg {
+    width: 14px;
+    height: 14px;
+    color: var(--turquoise);
+  }
+
   /* Make logo smaller on narrow phones */
   .navbar .logo-img { height: 32px !important; }
   .navbar .logo-tagline-only { font-size: 0.6rem !important; letter-spacing: 0.15em !important; }
@@ -3275,6 +3306,16 @@ body.has-ticker .navbar { top: 42px; }
 }
 @media (max-width: 380px) {
   .navbar .logo-tagline-only { display: none !important; }
+  /* On very narrow phones — show only the phone icon (hide the number) */
+  .navbar .nav-phone {
+    padding: 0.5rem 0.65rem;
+    font-size: 0;
+    gap: 0;
+  }
+  .navbar .nav-phone svg {
+    width: 18px;
+    height: 18px;
+  }
 }
 .navbar .menu-toggle:hover {
   background: var(--gold);
