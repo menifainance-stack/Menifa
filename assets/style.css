@@ -3249,10 +3249,19 @@ body.has-ticker .navbar { top: 42px; }
   -webkit-tap-highlight-color: transparent;
 }
 @media (max-width: 768px) {
+  /* RTL MOBILE: hamburger on RIGHT (reading start in Hebrew), logo on LEFT */
+  .navbar .nav-inner {
+    justify-content: space-between;
+  }
+  .navbar .nav-actions {
+    order: -1; /* nav-actions cluster moves to RIGHT in RTL flex */
+  }
   .navbar .menu-toggle,
   .navbar #menuToggle {
     display: flex !important;
-    margin-inline-start: auto; /* push to the far left edge */
+    order: -1; /* menu-toggle to RIGHT within nav-actions (right edge of navbar) */
+    margin-inline-start: 0 !important; /* override the desktop auto margin */
+    margin-inline-end: 0;
     flex-shrink: 0;
   }
   /* Free up space for hamburger by hiding CTA on mobile (still available in drawer) */
