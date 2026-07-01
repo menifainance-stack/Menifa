@@ -18,29 +18,31 @@ WebFetch ו-curl מהסביבה הזו מחזירים 403 עבור menifa.org ג
 
 אם כלי מחזיר שגיאה — אמור "הכלי לא מצליח לגשת" ואל תסיק מסקנות על האתר עצמו.
 
-## סטטוס נוכחי (עודכן 10/06/2026 — לאחר 23 commits של SEO push)
+## סטטוס נוכחי (עודכן 01/07/2026 — לאחר 13 commits בסשן /loop)
 
-### ✅ שלם — קוד באוויר (סך 67+ commits עד 10/06/2026):
-- **30 דפי תוכן באתר** (אינדקס, FAQ, מדריך, 5 דפים, **25 מאמרי בלוג**)
-- 11 סוגי Schema.org מקיפים על דפים ראשיים — Organization, LocalBusiness, FinancialService, Person/ProfilePage, FAQPage, Service, WebSite, SpeakableSpecification, BreadcrumbList, HowTo, NewsArticle, CollectionPage, ContactPage, Blog
-- robots.txt עם 14 בוטי AI search מורשים
-- llms.txt + llms-full.txt — סינכרון מלא ל-25 מאמרים + ניסיון נכון (10 שנים)
-- hreflang he-IL בכל **25 המאמרים** + 7 הדפים הראשיים
-- Sitemap עם priorities + hreflang annotations + lastmod 2026-06-10 (30 URLs)
-- מאמרים חדשים מ-10/06: art-21, art-22, art-23, art-24 (ריבית יוני 2026), **art-25 (דיור בהישג יד 2026)**
-- כל 25 המאמרים: Article schema עם image + dateModified + author + publisher + breadcrumbList
-- **10 מאמרים** עם FAQPage schema (art-3, 6, 10, 16, 17, 21, 22, 23, 24, 25) ל-rich results
-- Pillar Page של 4,500 מילים: `/madrich-mashkanta.html` (Article+HowTo+FAQPage+BreadcrumbList)
+### ✅ שלם — קוד באוויר (סך 80+ commits עד 01/07/2026):
+- **44 דפי תוכן באתר** (אינדקס, FAQ, מדריך, 6 דפים ראשיים + privacy/terms, **39 מאמרי בלוג**)
+- 13 סוגי Schema.org מקיפים — Organization, LocalBusiness, FinancialService, Person/ProfilePage, FAQPage, Service+OfferCatalog, WebSite, SpeakableSpecification, BreadcrumbList, HowTo, NewsArticle, CollectionPage, ContactPage, Blog, WebApplication (FinanceApplication)
+- robots.txt עם 14 בוטי AI search מורשים + Disallow על preview/mockup files
+- llms.txt + llms-full.txt — סינכרון מלא ל-39 מאמרים (עודכן ליולי 2026)
+- hreflang he-IL בכל 39 המאמרים + 9 הדפים הראשיים (כולל privacy/terms)
+- **Sitemap עם 48 URLs** — priorities + hreflang annotations + lastmod 2026-07-01
+- **RSS feed פעיל** (rss.xml, 14 items) + link rel=alternate מ-index/blog
+- מאמרים חדשים מ-01/07/2026: art-35 (מסמכים), art-36 (מלכודות בחוזה), art-37 (משכנתא הפוכה), art-38 (כמה עולה יועץ + Service schema), art-39 (חיילים משוחררים)
+- **CRITICAL bug fixes**: canonical URLs תוקנו (הצביעו ל-github.io בטעות), sitemap חסר 9 מאמרים תוקן, art-19+20 יתומים חוברו
+- כל 39 המאמרים: Article schema מלא + dateModified + author + publisher + breadcrumbList
+- FAQPage schema על כ-20 מאמרים
+- SpeakableSpecification על index/faq/about/calculators/madrich (voice search boost)
+- Pillar Page של 4,500 מילים: `/madrich-mashkanta.html`
 - FAQ Page עם 20 שאלות: `/faq.html`
-- **דף הבית — Title מוביל ב-"מניפה פיננסית"** + 6 קישורים פנימיים למאמרים החדשים
-- about.html + contact.html + calculators.html + blog.html — כולם עם schema מלא (נוסף 10/06)
-- מחשבונים עם אינדיקטורי בנק ישראל + למ"ס (מחשבון 04 מיחזור, מחשבון 06 מדד, מחשבון 02 קופת גמל)
-- PageRank distribution: art-1, art-3, art-6, art-10 מקשרים גם ל-art-17/18/19/22/23/24/25
+- **דף הבית**: 4 מאמרים חדשים מוצגים ("מאמרים חדשים"), Slogan "בצד שלכם, לא של הבנק"
+- Service schema ב-art-38 עם OfferCatalog (₪0 ל-₪20K תמחור מפורש)
+- מחשבונים: WebApplication schema + FinanceApplication category
 
 ### ⏳ ממתין לפעולה ידנית של תמיר (אני לא יכול לעשות):
-1. **Google Search Console — Request Indexing** על דפים מרכזיים (כולל החדשים: art-21, art-22, art-23, art-24)
-2. **Submit Sitemap** מחדש ב-GSC
-3. **יצירת Google Business Profile** (קטגוריה: Mortgage Broker)
+1. **Google Search Console — Request Indexing** על המאמרים החדשים: art-35, art-36, art-37, art-38, art-39 + privacy/terms + rss.xml
+2. **Submit Sitemap.xml מחדש** ב-GSC (48 URLs עכשיו, לעומת 34 בעבר)
+3. **יצירת Google Business Profile** (קטגוריה: Mortgage Broker) — הכי חשוב לpresence מקומית
 4. **רישום ב-4 ספריות:** midrag.co.il, pro.co.il, bizreviews.co.il, moti.org.il
 5. **חוות דעת מלקוחות** ב-Google + מידרג
 
