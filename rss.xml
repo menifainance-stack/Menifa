@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>מניפה פיננסית — בלוג משכנתאות</title>
+    <link>https://menifa.org/blog.html</link>
+    <atom:link href="https://menifa.org/rss.xml" rel="self" type="application/rss+xml"/>
+    <description>מאמרים מעודכנים על משכנתאות בישראל — ריביות, מחזור, תמהיל, מסלולים, שוק הדיור. תמיר גרמה, יועץ משכנתאות מוסמך.</description>
+    <language>he-IL</language>
+    <copyright>© מניפה פיננסית — תמיר גרמה</copyright>
+    <managingEditor>menifainance@gmail.com (תמיר גרמה)</managingEditor>
+    <webMaster>menifainance@gmail.com (תמיר גרמה)</webMaster>
+    <lastBuildDate>Tue, 01 Jul 2026 00:00:00 +0300</lastBuildDate>
+    <generator>Menifa Editorial</generator>
+    <image>
+      <url>https://menifa.org/assets/images/tamir-og.jpg</url>
+      <title>מניפה פיננסית</title>
+      <link>https://menifa.org/</link>
+    </image>
+
+    <item>
+      <title>קיפאון בשוק הנדל"ן יוני 2026 — האם עכשיו זמן לקנות דירה?</title>
+      <link>https://menifa.org/blog/art-34.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-34.html</guid>
+      <pubDate>Tue, 30 Jun 2026 09:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>שוק הנדל"ן</category>
+      <description>שוק הנדל"ן בישראל בקיפאון — כמות עסקאות בשפל, מחירים סטגננטיים, ריבית יורדת. מה נכון לעשות עם המשכנתא שלכם.</description>
+    </item>
+
+    <item>
+      <title>ביטוח משכנתא 2026 — מה הבנק לא אומר לכם ואיך חוסכים עד 40%</title>
+      <link>https://menifa.org/blog/art-33.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-33.html</guid>
+      <pubDate>Sun, 28 Jun 2026 09:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>ביטוח משכנתא</category>
+      <description>ביטוח משכנתא 2026: מה חובה לקחת, מה אופציונלי, ולמה ביטוח דרך הבנק עולה לכם פי 2. המדריך המעשי לחיסכון של אלפי שקלים בשנה.</description>
+    </item>
+
+    <item>
+      <title>ריבית 4% — עד מתי? תחזית בנק ישראל לחצי השני של 2026</title>
+      <link>https://menifa.org/blog/art-32.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-32.html</guid>
+      <pubDate>Thu, 25 Jun 2026 09:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>ריבית בנק ישראל</category>
+      <description>ריבית בנק ישראל תרד ל-3.5% עד סוף 2026 — שתי הורדות נוספות צפויות. מה זה אומר על מסלול הפריים שלכם, ומה כדאי לבדוק עכשיו.</description>
+    </item>
+
+    <item>
+      <title>שכר הדירה קפץ 6% — מתי שכירות של 5,000 ₪ הופכת לטעות יקרה?</title>
+      <link>https://menifa.org/blog/art-31.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-31.html</guid>
+      <pubDate>Tue, 23 Jun 2026 09:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>שכירות</category>
+      <description>שוק השכירות ב-2026: ההיצע צנח 8%, מחירים עלו 6%. מתי נגמרת הנסיעה בשכירות ואיך מחשבים אם כדאי לעבור לבעלות?</description>
+    </item>
+
+    <item>
+      <title>שוק הנדל"ן 2026 בצומת: מחירים בקיפאון, ריבית יורדת — מה נכון לעשות?</title>
+      <link>https://menifa.org/blog/art-30.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-30.html</guid>
+      <pubDate>Sun, 21 Jun 2026 09:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>שוק הנדל"ן</category>
+      <description>ריבית בנק ישראל ירדה ל-3.75%, מחירי הדירות בקיפאון — האם זה הזמן לקנות דירה? ניתוח שוק יוני 2026 עם המלצות מעשיות.</description>
+    </item>
+
+    <item>
+      <title>מס רכישה ומס שבח 2026 — כמה תשלמו ואיך חוסכים בחוק</title>
+      <link>https://menifa.org/blog/art-29.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-29.html</guid>
+      <pubDate>Thu, 18 Jun 2026 09:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>מיסוי נדל"ן</category>
+      <description>מדרגות מס רכישה 2026, השינוי במס יסף על שבח נדל"ן, ופטורים שחשוב לדעת לפני שרוכשים או מוכרים דירה בישראל.</description>
+    </item>
+
+    <item>
+      <title>משכנתא לדירה מקבלן — 7 הבדלים קריטיים שחייבים לדעת לפני שחותמים</title>
+      <link>https://menifa.org/blog/art-28.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-28.html</guid>
+      <pubDate>Tue, 16 Jun 2026 09:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>קבלן</category>
+      <description>קניית דירה מקבלן (על הנייר) שונה לחלוטין ממשכנתא לדירה יד שנייה — שלבי שחרור, מדד תשומות, ערבויות וסיכונים.</description>
+    </item>
+
+    <item>
+      <title>לפרוע מוקדם את המשכנתא או להשקיע? — הניתוח ליוני 2026</title>
+      <link>https://menifa.org/blog/art-27.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-27.html</guid>
+      <pubDate>Sun, 14 Jun 2026 09:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>אסטרטגיה</category>
+      <description>ריבית פריים 5.25% — האם כדאי לפרוע את המשכנתא מוקדם או להשקיע את הכסף? ניתוח מספרי מלא עם נתוני יוני 2026.</description>
+    </item>
+
+    <item>
+      <title>מענק ממשלתי לבעלי משכנתא 2026 — מי זכאי וכמה מקבלים</title>
+      <link>https://menifa.org/blog/art-26.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-26.html</guid>
+      <pubDate>Thu, 11 Jun 2026 09:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>מענקים</category>
+      <description>הממשלה אישרה מענק למשלמי משכנתאות שנפגעו מעליית הריבית — עד 75% מהעלייה בהחזר. מי זכאי, כמה מקבלים.</description>
+    </item>
+
+    <item>
+      <title>דיור בהישג יד 2026 — מדריך מלא לזכאות ומשכנתא</title>
+      <link>https://menifa.org/blog/art-25.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-25.html</guid>
+      <pubDate>Wed, 10 Jun 2026 09:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>דיור בהישג יד</category>
+      <description>דיור בהישג יד 2026 (המחליף של מחיר למשתכן): מי זכאי, איך נרשמים להגרלות, ההטבות במשכנתא, ההון העצמי הנדרש.</description>
+    </item>
+
+  </channel>
+</rss>
