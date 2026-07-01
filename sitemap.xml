@@ -327,4 +327,12 @@
     <priority>0.95</priority>
   </url>
 
+  <url>
+    <loc>https://menifa.org/blog/art-35.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-35.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.97</priority>
+  </url>
+
 </urlset>
