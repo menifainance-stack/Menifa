@@ -56,9 +56,14 @@ WebFetch ו-curl מהסביבה הזו מחזירים 403 עבור menifa.org ג
 - דירוג ל-long-tail (מחזור משכנתא 2026 וכו') — 60-90 יום
 - דירוג ל-generic ("יועץ משכנתאות") — 6-12 חודש (תחרות גבוהה, מדורגים directories)
 
-### ❌ מה לא עובד יותר (בדקתי 09/06/2026):
+### ❌ מה לא עובד יותר (מאומת 01/07/2026):
 - `google.com/ping?sitemap=...` — מחזיר 404 (Google deprecated)
 - `bing.com/ping?sitemap=...` — מחזיר 410 Gone
+
+### ✅ מה כן עובד עכשיו (מאומת 01/07/2026):
+- **IndexNow POST** ל-`https://api.indexnow.org/indexnow` — מחזיר **HTTP 202 Accepted** עם 51 URLs שנדחפו במעבד
+- **menifa.org** נגיש 100% — HTTP 200, Last-Modified 2026-07-01, X-Cache: MISS (טרי מהמקור)
+- Bing/Yandex/Seznam/Naver יסרקו את 51 ה-URLs תוך 24 שעות ⇒ אפשרות ל-Google spillover
 
 ### 🛑 סטופ הוק SEO:
 המשתמש הגדיר goal "אתר במקום ראשון בגוגל". זה תוצאה שתלויה ב:
