@@ -69,3 +69,8 @@ Allow: /
 
 # === Sitemap ===
 Sitemap: https://menifa.org/sitemap.xml
+
+# === IndexNow key (Bing/Yandex/Seznam/Naver instant indexing) ===
+# Host: menifa.org
+# Key: menifa-indexnow-2026070100
+# Key location: https://menifa.org/menifa-indexnow-2026070100.txt
