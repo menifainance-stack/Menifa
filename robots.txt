@@ -67,8 +67,10 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
-# === Sitemap ===
+# === Sitemaps (index + per-type) ===
+Sitemap: https://menifa.org/sitemap-index.xml
 Sitemap: https://menifa.org/sitemap.xml
+Sitemap: https://menifa.org/sitemap-pages.xml
 
 # === IndexNow key (Bing/Yandex/Seznam/Naver instant indexing) ===
 # Host: menifa.org
