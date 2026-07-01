@@ -6,6 +6,12 @@
 User-agent: *
 Allow: /
 
+# Block internal preview/mockup files from indexing
+Disallow: /preview.html
+Disallow: /preview-*.html
+Disallow: /mockups.html
+Disallow: /mockups/
+
 # === Google ===
 User-agent: Googlebot
 Allow: /
