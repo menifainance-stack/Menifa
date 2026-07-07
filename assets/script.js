@@ -20,11 +20,11 @@ const monthlyPayment = (principal, annualRate, years) => {
    Attempts live fetch, falls back to last-known values
    ═══════════════════════════════════════════════════════════════ */
 const MARKET_FALLBACK = {
-  boi: 3.75,         // ריבית בנק ישראל (מאי 2026)
-  prime: 5.25,       // פריים = BoI + 1.5
+  boi: 3.50,         // ריבית בנק ישראל (יולי 2026)
+  prime: 5.00,       // פריים = BoI + 1.5
   cpiMonthly: -0.3,  // % שינוי חודשי (מאי 2026)
   cpiYearly: 1.9,    // % שינוי שנתי (12 חודשים אחרונים)
-  updateDate: 'יוני 2026'
+  updateDate: 'יולי 2026'
 };
 
 function setMarketData(data) {
