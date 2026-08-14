@@ -63,7 +63,13 @@
     "openingHoursSpecification": [
       {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Sunday","Monday","Tuesday","Wednesday","Thursday"],
+        "dayOfWeek": [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday"
+        ],
         "opens": "09:00",
         "closes": "20:00"
       },
@@ -79,18 +85,31 @@
         "@type": "ContactPoint",
         "telephone": "+972-52-4502821",
         "contactType": "customer service",
-        "availableLanguage": ["Hebrew","English"],
+        "availableLanguage": [
+          "Hebrew",
+          "English"
+        ],
         "areaServed": "IL"
       },
       {
         "@type": "ContactPoint",
         "email": "menifainance@gmail.com",
         "contactType": "customer support",
-        "availableLanguage": ["Hebrew","English"]
+        "availableLanguage": [
+          "Hebrew",
+          "English"
+        ]
       }
     ],
     "sameAs": [
       "https://wa.me/972524502821"
+    ]
+  },
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      "h1",
+      ".lead"
     ]
   }
 }
