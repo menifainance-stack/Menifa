@@ -22,8 +22,8 @@ const monthlyPayment = (principal, annualRate, years) => {
 const MARKET_FALLBACK = {
   boi: 3.50,         // ריבית בנק ישראל (יולי 2026)
   prime: 5.00,       // פריים = BoI + 1.5
-  cpiMonthly: 0.0,   // % שינוי חודשי (יוני 2026)
-  cpiYearly: 1.6,    // % שינוי שנתי (12 חודשים אחרונים)
+  cpiMonthly: 0.3,   // % שינוי חודשי (יולי 2026)
+  cpiYearly: 1.5,    // % שינוי שנתי (12 חודשים אחרונים)
   updateDate: 'יולי 2026'
 };
 
