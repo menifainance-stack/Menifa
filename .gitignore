@@ -11,3 +11,9 @@
 ruvector.db
 ruvector.db-shm
 ruvector.db-wal
+
+# Ruflo daemon / policy runtime state (regenerated per machine)
+.claude-flow/daemon.pid
+.claude-flow/daemon-state.json
+.claude-flow/policy/
+.claude-flow/metrics/codebase-map.json
