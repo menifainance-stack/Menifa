@@ -16,4 +16,4 @@ ruvector.db-wal
 .claude-flow/daemon.pid
 .claude-flow/daemon-state.json
 .claude-flow/policy/
-.claude-flow/metrics/codebase-map.json
+.claude-flow/metrics/
