@@ -6,547 +6,130 @@
     <loc>https://menifa.org/</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://menifa.org/"/>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-
   <url>
     <loc>https://menifa.org/madrich-mashkanta.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/madrich-mashkanta.html"/>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.98</priority>
   </url>
-
   <url>
     <loc>https://menifa.org/faq.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/faq.html"/>
-    <lastmod>2026-08-14</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-09-03</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
-
   <url>
     <loc>https://menifa.org/calculators.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/calculators.html"/>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
-
   <url>
     <loc>https://menifa.org/blog.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog.html"/>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>daily</changefreq>
-    <priority>0.92</priority>
+    <priority>0.93</priority>
   </url>
-
   <url>
     <loc>https://menifa.org/about.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/about.html"/>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
-
   <url>
     <loc>https://menifa.org/contact.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/contact.html"/>
-    <lastmod>2026-08-14</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
+    <priority>0.90</priority>
   </url>
-
   <url>
     <loc>https://menifa.org/privacy.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/privacy.html"/>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
-
   <url>
     <loc>https://menifa.org/terms.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/terms.html"/>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
 
   <url>
-    <loc>https://menifa.org/blog/art-1.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-1.html"/>
-    <lastmod>2026-07-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-2.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-2.html"/>
-    <lastmod>2026-07-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-3.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-3.html"/>
-    <lastmod>2026-07-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-4.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-4.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-5.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-5.html"/>
-    <lastmod>2026-07-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-6.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-6.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-7.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-7.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-8.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-8.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-9.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-9.html"/>
-    <lastmod>2026-07-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-10.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-10.html"/>
-    <lastmod>2026-07-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-11.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-11.html"/>
-    <lastmod>2026-07-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-12.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-12.html"/>
-    <lastmod>2026-07-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-13.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-13.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-14.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-14.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-15.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-15.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-16.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-16.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-17.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-17.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-18.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-18.html"/>
-    <lastmod>2026-07-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-19.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-19.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-20.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-20.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-21.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-21.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-22.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-22.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-23.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-23.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-24.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-24.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-25.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-25.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-26.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-26.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-27.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-27.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-28.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-28.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-29.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-29.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-30.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-30.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.70</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-31.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-31.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-32.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-32.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-33.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-33.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-34.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-34.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-35.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-35.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-36.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-36.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-37.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-37.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-38.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-38.html"/>
-    <lastmod>2026-07-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-39.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-39.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-40.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-40.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-41.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-41.html"/>
-    <lastmod>2026-07-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-42.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-42.html"/>
-    <lastmod>2026-07-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-43.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-43.html"/>
-    <lastmod>2026-07-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-44.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-44.html"/>
-    <lastmod>2026-07-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-45.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-45.html"/>
-    <lastmod>2026-07-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-46.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-46.html"/>
-    <lastmod>2026-07-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.82</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-47.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-47.html"/>
-    <lastmod>2026-07-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.82</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-48.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-48.html"/>
-    <lastmod>2026-07-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.82</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-49.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-49.html"/>
-    <lastmod>2026-07-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.82</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-50.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-50.html"/>
-    <lastmod>2026-07-19</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.82</priority>
-  </url>
-
-  <url>
-    <loc>https://menifa.org/blog/art-51.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-51.html"/>
-    <lastmod>2026-07-21</lastmod>
+    <loc>https://menifa.org/blog/art-69.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-69.html"/>
+    <lastmod>2026-09-03</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.82</priority>
+    <priority>0.92</priority>
   </url>
-
   <url>
-    <loc>https://menifa.org/blog/art-52.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-52.html"/>
-    <lastmod>2026-07-23</lastmod>
+    <loc>https://menifa.org/blog/art-68.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-68.html"/>
+    <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.82</priority>
+    <priority>0.92</priority>
   </url>
-
   <url>
-    <loc>https://menifa.org/blog/art-53.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-53.html"/>
-    <lastmod>2026-07-26</lastmod>
+    <loc>https://menifa.org/blog/art-67.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-67.html"/>
+    <lastmod>2026-08-30</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.82</priority>
+    <priority>0.92</priority>
   </url>
-
   <url>
-    <loc>https://menifa.org/blog/art-54.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-54.html"/>
-    <lastmod>2026-07-28</lastmod>
+    <loc>https://menifa.org/blog/art-66.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-66.html"/>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.82</priority>
+    <priority>0.92</priority>
   </url>
-
   <url>
-    <loc>https://menifa.org/blog/art-55.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-55.html"/>
-    <lastmod>2026-07-30</lastmod>
+    <loc>https://menifa.org/blog/art-65.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-65.html"/>
+    <lastmod>2026-08-25</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.82</priority>
+    <priority>0.92</priority>
   </url>
-
   <url>
-    <loc>https://menifa.org/blog/art-56.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-56.html"/>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://menifa.org/blog/art-64.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-64.html"/>
+    <lastmod>2026-08-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.88</priority>
   </url>
-
   <url>
-    <loc>https://menifa.org/blog/art-57.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-57.html"/>
-    <lastmod>2026-08-04</lastmod>
+    <loc>https://menifa.org/blog/art-63.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-63.html"/>
+    <lastmod>2026-08-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.88</priority>
   </url>
-
   <url>
-    <loc>https://menifa.org/blog/art-58.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-58.html"/>
-    <lastmod>2026-08-09</lastmod>
+    <loc>https://menifa.org/blog/art-62.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-62.html"/>
+    <lastmod>2026-08-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.88</priority>
   </url>
-
   <url>
-    <loc>https://menifa.org/blog/art-59.html</loc>
-    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-59.html"/>
-    <lastmod>2026-08-11</lastmod>
+    <loc>https://menifa.org/blog/art-61.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-61.html"/>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.88</priority>
   </url>
-
   <url>
     <loc>https://menifa.org/blog/art-60.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-60.html"/>
@@ -554,5 +137,417 @@
     <changefreq>weekly</changefreq>
     <priority>0.88</priority>
   </url>
-
+  <url>
+    <loc>https://menifa.org/blog/art-59.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-59.html"/>
+    <lastmod>2026-08-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-58.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-58.html"/>
+    <lastmod>2026-08-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-57.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-57.html"/>
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-56.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-56.html"/>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-55.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-55.html"/>
+    <lastmod>2026-07-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-54.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-54.html"/>
+    <lastmod>2026-07-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-53.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-53.html"/>
+    <lastmod>2026-07-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-52.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-52.html"/>
+    <lastmod>2026-07-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-51.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-51.html"/>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-50.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-50.html"/>
+    <lastmod>2026-07-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-49.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-49.html"/>
+    <lastmod>2026-07-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-48.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-48.html"/>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-47.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-47.html"/>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-46.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-46.html"/>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-45.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-45.html"/>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-44.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-44.html"/>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-43.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-43.html"/>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-42.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-42.html"/>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-41.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-41.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-40.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-40.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-39.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-39.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-38.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-38.html"/>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-37.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-37.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-36.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-36.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-35.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-35.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-34.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-34.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-33.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-33.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-32.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-32.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-31.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-31.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-30.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-30.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-29.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-29.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-28.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-28.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-27.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-27.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-26.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-26.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-25.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-25.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-24.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-24.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-23.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-23.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-22.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-22.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-21.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-21.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-20.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-20.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-19.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-19.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-18.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-18.html"/>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-17.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-17.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-16.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-16.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-14.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-14.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-13.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-13.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-12.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-12.html"/>
+    <lastmod>2026-07-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-11.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-11.html"/>
+    <lastmod>2026-07-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-10.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-10.html"/>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-9.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-9.html"/>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-8.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-8.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-7.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-7.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-6.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-6.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-5.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-5.html"/>
+    <lastmod>2026-07-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-4.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-4.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-3.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-3.html"/>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-2.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-2.html"/>
+    <lastmod>2026-07-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-1.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-1.html"/>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://menifa.org/blog/art-15.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-15.html"/>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
 </urlset>
