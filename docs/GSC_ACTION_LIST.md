@@ -1,4 +1,4 @@
-# רשימת פעולות Google Search Console — 04/09/2026
+# רשימת פעולות Google Search Console — 06/09/2026
 
 ## שלב 1: הגשת Sitemap (30 שניות, הכי חשוב)
 
@@ -8,17 +8,18 @@ GSC → Sitemaps → Add a new sitemap → הדבק:
 sitemap-index.xml
 ```
 
-זה מכסה את שני קבצי המשנה: 9 דפים ראשיים + 69 מאמרים = **78 כתובות**.
+זה מכסה את שני קבצי המשנה: 9 דפים ראשיים + 70 מאמרים = **79 כתובות**.
 לפני התיקון של היום, 9 מהמאמרים לא היו בו בכלל.
 
 ---
 
-## שלב 2: Request Indexing על 9 המאמרים שהיו מנותקים
+## שלב 2: Request Indexing על 10 המאמרים
 
 GSC → URL Inspection → הדבק כתובת → Request Indexing.
 גוגל מגביל לכ-10-12 בקשות ביום, ולכן זו בדיוק מנה אחת.
 
 ```
+https://menifa.org/blog/art-70.html
 https://menifa.org/blog/art-69.html
 https://menifa.org/blog/art-68.html
 https://menifa.org/blog/art-67.html
@@ -30,15 +31,15 @@ https://menifa.org/blog/art-62.html
 https://menifa.org/blog/art-61.html
 ```
 
-**סדר עדיפות אם נגמרה המכסה:** art-69 (PTI), art-68 (תמהיל), art-67 (מחזור).
-אלה שלושת הנושאים עם נפח החיפוש הגבוה ביותר מבין התשעה.
+**סדר עדיפות אם נגמרה המכסה:** art-70 (החדש), art-69 (PTI), art-68 (תמהיל).
+אלה הנושאים עם נפח החיפוש הגבוה ביותר.
 
 ---
 
 ## שלב 3: אימות שהתיקון עלה
 
-אחרי המיזוג ל-main והפריסה (כ-2 דקות), פתח:
-`https://menifa.org/sitemap.xml` — חפש `art-69`. אם הוא שם, התיקון באוויר.
+אחרי הפריסה (כ-2 דקות מהדחיפה ל-main), פתח:
+`https://menifa.org/sitemap.xml` — חפש `art-70`. אם הוא שם, התיקון באוויר.
 
 ---
 
