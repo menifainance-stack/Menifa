@@ -58,56 +58,53 @@ WebSearch על "תמיר גרמה" החזיר תמיר גל, תמיר בר, ומ
 
 **מה שכן אמין:** צילומי מסך של תמיר · Google Search Console · אישור מפורש שלו.
 
-## סטטוס נוכחי (עודכן 01/07/2026 — לאחר 13 commits בסשן /loop)
+## סטטוס נוכחי (עודכן 06/09/2026)
 
-### ✅ שלם — קוד באוויר (סך 80+ commits עד 01/07/2026):
-- **44 דפי תוכן באתר** (אינדקס, FAQ, מדריך, 6 דפים ראשיים + privacy/terms, **39 מאמרי בלוג**)
-- 13 סוגי Schema.org מקיפים — Organization, LocalBusiness, FinancialService, Person/ProfilePage, FAQPage, Service+OfferCatalog, WebSite, SpeakableSpecification, BreadcrumbList, HowTo, NewsArticle, CollectionPage, ContactPage, Blog, WebApplication (FinanceApplication)
-- robots.txt עם 14 בוטי AI search מורשים + Disallow על preview/mockup files
-- llms.txt + llms-full.txt — סינכרון מלא ל-39 מאמרים (עודכן ליולי 2026)
-- hreflang he-IL בכל 39 המאמרים + 9 הדפים הראשיים (כולל privacy/terms)
-- **Sitemap עם 48 URLs** — priorities + hreflang annotations + lastmod 2026-07-01
-- **RSS feed פעיל** (rss.xml, 14 items) + link rel=alternate מ-index/blog
-- מאמרים חדשים מ-01/07/2026: art-35 (מסמכים), art-36 (מלכודות בחוזה), art-37 (משכנתא הפוכה), art-38 (כמה עולה יועץ + Service schema), art-39 (חיילים משוחררים)
-- **CRITICAL bug fixes**: canonical URLs תוקנו (הצביעו ל-github.io בטעות), sitemap חסר 9 מאמרים תוקן, art-19+20 יתומים חוברו
-- כל 39 המאמרים: Article schema מלא + dateModified + author + publisher + breadcrumbList
-- FAQPage schema על כ-20 מאמרים
-- SpeakableSpecification על index/faq/about/calculators/madrich (voice search boost)
-- Pillar Page של 4,500 מילים: `/madrich-mashkanta.html`
-- FAQ Page עם 20 שאלות: `/faq.html`
-- **דף הבית**: 4 מאמרים חדשים מוצגים ("מאמרים חדשים"), Slogan "בצד שלכם, לא של הבנק"
-- Service schema ב-art-38 עם OfferCatalog (₪0 ל-₪20K תמחור מפורש)
-- מחשבונים: WebApplication schema + FinanceApplication category
+### ✅ שלם — קוד באוויר:
+- **78 כתובות ב-sitemap**: 9 דפים ראשיים + **69 מאמרי בלוג**
+- 13 סוגי Schema.org, robots.txt עם 14 בוטי AI search, hreflang he-IL מלא
+- RSS feed (30 items), llms.txt + llms-full.txt
+- Pillar page 4,500 מילים (`/madrich-mashkanta.html`) + FAQ עם 20 שאלות
 
-### ⏳ ממתין לפעולה ידנית של תמיר (אני לא יכול לעשות):
-1. **Google Search Console — Request Indexing** על המאמרים החדשים: art-35, art-36, art-37, art-38, art-39 + privacy/terms + rss.xml
-2. **Submit Sitemap.xml מחדש** ב-GSC (48 URLs עכשיו, לעומת 34 בעבר)
-3. **יצירת Google Business Profile** (קטגוריה: Mortgage Broker) — הכי חשוב לpresence מקומית
+### 🔧 תוקן ב-04/09/2026 — באג אינדוקס קריטי:
+art-61 עד art-69 (9 מאמרים, אוגוסט–ספטמבר) **לא היו ב-sitemap, ב-RSS,
+ב-llms.txt ולא ב-Blog schema של דף הבית.** מנועי החיפוש לא ידעו שהם קיימים.
+השורש: הפידים נבנו ידנית, כל מאמר חדש דרש עדכון ב-5 מקומות.
+
+**הפתרון — אוטומציה, לא תיקון חד-פעמי:**
+- `tools/regen_seo.py` — קורא את `blog/art-*.html` כמקור אמת יחיד ובונה
+  מחדש sitemap.xml, sitemap-pages.xml, sitemap-index.xml, rss.xml, llms.txt
+  ואת מערך `blogPost` ב-index.html.
+- `tools/push_indexnow.py` — דוחף את כל כתובות ה-sitemap ל-IndexNow.
+- `.github/workflows/seo-autoindex.yml` — מריץ את שניהם אוטומטית בכל push
+  ל-main שנוגע ל-`blog/` או לדף HTML.
+
+**כלל עבודה מכאן והלאה:** אחרי הוספת מאמר, להריץ `python3 tools/regen_seo.py`
+ולקמט את הפלט. אם עובדים דרך main, ה-workflow עושה זאת לבד.
+
+### ⚠️ מגבלות סביבת ההרצה (מאומת 04/09/2026):
+הפרוקסי חוסם egress ל-menifa.org, boi.org.il, api.indexnow.org, facebook.com.
+**זו מדיניות רשת — לא עדות שהאתר או השירות מושבתים.** אל תאבחן שום דבר
+על סמך `403 CONNECT tunnel failed`. דחיפת IndexNow עוברת דרך GitHub Actions.
+מה שכן עובד מכאן: Apify MCP, WebSearch, גישה ל-GitHub.
+
+### ⏳ ממתין לפעולה ידנית של תמיר (אני חסום מלבצע):
+1. **Google Search Console — Submit sitemap**: `https://menifa.org/sitemap-index.xml`
+2. **Request Indexing** על 9 המאמרים שהיו מנותקים: art-61 עד art-69
+3. **יצירת Google Business Profile** (קטגוריה: Mortgage Broker)
 4. **רישום ב-4 ספריות:** midrag.co.il, pro.co.il, bizreviews.co.il, moti.org.il
 5. **חוות דעת מלקוחות** ב-Google + מידרג
 
-### ⚠️ מצב בגוגל (לפי live WebSearch 10/06/2026):
-- `site:menifa.org` מציג רק תוצאה אחת: "מניפה | עיצוב גרפי" — **Cache ישן!**
-- חיפוש "מניפה פיננסית תמיר גרמה" — האתר לא בעמוד הראשון
-- חיפוש "תמיר גרמה יועץ משכנתאות" — האתר לא מופיע, יש מתחרים אחרים בשם תמיר (תמיר פרחי, תמיר מור)
-- האתר אכן מאונדקס, אבל עם תוכן ישן (לפני המעבר לייעוץ משכנתאות)
-- אחרי שתמיר יעשה Request Indexing → Cache יתעדכן תוך 24-72 שעות
-- אז דירוג #1 לbranded terms ("מניפה פיננסית", "תמיר גרמה") תוך 7-14 יום
-- דירוג ל-long-tail (מחזור משכנתא 2026 וכו') — 60-90 יום
-- דירוג ל-generic ("יועץ משכנתאות") — 6-12 חודש (תחרות גבוהה, מדורגים directories)
+### 📊 מודיעין תחרותי (מאומת חי 04/09/2026, Apify):
+- הנישה רדודה: מבין 6 יועצי משכנתאות ישראלים שנסרקו באינסטגרם,
+  רק **תמיר מור (@tamir_mor_mashkanta, 26,888 עוקבים)** עובר את רף ה-10K.
+- **אורך הסרטון מנבא תפוצה חזק יותר מכמות העוקבים:** צחי גרוסמן
+  (6,618 עוקבים, רילס של 7–16 שנ') מגיע ל-30K–112K צפיות; תמיר מור
+  (26,888 עוקבים, רילס של 54–88 שנ') מגיע ל-477–3,136 צפיות.
+- **פיתיון תגובות > פיתיון צפיות:** חידה של 30K צפיות הביאה 129 תגובות,
+  מול 23 תגובות על סרטון של 112K צפיות. פי 20 יחס מעורבות.
+- דוח מלא: `docs/hunter-reports/2026-09-04.md`
 
-### ❌ מה לא עובד יותר (מאומת 01/07/2026):
-- `google.com/ping?sitemap=...` — מחזיר 404 (Google deprecated)
-- `bing.com/ping?sitemap=...` — מחזיר 410 Gone
-
-### ✅ מה כן עובד עכשיו (מאומת 01/07/2026):
-- **IndexNow POST** ל-`https://api.indexnow.org/indexnow` — מחזיר **HTTP 202 Accepted** עם 51 URLs שנדחפו במעבד
-- **menifa.org** נגיש 100% — HTTP 200, Last-Modified 2026-07-01, X-Cache: MISS (טרי מהמקור)
-- Bing/Yandex/Seznam/Naver יסרקו את 51 ה-URLs תוך 24 שעות ⇒ אפשרות ל-Google spillover
-
-### 🛑 סטופ הוק SEO:
-המשתמש הגדיר goal "אתר במקום ראשון בגוגל". זה תוצאה שתלויה ב:
-1. תמיר עושה Request Indexing (פעולה ידנית בלעדית שלו)
-2. גוגל מחדש את ה-Cache (24-72 שעות)
-3. גוגל מדרג מחדש לפי האותות החדשים (7-30 יום)
-**אי אפשר לסגור את הסטופ הוק בסשן אחד.** דרושה פעולה שלו + זמן.
+### ❌ מה לא עובד (מאומת):
+- `google.com/ping?sitemap=...` — 404, גוגל הסיר את ה-endpoint ב-2023
+- `bing.com/ping?sitemap=...` — 410 Gone. הוחלף ב-IndexNow.

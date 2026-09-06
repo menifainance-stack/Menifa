@@ -1,0 +1,66 @@
+name: SEO — סנכרון פידים ודחיפה לאינדוקס
+
+# רץ אוטומטית בכל פרסום מאמר או עדכון דף.
+# 1. מריץ את tools/regen_seo.py — בונה מחדש sitemap/rss/llms מהקבצים עצמם
+# 2. מקומיט את השינוי אם משהו השתנה
+# 3. דוחף את כל כתובות ה-sitemap ל-IndexNow (Bing, Yandex, Seznam, Naver)
+#
+# הערה: לגוגל אין יותר endpoint ל-ping (הוסר ב-2023). הדרך לגוגל היא
+# sitemap טרי ב-Search Console — ולכן שלב 1 הוא הקריטי.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/**'
+      - '*.html'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: seo-autoindex
+  cancel-in-progress: false
+
+jobs:
+  sync-and-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: בניית פידים מחדש
+        run: python3 tools/regen_seo.py
+
+      - name: קומיט אם השתנה משהו
+        id: sync
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "אין שינוי בפידים."
+            exit 0
+          fi
+          git config user.name  "Menifa SEO Bot"
+          git config user.email "menifainance@gmail.com"
+          git add sitemap.xml sitemap-pages.xml sitemap-index.xml rss.xml llms.txt index.html
+          git commit -m "SEO: סנכרון אוטומטי של sitemap, RSS ו-llms.txt"
+          git push
+          echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: דחיפת כל הכתובות ל-IndexNow
+        run: python3 tools/push_indexnow.py
+
+      - name: אימות שהפידים חיים
+        # רץ אחרי שה-Pages הספיק לפרוס. כישלון כאן לא מפיל את הריצה —
+        # זו בדיקת שפיות, לא שער.
+        continue-on-error: true
+        run: |
+          sleep 90
+          for path in sitemap.xml rss.xml menifa-indexnow-2026070100.txt; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "https://menifa.org/$path")
+            echo "$path -> HTTP $code"
+          done
