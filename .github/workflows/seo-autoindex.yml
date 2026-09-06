@@ -54,9 +54,11 @@ jobs:
       - name: דחיפת כל הכתובות ל-IndexNow
         run: python3 tools/push_indexnow.py
 
-      - name: אימות שהפידים חיים
-        # רץ אחרי שה-Pages הספיק לפרוס. כישלון כאן לא מפיל את הריצה —
-        # זו בדיקת שפיות, לא שער.
+      - name: אימות שהפידים חיים ומכילים את המאמר החדש
+        # רץ אחרי שה-Pages הספיק לפרוס. בודק תוכן ולא רק קוד סטטוס —
+        # sitemap שמחזיר 200 אבל חסר את המאמר האחרון הוא בדיוק הבאג
+        # שהאוטומציה הזו נועדה למנוע.
+        # כישלון כאן לא מפיל את הריצה: הדחיפה כבר יצאה.
         continue-on-error: true
         run: |
           sleep 90
@@ -64,3 +66,12 @@ jobs:
             code=$(curl -s -o /dev/null -w '%{http_code}' "https://menifa.org/$path")
             echo "$path -> HTTP $code"
           done
+
+          newest=$(ls blog/art-*.html | sed 's|blog/||' \
+                   | sort -t- -k2 -n | tail -1)
+          echo "המאמר החדש ביותר במאגר: $newest"
+          if curl -s "https://menifa.org/sitemap.xml" | grep -q "$newest"; then
+            echo "✓ $newest נמצא ב-sitemap החי"
+          else
+            echo "✗ $newest חסר מה-sitemap החי — ייתכן שהפריסה עוד לא הסתיימה"
+          fi
