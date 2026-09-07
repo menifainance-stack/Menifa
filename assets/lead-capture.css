@@ -1,0 +1,223 @@
+/* ═══════════════════════════════════════════════════════════════
+   Lead Capture — טופס לכידת לידים לרגע השיא
+   נטען אחרי style.css ומשתמש בטוקנים שלו.
+   ═══════════════════════════════════════════════════════════════ */
+
+.lead-form {
+  background: var(--surface, #fff);
+  border: 1px solid var(--navy-100, #DCEBF4);
+  border-radius: 16px;
+  padding: 1.25rem 1.35rem;
+  margin-top: 1.1rem;
+  text-align: right;
+}
+
+.lead-form__head { margin-bottom: 0.9rem; }
+
+.lead-form__title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--navy, #0E3C5C);
+  margin: 0 0 0.3rem;
+  line-height: 1.4;
+}
+
+.lead-form__sub {
+  font-size: 0.85rem;
+  color: var(--gray, #5C6068);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.lead-form__row { display: grid; gap: 0.7rem; margin-bottom: 0.7rem; }
+@media (min-width: 620px) { .lead-form__row { grid-template-columns: 1fr 1fr; } }
+
+.lead-form__field { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.lead-form__field label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--charcoal, #232932);
+}
+
+.lead-form__field input[type="text"],
+.lead-form__field input[type="tel"] {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--charcoal, #232932);
+  background: var(--bg, #FCFDFE);
+  border: 1.5px solid var(--navy-100, #DCEBF4);
+  border-radius: 10px;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.lead-form__field input:focus-visible {
+  outline: none;
+  border-color: var(--gold, #5BAFD8);
+  box-shadow: 0 0 0 3px rgba(91, 175, 216, 0.18);
+}
+
+.lead-form__field input[aria-invalid="true"] { border-color: var(--red, #E08866); }
+
+.lead-form__error {
+  font-size: 0.78rem;
+  color: #B45531;
+  min-height: 1rem;
+}
+.lead-form__error:empty { min-height: 0; }
+
+/* שדה דבש — נסתר מבני אדם ומקוראי מסך, גלוי לבוטים */
+.lead-form__hp {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.lead-form__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.79rem;
+  line-height: 1.55;
+  color: var(--gray, #5C6068);
+  margin-bottom: 0.85rem;
+}
+
+.lead-form__consent input[type="checkbox"] {
+  margin-top: 0.18rem;
+  width: 1rem; height: 1rem;
+  accent-color: var(--gold, #5BAFD8);
+  flex-shrink: 0;
+}
+
+.lead-form__consent a { color: var(--navy-light, #2D6F95); }
+
+.lead-form__submit {
+  width: 100%;
+  padding: 0.85rem 1.2rem;
+  font: inherit;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--navy, #0E3C5C);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.12s ease;
+}
+
+.lead-form__submit:hover:not(:disabled) { background: var(--navy-deep, #082945); }
+.lead-form__submit:active:not(:disabled) { transform: translateY(1px); }
+.lead-form__submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.lead-form__alt {
+  margin: 0.8rem 0 0;
+  font-size: 0.8rem;
+  color: var(--gray, #5C6068);
+  text-align: center;
+}
+.lead-form__alt a { color: var(--navy-light, #2D6F95); font-weight: 600; }
+
+/* ── מצב הצלחה ── */
+.lead-form__done {
+  text-align: center;
+  padding: 0.6rem 0.2rem;
+}
+.lead-form__done-icon {
+  width: 46px; height: 46px;
+  margin: 0 auto 0.7rem;
+  border-radius: 50%;
+  background: var(--green-soft, #E6F5EC);
+  color: var(--gold-deep, #3D8B6E);
+  display: grid; place-items: center;
+}
+.lead-form__done h4 {
+  font-size: 1.05rem;
+  color: var(--navy, #0E3C5C);
+  margin: 0 0 0.4rem;
+}
+.lead-form__done p {
+  font-size: 0.87rem;
+  color: var(--gray, #5C6068);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── ווידג'ט בדיקת כדאיות בדף המדריך ── */
+.feas {
+  background: linear-gradient(135deg, rgba(91,175,216,0.07) 0%, rgba(125,201,163,0.07) 100%);
+  border: 1px solid rgba(91, 175, 216, 0.28);
+  border-radius: 20px;
+  padding: 1.6rem 1.5rem;
+  margin: 2rem 0;
+}
+
+.feas__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy, #0E3C5C);
+  margin: 0 0 0.4rem;
+}
+
+.feas__desc {
+  font-size: 0.9rem;
+  color: var(--gray, #5C6068);
+  line-height: 1.7;
+  margin: 0 0 1.2rem;
+}
+
+.feas__inputs { display: grid; gap: 1rem; margin-bottom: 1.2rem; }
+@media (min-width: 720px) { .feas__inputs { grid-template-columns: repeat(3, 1fr); } }
+
+.feas__input label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--charcoal, #232932);
+  margin-bottom: 0.4rem;
+}
+.feas__input label .val {
+  font-weight: 700;
+  color: var(--navy-light, #2D6F95);
+  font-variant-numeric: tabular-nums;
+}
+
+.feas__input input[type="range"] {
+  width: 100%;
+  accent-color: var(--gold, #5BAFD8);
+  cursor: pointer;
+}
+
+.feas__out {
+  background: var(--surface, #fff);
+  border-radius: 14px;
+  padding: 1.1rem 1.2rem;
+  text-align: center;
+  margin-bottom: 0.3rem;
+}
+.feas__out-label { font-size: 0.82rem; color: var(--gray, #5C6068); }
+.feas__out-val {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--navy, #0E3C5C);
+  line-height: 1.2;
+  margin: 0.15rem 0;
+  font-variant-numeric: tabular-nums;
+}
+.feas__out-sub { font-size: 0.85rem; color: var(--gray, #5C6068); }
+.feas__out-sub strong { color: var(--gold-deep, #3D8B6E); }
+
+.feas__note {
+  font-size: 0.76rem;
+  color: var(--gray-light, #9A9A98);
+  line-height: 1.6;
+  margin: 0.8rem 0 0;
+}

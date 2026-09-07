@@ -30,19 +30,26 @@ const MARKET_FALLBACK = {
 function setMarketData(data) {
   const fmt = n => (n > 0 ? '+' : '') + n.toFixed(1) + '%';
   const fmtRate = n => n.toFixed(2) + '%';
-  document.getElementById('m-boi').textContent = fmtRate(data.boi);
-  document.getElementById('m-prime').textContent = fmtRate(data.prime);
-  document.getElementById('m-cpi-m').textContent = fmt(data.cpiMonthly);
-  document.getElementById('m-cpi-y').textContent = data.cpiYearly.toFixed(1) + '%';
-  document.getElementById('m-update').textContent = data.updateDate;
 
-  const mc = document.getElementById('m-cpi-m-chg');
-  mc.className = 'chg ' + (data.cpiMonthly >= 0 ? 'up' : 'down');
-  mc.textContent = data.cpiMonthly >= 0 ? '↑ ע. אחרון' : '↓ ע. אחרון';
+  // לא בכל דף יש טיקר — במדריך, ב-FAQ ובחלק ממאמרי הבלוג הוא לא קיים.
+  // בלי הבדיקה הזו הפונקציה זורקת בכל טעינה של אותם דפים.
+  const set = (id, text) => {
+    const node = document.getElementById(id);
+    if (node) node.textContent = text;
+    return node;
+  };
 
-  const yc = document.getElementById('m-cpi-y-chg');
-  yc.className = 'chg ' + (data.cpiYearly >= 2 ? 'up' : 'down');
-  yc.textContent = '12 חודשים';
+  set('m-boi', fmtRate(data.boi));
+  set('m-prime', fmtRate(data.prime));
+  set('m-cpi-m', fmt(data.cpiMonthly));
+  set('m-cpi-y', data.cpiYearly.toFixed(1) + '%');
+  set('m-update', data.updateDate);
+
+  const mc = set('m-cpi-m-chg', data.cpiMonthly >= 0 ? '↑ ע. אחרון' : '↓ ע. אחרון');
+  if (mc) mc.className = 'chg ' + (data.cpiMonthly >= 0 ? 'up' : 'down');
+
+  const yc = set('m-cpi-y-chg', '12 חודשים');
+  if (yc) yc.className = 'chg ' + (data.cpiYearly >= 2 ? 'up' : 'down');
 }
 
 async function fetchMarketData() {
