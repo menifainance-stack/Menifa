@@ -6,67 +6,74 @@
     <loc>https://menifa.org/</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://menifa.org/"/>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://menifa.org/madrich-mashkanta.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/madrich-mashkanta.html"/>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.98</priority>
   </url>
   <url>
     <loc>https://menifa.org/faq.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/faq.html"/>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://menifa.org/calculators.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/calculators.html"/>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
     <loc>https://menifa.org/blog.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog.html"/>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.93</priority>
   </url>
   <url>
     <loc>https://menifa.org/about.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/about.html"/>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://menifa.org/contact.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/contact.html"/>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://menifa.org/privacy.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/privacy.html"/>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
   <url>
     <loc>https://menifa.org/terms.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/terms.html"/>
-    <lastmod>2026-09-06</lastmod>
+    <lastmod>2026-09-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.30</priority>
   </url>
 
+  <url>
+    <loc>https://menifa.org/blog/art-71.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-71.html"/>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
   <url>
     <loc>https://menifa.org/blog/art-70.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-70.html"/>
@@ -100,7 +107,7 @@
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-66.html"/>
     <lastmod>2026-08-27</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.92</priority>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://menifa.org/blog/art-65.html</loc>
@@ -170,7 +177,7 @@
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-56.html"/>
     <lastmod>2026-08-02</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://menifa.org/blog/art-55.html</loc>
@@ -275,7 +282,7 @@
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-41.html"/>
     <lastmod>2026-07-01</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://menifa.org/blog/art-40.html</loc>
