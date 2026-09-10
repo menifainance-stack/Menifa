@@ -2,3 +2,5 @@
 inbox/
 *.whatsapp.txt
 __pycache__/
+services/wa-collector/data/
+services/wa-collector/.env

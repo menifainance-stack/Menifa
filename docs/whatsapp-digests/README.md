@@ -1,86 +1,102 @@
 # סיכום יומי — קבוצות וואטסאפ של יועצי משכנתאות
 
-**מטרה:** כל בוקר, סיכום של מה שקרה אתמול בקבוצות המקצועיות: מקרים שיועצים העלו
-ואיך פתרו, חידושים בבנקים/רגולציה, שאלות שנשארו פתוחות, ורעיונות לתוכן.
+**המטרה:** כל בוקר 08:30, מייל (ו/או הודעת וואטסאפ קצרה) עם: המקרים שיועצים העלו אתמול
+ואיך פתרו, חידושים בבנקים ורגולציה, שאלות שנשארו פתוחות, ורעיונות לתוכן.
 
-**הכלי:** `tools/whatsapp_digest.py` — מפרסר ייצוא וואטסאפ (Android/iPhone, עברית/אנגלית),
-מסנן מדיה והודעות מערכת, **מאנמז שמות** ("יועץ 1", "יועץ 2"…), מפצל לשרשורים לפי
-פערי זמן, ושולח ל-Claude עם פרומפט אנליסט. פלט: Markdown (+HTML למייל, +JSON).
-
-```bash
-python3 -m unittest tools/tests/test_whatsapp_digest.py   # 6 בדיקות
-python3 tools/whatsapp_digest.py inbox/whatsapp/ --no-llm  # פרסור בלבד
-python3 tools/whatsapp_digest.py inbox/whatsapp/           # עם Claude (דורש ANTHROPIC_API_KEY)
-```
+**עודכן:** 10/09/2026. כל מה שכתוב כאן אומת מול מקורות חיים באותו יום.
 
 ---
 
-## ⚠️ שני כללי ברזל
+## 1. סריקת כל האופציות הקיימות (מאומת)
 
-1. **הריפו ציבורי.** קבצי ייצוא גולמיים יושבים ב-`inbox/` שנמצא ב-`.gitignore`.
-   לעולם לא לקומיט תמלילים של אנשים אחרים. גם הסיכומים המאונמים — לשקול לשמור
-   ב-Drive ולא כאן.
-2. **אין דרך "רשמית" לקרוא קבוצות.** ה-WhatsApp Business Cloud API של Meta (החיבור
-   שכבר קיים ב-Make) לא קורא קבוצות רגילות — ה-Groups API שלו (יוני 2026) הוא רק
-   לקבוצות שהעסק יוצר בעצמו, עד 8 משתתפים. לכן יש שתי דרכים בלבד:
+אין דרך רשמית. ה-Groups API של Meta (יוני 2026) עובד רק על קבוצות שהעסק יוצר, עד 8
+משתתפים — לא קבוצות קיימות ([Meta](https://developers.facebook.com/documentation/business-messaging/whatsapp/groups),
+[Unipile](https://www.unipile.com/whatsapp-group-api/)). לכן כל פתרון בעולם משתמש באחת מ-5 הטכניקות:
 
----
+| # | טכניקה | מימושים מאומתים | עלות | סיכון חסימה | מאמץ | ציון |
+|---|---|---|---|---|---|---|
+| **A** | **Linked device בקוד פתוח** — השרת מתחזה למחשב מקושר ומקבל כל הודעה | [WAHA](https://github.com/devlikeapro/waha) (Apache-2.0, **כל הפיצ'רים חינם מ-2026.6.1**), [Evolution API](https://github.com/evolution-foundation/evolution-api) (Baileys, דורש Postgres+Redis), ספריות: [Baileys](https://www.npmjs.com/package/@whiskeysockets/baileys), [whatsmeow](https://github.com/tulir/whatsmeow), [whatsapp-web.js](https://docs.wwebjs.dev/) | ₪0 תוכנה + VPS ~€4.35 ([Hetzner CX22](https://www.hetzner.com/pressroom/new-cx-plans/)) או Oracle Always-Free | **בינוני.** מנוגד ל-ToS. גל אזהרות "Your account may be at risk" במאי 2025 פגע גם במשתמשי קריאה-בלבד ([whatsmeow #810](https://github.com/tulir/whatsmeow/issues/810)) | שעה הקמה, אפס תחזוקה שוטפת | **9/10 עם SIM נפרד** |
+| **B** | **אותה טכניקה, מנוהלת** — מישהו אחר מריץ את השרת | [Whapi.Cloud](https://support.whapi.cloud/help-desk/getting-started/pricing) $35/חודש, [GREEN-API](https://green-api.com/en/docs/about-tariffs/) — **תוכנית Developer חינמית עד 3 צ'אטים כולל קבוצות**, [Periskope](https://periskope.app/pricing) $20/מושב | ₪0–$35 | זהה ל-A | 20 דקות | 8/10 (GREEN חינמי אם ≤3 קבוצות) |
+| **C** | **קריאת התראות באנדרואיד** — אפליקציה קוראת את ההתראות של וואטסאפ ושולחת ל-webhook. לא נוגעת בוואטסאפ עצמו | קוד פתוח: [NotificationForwarder](https://github.com/ItsAzni/NotificationForwarder), [NotificationWebhookApp](https://github.com/BigShoots/NotificationWebhookApp), [Message Mirror](https://github.com/Dragon-Born/message-mirror); מסחרי: MacroDroid / Tasker+AutoNotification | ₪0 | **אפס** — אין כלי צד ג' בחשבון | 30 דקות | 6/10: מפספס קבוצות מושתקות והתראות מקובצות ("5 הודעות חדשות"), תלוי שהטלפון דלוק |
+| **D** | **פענוח הגיבוי המקומי** — אנדרואיד שומר `msgstore.db.crypt15` כל לילה; עם המפתח בן 64 הספרות של "גיבוי מוצפן מקצה לקצה" מפענחים ומייצאים | [wa-crypt-tools](https://github.com/ElDavoo/wa-crypt-tools), [WhatsApp-Chat-Exporter](https://github.com/KnugiHK/Whatsapp-Chat-Exporter) (JSON/HTML, crypt12–15) | ₪0 | **אפס** — זה הנתונים שלך, בלי חיבור | סנכרון קובץ יומי מהטלפון (FolderSync/Syncthing) + סקריפט | 7/10: אמין ולגיטימי, אבל מסורבל ורק אנדרואיד |
+| **E** | **ייצוא ידני** — "ייצוא צ'אט" מהאפליקציה → Drive → סקריפט | הכלי שלנו `tools/whatsapp_digest.py` | ₪0 | אפס | 10 שניות לקבוצה, כל יום | 5/10: תלוי במשמעת |
 
-## מסלול A — ייצוא ידני + סיכום אוטומטי (₪0, אפשר להתחיל היום)
+**מה לא מצאנו:** שירות ישראלי שעושה בדיוק את זה. הכתבה ב-[גיקטיים](https://www.geektime.co.il/ai-agents-can-manage-your-whatsapp-groups/)
+על "Group Assistant" של אילן בנבורים היא בוט ניהול קבוצות (קוד פתוח), לא סיכום יומי מקצועי.
+פרויקטים דומים בעולם ([firstlinkai](https://github.com/firstlinkai/Daily-WhatsApp-Group-Summary) — n8n + Evolution API + Sheets,
+[תבנית n8n 8442](https://n8n.io/workflows/8442-automated-daily-ai-summaries-from-whatsapp-groups/)) כולם בנויים על טכניקה A.
+הסיכום המובנה של Meta AI ([TheVerifier](https://theverifier.co.il/73263/whatsapp-private-message-summaries-meta-ai/)) לא זמין בעברית ולא בישראל.
 
-| שלב | מי | פעולה |
-|---|---|---|
-| 1 | תמיר | בכל קבוצה: ⋮ → עוד → **ייצוא צ'אט** → **ללא מדיה** → שיתוף ל-Google Drive, תיקייה `WhatsApp Exports` |
-| 2 | Claude (Routine יומי 09:00) | קורא את הקבצים החדשים מ-Drive, מריץ את הכלי, שולח סיכום במייל |
-| 3 | תמיר | קורא 3 דקות בבוקר |
-
-- ייצוא לוקח ~10 שניות לקבוצה. הקובץ כולל את כל ההיסטוריה — הכלי לוקח רק את אתמול.
-- החולשה: אם תמיר לא מייצא, אין סיכום. מתאים ל-2–4 קבוצות.
-
-## מסלול B — אוטומטי לחלוטין, בלי מגע יד (≈$35/חודש)
-
-**הכלי שאומת: [Whapi.Cloud](https://whapi.cloud/whatsapp-groups-api)** — API לא-רשמי
-שמתחבר כ-WhatsApp Web ומעביר ב-webhook כל הודעה מכל קבוצה שהמספר חבר בה.
-יש לו [מודול מוכן ב-Make](https://www.make.com/en/integrations/whapi-cloud).
-
-- **מחיר ([מאומת](https://support.whapi.cloud/help-desk/getting-started/pricing)):** $35/חודש
-  למספר, $29 בתשלום שנתי, 5 ימי ניסיון חינם.
-- **סיכון ([מאומת](https://whapi.cloud/whatsapp-business-api-to-choose)):** זה מנוגד לתנאי
-  השימוש של WhatsApp. **חובה SIM נפרד** (כרטיס פריפייד, ~₪20) שמצטרף לקבוצות רק
-  כקורא ולא שולח כלום — המספר העסקי של תמיר לא נוגע בזה. שימוש קריאה-בלבד הוא
-  הפרופיל הכי נמוך-סיכון שיש, אבל הסיכון לחסימת המספר הנפרד קיים.
-- **חלופה מנוהלת:** [Periskope](https://periskope.app/pricing) — $20/מושב/חודש, ייצוא הודעות
-  + webhooks, ממשק ניהול קבוצות. יקר יותר לטווח ארוך, פחות "טכני".
-
-**הארכיטקטורה ב-Make (הכל כבר מחובר חוץ מ-Whapi):**
-
-```
-Whapi webhook (כל הודעה בקבוצה)
-   → Make: Data Store "wa_messages" (group, sender_hash, text, ts)
-   → Scheduler 08:45: קריאת אתמול → Anthropic Claude (החיבור הקיים) עם SYSTEM_PROMPT מהכלי
-   → Gmail (החיבור הקיים) → תמיר  [+ Telegram אופציונלי, כמו הלידים]
-```
-
-חיבורי Make קיימים שמשמשים כאן: `Anthropic Claude` (#8481335), `Gmail — תמיר גרמה` (#8586204),
-Google Drive (#10931705). חסר: חיבור Whapi (נוצר אחרי ההרשמה).
+**מסקנה:** כולם הגיעו לאותו מקום — Linked device (A) עם LLM. ההבדל שלנו: הקולקטור לא נעול לספק,
+ואפשר להריץ C או D **במקביל** כגיבוי חינמי עם אפס סיכון.
 
 ---
 
-## מה הסיכום מוציא (מבנה קבוע)
+## 2. הארכיטקטורה שנבנתה (`services/wa-collector/`)
 
-1. 🔥 השורה התחתונה — 3–5 נקודות
-2. 📁 מקרים ופתרונות — סיטואציה / מה נשאל / פתרונות (מי הציע) / מחלוקת / טייק-אוויי
-3. 🆕 חידושים — בנק X שינה נוהל, רגולציה, מרווחים. עם רמת ודאות (דיווח יחיד / כמה יועצים)
-4. ❓ שאלות פתוחות — הזדמנות לתמיר להיות זה שעונה בקבוצה
-5. 🎬 רעיונות לתוכן — הוק 3 שניות + נקודה, B2C/B2B
+```
+ ┌── WAHA (Docker, SIM משני) ──┐
+ ├── GREEN-API (חינם ≤3 קב') ──┤    webhook     ┌──────────────┐   08:30   ┌─────────┐   ┌────────────┐
+ ├── Whapi ($35) ──────────────┼───────────────►│ wa-collector │──────────►│ Claude  │──►│ מייל/וואטסאפ│
+ ├── אפליקציית התראות אנדרואיד ─┤  /hook/<src>   │  SQLite      │  אתמול    │ opus-5  │   │ + MD/HTML   │
+ └── ייצוא ידני → digest.py ───┘                └──────────────┘           └─────────┘   └────────────┘
+```
 
-הפרומפט מכיל את הריבית הנוכחית מ-`DATA_SOURCE_OF_TRUTH.md` (3.25% / פריים 4.75%) ומורה
-ל-Claude לא "לתקן" בשקט נתונים סותרים אלא לסמן פער. **לעדכן שם כשהריבית משתנה.**
+- **`collector.py serve`** — שרת HTTP (stdlib בלבד) עם 4 מנרמלים: `/hook/waha`, `/hook/greenapi`,
+  `/hook/whapi`, `/hook/android`. כל payload נשמר **גם גולמי** (`raw_events`) — אם ספק משנה פורמט,
+  שום הודעה לא הולכת לאיבוד. דה-דופליקציה לפי `msg_id`. רק קבוצות (`@g.us`), רק טקסט, לא `fromMe`.
+- **אבטחה:** `WA_HOOK_SECRET` — מאמת HMAC-SHA512 של WAHA (`X-Webhook-Hmac`, נבדק מול הדוגמה
+  הרשמית) או header `X-Hook-Secret` לספקים אחרים.
+- **מתזמן פנימי** — ב-`DIGEST_HOUR:DIGEST_MINUTE` (שעון ישראל) מסכם את אתמול, פעם אחת ליום.
+- **סיכום** — משתמש בקוד של `tools/whatsapp_digest.py`: אנונימיזציה ("יועץ 1"), שרשורים, Claude.
+- **מסירה** — Resend (המפתח כבר קיים ב-GitHub Secrets) או Gmail SMTP; אופציונלי: "השורה התחתונה"
+  כהודעת וואטסאפ מהמספר המשני לתמיר (הודעה אחת ביום, פרופיל סיכון מינימלי).
+- **בדיקות:** 8 בדיקות לקולקטור (מנרמלים, HTTP, HMAC, דה-דופ, digest) + 6 לפרסר. `docker build` לא
+  אומת בסביבה הזו (אין Docker daemon) — ה-Dockerfile סטנדרטי אבל חייב ריצת ניסיון ראשונה.
 
-## סטטוס
+---
 
-- [x] כלי פרסור + אנונימיזציה + שרשורים + דוח — 6 בדיקות עוברות (10/09/2026)
-- [ ] הרצה מלאה עם Claude — לא בוצעה: אין ANTHROPIC_API_KEY בסביבת הפיתוח
-- [ ] החלטת תמיר: מסלול A / B / שניהם
-- [ ] מסלול A: יצירת תיקיית Drive + Routine יומי
-- [ ] מסלול B: SIM נפרד + הרשמה ל-Whapi + בניית 2 תרחישי Make
+## 3. Runbook — הקמה על VPS (מסלול A, המומלץ)
+
+**דרישות:** SIM נפרד (פריפייד ~₪20) שמצטרף לקבוצות כקורא בלבד. **לא** המספר העסקי.
+
+1. **שרת:** Hetzner CX22 (€4.35) עם Ubuntu 24.04, או Oracle Always-Free ARM. להתקין Docker:
+   `curl -fsSL https://get.docker.com | sh`
+2. **קוד:** `git clone https://github.com/menifainance-stack/Menifa && cd Menifa/services/wa-collector`
+3. **סודות:** `cp .env.example .env` ולמלא. מפתחות אקראיים: `openssl rand -hex 24`.
+4. **הפעלה:** `docker compose up -d --build`
+5. **חיבור המספר:** לפתוח `http://<IP>:3000/dashboard` → Start session "default" → לסרוק QR
+   מהטלפון עם ה-SIM המשני (מכשירים מקושרים → קישור מכשיר).
+6. **אימות:** `docker compose exec collector python3 collector.py stats` — אחרי כמה הודעות בקבוצות
+   אמורות להופיע שורות. `curl localhost:8080/health` (מתוך השרת).
+7. **סיכום ידני ראשון:** `docker compose exec collector python3 collector.py digest --days 1`
+8. מכאן — אוטומטי כל יום 08:30.
+
+**להוסיף מקור נוסף:** לפתוח `ports: ["8080:8080"]` בקומפוז, לשים את השרת מאחורי HTTPS
+(Caddy/Cloudflare Tunnel), ולכוון את הספק/האפליקציה ל-`https://<host>/hook/<source>` עם header
+`X-Hook-Secret: <WA_HOOK_SECRET>`.
+
+**ניסיון בלי שרת בכלל (5 דקות):** GREEN-API Developer (חינם, 3 קבוצות) → webhook ל-collector
+שרץ על המחשב של תמיר דרך `cloudflared tunnel`. טוב לבדיקת ערך לפני שקונים SIM ושרת.
+
+---
+
+## 4. שני כללי ברזל
+
+1. **הריפו ציבורי.** תמלילים גולמיים לא נכנסים אליו לעולם. `inbox/` ו-`services/wa-collector/data/`
+   ב-`.gitignore`. גם הסיכומים המאונמים נשמרים על השרת/במייל, לא כאן.
+2. **המספר העסקי של תמיר לא מתחבר לשום כלי צד ג'.** רק ה-SIM המשני. אם הוא נחסם — מחליפים SIM,
+   הקולקטור והדאטה לא נפגעים.
+
+---
+
+## 5. סטטוס
+
+- [x] פרסר ייצוא + אנונימיזציה + שרשורים + דוח (6 בדיקות)
+- [x] סריקת שוק מלאה עם מקורות — 5 טכניקות, 12 מימושים
+- [x] wa-collector: 4 מנרמלים, HMAC, SQLite, מתזמן, מסירה (8 בדיקות, smoke-test חי על HTTP)
+- [x] Dockerfile + docker-compose (WAHA + collector) + .env.example
+- [ ] `docker build` בפועל — אין Docker daemon בסביבת הפיתוח
+- [ ] הרצה מלאה עם Claude — אין ANTHROPIC_API_KEY בסביבת הפיתוח
+- [ ] אימות מבנה ה-payload מול הודעה אמיתית ראשונה מכל ספק (raw_events שומר הכל בינתיים)
+- [ ] תמיר: SIM משני + VPS, או ניסיון GREEN-API חינמי קודם

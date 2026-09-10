@@ -1,0 +1,56 @@
+# WAHA (WhatsApp HTTP API, קוד פתוח, חינם) + wa-collector (איסוף + סיכום יומי).
+# הרצה:  docker compose up -d   →  לסרוק QR ב-http://<server>:3000/dashboard  (משתמש/סיסמה מה-.env)
+# בנייה מתוך שורש הריפו (הקונטקסט הוא ../../ כדי להעתיק גם את tools/whatsapp_digest.py)
+services:
+  waha:
+    image: devlikeapro/waha:latest
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      WHATSAPP_DEFAULT_ENGINE: ${WAHA_ENGINE:-GOWS}     # GOWS/NOWEB בלי דפדפן = זול במשאבים. WEBJS = הכי יציב, צריך ~1GB RAM
+      WAHA_API_KEY: ${WAHA_API_KEY}
+      WAHA_DASHBOARD_USERNAME: ${WAHA_DASHBOARD_USERNAME:-admin}
+      WAHA_DASHBOARD_PASSWORD: ${WAHA_DASHBOARD_PASSWORD}
+      WHATSAPP_RESTART_ALL_SESSIONS: "True"             # אחרי ריסטארט, מתחבר לבד
+      # webhook גלובלי לכל הסשנים → הקולקטור. רק אירועי message.
+      WHATSAPP_HOOK_URL: http://collector:8080/hook/waha
+      WHATSAPP_HOOK_EVENTS: message
+      WHATSAPP_HOOK_HMAC_KEY: ${WA_HOOK_SECRET}
+      WAHA_PRINT_QR: "False"
+      TZ: Asia/Jerusalem
+    volumes:
+      - waha_sessions:/app/.sessions
+      - waha_media:/app/.media
+
+  collector:
+    build:
+      context: ../..
+      dockerfile: services/wa-collector/Dockerfile
+    restart: unless-stopped
+    depends_on: [waha]
+    environment:
+      TZ: Asia/Jerusalem
+      WA_HOOK_SECRET: ${WA_HOOK_SECRET}
+      WA_GROUPS: ${WA_GROUPS:-}
+      DIGEST_HOUR: ${DIGEST_HOUR:-8}
+      DIGEST_MINUTE: ${DIGEST_MINUTE:-30}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      DIGEST_MODEL: ${DIGEST_MODEL:-claude-opus-5}
+      DIGEST_EMAIL_TO: ${DIGEST_EMAIL_TO}
+      DIGEST_EMAIL_FROM: ${DIGEST_EMAIL_FROM:-Menifa Bot <onboarding@resend.dev>}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      DIGEST_WA_TO: ${DIGEST_WA_TO:-}
+      WAHA_URL: http://waha:3000
+      WAHA_API_KEY: ${WAHA_API_KEY}
+    volumes:
+      - collector_data:/data
+    # לא חושפים החוצה — רק WAHA מדבר עם הקולקטור. לספקים חיצוניים (Green/Whapi/אנדרואיד)
+    # פותחים ports: ["8080:8080"] ומגדירים WA_HOOK_SECRET.
+
+volumes:
+  waha_sessions:
+  waha_media:
+  collector_data:
