@@ -56,6 +56,44 @@
 
 ---
 
+## 2ב. עדכון 10/09/2026 — יש מכשיר אנדרואיד ייעודי עם SIM משני
+
+זה משנה את ההמלצה: **לא צריך שרת בכלל.** GitHub Actions (כבר בשימוש בריפו, חינם) מושך
+פעם ביום את 24 השעות האחרונות ישירות מהספק — `tools/wa_pull.py` — מסכם ושולח מייל.
+שום דבר לא נכתב לריפו הציבורי.
+
+```
+ מכשיר אנדרואיד ייעודי (SIM משני)
+   └─ Linked device ─► GREEN-API (חינם ≤3 קבוצות / ~690₽≈$8 ללא הגבלה)
+                            │  lastIncomingMessages?minutes=1440   (קריאה אחת)
+                            ▼
+                 GitHub Actions 08:30  ─► Claude ─► Resend ─► המייל של תמיר
+                 .github/workflows/whatsapp-digest.yml
+```
+
+**הקמה (15 דקות, פעם אחת):**
+1. [green-api.com](https://green-api.com/en) → הרשמה → Create instance (Developer = חינם).
+   לרשום `idInstance`, `apiTokenInstance`, ואת כתובת ה-API של המופע (למשל `https://7103.api.greenapi.com`).
+2. בקונסול של GREEN-API: סריקת QR **מהמכשיר הייעודי** (וואטסאפ → מכשירים מקושרים → קישור מכשיר).
+3. GitHub → Settings → Secrets and variables → Actions:
+   - Secrets: `GREEN_API_ID_INSTANCE`, `GREEN_API_TOKEN`, `GREEN_API_HOST`, `ANTHROPIC_API_KEY`
+     (`RESEND_API_KEY` ו-`NOTIFY_EMAIL` כבר קיימים).
+4. Actions → "WhatsApp — סיכום יומי" → Run workflow עם `no_llm = true` → אם הלוג מראה
+   "📥 greenapi: N הודעות" — החיבור עובד. להריץ שוב בלי no_llm → המייל הראשון.
+5. מכאן אוטומטי כל יום 08:30.
+
+**מגבלת Developer:** 3 צ'אטים כולל קבוצות. יותר מ-3 קבוצות → תוכנית Business
+(690₽/חודש לפי [המחירון](https://green-api.com/en/docs/about-tariffs/), כ-$8; לא אומת בדולרים).
+**חלופה באותו workflow:** WAHA על שרת (מסלול A) — `WA_PROVIDER=waha` + `WAHA_URL`/`WAHA_API_KEY`.
+
+**מסלול D על המכשיר עצמו (אפס סיכון, בלי צד ג'):** `tools/android/termux_backup_digest.sh` —
+Termux מפענח את הגיבוי הלילי (`msgstore.db.crypt15`) עם מפתח 64 הספרות, מייצא JSON
+([WhatsApp-Chat-Exporter](https://github.com/KnugiHK/Whatsapp-Chat-Exporter), רץ ב-Termux —
+[דוגמה](https://github.com/cedroid/whatsapp-forensic-tool)), ומסכם. **לא נבדק** — אין מכשיר
+אנדרואיד בסביבת הפיתוח. זה השדרוג אם ה-SIM המשני ייחסם או אם רוצים לרדת לאפס תלות.
+
+---
+
 ## 3. Runbook — הקמה על VPS (מסלול A, המומלץ)
 
 **דרישות:** SIM נפרד (פריפייד ~₪20) שמצטרף לקבוצות כקורא בלבד. **לא** המספר העסקי.
@@ -99,4 +137,7 @@
 - [ ] `docker build` בפועל — אין Docker daemon בסביבת הפיתוח
 - [ ] הרצה מלאה עם Claude — אין ANTHROPIC_API_KEY בסביבת הפיתוח
 - [ ] אימות מבנה ה-payload מול הודעה אמיתית ראשונה מכל ספק (raw_events שומר הכל בינתיים)
-- [ ] תמיר: SIM משני + VPS, או ניסיון GREEN-API חינמי קודם
+- [x] `tools/wa_pull.py` + workflow יומי ב-GitHub Actions (3 בדיקות עם שרת מדומה)
+- [x] סקריפט Termux למסלול D (לא נבדק — אין אנדרואיד כאן)
+- [ ] תמיר: פתיחת מופע GREEN-API + סריקת QR מהמכשיר הייעודי + 4 Secrets
+- [ ] הרצת workflow ראשונה עם no_llm, ואז מלאה

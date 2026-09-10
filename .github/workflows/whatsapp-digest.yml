@@ -1,0 +1,63 @@
+name: WhatsApp — סיכום יומי של קבוצות יועצים
+
+# רץ כל יום 08:30 שעון ישראל (05:30 UTC). מושך את 24 השעות האחרונות מהספק,
+# מסכם עם Claude, שולח מייל. שום דבר לא נכתב לריפו (הריפו ציבורי).
+#
+# Secrets נדרשים (Settings → Secrets → Actions):
+#   ANTHROPIC_API_KEY, RESEND_API_KEY (קיים), NOTIFY_EMAIL (קיים)
+#   ל-GREEN-API:  GREEN_API_ID_INSTANCE, GREEN_API_TOKEN, GREEN_API_HOST (למשל https://7103.api.greenapi.com)
+#   ל-WAHA:       WAHA_URL, WAHA_API_KEY
+# Variable (Settings → Variables → Actions): WA_PROVIDER = greenapi | waha  (ברירת מחדל greenapi)
+
+on:
+  schedule:
+    - cron: '30 5 * * *'
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: 'כמה שעות אחורה'
+        default: '24'
+      no_llm:
+        description: 'רק פרסור בלי Claude (בדיקת חיבור)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: whatsapp-digest
+  cancel-in-progress: false
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: התקנת SDK
+        run: pip install --quiet anthropic
+
+      - name: משיכה + סיכום + מייל
+        env:
+          TZ: Asia/Jerusalem
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_EMAIL_TO: ${{ secrets.NOTIFY_EMAIL }}
+          GREEN_API_ID_INSTANCE: ${{ secrets.GREEN_API_ID_INSTANCE }}
+          GREEN_API_TOKEN: ${{ secrets.GREEN_API_TOKEN }}
+          GREEN_API_HOST: ${{ secrets.GREEN_API_HOST }}
+          WAHA_URL: ${{ secrets.WAHA_URL }}
+          WAHA_API_KEY: ${{ secrets.WAHA_API_KEY }}
+          PROVIDER: ${{ vars.WA_PROVIDER || 'greenapi' }}
+          HOURS: ${{ inputs.hours || '24' }}
+          NO_LLM: ${{ inputs.no_llm && '--no-llm' || '' }}
+        run: |
+          if [ -z "$GREEN_API_HOST" ]; then unset GREEN_API_HOST; fi
+          python3 tools/wa_pull.py "$PROVIDER" --hours "$HOURS" $NO_LLM
+      # אין upload-artifact בכוונה: בריפו ציבורי ארטיפקטים נגישים לכל מי שמחובר לגיטהאב.

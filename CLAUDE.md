@@ -132,7 +132,14 @@ art-61 עד art-69 (9 מאמרים, אוגוסט–ספטמבר) **לא היו �
 
 ## 📱 סיכום קבוצות וואטסאפ של יועצים (נוסף 10/09/2026)
 
-`tools/whatsapp_digest.py` מפרסר ייצואי וואטסאפ, מאנמז שמות, ומסכם עם Claude.
-ראה `docs/whatsapp-digests/README.md` לשני מסלולי ההזנה (ייצוא ידני / Whapi→Make).
-**כלל:** ייצואים גולמיים רק ב-`inbox/` (ב-gitignore). הריפו ציבורי — אסור לקומיט
-תמלילים של אחרים. אין API רשמי לקריאת קבוצות; אל תבטיח "אוטומטי מלא" בלי Whapi + SIM נפרד.
+מסמך מלא: `docs/whatsapp-digests/README.md` (סריקת שוק מאומתת, 5 טכניקות, runbook).
+- `tools/whatsapp_digest.py` — פרסור ייצוא/הודעות, אנונימיזציה ("יועץ N"), שרשורים, סיכום Claude.
+- `tools/wa_pull.py` + `.github/workflows/whatsapp-digest.yml` — **המסלול הפעיל:** משיכה יומית
+  מ-GREEN-API (או WAHA) ב-GitHub Actions, בלי שרת. Secrets נדרשים מפורטים בראש ה-workflow.
+- `services/wa-collector/` — חלופת webhook+SQLite (WAHA/Whapi/GREEN/אנדרואיד) אם עוברים לשרת.
+- `tools/android/termux_backup_digest.sh` — מסלול אפס-סיכון על המכשיר, לא נבדק.
+
+**כללים:** (1) הריפו ציבורי — תמלילים/ייצואים לא נכנסים אליו (`inbox/`, `services/wa-collector/data/`
+ב-gitignore; ה-workflow לא מעלה ארטיפקטים). (2) רק ה-SIM המשני על המכשיר הייעודי מתחבר
+לכלי צד ג' — לעולם לא המספר העסקי. (3) אין API רשמי לקבוצות קיימות; GREEN/WAHA/Whapi כולם
+Linked device לא-רשמי עם סיכון חסימה למספר המשני.
