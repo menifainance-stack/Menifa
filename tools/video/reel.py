@@ -194,8 +194,9 @@ def _word_events(chunk: list[Word], active: int, style: Style, meas: _Measurer, 
     return events
 
 
-def build_ass(words: list[Word], style: Style, width: int = 1080, height: int = 1920, fonts_dir: Path | None = None) -> str:
-    """כל מילה = אירוע ממוקם; המילה הפעילה בזהב. ראה _word_events לסיבה."""
+def build_ass(words: list[Word], style: Style, width: int = 1080, height: int = 1920, fonts_dir: Path | None = None,
+              hook: str | None = None, hook_secs: float = 3.0) -> str:
+    """כל מילה = אירוע ממוקם; המילה הפעילה בזהב. ראה _word_events לסיבה. hook = כותרת בראש המסך ל-hook_secs שניות."""
     head = f"""[Script Info]
 ScriptType: v4.00+
 PlayResX: {width}
@@ -206,12 +207,16 @@ ScaledBorderAndShadow: yes
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
 Style: Menifa,{style.font},{style.size},&H00{style.color},&H00{style.active},&H00{style.outline},&H80000000,-1,0,0,0,100,100,0,0,1,{style.outline_w},2,5,0,0,0,1
+Style: Hook,{style.font},{int(style.size * 1.05)},&H00{style.active},&H00{style.color},&H00{style.outline},&H80000000,-1,0,0,0,100,100,0,0,1,{style.outline_w + 1},2,8,70,70,{int(height * 0.17)},1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
     meas = _Measurer(style.font, style.size, fonts_dir)
     events: list[str] = []
+    if hook:
+        # שורה אחת, ריצה אחת → bidi תקין בלי תגים. הוק ארוך יישבר ע"י libass (WrapStyle 2).
+        events.append(f"Dialogue: 1,{_ass_time(0)},{_ass_time(hook_secs)},Hook,,0,0,0,,{hook.replace(chr(123), chr(40)).replace(chr(125), chr(41))}")
     for chunk in chunk_words(words, style.max_words, style.max_secs):
         for i, w in enumerate(chunk):
             end = chunk[i + 1].start if i + 1 < len(chunk) else w.end + 0.15

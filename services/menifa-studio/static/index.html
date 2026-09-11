@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>מניפה סטודיו</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&family=Heebo:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#FAF6EE;--surface:#fff;--ink:#2E363F;--muted:#5C6068;--line:#E5DFD2;--gold:#B89259;--gold-ink:#8F6E3A;--tint:#F3ECDD;--ok:#3F7D5A;--bad:#A64B3C}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Heebo,Arial,sans-serif;line-height:1.6;padding:0 16px 48px}
+.wrap{max-width:960px;margin:0 auto}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:28px 0 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+h1{font-family:"Frank Ruhl Libre",Georgia,serif;font-size:30px;margin:0}
+h1 span{color:var(--gold)}
+.sub{color:var(--muted);font-size:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:20px}
+.drop{border:2px dashed var(--gold);border-radius:12px;padding:36px 20px;text-align:center;background:var(--tint);cursor:pointer;transition:background .15s}
+.drop.over{background:#EBDFC5}
+.drop strong{display:block;font-size:18px}
+.drop small{color:var(--muted)}
+input[type=file]{display:none}
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:end;margin-top:14px}
+label{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:4px}
+input[type=number],input[type=password]{padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;width:120px;background:var(--surface);color:var(--ink)}
+button{background:var(--gold);color:#fff;border:0;border-radius:999px;padding:10px 22px;font:inherit;font-weight:700;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+button.ghost{background:transparent;color:var(--gold-ink);border:1px solid var(--line);padding:6px 14px;font-weight:500}
+.bar{height:8px;background:var(--tint);border-radius:999px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .4s}
+.job{display:grid;grid-template-columns:1fr auto;gap:8px 16px;padding:14px 0;border-bottom:1px solid var(--line)}
+.job:last-child{border-bottom:0}
+.job .name{font-weight:700}
+.job .meta{font-size:13px;color:var(--muted)}
+.chip{font-size:12px;padding:2px 10px;border-radius:999px;border:1px solid currentColor;white-space:nowrap;align-self:start}
+.chip.done{color:var(--ok)}.chip.running,.chip.queued{color:var(--gold-ink)}.chip.error{color:var(--bad)}
+.clips{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;margin-top:16px}
+.clip{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.clip video{width:100%;aspect-ratio:9/16;background:#000;display:block}
+.clip .body{padding:10px 12px;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.clip .hook{font-weight:700;color:var(--gold-ink)}
+.clip .why{color:var(--muted)}
+.clip .acts{display:flex;gap:8px;flex-wrap:wrap}
+.clip a{color:var(--gold-ink);font-size:12px}
+.empty{color:var(--muted);text-align:center;padding:20px}
+.err{color:var(--bad)}
+#login{display:none}
+@media (max-width:600px){.job{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div><h1>מניפה <span>סטודיו</span></h1><div class="sub">מעלים סרטון ארוך · מקבלים רילס 9:16 עם כתוביות בעברית והוק</div></div>
+  <div class="sub" id="status">…</div>
+</header>
+
+<div class="card" id="login">
+  <label>סיסמת סטודיו <input type="password" id="key" placeholder="••••••"></label>
+  <div class="row"><button id="loginBtn">כניסה</button></div>
+</div>
+
+<div class="card" id="uploader">
+  <div class="drop" id="drop">
+    <strong>גרור לכאן סרטון, או לחץ לבחירה</strong>
+    <small>MP4 / MOV / MKV / אודיו · עד שעה ומעלה · העיבוד ממשיך גם אם תסגור את הדף</small>
+    <input type="file" id="file" accept="video/*,audio/*">
+  </div>
+  <div class="row">
+    <label>כמה רילס <input type="number" id="n" value="8" min="1" max="30"></label>
+    <label>אורך מינימלי (שנ') <input type="number" id="min" value="25" min="10" max="170"></label>
+    <label>אורך מקסימלי (שנ') <input type="number" id="max" value="60" min="15" max="180"></label>
+    <button id="go" disabled>צור רילס</button>
+    <span class="sub" id="fname"></span>
+  </div>
+  <div class="bar" id="upbar" hidden><i id="upfill"></i></div>
+</div>
+
+<div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center"><strong>עבודות</strong><button class="ghost" id="refresh">רענון</button></div>
+  <div id="jobs"><div class="empty">עדיין אין עבודות</div></div>
+</div>
+
+<div id="result"></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+let KEY=localStorage.getItem('studio_key')||'';
+const H=()=>KEY?{'X-Studio-Key':KEY}:{};
+let selected=null, timer=null, openJob=null;
+
+async function api(path,opt={}){const r=await fetch(path,{...opt,headers:{...(opt.headers||{}),...H()}});if(r.status===401){$('#login').style.display='block';throw new Error('auth');}return r;}
+
+async function health(){try{const r=await fetch('/api/health');const h=await r.json();$('#status').textContent=`תמלול: ${h.stt} · תכנון: ${h.planner==='claude'?'Claude':'היוריסטי (אין מפתח)'}`;if(h.auth&&!KEY)$('#login').style.display='block';}catch(e){$('#status').textContent='השרת לא זמין';}}
+$('#loginBtn').onclick=()=>{KEY=$('#key').value.trim();localStorage.setItem('studio_key',KEY);$('#login').style.display='none';loadJobs();};
+
+const drop=$('#drop'),file=$('#file');
+drop.onclick=()=>file.click();
+drop.ondragover=e=>{e.preventDefault();drop.classList.add('over')};
+drop.ondragleave=()=>drop.classList.remove('over');
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');pick(e.dataTransfer.files[0])};
+file.onchange=()=>pick(file.files[0]);
+function pick(f){if(!f)return;selected=f;$('#fname').textContent=`${f.name} · ${(f.size/1048576).toFixed(0)}MB`;$('#go').disabled=false;}
+
+$('#go').onclick=()=>{
+  if(!selected)return;
+  const fd=new FormData();fd.append('file',selected);fd.append('n_clips',$('#n').value);fd.append('min_len',$('#min').value);fd.append('max_len',$('#max').value);
+  const xhr=new XMLHttpRequest();xhr.open('POST','/api/jobs');Object.entries(H()).forEach(([k,v])=>xhr.setRequestHeader(k,v));
+  $('#upbar').hidden=false;$('#go').disabled=true;
+  xhr.upload.onprogress=e=>{if(e.lengthComputable)$('#upfill').style.width=(e.loaded/e.total*100)+'%'};
+  xhr.onload=()=>{$('#upbar').hidden=true;$('#upfill').style.width='0';selected=null;$('#fname').textContent='';
+    if(xhr.status===401){$('#login').style.display='block';return;}
+    if(xhr.status>=300){alert('שגיאה: '+(JSON.parse(xhr.responseText||'{}').error||xhr.status));return;}
+    const j=JSON.parse(xhr.responseText);openJob=j.id;loadJobs();};
+  xhr.onerror=()=>{$('#upbar').hidden=true;alert('ההעלאה נכשלה');$('#go').disabled=false;};
+  xhr.send(fd);
+};
+
+const label={queued:'בתור',running:'בעבודה',done:'מוכן',error:'שגיאה'};
+async function loadJobs(){
+  let jobs;try{jobs=await (await api('/api/jobs')).json();}catch(e){return;}
+  const box=$('#jobs');
+  if(!jobs.length){box.innerHTML='<div class="empty">עדיין אין עבודות</div>';return;}
+  box.innerHTML=jobs.map(j=>`<div class="job" data-id="${j.id}">
+    <div><div class="name">${esc(j.original||'')}</div>
+      <div class="meta">${new Date(j.created_at*1000).toLocaleString('he-IL')} · ${(j.size/1048576).toFixed(0)}MB · ${j.n_clips} רילס · ${esc(j.message||'')}${j.error?` · <span class="err">${esc(j.error)}</span>`:''}</div>
+      ${j.status==='running'||j.status==='queued'?`<div class="bar"><i style="width:${j.progress||0}%"></i></div>`:''}
+    </div>
+    <div style="display:flex;gap:8px;align-items:start">
+      <span class="chip ${j.status}">${label[j.status]||j.status}</span>
+      ${j.status==='done'?`<button class="ghost" onclick="showJob('${j.id}')">הצג</button>`:''}
+      <button class="ghost" onclick="delJob('${j.id}')">מחק</button>
+    </div></div>`).join('');
+  const active=jobs.some(j=>j.status==='running'||j.status==='queued');
+  clearTimeout(timer);if(active)timer=setTimeout(loadJobs,3000);
+  if(openJob){const j=jobs.find(x=>x.id===openJob);if(j&&j.status==='done'){showJob(openJob);openJob=null;}}
+}
+async function delJob(id){if(!confirm('למחוק את העבודה וכל הקליפים?'))return;await api('/api/jobs/'+id,{method:'DELETE'});if($('#result').dataset.id===id)$('#result').innerHTML='';loadJobs();}
+async function showJob(id){
+  const j=await (await api('/api/jobs/'+id)).json();const r=j.result||{};
+  const q=KEY?`?key=${encodeURIComponent(KEY)}`:'';
+  $('#result').dataset.id=id;
+  $('#result').innerHTML=`<div class="card"><strong>${esc(j.original||'')}</strong>
+    <div class="sub">${r.clips?.length||0} רילס · תכנון: ${r.planner==='claude'?'Claude':'היוריסטי'} · ${r.n_words||0} מילים · ${Math.round((r.duration||0)/60)} דק'</div>
+    <div class="clips">${(r.clips||[]).map(c=>`<div class="clip">
+      <video controls preload="metadata" src="/api/jobs/${id}/clips/${c.video}${q}"></video>
+      <div class="body"><div class="hook">${esc(c.hook||c.title)}</div>
+        <div>${fmt(c.start)}–${fmt(c.end)} · ${c.duration} שנ' · ציון ${c.score}</div>
+        <div class="why">${esc(c.why||'')}</div>
+        <div class="acts"><a href="/api/jobs/${id}/clips/${c.video}${q}" download>הורד MP4</a><a href="/api/jobs/${id}/clips/${c.srt}${q}" download>SRT</a><a href="/api/jobs/${id}/clips/${c.txt}${q}" download>טקסט</a></div>
+      </div></div>`).join('')}</div></div>`;
+  $('#result').scrollIntoView({behavior:'smooth'});
+}
+const fmt=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+$('#refresh').onclick=loadJobs;
+health();loadJobs();
+</script>
+</body>
+</html>

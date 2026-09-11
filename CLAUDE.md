@@ -162,3 +162,6 @@ Unlighthouse/lychee/pa11y; מכירות: Cal.com/Twenty/Postiz).
   מחזור, דוח כדאיות. 17 בדיקות. `python3 tools/mortgage_engine/cli.py demo`.
 - `services/referral-desk/` — Twenty CRM + Cal.com ב-compose (נגזר מהרשמיים, לא הורץ כאן) + מודל נתונים.
 - `docs/business-plan/oss-catalog.md` — 27 ספריות, מה כל אחת עושה לעסק, מה בנוי.
+- `services/menifa-studio/` (11/09/2026) — **"מניפה סטודיו"**: אפליקציית ווב (FastAPI) — מעלים סרטון ארוך, Claude
+  בוחר 8+ רגעים לפי ההקשר של מניפה, כל קליפ נחתך ל-9:16 עם כתוביות עברית + הוק. תמלול דרך Groq/ElevenLabs/מקומי.
+  5 בדיקות E2E על סרטון סינתטי. לא נבדק: תמלול/Claude אמיתיים, Docker build. הבא: מעקב פנים, זום, B-roll, Postiz.

@@ -1,0 +1,24 @@
+# מניפה סטודיו — הרצה על שרת: docker compose up -d --build  →  http://<server>:8765
+# בנייה מתוך שורש הריפו (context ../..) כי reel.py משותף עם tools/video.
+services:
+  studio:
+    build:
+      context: ../..
+      dockerfile: services/menifa-studio/Dockerfile
+    restart: unless-stopped
+    ports: ["8765:8765"]
+    environment:
+      STUDIO_PASSWORD: ${STUDIO_PASSWORD}
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-6000}
+      STT_BACKEND: ${STT_BACKEND:-groq}
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      ELEVENLABS_API_KEY: ${ELEVENLABS_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      PLAN_MODEL: ${PLAN_MODEL:-claude-opus-5}
+      CAPTION_FONT: Heebo
+      TZ: Asia/Jerusalem
+    volumes:
+      - studio_data:/data
+    # לחשיפה לאינטרנט: Cloudflare Tunnel → studio.menifa.org → studio:8765 (HTTPS חינם, בלי לפתוח פורטים)
+volumes:
+  studio_data:
