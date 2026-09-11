@@ -152,3 +152,13 @@ Linked device לא-רשמי עם סיכון חסימה למספר המשני.
 (וואטסאפ רק בהסכמה מוקלטת). אתרי חקיקה ישראליים חסומים מהסביבה — הממצאים משניים, דורשים עו"ד.
 קטלוג ספריות קוד פתוח מאומת בסעיף 7 של התוכנית (וידאו: auto-editor/ivrit-ai/pycaps/WhisperX; אתר:
 Unlighthouse/lychee/pa11y; מכירות: Cal.com/Twenty/Postiz).
+
+### נבנה 11/09/2026 (מתוך התוכנית):
+- `tools/video/reel.py` — סרטון → חיתוך שקטים (auto-editor) → תמלול (faster-whisper + ivrit-ai) → כתוביות
+  מילה-מילה בעברית → 1080×1920. **לקח:** תגי צבע בתוך שורת ASS שוברים bidi בעברית; הפתרון = אירוע לכל
+  מילה עם `\pos` ומדידת רוחב ב-PIL. נבדק על קליפ סינתטי; תמלול אמיתי עם המודל לא נבדק כאן.
+- `.github/workflows/site-audit.yml` — lychee + Unlighthouse + pa11y-ci כל יום ראשון. הרצה ראשונה = האימות.
+- `tools/mortgage_engine/` — מסלולים ישראליים, הצמדה, עמלות פירעון מוקדם (אומדן לפי צו הבנקאות), השוואת
+  מחזור, דוח כדאיות. 17 בדיקות. `python3 tools/mortgage_engine/cli.py demo`.
+- `services/referral-desk/` — Twenty CRM + Cal.com ב-compose (נגזר מהרשמיים, לא הורץ כאן) + מודל נתונים.
+- `docs/business-plan/oss-catalog.md` — 27 ספריות, מה כל אחת עושה לעסק, מה בנוי.

@@ -4,3 +4,6 @@ inbox/
 __pycache__/
 services/wa-collector/data/
 services/wa-collector/.env
+tools/video/*_work/
+tools/video/.*_work/
+*_reel.mp4

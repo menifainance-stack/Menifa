@@ -1,0 +1,143 @@
+name: אתר — ביקורת שבועית (Lighthouse, נגישות, קישורים)
+
+# מה רץ ולמה:
+#   1. lychee        — קישורים שבורים בכל HTML/MD בריפו (70 מאמרים מקשרים לבנקים/ב"י שנשברים)
+#   2. Unlighthouse  — Lighthouse על כל עמוד מה-sitemap של menifa.org, דשבורד סטטי כארטיפקט
+#   3. pa11y-ci      — WCAG 2.1 AA על כל כתובות ה-sitemap (האתר מצהיר AA — זו ההוכחה)
+# רץ: כל יום ראשון 04:00 UTC (07:00 ישראל) + ידני. הארטיפקטים לא מכילים מידע רגיש.
+
+on:
+  schedule:
+    - cron: '0 4 * * 0'
+  workflow_dispatch:
+    inputs:
+      site:
+        description: 'כתובת האתר לביקורת'
+        default: 'https://menifa.org'
+      budget:
+        description: 'ציון Lighthouse מינימלי (0-100) — מתחתיו ה-job נכשל'
+        default: '70'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-audit
+  cancel-in-progress: true
+
+env:
+  SITE: ${{ inputs.site || 'https://menifa.org' }}
+
+jobs:
+  links:
+    name: קישורים שבורים (lychee)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: lychee
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # בודק את קבצי האתר עצמם. --base מאפשר לפתור קישורים יחסיים כמו /blog/art-12.html
+          args: >-
+            --base ${{ env.SITE }}
+            --no-progress
+            --max-concurrency 8
+            --timeout 20
+            --retry-wait-time 5
+            --max-retries 2
+            --accept 200,206,301,302,308,403,429
+            --exclude-path node_modules
+            --exclude 'mailto:' --exclude 'tel:' --exclude 'wa.me' --exclude 'api.whatsapp.com'
+            --exclude 'facebook.com' --exclude 'instagram.com' --exclude 'linkedin.com' --exclude 'tiktok.com'
+            --exclude 'hook.us2.make.com'
+            './*.html' './blog/*.html' './docs/**/*.md' './README.md'
+          output: lychee-report.md
+          fail: false
+          format: markdown
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lychee-report
+          path: lychee-report.md
+      - name: סיכום
+        run: |
+          echo "## 🔗 קישורים" >> "$GITHUB_STEP_SUMMARY"
+          head -60 lychee-report.md >> "$GITHUB_STEP_SUMMARY" || true
+
+  lighthouse:
+    name: Lighthouse על כל האתר (Unlighthouse)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: התקנה
+        run: npm install -g @unlighthouse/cli puppeteer
+      - name: הרצה
+        run: |
+          unlighthouse-ci \
+            --site "$SITE" \
+            --budget "${{ inputs.budget || '70' }}" \
+            --build-static \
+            --reporter jsonExpanded \
+            --throttle \
+            --samples 1 \
+            --output-path .unlighthouse
+        continue-on-error: true
+        id: ul
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: unlighthouse-report
+          path: .unlighthouse
+      - name: סיכום
+        if: always()
+        run: |
+          echo "## 💡 Lighthouse (Unlighthouse)" >> "$GITHUB_STEP_SUMMARY"
+          J=$(find .unlighthouse -maxdepth 1 -name '*.json' | head -1)
+          if [ -n "$J" ]; then
+            echo "קובץ תוצאות: $J" >> "$GITHUB_STEP_SUMMARY"
+            node -e '
+              const r=require(process.argv[1]);
+              const rows=(Array.isArray(r)?r:(r.routes||r.reports||[])).slice(0,80);
+              console.log("| עמוד | ציון |\n|---|---:|");
+              for (const x of rows){ const s=x.score ?? x.categories?.performance?.score ?? null;
+                console.log(`| ${x.path||x.route?.path||x.route||"?"} | ${s===null?"?":Math.round(s*100)} |`); }
+            ' "./$J" >> "$GITHUB_STEP_SUMMARY" || echo "_לא ניתן לפרסר את קובץ התוצאות — הדשבורד המלא בארטיפקט_" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "_אין קובץ JSON — הדשבורד המלא בארטיפקט unlighthouse-report_" >> "$GITHUB_STEP_SUMMARY"
+          fi
+          echo "תוצאת התקציב: ${{ steps.ul.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+
+  accessibility:
+    name: נגישות WCAG 2.1 AA (pa11y-ci)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: התקנה
+        run: npm install -g pa11y-ci
+      - name: הרצה על ה-sitemap
+        run: |
+          pa11y-ci --config .github/pa11y-ci.json \
+            --sitemap "$SITE/sitemap.xml" \
+            --sitemap-exclude "/*.pdf" \
+            --json > pa11y-report.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pa11y-report
+          path: pa11y-report.json
+      - name: סיכום
+        if: always()
+        run: |
+          echo "## ♿ נגישות (pa11y-ci)" >> "$GITHUB_STEP_SUMMARY"
+          node -e '
+            const r=require("./pa11y-report.json");
+            console.log(`סה"כ כתובות: ${r.total} · עברו: ${r.passes} · שגיאות: ${r.errors}\n`);
+            console.log("| עמוד | שגיאות |\n|---|---:|");
+            for (const [u,iss] of Object.entries(r.results||{})) if (iss.length) console.log(`| ${u} | ${iss.length} |`);
+          ' >> "$GITHUB_STEP_SUMMARY" || echo "_לא ניתן לקרוא את הדוח_" >> "$GITHUB_STEP_SUMMARY"

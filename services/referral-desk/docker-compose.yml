@@ -1,0 +1,108 @@
+# עמדת המתאם — Twenty CRM (תהליך ההפניה) + Cal.com (קביעת פגישות) על שרת אחד.
+# מבוסס על קבצי ה-compose הרשמיים (twentyhq/twenty → packages/twenty-docker, calcom/docker) — אומת 11/09/2026.
+# הרצה: cp .env.example .env && docker compose up -d
+#   Twenty:  http://<server>:3000     Cal.com: http://<server>:3001
+# בפרודקשן: לשים מאחורי Caddy/Cloudflare Tunnel עם HTTPS ולעדכן SERVER_URL / NEXT_PUBLIC_WEBAPP_URL.
+
+services:
+  # ---------------- Twenty CRM ----------------
+  twenty-db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: ${PG_USER:-postgres}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+    volumes:
+      - twenty-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER:-postgres}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  twenty-redis:
+    image: redis:7
+    restart: always
+    command: ["--maxmemory-policy", "noeviction"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  twenty:
+    image: twentycrm/twenty:${TWENTY_TAG:-latest}
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_PORT: 3000
+      PG_DATABASE_URL: postgres://${PG_USER:-postgres}:${PG_PASSWORD}@twenty-db:5432/default
+      SERVER_URL: ${TWENTY_SERVER_URL:-http://localhost:3000}
+      REDIS_URL: redis://twenty-redis:6379
+      STORAGE_TYPE: local
+      APP_SECRET: ${TWENTY_APP_SECRET}
+    volumes:
+      - twenty-data:/app/packages/twenty-server/.local-storage
+    depends_on:
+      twenty-db: { condition: service_healthy }
+      twenty-redis: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:3000/healthz"]
+      interval: 10s
+      timeout: 10s
+      retries: 20
+
+  twenty-worker:
+    image: twentycrm/twenty:${TWENTY_TAG:-latest}
+    restart: always
+    command: ["yarn", "worker:prod"]
+    environment:
+      PG_DATABASE_URL: postgres://${PG_USER:-postgres}:${PG_PASSWORD}@twenty-db:5432/default
+      SERVER_URL: ${TWENTY_SERVER_URL:-http://localhost:3000}
+      REDIS_URL: redis://twenty-redis:6379
+      STORAGE_TYPE: local
+      APP_SECRET: ${TWENTY_APP_SECRET}
+      DISABLE_DB_MIGRATIONS: "true"
+    volumes:
+      - twenty-data:/app/packages/twenty-server/.local-storage
+    depends_on:
+      twenty-db: { condition: service_healthy }
+      twenty: { condition: service_healthy }
+
+  # ---------------- Cal.com ----------------
+  cal-db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: ${CAL_PG_USER:-calcom}
+      POSTGRES_PASSWORD: ${CAL_PG_PASSWORD}
+      POSTGRES_DB: calendso
+    volumes:
+      - cal-db:/var/lib/postgresql/data
+
+  calcom:
+    image: calcom/cal.com:${CAL_TAG:-latest}
+    restart: always
+    ports:
+      - "3001:3000"
+    environment:
+      NEXT_PUBLIC_WEBAPP_URL: ${CAL_WEBAPP_URL:-http://localhost:3001}
+      NEXT_PUBLIC_LICENSE_CONSENT: agree
+      NEXTAUTH_SECRET: ${CAL_NEXTAUTH_SECRET}
+      CALENDSO_ENCRYPTION_KEY: ${CAL_ENCRYPTION_KEY}
+      DATABASE_URL: postgresql://${CAL_PG_USER:-calcom}:${CAL_PG_PASSWORD}@cal-db:5432/calendso
+      DATABASE_DIRECT_URL: postgresql://${CAL_PG_USER:-calcom}:${CAL_PG_PASSWORD}@cal-db:5432/calendso
+      # Google Calendar של תמיר (OAuth) — נדרש כדי שהפגישה תיכנס ליומן שלו:
+      GOOGLE_API_CREDENTIALS: ${GOOGLE_API_CREDENTIALS:-}
+      EMAIL_FROM: ${CAL_EMAIL_FROM:-}
+      EMAIL_SERVER_HOST: ${SMTP_HOST:-smtp.gmail.com}
+      EMAIL_SERVER_PORT: ${SMTP_PORT:-465}
+      EMAIL_SERVER_USER: ${SMTP_USER:-}
+      EMAIL_SERVER_PASSWORD: ${SMTP_PASS:-}
+    depends_on: [cal-db]
+
+volumes:
+  twenty-db:
+  twenty-data:
+  cal-db:
