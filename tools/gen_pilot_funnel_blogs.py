@@ -29,24 +29,32 @@ PATH_LABELS = {
 
 ARTICLES = [
     {
-        "src": "2026-09-16-blog-ihud-halvaot-matei-ken-lo_7712.md",
+        "src": "2026-09-16-blog-ihud-halvaot-matei-ken-lo_e989.md",
         "slug": "ihud-halvaot-matei-ken-lo.html",
-        "title": "מתי כן ומתי לא לאחד הלוואות למשכנתא",
+        "title": "איחוד הלוואות למשכנתא — מתי כן, מתי לא, ומה בודקים לפני שמאריכים את החוב",
+        "page_title": "איחוד הלוואות למשכנתא — מתי כן ומתי לא",
         "tag": "איחוד הלוואות",
         "tone": "t-blue",
-        "desc": "מתי כן ומתי לא לאחד הלוואות למשכנתא — איך מחליטים לפי תזרים, תקופה וסיכון, בלי להסתמך רק על «החודשי ירד». מניפה פיננסית.",
+        "desc": "מחפשים להוריד החזרים ע״י איחוד הלוואות למשכנתא? מתי זה עשוי לשחרר תזרים, מתי כדאי לעצור, ומה בודקים בריבית, תקופה וביטוחים לפני חתימה. וואטסאפ — לתיאום שיחה · מניפה פיננסית.",
         "related": [
-            ("../ihud-halvaot-lemashkanta.html", "איחוד", "איחוד הלוואות למשכנתא", "המדריך המלא לאיחוד"),
-            ("../alut-mashkanta-kolel-bituach.html", "עלות כוללת", "עלות משכנתא כולל ביטוח", "לראות את כל השורות"),
-            ("../lifnei-shehotmim-mashkanta.html", "לפני חתימה", "לפני שחותמים משכנתא", "לפני שמשנים מבנה"),
+            ("../ihud-halvaot-lemashkanta.html", "איחוד", "איחוד הלוואות למשכנתא", "דף שירות"),
+            ("../calculators.html#calc-dti", "מחשבון", "מחשבון יחס החזר (DTI)", "אומדן ראשוני"),
+            ("../alut-mashkanta-kolel-bituach.html", "עלות כוללת", "בדיקת עלות כוללת", "ריבית, החזר וביטוחים"),
+            ("art-16.html", "כושר החזר", "כושר החזר / יחס החזר", "תמיכה"),
+            ("../mihzur-mashkanta.html", "מיחזור", "מיחזור משכנתא", "שירות שכן"),
+            ("art-7.html", "ביטוח", "ביטוחי משכנתא", "תמיכה"),
         ],
+        "faq_heading": "שאלות נפוצות",
         "faqs": [
-            ("האם איחוד תמיד משפר מצב?", "לא. הוא יכול לשחרר תזרים — ויכול להאריך חוב. תלוי במספרים ובמה שקורה אחרי החתימה."),
-            ("מה הסיכון הכי שכיח?", "לחזור למסגרות אשראי ברגע שיש אוויר. אז האיחוד לא תיקן הרגל — רק הגדיל משכנתא."),
-            ("אפשר לבדוק בלי להתחייב?", "כן. בדיוק בשביל זה קיימת שיחת ייעוץ ראשונה — להבין אם בכלל רלוונטי."),
+            ("מתי כדאי לאחד הלוואות למשכנתא?", "כשהתזרים נלחץ מהלוואות קצרות, אתם מבינים שמאריכים תקופה, ומוכנים לבדוק גם ריבית, סך תשלומים וביטוחים — לא רק ירידת החזר. אין כלל אחד לכולם ואין הבטחת אישור."),
+            ("מתי לא כדאי לאחד?", "כשהמטרה היחידה היא החזר נמוך על הנייר, כשעדיין לא ברור מה קורה לביטוחים, כשיש אי־ודאות בהכנסה או מכירה קרובה, או כשצפוי שתחזרו למסגרות אשראי ברגע שיש אוויר."),
+            ("למה ההחזר יורד אבל עדיין צריך לבדוק?", "כי ירידה חודשית מגיעה לעיתים מהארכת שנים. התזרים משתפר; העלות המצטברת והסיכון יכולים לעלות. בודקים ריבית, החזר וכל הביטוחים לפני חתימה."),
+            ("מה בודקים לפני שמאריכים את החוב?", "סך החזרים לפני/אחרי, תקופה חדשה, עמלות עסקה, עדכון ביטוח חיים ומבנה, ויחס החזר אחרי האיחוד. אומדן ראשוני במחשבון DTI — והחלטה אחרי תמונת עלות כוללת."),
+            ("האם מניפה מבטיחה שכדאי לאחד / שאישרו?", "לא. אנחנו עוזרים לבנות תמונת החלטה שקופה. אם האיחוד לא מחזיק — אומרים גם את זה."),
         ],
-        "closing": "אם ההחזרים הצרכניים לוחצים וקיבלתם הצעה לאיחוד — קחו את הטבלה למעלה ותמלאו אותה לפני שסוגרים. אם תרצו שנעבור איתכם על המספרים שלכם, בלי לחץ לחתום:",
-        "disclaimer": "מידע כללי להחלטה מושכלת. אינו ייעוץ ביטוחי מורשה ואינו הבטחת תנאים, אישור או חיסכון.",
+        "closing": "רוצים לבדוק אם האיחוד באמת משתלם בתיק שלכם — לא רק אם ההחזר יורד? התחילו מ[דף השירות לאיחוד הלוואות למשכנתא](/ihud-halvaot-lemashkanta.html), ואם תרצו שנעבור איתכם על המספרים:",
+        "closer": "בודקים את כל עלות המשכנתא — ריבית, החזר, וכל הביטוחים — לפני שחותמים.",
+        "disclaimer": "מידע כללי להחלטה מושכלת. אינו ייעוץ ביטוחי מורשה ואינו הבטחת תנאים, אישור או חיסכון. DTI לפי הוראה 329 — אימות ניסוח 2026-09-16.",
     },
     {
         "src": "2026-09-16-blog-mihzur-mashkanta-bituach_4cc8.md",
@@ -181,7 +189,8 @@ def md_body_to_html(raw: str) -> str:
     body = chunks[1] if len(chunks) >= 2 else raw
     # Cut internal-links / editor notes
     body = re.split(r"\n---\n\n### קישורים פנימיים", body)[0]
-    body = re.split(r"\n## שאלות קצרות\n", body)[0]
+    body = re.split(r"\n## שאלות (?:קצרות|נפוצות)\n", body)[0]
+    body = re.split(r"\n## הצעד הבא\n", body)[0]
     # Closing paragraphs live after the FAQ block in the source; injected from ARTICLES.
     lines = body.strip().splitlines()
     out = []
@@ -267,14 +276,14 @@ def page_html(meta: dict, body: str) -> str:
 <meta name="theme-color" content="#0E3C5C">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
-<title>{html.escape(meta['title'])} | מניפה פיננסית</title>
+<title>{html.escape(meta.get('page_title', meta['title']))} | מניפה פיננסית</title>
 <meta name="description" content="{html.escape(meta['desc'])}">
 <meta name="author" content="תמיר גרמה — מניפה פיננסית">
 <link rel="canonical" href="{url}">
 <link rel="alternate" hreflang="he-IL" href="{url}">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="he_IL">
-<meta property="og:title" content="{html.escape(meta['title'])}">
+<meta property="og:title" content="{html.escape(meta.get('page_title', meta['title']))}">
 <meta property="og:description" content="{html.escape(meta['desc'])}">
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="https://menifa.org/assets/images/tamir-og.jpg">
@@ -283,7 +292,7 @@ def page_html(meta: dict, body: str) -> str:
 {json.dumps({
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": meta["title"],
+  "headline": meta.get("page_title", meta["title"]),
   "description": meta["desc"],
   "datePublished": "2026-09-16",
   "dateModified": "2026-09-16",
@@ -349,10 +358,10 @@ def page_html(meta: dict, body: str) -> str:
   </div>
 {body}
   <section class="article-faq" id="faq">
-    <h2>שאלות קצרות</h2>
+    <h2>{html.escape(meta.get("faq_heading", "שאלות קצרות"))}</h2>
     {faq_html}
   </section>
-  <p>{html.escape(meta["closing"])}</p>
+  <p>{inline_md(meta["closing"])}</p>
   <div class="article-cta tco-cta" id="cta">
     <p>מניפה פיננסית · תמיר גרמה · menifa.org</p>
     <p><strong>וואטסאפ — לתיאום שיחה</strong> · ייעוץ ראשון חינם</p>
@@ -362,6 +371,7 @@ def page_html(meta: dict, body: str) -> str:
       <a class="btn btn-ghost btn-large" href="../alut-mashkanta-kolel-bituach.html#form">קביעת שיחת בדיקת עלות כוללת</a>
     </div>
   </div>
+  {('<p>' + html.escape(meta['closer']) + '</p>') if meta.get('closer') else ''}
   <p style="font-size:.82rem;color:var(--gray-light);margin-top:2rem;">{html.escape(meta["disclaimer"])}</p>
 </div>
 </article>
@@ -394,6 +404,7 @@ def main() -> None:
     for meta in ARTICLES:
         src = SRC / meta["src"]
         raw = src.read_text(encoding="utf-8").replace("זargon", "ז׳רגון")
+        raw = re.sub(r"''([^'\n]+)''", r"«\1»", raw)
         body = md_body_to_html(raw)
         dest = out_dir / meta["slug"]
         dest.write_text(page_html(meta, body), encoding="utf-8")
