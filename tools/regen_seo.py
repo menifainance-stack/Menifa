@@ -87,19 +87,22 @@ def read_article(path):
     cat = "משכנתא"
     for key, name in [("ריבית", "ריבית"), ("מחזור", "מחזור"),
                       ("תמהיל", "תמהיל"), ("מדד", "מדד"),
-                      ("דיור", "שוק הדיור"), ("נדל", "שוק הדיור")]:
+                      ("דיור", "שוק הדיור"), ("נדל", "שוק הדיור"),
+                      ("איחוד", "איחוד הלוואות")]:
         if key in title:
             cat = name
             break
 
+    num_m = re.search(r"(\d+)", slug)
     return {"slug": slug, "url": f"{SITE}/blog/{slug}", "title": title,
             "desc": desc, "pub": pub, "mod": mod, "cat": cat,
-            "num": int(re.search(r"(\d+)", slug).group(1))}
+            "num": int(num_m.group(1)) if num_m else 0}
 
 
 def load_articles():
-    arts = [a for a in (read_article(p) for p in
-                        sorted(glob.glob(os.path.join(ROOT, "blog", "art-*.html"))))
+    paths = sorted(glob.glob(os.path.join(ROOT, "blog", "art-*.html")))
+    extra = sorted(glob.glob(os.path.join(ROOT, "blog", "ihud-halvaot-matei-ken-lo.html")))
+    arts = [a for a in (read_article(p) for p in paths + extra)
             if a]
     # החדש ביותר ראשון — לפי תאריך פרסום, ואז לפי מספר המאמר
     arts.sort(key=lambda a: (a["pub"], a["num"]), reverse=True)
