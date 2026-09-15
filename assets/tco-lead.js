@@ -2,14 +2,14 @@
    Webhook: אותו תרחיש Make כמו lead-capture.js.
    שמות שדות לפי מיפוי SmartNPV 2026-09-15:
    full_name, phone, has_property, loan_intent, callback_window,
-   landing_page, offer_code, utm_*, note (owner=עינב). */
+   landing_page, offer_code, utm_*, note. */
 (function () {
   'use strict';
 
   var ENDPOINT = 'https://hook.us2.make.com/u3ru1sllh8ansej9ievnjyr2kici7942';
   var MIN_FILL_MS = 3000;
   var WA_PREFILL = 'שלום, אשמח לשיחת בדיקת עלות כוללת (משכנתא+ביטוח)';
-  var THANK_YOU = 'תודה! קיבלנו את הפרטים. עינב, מתאמת הפגישות, תחזור אליכם בהקדם לתיאום שיחת בדיקת עלות כוללת (משכנתא + ביטוח).';
+  var THANK_YOU = 'תודה! קיבלנו את הפרטים. נחזור אליכם בהקדם לתיאום שיחת בדיקת עלות כוללת (משכנתא + ביטוח).';
 
   function qs(name) {
     try { return new URLSearchParams(location.search).get(name) || ''; }
@@ -48,7 +48,7 @@
       '<h4>תודה! קיבלנו את הפרטים</h4>' +
       '<p>' + THANK_YOU + '</p>' +
       '<p class="lead-form__alt" style="margin-top:1rem">' +
-      '<a class="btn btn-primary" href="' + waUrl(WA_PREFILL) + '" target="_blank" rel="noopener">פתחו וואטסאפ עכשיו</a></p>';
+      '<a class="btn btn-primary" href="' + waUrl(WA_PREFILL) + '" target="_blank" rel="noopener">וואטסאפ — לתיאום שיחה</a></p>';
     form.replaceChildren(done);
   }
 
