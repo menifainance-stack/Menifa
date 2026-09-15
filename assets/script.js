@@ -667,23 +667,38 @@ loadA11ySettings();
 /* ═══════════════════════════════════════════════════════════════
    COOKIE CONSENT
    ═══════════════════════════════════════════════════════════════ */
+function hideCookieBanner() {
+  var el = document.getElementById('cookieBanner');
+  if (el) el.classList.remove('visible');
+  document.body.classList.remove('cookie-visible');
+}
 function acceptCookies() {
   try { localStorage.setItem('manifa-cookies', 'accept'); } catch (e) {}
-  document.getElementById('cookieBanner').classList.remove('visible');
+  hideCookieBanner();
 }
 function declineCookies() {
   try { localStorage.setItem('manifa-cookies', 'decline'); } catch (e) {}
-  document.getElementById('cookieBanner').classList.remove('visible');
+  hideCookieBanner();
 }
-setTimeout(() => {
-  try {
-    if (!localStorage.getItem('manifa-cookies')) {
-      document.getElementById('cookieBanner').classList.add('visible');
-    }
-  } catch (e) {
-    document.getElementById('cookieBanner').classList.add('visible');
+(function initCookieBanner() {
+  var shown = false;
+  function reveal() {
+    if (shown) return;
+    var el = document.getElementById('cookieBanner');
+    if (!el) return;
+    try {
+      if (localStorage.getItem('manifa-cookies')) return;
+    } catch (e) {}
+    shown = true;
+    el.classList.add('visible');
+    document.body.classList.add('cookie-visible');
   }
-}, 1800);
+  function onScroll() {
+    if (window.scrollY > Math.min(280, window.innerHeight * 0.4)) reveal();
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  setTimeout(reveal, 8000);
+})();
 
 /* ═══════════════════════════════════════════════════════════════
    LEAD FORM
@@ -767,7 +782,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       <div class="drawer-hero-cta">
         <div class="eyebrow">פנוי עכשיו</div>
         <h3>שיחת ייעוץ — חינם וללא התחייבות</h3>
-        <p>30 דקות לשיחת היכרות — בלי התחייבות</p>
+        <p>30 דקות לשיחת היכרות — בלי התחייבות, בלי הבטחה מראש</p>
         <div class="btn-row">
           <a href="tel:052-4502821">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
@@ -775,7 +790,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
           </a>
           <a href="https://wa.me/972524502821?text=שלום%20תמיר,%20אשמח%20לייעוץ" target="_blank" rel="noopener" class="alt">
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24z"/></svg>
-            וואטסאפ
+            וואטסאפ — לתיאום שיחה
           </a>
         </div>
       </div>
