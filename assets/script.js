@@ -371,6 +371,95 @@ if (document.getElementById('m7-gross')) ['m7-gross','m7-expenses','m7-pension']
 if (document.getElementById('m7-gross')) calc7();
 
 /* ═══════════════════════════════════════════════════════════════
+   CALCULATOR 8 — MIX COMPARE (השוואת תמהילים)
+   ═══════════════════════════════════════════════════════════════ */
+const MIX_STRESS_PTS = 2; // תרחיש הדגמה בלבד — לא תחזית
+
+function calcMixCompare() {
+  if (!document.getElementById('m8-loan')) return;
+
+  const loan = +document.getElementById('m8-loan').value;
+  const years = +document.getElementById('m8-years').value;
+  const income = +document.getElementById('m8-income').value;
+  const debts = +document.getElementById('m8-debts').value;
+
+  const setTxt = (id, v) => { const n = document.getElementById(id); if (n) n.textContent = v; };
+  setTxt('m8-loan-val', fmt(loan));
+  setTxt('m8-years-val', years + '');
+  setTxt('m8-income-val', fmt(income));
+  setTxt('m8-debts-val', fmt(debts));
+
+  function readMix(prefix) {
+    const tracks = [
+      { key: 'p', stress: MIX_STRESS_PTS },
+      { key: 'k', stress: 0 },
+      { key: 'c', stress: MIX_STRESS_PTS }
+    ].map(t => {
+      const pct = +document.getElementById(prefix + '-' + t.key + '-pct').value;
+      const rate = +document.getElementById(prefix + '-' + t.key + '-rate').value;
+      setTxt(prefix + '-' + t.key + '-pct-val', pct + '%');
+      setTxt(prefix + '-' + t.key + '-rate-val', rate.toFixed(1) + '%');
+      return { pct, rate, stress: t.stress };
+    });
+
+    const sum = tracks.reduce((s, t) => s + t.pct, 0);
+    let base = 0;
+    let stressMo = 0;
+    tracks.forEach(t => {
+      const principal = loan * (t.pct / 100);
+      base += monthlyPayment(principal, t.rate, years);
+      stressMo += monthlyPayment(principal, t.rate + t.stress, years);
+    });
+    const dti = income > 0 ? ((base + debts) / income) * 100 : 0;
+    return { sum, prime: tracks[0].pct, base, stressMo, totalPaid: base * years * 12, dti };
+  }
+
+  function paint(prefix, side) {
+    const r = readMix(prefix);
+    setTxt(side + '-base', fmt(r.base) + ' / חודש');
+    setTxt(side + '-stress', fmt(r.stressMo) + ' / חודש');
+    setTxt(side + '-total', fmt(r.totalPaid));
+    setTxt(side + '-dti', r.dti.toFixed(1) + '%');
+
+    const dtiEl = document.getElementById(side + '-dti-box');
+    if (dtiEl) {
+      dtiEl.classList.remove('safe', 'caution', 'danger');
+      let label = 'יחס החזר (החזר בסיס + התחייבויות)';
+      if (r.dti <= 40) { dtiEl.classList.add('safe'); label += ' — מתאים לבנק בדרך כלל'; }
+      else if (r.dti <= 50) { dtiEl.classList.add('caution'); label += ' — גבולי / חוץ-בנקאי'; }
+      else { dtiEl.classList.add('danger'); label += ' — גבוה — מסוכן לתזרים'; }
+      const lab = document.getElementById(side + '-dti-lab');
+      if (lab) lab.textContent = label;
+    }
+
+    const warn = document.getElementById(side + '-warn');
+    if (warn) {
+      const msgs = [];
+      if (Math.abs(r.sum - 100) > 1) msgs.push('האחוזים מסתכמים ל־' + r.sum + '% — כוונו ל־100%.');
+      if (r.prime > 34) msgs.push('פריים מעל שליש חורג ממגבלת בנק ישראל (הדגמה בלבד).');
+      warn.textContent = msgs.join(' ');
+    }
+  }
+
+  paint('m8a', 'm8oa');
+  paint('m8b', 'm8ob');
+}
+
+(function initMixCompare() {
+  if (!document.getElementById('m8-loan')) return;
+  const ids = [
+    'm8-loan', 'm8-years', 'm8-income', 'm8-debts',
+    'm8a-p-pct', 'm8a-p-rate', 'm8a-k-pct', 'm8a-k-rate', 'm8a-c-pct', 'm8a-c-rate',
+    'm8b-p-pct', 'm8b-p-rate', 'm8b-k-pct', 'm8b-k-rate', 'm8b-c-pct', 'm8b-c-rate'
+  ];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', calcMixCompare);
+  });
+  calcMixCompare();
+})();
+
+/* ═══════════════════════════════════════════════════════════════
    ARTICLE MODAL
    ═══════════════════════════════════════════════════════════════ */
 const articleModal = document.getElementById('articleModal');

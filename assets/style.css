@@ -3788,3 +3788,184 @@ body.drawer-open .side-drawer { transform: translateX(0); }
   .data-table { font-size: 0.88rem; }
   .data-table thead th, .data-table tbody td { padding: 0.65rem 0.75rem; }
 }
+
+/* ═══ BMF: הוכחות חיסכון + משפך קישורים פנימיים ═══ */
+.proof-block {
+  margin: 2.2rem 0;
+  padding: 1.4rem 1.3rem 1.3rem;
+  background: var(--surface);
+  border: 1px solid rgba(14, 60, 92, 0.12);
+  border-right: 4px solid var(--navy);
+  border-radius: var(--radius-md);
+}
+.proof-block__kicker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--navy-light);
+  margin: 0 0 0.45rem;
+}
+.proof-block h2 {
+  font-size: 1.22rem;
+  line-height: 1.35;
+  margin: 0 0 0.85rem;
+  color: var(--navy);
+}
+.proof-block p { margin: 0 0 0.75rem; line-height: 1.75; }
+.proof-block p:last-child { margin-bottom: 0; }
+.proof-block__caveat {
+  font-size: 0.9rem;
+  color: var(--gray);
+  background: var(--bg-warm);
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+}
+.proof-block__micro {
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-top: 0.55rem !important;
+}
+.seo-funnel {
+  margin: 2rem 0 0;
+  padding: 1.3rem 1.25rem 0.4rem;
+  background: var(--bg-warm);
+  border-radius: var(--radius-md);
+}
+.seo-funnel h2 { font-size: 1.12rem; margin: 0 0 0.7rem; }
+.seo-funnel ul { margin: 0 0 1rem; padding-right: 1.15rem; line-height: 1.9; }
+.seo-funnel a { font-weight: 600; }
+
+/* ═══ BMF: השוואת תמהילים ═══ */
+.calc-panel.mix-compare.active {
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+}
+.mix-shared { max-width: 720px; }
+.mix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.mix-card {
+  background: var(--navy-50);
+  border: 1px solid rgba(14, 60, 92, 0.1);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1rem 1.2rem;
+}
+.mix-card h4 {
+  margin: 0 0 0.85rem;
+  font-size: 1.05rem;
+  color: var(--navy);
+}
+.mix-track {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem 0.8rem;
+  margin-bottom: 0.7rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px dashed rgba(14, 60, 92, 0.12);
+}
+.mix-track:last-of-type { border-bottom: 0; margin-bottom: 0.4rem; }
+.mix-track .input-group { margin: 0; }
+.mix-out {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.6rem;
+}
+.mix-out-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: baseline;
+  font-size: 0.92rem;
+}
+.mix-out-row .lbl { color: var(--gray); }
+.mix-out-row .val { font-weight: 800; font-variant-numeric: tabular-nums; color: var(--navy); }
+.mix-out-row.is-stress .val { color: var(--gold-deep); }
+.mix-dti {
+  margin-top: 0.45rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.mix-dti.safe { background: var(--green-soft); color: #2d6a4f; }
+.mix-dti.caution { background: #FBF4E5; color: #8a6a20; }
+.mix-dti.danger { background: var(--red-soft); color: #9a4030; }
+.mix-warn {
+  font-size: 0.8rem;
+  color: #9a4030;
+  min-height: 1.1em;
+  margin: 0.2rem 0 0;
+}
+.mix-note {
+  font-size: 0.84rem;
+  color: var(--gray);
+  line-height: 1.65;
+  margin: 0.4rem 0 0;
+}
+.mix-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.9rem;
+}
+@media (max-width: 760px) {
+  .mix-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══ BMF: 8 שאלות — אקורדיון ═══ */
+.sheelot-list { margin: 1.6rem 0 2rem; }
+.sheelot-item {
+  border: 1px solid rgba(14, 60, 92, 0.12);
+  border-radius: 12px;
+  background: var(--surface);
+  margin-bottom: 0.7rem;
+  padding: 0;
+}
+.sheelot-item summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1rem 1.15rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.45;
+}
+.sheelot-item summary::-webkit-details-marker { display: none; }
+.sheelot-item summary::after {
+  content: '+';
+  float: left;
+  color: var(--navy-light);
+  font-weight: 500;
+}
+.sheelot-item[open] summary::after { content: '–'; }
+.sheelot-item .sheelot-body {
+  padding: 0 1.15rem 1.1rem;
+  border-top: 1px solid rgba(14, 60, 92, 0.08);
+}
+.sheelot-item .sheelot-body p { margin: 0.85rem 0 0; line-height: 1.75; }
+.sheelot-how {
+  background: var(--bg-warm);
+  border-radius: var(--radius-md);
+  padding: 1.2rem 1.25rem;
+  margin: 1.6rem 0;
+}
+.sheelot-how ol { margin: 0.5rem 0 0; padding-right: 1.2rem; line-height: 1.85; }
+.pilot-ribbon {
+  background: var(--navy);
+  color: #fff;
+  text-align: center;
+  font-size: 0.85rem;
+  padding: 0.45rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 80;
+}
+.pilot-hub {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 2rem 1.2rem 4rem;
+}
+.pilot-hub h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 0.6rem; }
+.pilot-hub .pilot-list { margin: 1.2rem 0; padding-right: 1.2rem; line-height: 2; }
+.pilot-hub .pilot-list a { font-weight: 700; }

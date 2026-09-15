@@ -271,6 +271,20 @@
       read: { amount: 'm3-income', out: 'm3-out' },
       note: function (v) { return 'יחס החזר מחושב: ' + v.out; },
       inputs: []
+    },
+    'calc-mix': {
+      title: 'רוצים לעבור על התמהילים על המספרים שלכם?',
+      sub: 'ההשוואה למעלה היא הדגמה בלי ביטוחים. נחזור אליכם בהקדם לתיאום שיחת בדיקת עלות כוללת.',
+      cta: 'קביעת שיחת בדיקת עלות כוללת',
+      page: 'מחשבון השוואת תמהילים',
+      read: { amount: 'm8-loan', out: 'm8oa-base', total: 'm8ob-base' },
+      note: function (v) {
+        return 'הלוואה ' + fmt(v['m8-loan']) + ' · ' + v['m8-years'] + ' שנה · תמהיל א ' +
+          (document.getElementById('m8oa-base') || {}).textContent +
+          ' · תמהיל ב ' + (document.getElementById('m8ob-base') || {}).textContent +
+          ' · בלי ביטוח';
+      },
+      inputs: ['m8-loan', 'm8-years']
     }
   };
 
