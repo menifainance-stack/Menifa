@@ -20,12 +20,13 @@ const monthlyPayment = (principal, annualRate, years) => {
    Attempts live fetch, falls back to last-known values
    ═══════════════════════════════════════════════════════════════ */
 const MARKET_FALLBACK = {
-  boi: 3.25,         // ריבית בנק ישראל — מדיניות (ספטמבר 2026)
+  boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 01.09.2026)
   prime: 4.75,       // פריים = BoI + 1.5
-  cpiMonthly: 0.3,   // % שינוי חודשי (יולי 2026)
-  cpiYearly: 1.5,    // % שינוי שנתי (12 חודשים אחרונים)
-  updateDate: 'ספטמבר 2026'
+  cpiMonthly: 0.3,   // % שינוי חודשי — אוגוסט 2026 (עדכון יומי; לא לטעון «עכשיו»)
+  cpiYearly: 1.5,    // % שינוי שנתי — 12 חודשים עד אוגוסט 2026
+  updateDate: 'ספט׳ 2026 · BOI 01.09'
 };
+const CPI_PERIOD_LABEL = 'אוג׳ 2026';
 // ממוצעי מסלולי משכנתא (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
 
 function setMarketData(data) {
@@ -46,10 +47,11 @@ function setMarketData(data) {
   set('m-cpi-y', data.cpiYearly.toFixed(1) + '%');
   set('m-update', data.updateDate);
 
-  const mc = set('m-cpi-m-chg', data.cpiMonthly >= 0 ? '↑ ע. אחרון' : '↓ ע. אחרון');
+  const cpiPeriod = data.cpiPeriodLabel || CPI_PERIOD_LABEL;
+  const mc = set('m-cpi-m-chg', (data.cpiMonthly >= 0 ? '↑ ' : '↓ ') + cpiPeriod);
   if (mc) mc.className = 'chg ' + (data.cpiMonthly >= 0 ? 'up' : 'down');
 
-  const yc = set('m-cpi-y-chg', '12 חודשים');
+  const yc = set('m-cpi-y-chg', '12 ח׳ עד ' + cpiPeriod);
   if (yc) yc.className = 'chg ' + (data.cpiYearly >= 2 ? 'up' : 'down');
 }
 
@@ -62,7 +64,18 @@ async function fetchMarketData() {
     if (r.ok) {
       const j = await r.json();
       if (j && j.currentInterest != null) {
-        const live = { ...MARKET_FALLBACK, boi: parseFloat(j.currentInterest), prime: parseFloat(j.currentInterest) + 1.5, updateDate: 'עכשיו' };
+        const published = j.lastPublishedDate ? new Date(j.lastPublishedDate) : null;
+        const heMonths = ['ינו׳','פבר׳','מרץ','אפר׳','מאי','יונ׳','יול׳','אוג׳','ספט׳','אוק׳','נוב׳','דצמ׳'];
+        let dateLabel = MARKET_FALLBACK.updateDate;
+        if (published && !Number.isNaN(published.getTime())) {
+          dateLabel = heMonths[published.getMonth()] + ' ' + published.getFullYear() + ' · BOI';
+        }
+        const live = {
+          ...MARKET_FALLBACK,
+          boi: parseFloat(j.currentInterest),
+          prime: parseFloat(j.currentInterest) + 1.5,
+          updateDate: dateLabel
+        };
         setMarketData(live);
       }
     }
@@ -315,9 +328,9 @@ function calc3() {
   const panel = document.getElementById('calc-dti');
   const status = document.getElementById('m3-status');
   panel.classList.remove('safe', 'caution', 'danger');
-  if (dti <= 40) { panel.classList.add('safe'); status.textContent = 'מתאים לבנק'; }
-  else if (dti <= 50) { panel.classList.add('caution'); status.textContent = 'חוץ-בנקאי בלבד'; }
-  else { panel.classList.add('danger'); status.textContent = 'גבוה — מסוכן'; }
+  if (dti <= 40) { panel.classList.add('safe'); status.textContent = 'מתחת לרף סיכון 40%'; }
+  else if (dti <= 50) { panel.classList.add('caution'); status.textContent = 'מעל 40% סיכון · 50% תקרה רגולטורית'; }
+  else { panel.classList.add('danger'); status.textContent = 'מעל 50% — אסור לבנק לאשר'; }
 
   // Update meter indicator (clamp at 50% — the regulatory ceiling)
   const indicator = document.getElementById('m3-indicator');
@@ -733,7 +746,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       <div class="drawer-hero-cta">
         <div class="eyebrow">פנוי עכשיו</div>
         <h3>שיחת ייעוץ — חינם וללא התחייבות</h3>
-        <p>30 דקות שיכולות לחסוך לכם 180,000 ₪ על חיי המשכנתא</p>
+        <p>30 דקות לשיחת היכרות — בלי התחייבות</p>
         <div class="btn-row">
           <a href="tel:052-4502821">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>

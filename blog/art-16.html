@@ -70,7 +70,7 @@
           "name": "מהו יחס החזר משכנתא DTI?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "יחס החזר משכנתא (DTI - Debt to Income) הוא היחס בין סך ההחזרים החודשיים של ההלוואות (כולל המשכנתא) להכנסה החודשית נטו של משק הבית. בנקים בישראל מאשרים יחס של עד 40%."
+            "text": "יחס החזר משכנתא (DTI - Debt to Income) הוא היחס בין סך ההחזרים החודשיים של ההלוואות (כולל המשכנתא) להכנסה החודשית נטו של משק הבית. לפי הוראה 329: אסור לבנק לאשר מעל 50%; מעל 40% מסווג כסיכון גבוה."
           }
         },
         {
@@ -86,7 +86,7 @@
           "name": "מה הסף המקסימלי בבנק?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "40% בבנקים מסחריים. גופים חוץ-בנקאיים יכולים להגיע ל-50%. אבל ההמלצה המקצועית: לא לחצות 35-40% כדי לשמור כרית ביטחון פיננסית."
+            "text": "תקרה רגולטורית 50% (הוראה 329). מעל 40% מסווג כסיכון גבוה. גופים חוץ-בנקאיים עשויים להיות גמישים יותר. ההמלצה המקצועית: לא לחצות 35-40% כדי לשמור כרית ביטחון."
           }
         }
       ]
@@ -182,8 +182,8 @@
 <div style="background:linear-gradient(135deg,#FAF6EE 0%,rgba(74,123,200,0.08) 100%);border-right:4px solid var(--blue);border-radius:var(--radius-md);padding:1.5rem 1.75rem;margin:2rem 0;">
   <h3 style="margin-top:0;color:var(--navy);font-size:1.1rem;">📊 התשובות המהירות</h3>
   <ul style="margin-bottom:0;line-height:2;">
-    <li><strong>סף בנקאי מקסימלי:</strong> 40% מההכנסה נטו</li>
-    <li><strong>סף חוץ-בנקאי:</strong> עד 50% מההכנסה נטו</li>
+    <li><strong>תקרה רגולטורית (הוראה 329):</strong> אסור לבנק לאשר מעל 50% מההכנסה נטו</li>
+    <li><strong>רף סיכון:</strong> מעל 40% מסווג כסיכון גבוה ומשפיע על תמחור</li>
     <li><strong>המלצה מקצועית:</strong> לא לחצות 35-40%</li>
     <li><strong>נוסחה:</strong> (סך החזרים חודשיים ÷ הכנסה נטו) × 100</li>
     <li><strong>הכנסה נטו:</strong> הכנסה אחרי מס + ביטוח לאומי + בריאות</li>
@@ -281,19 +281,19 @@
   </thead>
   <tbody>
     <tr>
-      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">בנקים מסחריים (לאומי, הפועלים, וכו')</td>
-      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);"><strong style="color:var(--blue);">40%</strong></td>
-      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">סף קשיח של בנק ישראל</td>
+      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">רף סיכון (הוראה 329)</td>
+      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);"><strong style="color:var(--blue);">מעל 40%</strong></td>
+      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">מסווג כסיכון גבוה; משפיע על תמחור/אישור</td>
     </tr>
     <tr style="background:rgba(184,146,89,0.05);">
-      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">חוץ-בנקאי (חברות ביטוח, קרנות)</td>
-      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);"><strong style="color:var(--gold-dark);">עד 50%</strong></td>
-      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">בריבית גבוהה יותר</td>
+      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">תקרה רגולטורית לבנק</td>
+      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);"><strong style="color:var(--gold-dark);">50%</strong></td>
+      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">אסור לבנק לאשר מעל — לא «סף 40% קשיח»</td>
     </tr>
     <tr>
-      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">"אזור הסיכון"</td>
+      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">מעל התקרה</td>
       <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);"><strong style="color:#c44;">מעל 50%</strong></td>
-      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">פגיעות גבוהה לקריסה כלכלית</td>
+      <td style="padding:0.8rem;border:1px solid rgba(0,0,0,0.1);">לא עובר חיתום בנקאי; פגיעות גבוהה</td>
     </tr>
   </tbody>
 </table>
@@ -341,7 +341,7 @@
     <p class="faq-intro">התשובות לשאלות שהכי חוזרות אצל לקוחות בנושא הזה.</p>
     <div class="faq-qa">
       <h3>מהו יחס החזר משכנתא DTI?</h3>
-      <p>יחס החזר משכנתא (DTI - Debt to Income) הוא היחס בין סך ההחזרים החודשיים של ההלוואות (כולל המשכנתא) להכנסה החודשית נטו של משק הבית. בנקים בישראל מאשרים יחס של עד 40%.</p>
+      <p>יחס החזר משכנתא (DTI - Debt to Income) הוא היחס בין סך ההחזרים החודשיים של ההלוואות (כולל המשכנתא) להכנסה החודשית נטו של משק הבית. לפי הוראה 329: אסור לבנק לאשר מעל 50%; מעל 40% מסווג כסיכון גבוה.</p>
     </div>
     <div class="faq-qa">
       <h3>איך מחשבים יחס החזר?</h3>
@@ -349,7 +349,7 @@
     </div>
     <div class="faq-qa">
       <h3>מה הסף המקסימלי בבנק?</h3>
-      <p>40% בבנקים מסחריים. גופים חוץ-בנקאיים יכולים להגיע ל-50%. אבל ההמלצה המקצועית: לא לחצות 35-40% כדי לשמור כרית ביטחון פיננסית.</p>
+      <p>תקרה רגולטורית 50% (הוראה 329). מעל 40% מסווג כסיכון גבוה. גופים חוץ-בנקאיים עשויים להיות גמישים יותר. ההמלצה המקצועית: לא לחצות 35-40% כדי לשמור כרית ביטחון פיננסית.</p>
     </div>
   </section>
 
