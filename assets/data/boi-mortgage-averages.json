@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "policyRate": {
+    "boiPercent": 3.25,
+    "primePercent": 4.75,
+    "source": "https://www.boi.org.il/PublicApi/GetInterest",
+    "asOf": "2026-09-01"
+  },
+  "mortgageAverages": {
+    "periodMonth": "2026-06",
+    "periodLabelHe": "יוני 2026",
+    "sourceUrl": "https://www.boi.org.il/information/interestrates/mortgage/",
+    "tracks": {
+      "klacApproxPercent": 4.74,
+      "cpiLinkedApproxPercent": 3.45,
+      "variable5yApproxPercent": null,
+      "primeTrackPercent": 4.75
+    },
+    "notesHe": "ממוצעים משוקללים להלוואות חדשות שפורסמו ע״י בנק ישראל לחודש הדיווח. לא הצעת ריבית אישית.",
+    "checkedAt": "2026-09-16"
+  }
+}
