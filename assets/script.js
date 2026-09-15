@@ -418,7 +418,9 @@ document.querySelectorAll('[data-article]').forEach(card => {
       // If a nested link (different from the card itself) was clicked — don't intercept
       const innerLink = e.target.closest('a[href]');
       if (innerLink && innerLink !== card) return;
-      // For card-itself links (like footer policy links), prevent default # scroll
+      const href = card.getAttribute && card.getAttribute('href');
+      // Real pages (privacy.html / terms.html) must navigate — do not trap as # modals
+      if (href && href !== '#' && !href.startsWith('#')) return;
       e.preventDefault();
     }
     openArticle(card.dataset.article);
