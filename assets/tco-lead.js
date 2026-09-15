@@ -153,7 +153,7 @@
         if (!res.ok) throw new Error('HTTP ' + res.status);
         showThanks(form);
       }).catch(function () {
-        if (submit) { submit.disabled = false; submit.textContent = 'קביעת שיחת בדיקה'; }
+        if (submit) { submit.disabled = false; submit.textContent = 'קביעת שיחת בדיקת עלות כוללת'; }
         if (status) status.textContent = 'השליחה נכשלה. אפשר לנסות שוב, או לפנות ישירות בוואטסאפ.';
         window.open(waFallback, '_blank', 'noopener');
       });

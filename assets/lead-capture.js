@@ -138,7 +138,7 @@
 
     var alt = el('p', 'lead-form__alt');
     alt.appendChild(document.createTextNode('מעדיפים ישר לדבר? '));
-    var wa = el('a', null, 'וואטסאפ');
+    var wa = el('a', null, 'וואטסאפ — לתיאום שיחה');
     wa.href = 'https://wa.me/972524502821';
     wa.target = '_blank';
     wa.rel = 'noopener';
