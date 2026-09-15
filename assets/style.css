@@ -2587,6 +2587,7 @@ body.has-ticker .navbar { top: 42px; }
   transition: all var(--transition-fast);
 }
 body.cookie-visible .fab-group { bottom: 92px; }
+body.cookie-visible .a11y-toggle { bottom: 92px; }
 .cookie-accept { background: var(--navy); color: var(--white); }
 .cookie-accept:hover { background: var(--navy-light); }
 .cookie-decline { background: var(--bg); color: var(--gray); }
@@ -2653,11 +2654,15 @@ body.cookie-visible .fab-group { bottom: 92px; }
   body.cookie-visible .fab-group {
     bottom: calc(92px + env(safe-area-inset-bottom, 0px));
   }
+  body.cookie-visible .a11y-toggle {
+    bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 420px) {
   .hero-ctas { flex-direction: column; }
   .hero-ctas .btn { width: 100%; }
+  .cta-buttons { flex-direction: column; }
   .cta-buttons .btn { width: 100%; }
 }
 
