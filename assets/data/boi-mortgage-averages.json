@@ -4,7 +4,7 @@
     "boiPercent": 3.25,
     "primePercent": 4.75,
     "source": "https://www.boi.org.il/PublicApi/GetInterest",
-    "asOf": "2026-09-15"
+    "asOf": "2026-09-01"
   },
   "mortgageAverages": {
     "periodMonth": "2026-08",
