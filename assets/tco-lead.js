@@ -10,6 +10,46 @@
   var MIN_FILL_MS = 3000;
   var WA_PREFILL = 'שלום, אשמח לשיחת בדיקת עלות כוללת (משכנתא+ביטוח)';
   var THANK_YOU = 'תודה! קיבלנו את הפרטים. נחזור אליכם בהקדם לתיאום שיחת בדיקת עלות כוללת (משכנתא + ביטוח).';
+  var ATTR_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'];
+
+  function makeLeadUuid() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0;
+      var v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  function readAttribution() {
+    if (window.MenifaAttribution && typeof window.MenifaAttribution.get === 'function') {
+      return window.MenifaAttribution.get();
+    }
+    var out = {};
+    ATTR_KEYS.forEach(function (k) {
+      var v = qs(k);
+      if (v) out[k] = v;
+    });
+    out.landing_page_path = location.pathname || '/';
+    return out;
+  }
+
+  function pushFormSubmitSuccess(formId, leadUuid, attr) {
+    window.dataLayer = window.dataLayer || [];
+    var payload = {
+      event: 'form_submit_success',
+      form_id: formId,
+      page_path: location.pathname,
+      landing_page_path: (attr && attr.landing_page_path) || location.pathname,
+      lead_uuid: leadUuid
+    };
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
+      if (attr && attr[k]) payload[k] = attr[k];
+    });
+    window.dataLayer.push(payload);
+  }
 
   function qs(name) {
     try { return new URLSearchParams(location.search).get(name) || ''; }
@@ -110,6 +150,9 @@
         ' | קוד: alut|bituach' +
         ' | owner=עינב | בעלים: עינב';
 
+      var attr = readAttribution();
+      var formId = form.getAttribute('data-form-id') || 'pillar_alut_mashkanta';
+      var leadUuid = makeLeadUuid();
       var payload = {
         full_name: fullName,
         phone: phone,
@@ -117,16 +160,22 @@
         loan_intent: intent,
         callback_window: windowWhen,
         landing_page: 'alut-bituach',
+        landing_page_path: attr.landing_page_path || location.pathname,
         offer_code: offerCode,
         note: note,
         owner: 'עינב',
-        utm_source: qs('utm_source'),
-        utm_medium: qs('utm_medium'),
-        utm_campaign: qs('utm_campaign') || 'alut_bituach',
-        utm_content: qs('utm_content'),
-        utm_term: qs('utm_term'),
+        form_id: formId,
+        lead_uuid: leadUuid,
+        utm_source: attr.utm_source || qs('utm_source'),
+        utm_medium: attr.utm_medium || qs('utm_medium'),
+        utm_campaign: attr.utm_campaign || qs('utm_campaign') || 'alut_bituach',
+        utm_content: attr.utm_content || qs('utm_content'),
+        utm_term: attr.utm_term || qs('utm_term'),
         ts: new Date().toISOString()
       };
+      ['gclid', 'fbclid'].forEach(function (k) {
+        if (attr[k]) payload[k] = attr[k];
+      });
 
       var waFallback = waUrl(
         'עלות\n' + WA_PREFILL +
@@ -151,6 +200,7 @@
         body: JSON.stringify(payload)
       }).then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
+        pushFormSubmitSuccess(formId, leadUuid, attr);
         showThanks(form);
       }).catch(function () {
         if (submit) { submit.disabled = false; submit.textContent = 'קביעת שיחת בדיקה'; }

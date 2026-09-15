@@ -979,3 +979,28 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     initHeroEffects();
   }
 })();
+
+/* ═══════════════════════════════════════════════════════════════
+   Measurement preview — attribution + WhatsApp dataLayer.
+   GTM itself is gated (MENIFA_MEASUREMENT_PREVIEW=false and
+   placeholder GTM-XXXXXXX). Loader no-ops on live.
+   ═══════════════════════════════════════════════════════════════ */
+(function loadMenifaMeasurement() {
+  if (window.__menifaMeasurementLoader) return;
+  window.__menifaMeasurementLoader = true;
+  var prefix = location.pathname.indexOf('/blog/') !== -1 ? '../' : '';
+  var files = [
+    'measurement-config.js',
+    'attribution.js',
+    'wa-track.js',
+    'gtm-loader.js'
+  ];
+  files.forEach(function (file) {
+    if (document.querySelector('script[data-menifa-measurement="' + file + '"]')) return;
+    var s = document.createElement('script');
+    s.src = prefix + 'assets/' + file + '?v=2026-09-16-preview';
+    s.async = false;
+    s.setAttribute('data-menifa-measurement', file);
+    (document.body || document.head || document.documentElement).appendChild(s);
+  });
+})();

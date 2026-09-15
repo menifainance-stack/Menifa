@@ -9,6 +9,8 @@
    שמזרים אותם לטלגרם ולגיליון Google Sheets.
 
    דורש: assets/script.js (עבור monthlyPayment ו-fmt) ו-lead-capture.css
+   מדידה: data-form-id, lead_uuid, utm_* ל-Make; form_submit_success
+   ל-dataLayer רק אחרי res.ok — בלי PII.
    ═══════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -17,6 +19,8 @@
 
   // בוטים ממלאים טופס מיידית. אדם צריך כמה שניות.
   var MIN_FILL_MS = 3000;
+  var ATTR_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'];
+  var PII_KEYS = { name: 1, phone: 1, email: 1, full_name: 1, amount: 1, note: 1, text: 1 };
 
   var prefix = location.pathname.indexOf('/blog/') !== -1 ? '../' : '';
 
@@ -44,6 +48,55 @@
     return n;
   }
 
+  function makeLeadUuid() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+      return crypto.randomUUID();
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16 | 0;
+      var v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  function readAttribution() {
+    if (window.MenifaAttribution && typeof window.MenifaAttribution.get === 'function') {
+      return window.MenifaAttribution.get();
+    }
+    var out = {};
+    try {
+      var params = new URLSearchParams(location.search);
+      ATTR_KEYS.forEach(function (k) {
+        var fromUrl = params.get(k);
+        var fromSs = sessionStorage.getItem('menifa_attr_' + k);
+        var v = fromUrl || fromSs;
+        if (v) out[k] = v;
+      });
+      out.landing_page_path = sessionStorage.getItem('menifa_landing_page_path') || location.pathname || '/';
+    } catch (e) {
+      out.landing_page_path = location.pathname || '/';
+    }
+    return out;
+  }
+
+  function pushFormSubmitSuccess(formId, leadUuid, attr) {
+    window.dataLayer = window.dataLayer || [];
+    var payload = {
+      event: 'form_submit_success',
+      form_id: formId,
+      page_path: location.pathname,
+      landing_page_path: (attr && attr.landing_page_path) || location.pathname,
+      lead_uuid: leadUuid
+    };
+    ATTR_KEYS.forEach(function (k) {
+      if (k.indexOf('utm_') === 0 && attr && attr[k]) payload[k] = attr[k];
+    });
+    Object.keys(payload).forEach(function (k) {
+      if (PII_KEYS[k]) delete payload[k];
+    });
+    window.dataLayer.push(payload);
+  }
+
   var seq = 0;
 
   /**
@@ -53,6 +106,7 @@
    * @param {string} cfg.sub      שורת הסבר
    * @param {string} cfg.cta      טקסט הכפתור
    * @param {string} cfg.page     מזהה המקור שנשלח ל-CRM
+   * @param {string} [cfg.formId]  מזהה יציב ל-data-form-id / Make / dataLayer
    * @param {Function} cfg.snapshot  מחזיר {amount, note} — המספרים של המשתמש
    * @returns {HTMLFormElement}
    */
@@ -61,6 +115,7 @@
     var form = el('form', 'lead-form');
     form.noValidate = true;
     form.setAttribute('aria-labelledby', uid + '-title');
+    if (cfg.formId) form.setAttribute('data-form-id', cfg.formId);
 
     var head = el('div', 'lead-form__head');
     var title = el('p', 'lead-form__title', cfg.title);
@@ -190,23 +245,35 @@
       }
 
       var snap = cfg.snapshot ? cfg.snapshot() : { amount: '', note: '' };
+      var formId = cfg.formId || form.getAttribute('data-form-id') || '';
+      var leadUuid = makeLeadUuid();
+      var attr = readAttribution();
 
       submit.disabled = true;
       submit.textContent = 'שולח…';
 
+      var makePayload = {
+        page: cfg.page,
+        name: name,
+        phone: phone,
+        amount: snap.amount,
+        note: snap.note,
+        ts: new Date().toISOString(),
+        form_id: formId,
+        lead_uuid: leadUuid,
+        landing_page_path: attr.landing_page_path || location.pathname
+      };
+      ATTR_KEYS.forEach(function (k) {
+        if (attr[k]) makePayload[k] = attr[k];
+      });
+
       fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          page: cfg.page,
-          name: name,
-          phone: phone,
-          amount: snap.amount,
-          note: snap.note,
-          ts: new Date().toISOString()
-        })
+        body: JSON.stringify(makePayload)
       }).then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
+        pushFormSubmitSuccess(formId, leadUuid, attr);
         showDone(form, cfg);
       }).catch(function () {
         submit.disabled = false;
@@ -243,6 +310,7 @@
       sub: 'המספר למעלה הוא תיאורטי. השאירו פרטים ואבדוק מול הבנקים מה באמת אפשר להשיג לכם.',
       cta: 'בדקו לי מול הבנקים',
       page: 'מחשבון משכנתא',
+      formId: 'calc_mortgage',
       read: { amount: 'm1-loan', out: 'm1-out', total: 'm1-total' },
       note: function (v) {
         return 'הלוואה ' + fmt(v['m1-loan']) + ' · ריבית ' + v['m1-rate'] + '%' +
@@ -255,6 +323,7 @@
       sub: 'השאירו פרטים ואשלח לכם בדיקת כדאיות מחזור מלאה — כולל עמלת פירעון מוקדם והאם זה באמת משתלם לכם.',
       cta: 'שלחו לי בדיקת כדאיות',
       page: 'מחשבון מיחזור משכנתא',
+      formId: 'calc_refinance',
       read: { amount: 'm4-balance', out: 'm4-out', total: 'm4-total' },
       note: function (v) {
         return 'יתרה ' + fmt(v['m4-balance']) + ' · ריבית ' + v['m4-cur-rate'] +
@@ -268,6 +337,7 @@
       sub: 'המספר למעלה הוא חישוב. מה הבנק בפועל יאשר תלוי בעוד כמה דברים — אשמח לעבור עליהם איתכם.',
       cta: 'בדקו לי את יחס ההחזר',
       page: 'מחשבון יחס החזר DTI',
+      formId: 'calc_dti',
       read: { amount: 'm3-income', out: 'm3-out' },
       note: function (v) { return 'יחס החזר מחושב: ' + v.out; },
       inputs: []
@@ -293,6 +363,7 @@
         sub: cfg.sub,
         cta: cfg.cta,
         page: cfg.page,
+        formId: cfg.formId,
         snapshot: function () {
           var v = {};
           required.forEach(function (id) {
@@ -400,6 +471,7 @@
            'השאירו פרטים ואשלח בדיקת כדאיות אמיתית — כולל המקרים שבהם עדיף לא למחזר.',
       cta: 'שלחו לי בדיקת כדאיות',
       page: 'מדריך משכנתא — בדיקת כדאיות מחזור',
+      formId: 'madrich_refinance_widget',
       snapshot: function () {
         return {
           amount: +refs.balance.input.value,
