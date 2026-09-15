@@ -755,6 +755,116 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 });
 
 /* ═══════════════════════════════════════════════════════════════
+   SERVICES MEGA-MENU — desktop «השירותים שלי» + shared link lists
+   ═══════════════════════════════════════════════════════════════ */
+(function() {
+  const pathPrefix = location.pathname.includes('/blog/') ? '../' : '';
+  const SERVICE_LINKS = [
+    { href: 'mashkanta-dira-rishona.html', label: 'משכנתא יד ראשונה' },
+    { href: 'mashkanta-yad-shniya.html', label: 'משכנתא יד שנייה' },
+    { href: 'mihzur-mashkanta.html', label: 'מחזור משכנתא' },
+    { href: 'ihud-halvaot-lemashkanta.html', label: 'איחוד הלוואות' },
+    { href: 'masurvei-bankim.html', label: 'מסורבי בנקים' }
+  ];
+  const TOOL_LINKS = [
+    { href: 'ishur-ekroni.html', label: 'אישור עקרוני' },
+    { href: 'alut-mashkanta-kolel-bituach.html', label: 'עלות כוללת כולל ביטוח' },
+    { href: 'hashvaat-hatzaot-mashkanta.html', label: 'השוואת הצעות' },
+    { href: 'lifnei-shehotmim-mashkanta.html', label: 'לפני שחותמים' },
+    { href: 'calculators.html', label: 'מחשבונים' }
+  ];
+
+  function linkList(items) {
+    const page = (location.pathname.split('/').pop() || 'index.html');
+    return items.map(item => {
+      const href = pathPrefix + item.href;
+      const cur = page === item.href ? ' aria-current="page"' : '';
+      return `<a href="${href}"${cur}>${item.label}</a>`;
+    }).join('');
+  }
+
+  window.MENIFA_NAV = { pathPrefix, SERVICE_LINKS, TOOL_LINKS, linkList };
+
+  function injectMegaCss() {
+    if (document.getElementById('menifa-mega-css')) return;
+    const css = document.createElement('style');
+    css.id = 'menifa-mega-css';
+    css.textContent = `
+      .nav-item-mega{position:relative}
+      .nav-mega-trigger{font-family:var(--font-heading);font-weight:500;font-size:.97rem;color:var(--charcoal);background:none;border:0;cursor:pointer;padding:.4rem 0;position:relative;line-height:inherit}
+      .nav-mega-trigger:hover,.nav-mega-trigger[aria-expanded="true"]{color:var(--navy);font-weight:600}
+      .nav-mega{display:none;position:absolute;top:calc(100% + .85rem);right:50%;transform:translateX(50%);min-width:520px;background:#fff;border:1px solid rgba(184,146,89,.22);border-radius:14px;box-shadow:0 18px 40px -16px rgba(27,42,65,.22);padding:1.15rem 1.25rem 1.25rem;z-index:1200;grid-template-columns:1fr 1fr;gap:1.4rem;text-align:right}
+      .nav-item-mega:hover .nav-mega,.nav-item-mega.is-open .nav-mega,.nav-item-mega:focus-within .nav-mega{display:grid}
+      .nav-mega-heading{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:0 0 .65rem}
+      .nav-mega a{display:block;font-family:var(--font-heading);font-size:.95rem;font-weight:500;color:var(--navy);padding:.38rem 0;line-height:1.35}
+      .nav-mega a:hover{color:var(--gold)}
+      .nav-mega a[aria-current="page"]{font-weight:700}
+      @media (max-width:768px){.nav-item-mega{display:none!important}}
+    `;
+    document.head.appendChild(css);
+  }
+
+  function initMegaMenu() {
+    const nav = document.querySelector('ul.nav-links');
+    if (!nav || nav.querySelector('.nav-item-mega')) return;
+    injectMegaCss();
+
+    const mega = document.createElement('li');
+    mega.className = 'nav-item-mega';
+    mega.innerHTML = `
+      <button type="button" class="nav-mega-trigger" aria-expanded="false" aria-haspopup="true">השירותים שלי</button>
+      <div class="nav-mega" role="menu" aria-label="השירותים שלי">
+        <div class="nav-mega-col">
+          <div class="nav-mega-heading">שירותים</div>
+          ${linkList(SERVICE_LINKS)}
+        </div>
+        <div class="nav-mega-col">
+          <div class="nav-mega-heading">כלים</div>
+          ${linkList(TOOL_LINKS)}
+        </div>
+      </div>`;
+
+    const calcLi = Array.from(nav.children).find(li => {
+      const a = li.querySelector(':scope > a');
+      return a && (a.getAttribute('href') || '').indexOf('calculators') !== -1;
+    });
+    if (calcLi) calcLi.replaceWith(mega);
+    else {
+      const home = nav.firstElementChild;
+      if (home && home.nextElementSibling) nav.insertBefore(mega, home.nextElementSibling);
+      else nav.appendChild(mega);
+    }
+
+    const trigger = mega.querySelector('.nav-mega-trigger');
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      const open = mega.classList.toggle('is-open');
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', (e) => {
+      if (!mega.contains(e.target)) {
+        mega.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mega.classList.contains('is-open')) {
+        mega.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded', 'false');
+        trigger.focus();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMegaMenu);
+  } else {
+    initMegaMenu();
+  }
+  window.addEventListener('load', initMegaMenu);
+})();
+
+/* ═══════════════════════════════════════════════════════════════
    PREMIUM SIDE DRAWER — always-visible hamburger
    ═══════════════════════════════════════════════════════════════ */
 (function() {
@@ -795,16 +905,38 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         </div>
       </div>
 
+      <div class="drawer-services">
+        <div class="drawer-section-label">השירותים שלי</div>
+        <div class="drawer-services-grid">
+          <div>
+            <div class="drawer-col-label">שירותים</div>
+            <ul>
+              <li><a href="${pathPrefix}mashkanta-dira-rishona.html">משכנתא יד ראשונה</a></li>
+              <li><a href="${pathPrefix}mashkanta-yad-shniya.html">משכנתא יד שנייה</a></li>
+              <li><a href="${pathPrefix}mihzur-mashkanta.html">מחזור משכנתא</a></li>
+              <li><a href="${pathPrefix}ihud-halvaot-lemashkanta.html">איחוד הלוואות</a></li>
+              <li><a href="${pathPrefix}masurvei-bankim.html">מסורבי בנקים</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="drawer-col-label">כלים</div>
+            <ul>
+              <li><a href="${pathPrefix}ishur-ekroni.html">אישור עקרוני</a></li>
+              <li><a href="${pathPrefix}alut-mashkanta-kolel-bituach.html">עלות כוללת כולל ביטוח</a></li>
+              <li><a href="${pathPrefix}hashvaat-hatzaot-mashkanta.html">השוואת הצעות</a></li>
+              <li><a href="${pathPrefix}lifnei-shehotmim-mashkanta.html">לפני שחותמים</a></li>
+              <li><a href="${pathPrefix}calculators.html">מחשבונים</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <div class="drawer-nav">
         <div class="drawer-section-label">ניווט</div>
         <ul class="drawer-nav-list">
           <li><a href="${pathPrefix}index.html">
             <span class="icon-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3"/></svg></span>
             <span class="nav-text"><span class="title">דף הבית</span><span class="desc">הכרות עם השירות</span></span>
-          </a></li>
-          <li><a href="${pathPrefix}calculators.html">
-            <span class="icon-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg></span>
-            <span class="nav-text"><span class="title">מחשבונים</span><span class="desc">7 מחשבונים פיננסיים</span></span>
           </a></li>
           <li><a href="${pathPrefix}madrich-mashkanta.html">
             <span class="icon-box"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg></span>

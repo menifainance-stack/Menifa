@@ -109,6 +109,13 @@
     <priority>0.88</priority>
   </url>
   <url>
+    <loc>https://menifa.org/mashkanta-yad-shniya.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/mashkanta-yad-shniya.html"/>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+  </url>
+  <url>
     <loc>https://menifa.org/yoetz-mashkantaot.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/yoetz-mashkantaot.html"/>
     <lastmod>2026-09-15</lastmod>

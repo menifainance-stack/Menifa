@@ -52,6 +52,8 @@
 - [בלוג](https://menifa.org/blog.html): 74 מאמרי עומק על משכנתאות
 - [עליי — תמיר גרמה](https://menifa.org/about.html): רקע מקצועי, ניסיון, גישה
 - [יצירת קשר](https://menifa.org/contact.html): טלפון, וואטסאפ, טופס
+- [משכנתא יד ראשונה](https://menifa.org/mashkanta-dira-rishona.html): ליווי רכישה ראשונה
+- [משכנתא יד שנייה](https://menifa.org/mashkanta-yad-shniya.html): דירה נוספת או להשקעה — תקרת מימון רגולטורית, לא הבטחה
 
 ### מאמרים מובילים (74 מאמרים — 20 החדשים ביותר)
 - [מדד תשרי 2026 — מה זה אומר לקצבה הצמודה שלכם?](https://menifa.org/blog/art-74.html) — 2026-09-15
