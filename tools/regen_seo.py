@@ -22,6 +22,7 @@ from datetime import datetime, timezone, timedelta
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = "https://menifa.org"
+GITHUB_IO_HOST = "menifainance-stack.github.io"
 IL_TZ = timezone(timedelta(hours=3))
 
 # דפים ראשיים: (נתיב, priority, changefreq)
@@ -306,8 +307,22 @@ def write(name, content):
     print(f"  ✓ {name}")
 
 
+def assert_public_host():
+    """מונע פרסום canonical/og:url/JSON-LD עם כתובת github.io במקום menifa.org."""
+    bad = []
+    for pattern in (os.path.join(ROOT, "blog", "*.html"),
+                    os.path.join(ROOT, "*.html")):
+        for path in glob.glob(pattern):
+            with open(path, encoding="utf-8") as fh:
+                if GITHUB_IO_HOST in fh.read():
+                    bad.append(os.path.relpath(path, ROOT))
+    if bad:
+        sys.exit("כתובת github.io במקום %s ב: %s" % (SITE, ", ".join(bad)))
+
+
 def main():
     today = datetime.now(IL_TZ).strftime("%Y-%m-%d")
+    assert_public_host()
     arts = load_articles()
     if not arts:
         sys.exit("לא נמצאו מאמרים בתיקיית blog/ — עוצר.")
