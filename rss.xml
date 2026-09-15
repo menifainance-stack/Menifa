@@ -12,7 +12,7 @@
     <copyright>© מניפה פיננסית — תמיר גרמה</copyright>
     <managingEditor>menifainance@gmail.com (תמיר גרמה)</managingEditor>
     <webMaster>menifainance@gmail.com (תמיר גרמה)</webMaster>
-    <lastBuildDate>Sun, 13 Sep 2026 12:00:00 +0300</lastBuildDate>
+    <lastBuildDate>Tue, 15 Sep 2026 12:00:00 +0300</lastBuildDate>
     <generator>Menifa Editorial</generator>
     <image>
       <url>https://menifa.org/assets/images/tamir-og.jpg</url>
@@ -20,6 +20,15 @@
       <link>https://menifa.org/</link>
     </image>
 
+    <item>
+      <title>מדד תשרי 2026 — מה זה אומר לקצבה הצמודה שלכם?</title>
+      <link>https://menifa.org/blog/art-74.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-74.html</guid>
+      <description>מדד תשרי ספטמבר 2026 מתפרסם היום. מה השפעתו על ההחזר הצמוד, כמה זה עולה לכם בפועל, ומתי שווה לשקול מחזור?</description>
+      <pubDate>Tue, 15 Sep 2026 12:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>מדד</category>
+    </item>
     <item>
       <title>כמה באמת עולה דירה ב-2026 — 8 הוצאות נסתרות שרוב הרוכשים לא מחשבים</title>
       <link>https://menifa.org/blog/art-73.html</link>
@@ -280,15 +289,6 @@
       <pubDate>Tue, 07 Jul 2026 12:00:00 +0300</pubDate>
       <dc:creator>תמיר גרמה</dc:creator>
       <category>ריבית</category>
-    </item>
-    <item>
-      <title>תמהיל משכנתא יולי 2026 — כמה פריים, כמה קבועה ומה עם הצמוד?</title>
-      <link>https://menifa.org/blog/art-44.html</link>
-      <guid isPermaLink="true">https://menifa.org/blog/art-44.html</guid>
-      <description>ריבית 3.75%, פריים 5.25% ועוד הפחתות בדרך — איך בונים תמהיל משכנתא נכון ביולי 2026? ניתוח שלושת המסלולים, הסיכונים, וההמלצות לפי פרופיל הלווה.</description>
-      <pubDate>Sun, 05 Jul 2026 12:00:00 +0300</pubDate>
-      <dc:creator>תמיר גרמה</dc:creator>
-      <category>תמהיל</category>
     </item>
   </channel>
 </rss>
