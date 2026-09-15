@@ -20,12 +20,13 @@ const monthlyPayment = (principal, annualRate, years) => {
    Attempts live fetch, falls back to last-known values
    ═══════════════════════════════════════════════════════════════ */
 const MARKET_FALLBACK = {
-  boi: 3.25,         // ריבית בנק ישראל (ספטמבר 2026)
+  boi: 3.25,         // ריבית בנק ישראל — מדיניות (ספטמבר 2026)
   prime: 4.75,       // פריים = BoI + 1.5
   cpiMonthly: 0.3,   // % שינוי חודשי (יולי 2026)
   cpiYearly: 1.5,    // % שינוי שנתי (12 חודשים אחרונים)
   updateDate: 'ספטמבר 2026'
 };
+// ממוצעי מסלולי משכנתא (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
 
 function setMarketData(data) {
   const fmt = n => (n > 0 ? '+' : '') + n.toFixed(1) + '%';
@@ -68,6 +69,84 @@ async function fetchMarketData() {
   } catch (e) { /* keep fallback, expected when CORS blocks */ }
 }
 fetchMarketData();
+
+/* ═══════════════════════════════════════════════════════════════
+   BOI MORTGAGE AVERAGES — calculators.html panel
+   Policy rate stays on GetInterest / MARKET_FALLBACK.
+   Track averages come from assets/data/boi-mortgage-averages.json
+   ═══════════════════════════════════════════════════════════════ */
+function fmtBoiTrack(n, { exact = false } = {}) {
+  if (n == null || Number.isNaN(Number(n))) return null;
+  const t = Number(n).toFixed(2);
+  return exact ? t + '%' : '~' + t + '%';
+}
+
+function applyBoiMortgageAverages(data) {
+  const panel = document.getElementById('boi-averages-panel');
+  if (!panel || !data || !data.mortgageAverages) return;
+  const avg = data.mortgageAverages;
+  const tracks = avg.tracks || {};
+  const sourceUrl = avg.sourceUrl || 'https://www.boi.org.il/information/interestrates/mortgage/';
+
+  if (avg.periodMonth) panel.setAttribute('data-month', avg.periodMonth);
+
+  const periodEl = document.getElementById('boi-avg-period');
+  if (periodEl && avg.periodLabelHe) periodEl.textContent = avg.periodLabelHe;
+
+  const setTrack = (id, value, opts) => {
+    const node = document.getElementById(id);
+    if (!node) return;
+    const formatted = fmtBoiTrack(value, opts);
+    if (formatted) node.textContent = formatted;
+  };
+  setTrack('boi-avg-klac', tracks.klacApproxPercent);
+  setTrack('boi-avg-cpi', tracks.cpiLinkedApproxPercent);
+  setTrack('boi-avg-prime', tracks.primeTrackPercent, { exact: true });
+
+  const varRow = document.getElementById('boi-avg-var5-row');
+  const varEl = document.getElementById('boi-avg-var5');
+  if (varEl) {
+    const v = tracks.variable5yApproxPercent;
+    if (v == null || Number.isNaN(Number(v))) {
+      varEl.innerHTML = '';
+      const a = document.createElement('a');
+      a.href = sourceUrl;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.style.color = '#2D6F95';
+      a.textContent = 'ראו פרסום BOI';
+      varEl.appendChild(a);
+    } else {
+      varEl.textContent = fmtBoiTrack(v);
+    }
+  }
+  if (varRow) varRow.hidden = false;
+
+  const tip = document.getElementById('boi-avg-tip');
+  if (tip && tracks.klacApproxPercent != null) {
+    const conservative = Number(tracks.klacApproxPercent) + 0.2;
+    const shown = Math.round(conservative * 10) / 10;
+    tip.textContent = '💡 ברירת מחדל ≈ ממוצע קל״צ + 0.2% מרווח שמרני (≈' + shown.toFixed(1) + '%).';
+  }
+
+  const sourceLink = document.getElementById('boi-avg-source');
+  if (sourceLink) sourceLink.href = sourceUrl;
+}
+
+async function loadBoiMortgageAverages() {
+  const panel = document.getElementById('boi-averages-panel');
+  if (!panel) return;
+  const src = panel.getAttribute('data-source') || 'assets/data/boi-mortgage-averages.json';
+  try {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 4000);
+    const r = await fetch(src, { signal: ctrl.signal, cache: 'no-cache' });
+    if (!r.ok) return;
+    const data = await r.json();
+    applyBoiMortgageAverages(data);
+  } catch (e) { /* keep HTML fallback (יוני 2026) */ }
+}
+loadBoiMortgageAverages();
 
 /* ═══════════════════════════════════════════════════════════════
    SCROLL EFFECTS

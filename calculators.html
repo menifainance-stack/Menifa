@@ -35,7 +35,7 @@
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "dateCreated": "2026-06-01",
-  "dateModified": "2026-08-14",
+  "dateModified": "2026-09-16",
   "speakable": {
     "@type": "SpeakableSpecification",
     "cssSelector": ["h1", "h2", ".calc-intro"]
@@ -398,19 +398,23 @@
           </div>
 
           <!-- ═══ פאנל אינדיקציה — ממוצעי ריבית בנק ישראל (מתחת לפלט) ═══ -->
-          <div class="rate-indicator" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;font-size:0.88rem;line-height:1.65;">
+          <div class="rate-indicator" id="boi-averages-panel" data-month="2026-06" data-source="assets/data/boi-mortgage-averages.json" style="background:linear-gradient(135deg,rgba(91,175,216,0.08) 0%,rgba(125,201,163,0.08) 100%);border:1px solid rgba(91,175,216,0.25);border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;font-size:0.88rem;line-height:1.65;">
             <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-weight:700;color:#0E3C5C;">
               <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-              ממוצעי ריבית — בנק ישראל (מאי 2026)
+              ממוצעי ריבית — בנק ישראל (<span id="boi-avg-period">יוני 2026</span>)
             </div>
             <ul style="margin:0;padding-right:0;color:#1A2B45;list-style:none;">
-              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>קל"צ</span><strong>~4.7%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>ק"צ צמודה</span><strong>~3.5%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>משתנה (כל 5 שנים)</span><strong>~4.25%</strong></li>
-              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;"><span>פריים</span><strong>4.75%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>קל"צ</span><strong id="boi-avg-klac">~4.74%</strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>ק"צ צמודה</span><strong id="boi-avg-cpi">~3.45%</strong></li>
+              <li id="boi-avg-var5-row" style="display:flex;justify-content:space-between;padding:0.25rem 0;border-bottom:1px dashed rgba(91,175,216,0.2);"><span>משתנה (כל 5 שנים)</span><strong id="boi-avg-var5"><a href="https://www.boi.org.il/information/interestrates/mortgage/" target="_blank" rel="noopener" style="color:#2D6F95;">ראו פרסום BOI</a></strong></li>
+              <li style="display:flex;justify-content:space-between;padding:0.25rem 0;"><span>פריים</span><strong id="boi-avg-prime">4.75%</strong></li>
             </ul>
-            <p style="margin:0.7rem 0 0;font-size:0.78rem;color:#5C7090;">
-              💡 ברירת המחדל (4.9%) = ממוצע קל"צ + 0.2% מרווח שמרני.
+            <p id="boi-avg-tip" style="margin:0.7rem 0 0;font-size:0.78rem;color:#5C7090;">
+              💡 ברירת מחדל ≈ ממוצע קל״צ + 0.2% מרווח שמרני (≈4.9%).
+            </p>
+            <p style="margin:0.45rem 0 0;font-size:0.78rem;color:#5C7090;">
+              מקור: <a id="boi-avg-source" href="https://www.boi.org.il/information/interestrates/mortgage/" target="_blank" rel="noopener" style="color:#2D6F95;">בנק ישראל — ריביות משכנתא</a>
+              · ממוצעים משוקללים להלוואות חדשות. לא הצעת ריבית אישית.
             </p>
           </div>
 
@@ -1095,7 +1099,7 @@
     </ul>
 
     <h3>כמה אפשר לחסוך — במספרים אמיתיים</h3>
-    <p>לקוח אופייני עם משכנתא של 1.2M, יתרה של 900K, ריבית משוקללת של 5.5% (תמהיל ישן מ-2022-2023) — מיחזור לריבית משוקללת של 4.2% (משלב קל"צ 4.7%, צמוד 3.5%, פריים 4.55% — לפי <a href="https://www.boi.org.il/information/interestrates/mortgage/" target="_blank" rel="noopener">בנק ישראל מאי 2026</a>) חוסך לו <strong>כ-₪660 בחודש, סה"כ ₪158,000 על פני 20 שנים נותרות</strong>.</p>
+    <p>לקוח אופייני עם משכנתא של 1.2M, יתרה של 900K, ריבית משוקללת של 5.5% (תמהיל ישן מ-2022-2023) — מיחזור לריבית משוקללת של 4.2% (משלב קל"צ ~4.74%, צמוד ~3.45%, פריים 4.75% — לפי <a href="https://www.boi.org.il/information/interestrates/mortgage/" target="_blank" rel="noopener">ממוצעי בנק ישראל יוני 2026</a>) חוסך לו <strong>כ-₪660 בחודש, סה"כ ₪158,000 על פני 20 שנים נותרות</strong>. דוגמה להמחשה בלבד.</p>
 
     <div class="article-cta">
       <p>קבלו הערכת חיסכון אישית חינם.</p>
@@ -1512,7 +1516,7 @@
 </div>
 
 
-<script src="assets/script.js?v=2026-06-10j"></script>
+<script src="assets/script.js?v=2026-09-16-boi"></script>
 <script src="assets/lead-capture.js?v=2026-09-06"></script>
 </body>
 </html>
