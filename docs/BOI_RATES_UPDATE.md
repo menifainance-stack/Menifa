@@ -2,7 +2,14 @@
 
 **מקור אמת למסלולים:** `assets/data/boi-mortgage-averages.json`  
 **ריבית מדיניות / פריים (fallback):** `MARKET_FALLBACK` ב־`assets/script.js` (שליפה חיה: `GetInterest`)  
-**תצוגה:** פאנל «ממוצעי ריבית» ב־`calculators.html` (`#boi-averages-panel`)
+**תצוגה:** שני בלוקים נפרדים ב־`calculators.html`:
+- `#boi-averages-panel` — ממוצעי מסלול לחודש הדיווח האחרון שפורסם
+- `#boi-policy-panel` — ריבית בנק ישראל / פריים עדכניים
+
+**אומת לאחרונה:** אוגוסט 2026 (`2026-08`), בתוקף מ־`2026-09-15`.  
+קל״צ (לא צמוד) **4.58%** · צמוד מדד **3.45%**.  
+ריבית מדיניות **3.25%** / פריים **4.75%** (GetInterest) — **לא** תחת תווית חודש הממוצעים.  
+חודש ספטמבר 2026 **טרם פורסם** — אין להמציא ממוצעי מסלול לספטמבר.
 
 אין להקשיח חודש ישן בכותרת הפאנל. אחרי כל פרסום BOI — לעדכן JSON, לפרוס, ולוודא שהחודש בכותרת תואם ל־`periodLabelHe`.
 
@@ -15,27 +22,35 @@
 
 | נתון | איפה | מקור |
 |------|------|------|
-| ריבית בנק ישראל + פריים | `MARKET_FALLBACK` + `GetInterest` | `https://www.boi.org.il/PublicApi/GetInterest` |
-| ממוצעי מסלולים (קל״צ, צמוד, וכו׳) | JSON `mortgageAverages` | [ריביות משכנתא — BOI](https://www.boi.org.il/information/interestrates/mortgage/) |
+| ריבית בנק ישראל + פריים | `MARKET_FALLBACK` + `GetInterest` + `#boi-policy-panel` | `https://www.boi.org.il/PublicApi/GetInterest` |
+| ממוצעי מסלולים (קל״צ, צמוד, וכו׳) | JSON `mortgageAverages` + `#boi-averages-panel` | [ריביות משכנתא — BOI](https://www.boi.org.il/information/interestrates/mortgage/) |
 
 **התראת סוכן יומי:** אם `mortgageAverages.periodMonth` ישן מ־**45 יום** ביחס להיום — להתריע לתמיר שעדיין מוצג חודש דיווח ישן (ייתכן שטרם פורסם פירוט חדש; לא להמציא מספרים).
 
 ## צ׳ק־ליסט אחרי פרסום ממוצעים חדשים
 
 1. לפתוח את [דף ריביות המשכנתא של בנק ישראל](https://www.boi.org.il/information/interestrates/mortgage/) ולאמת את **חודש הדיווח** ואת הממוצעים לפי מסלול.
-2. לעדכן ב־`assets/data/boi-mortgage-averages.json`:
-   - `periodMonth` (`YYYY-MM`) ו־`periodLabelHe` (למשל `יולי 2026`)
-   - `tracks.klacApproxPercent`, `tracks.cpiLinkedApproxPercent`, `tracks.primeTrackPercent`
+2. לעדכן ב־`assets/data/boi-mortgage-averages.json` בלבד (לא `assets/boi-mortgage-averages.json` — נתיב זה 404):
+   - `periodMonth` (`YYYY-MM`) ו־`periodLabelHe` (למשל `אוגוסט 2026` — החודש בלבד)
+   - `tracks.klacApproxPercent`, `tracks.cpiLinkedApproxPercent`
    - `tracks.variable5yApproxPercent` — **רק אם יש מספר מאומת**. אחרת להשאיר `null` (הפאנל מציג «ראו פרסום BOI», בלי להמציא).
+   - **לא** לשים 3.25 / 4.75 תחת `tracks` — מדיניות נשארת ב־`policyRate`.
    - `checkedAt` להיום; `notesHe` אם השתנה הניסוח.
 3. אם השתנתה **ריבית המדיניות**: לעדכן `policyRate` ב־JSON **וגם** `MARKET_FALLBACK` ב־`assets/script.js` (`boi`, `prime` = BoI+1.5, `updateDate`). לא לגעת ב־`GetInterest` — השליפה החיה נשארת.
-4. בפאנל `calculators.html`: ערכי ברירת־מחדל ב־HTML (noscript/לפני הטעינה) חייבים להתאים ל־JSON. הכותרת נטענת מ־`periodLabelHe`. ברירת המחדל של סליידר המיחזור: **ממוצע קל״צ + 0.2% מרווח שמרני** (מעוגל לתצוגה, כיום ≈4.9%).
+4. בפאנל `calculators.html`:
+   - כותרת נראית: `ממוצע משכנתאות — {periodLabelHe} (פרסום אחרון של בנק ישראל)`.
+   - `#boi-avg-period` מקבל רק את שם החודש מ־JSON; ההבהרה «פרסום אחרון של בנק ישראל» קשיחה ב־HTML.
+   - ערכי ברירת־מחדל ב־HTML חייבים להתאים ל־JSON (גם לפני טעינת הסקריפט).
+   - בלוק נפרד: `ריבית בנק ישראל 3.25% / פריים 4.75% — עדכני` (`#boi-policy-panel`).
+   - ברירת המחדל של סליידר המיחזור: **ממוצע קל״צ + 0.2% מרווח שמרני** (מעוגל לתצוגה, כיום ≈4.8%).
 5. אם יש דוגמת מיחזור ב־`calculators.html` שמצטטת ממוצעי BOI — לעדכן חודש + מסלולים. **לא** לשכתב מאמרי בלוג היסטוריים באותו הוטפיקס.
-6. קומיט + דחיפה ל־`main` (דף סטטי; הפריסה ל־menifa.org תוך דקות).
-7. אימות חי: [calculators.html](https://menifa.org/calculators.html) — כותרת הפאנל מציגה את `periodLabelHe` החדש, **לא** חודש ישן.
+6. קומיט + דחיפה ל־`main` (דף סטטי; הפריסה ל־menifa.org תוך דקות). לבסט קאש של `assets/script.js`.
+7. אימות חי: [calculators.html](https://menifa.org/calculators.html) — הכותרת מציגה אוגוסט (או החודש החדש) + «פרסום אחרון של בנק ישראל», **לא** חודש ישן ולא ספטמבר לפני פרסום.
 
 ## מה אסור
 
 - להמציא מסלול ש־BOI לא פרסם לפירוט (`null` ≠ ניחוש).
-- להחליף ממוצע מסלולים בריבית מדיניות, או להפך.
+- לכתוב «ספטמבר» על ממוצעי מסלול לפני שפורסם חודש הדיווח.
+- להחליף ממוצע מסלולים בריבית מדיניות, או להפך — וגם לא לשים 3.25/4.75 תחת תווית חודש הממוצעים.
 - לעדכן רק את ה־HTML בלי את ה־JSON (או להפך) — הם חייבים להיות מסונכרנים.
+- להשתמש בנתיב `assets/boi-mortgage-averages.json` (404). הסקריפט טוען רק `assets/data/boi-mortgage-averages.json`.

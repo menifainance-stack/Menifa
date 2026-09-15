@@ -43,6 +43,8 @@ function setMarketData(data) {
 
   set('m-boi', fmtRate(data.boi));
   set('m-prime', fmtRate(data.prime));
+  set('boi-policy-rate', fmtRate(data.boi));
+  set('boi-policy-prime', fmtRate(data.prime));
   set('m-cpi-m', fmt(data.cpiMonthly));
   set('m-cpi-y', data.cpiYearly.toFixed(1) + '%');
   set('m-update', data.updateDate);
@@ -85,13 +87,27 @@ fetchMarketData();
 
 /* ═══════════════════════════════════════════════════════════════
    BOI MORTGAGE AVERAGES — calculators.html panel
-   Policy rate stays on GetInterest / MARKET_FALLBACK.
-   Track averages come from assets/data/boi-mortgage-averages.json
+   Policy rate stays on GetInterest / MARKET_FALLBACK (separate block).
+   Track averages come ONLY from assets/data/boi-mortgage-averages.json
+   Never invent an unpublished month (Sept 2026 not published as of 2026-09-16).
    ═══════════════════════════════════════════════════════════════ */
-function fmtBoiTrack(n, { exact = false } = {}) {
+const BOI_AVERAGES_JSON_PATH = 'assets/data/boi-mortgage-averages.json';
+const BOI_AVERAGES_FALLBACK = {
+  mortgageAverages: {
+    periodMonth: '2026-08',
+    periodLabelHe: 'אוגוסט 2026',
+    sourceUrl: 'https://www.boi.org.il/information/interestrates/mortgage/',
+    tracks: {
+      klacApproxPercent: 4.58,
+      cpiLinkedApproxPercent: 3.45,
+      variable5yApproxPercent: null
+    }
+  }
+};
+
+function fmtBoiTrack(n) {
   if (n == null || Number.isNaN(Number(n))) return null;
-  const t = Number(n).toFixed(2);
-  return exact ? t + '%' : '~' + t + '%';
+  return Number(n).toFixed(2) + '%';
 }
 
 function applyBoiMortgageAverages(data) {
@@ -103,18 +119,20 @@ function applyBoiMortgageAverages(data) {
 
   if (avg.periodMonth) panel.setAttribute('data-month', avg.periodMonth);
 
+  // Visible title stays «ממוצע משכנתאות — {period} (פרסום אחרון של בנק ישראל)».
+  // periodLabelHe is the month only — never write September onto averages.
   const periodEl = document.getElementById('boi-avg-period');
   if (periodEl && avg.periodLabelHe) periodEl.textContent = avg.periodLabelHe;
 
-  const setTrack = (id, value, opts) => {
+  const setTrack = (id, value) => {
     const node = document.getElementById(id);
     if (!node) return;
-    const formatted = fmtBoiTrack(value, opts);
+    const formatted = fmtBoiTrack(value);
     if (formatted) node.textContent = formatted;
   };
   setTrack('boi-avg-klac', tracks.klacApproxPercent);
   setTrack('boi-avg-cpi', tracks.cpiLinkedApproxPercent);
-  setTrack('boi-avg-prime', tracks.primeTrackPercent, { exact: true });
+  // Policy / prime must NOT be written under the averages-month label.
 
   const varRow = document.getElementById('boi-avg-var5-row');
   const varEl = document.getElementById('boi-avg-var5');
@@ -149,15 +167,18 @@ function applyBoiMortgageAverages(data) {
 async function loadBoiMortgageAverages() {
   const panel = document.getElementById('boi-averages-panel');
   if (!panel) return;
-  const src = panel.getAttribute('data-source') || 'assets/data/boi-mortgage-averages.json';
+  applyBoiMortgageAverages(BOI_AVERAGES_FALLBACK);
   try {
     const ctrl = new AbortController();
     setTimeout(() => ctrl.abort(), 4000);
-    const r = await fetch(src, { signal: ctrl.signal, cache: 'no-cache' });
+    const r = await fetch(BOI_AVERAGES_JSON_PATH + '?v=2026-08', {
+      signal: ctrl.signal,
+      cache: 'no-store'
+    });
     if (!r.ok) return;
     const data = await r.json();
     applyBoiMortgageAverages(data);
-  } catch (e) { /* keep HTML fallback (יוני 2026) */ }
+  } catch (e) { /* keep JS/HTML fallback — אוגוסט 2026 */ }
 }
 loadBoiMortgageAverages();
 
