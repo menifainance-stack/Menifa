@@ -768,10 +768,10 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
   ];
   const TOOL_LINKS = [
     { href: 'ishur-ekroni.html', label: 'אישור עקרוני' },
-    { href: 'alut-mashkanta-kolel-bituach.html', label: 'עלות כוללת כולל ביטוח' },
     { href: 'hashvaat-hatzaot-mashkanta.html', label: 'השוואת הצעות' },
     { href: 'lifnei-shehotmim-mashkanta.html', label: 'לפני שחותמים' },
-    { href: 'calculators.html', label: 'מחשבונים' }
+    { href: 'calculators.html', label: 'מחשבונים' },
+    { href: 'alut-mashkanta-kolel-bituach.html', label: 'עלות כוללת כולל ביטוח' }
   ];
 
   function linkList(items) {
@@ -922,10 +922,10 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
             <div class="drawer-col-label">כלים</div>
             <ul>
               <li><a href="${pathPrefix}ishur-ekroni.html">אישור עקרוני</a></li>
-              <li><a href="${pathPrefix}alut-mashkanta-kolel-bituach.html">עלות כוללת כולל ביטוח</a></li>
               <li><a href="${pathPrefix}hashvaat-hatzaot-mashkanta.html">השוואת הצעות</a></li>
               <li><a href="${pathPrefix}lifnei-shehotmim-mashkanta.html">לפני שחותמים</a></li>
               <li><a href="${pathPrefix}calculators.html">מחשבונים</a></li>
+              <li><a href="${pathPrefix}alut-mashkanta-kolel-bituach.html">עלות כוללת כולל ביטוח</a></li>
             </ul>
           </div>
         </div>
