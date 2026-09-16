@@ -27,6 +27,10 @@ button { width:100%; margin-top:18px; padding:14px; border:0; border-radius:12px
 .meta { margin-top:12px; font-size:.8rem; color:var(--muted); line-height:1.5; }
 .warn { margin-top:10px; background:#2a2214; color:var(--warn); padding:10px; border-radius:10px; font-size:.85rem; }
 .hint { font-size:.75rem; color:var(--muted); margin-top:4px; line-height:1.35; }
+.gaps { background:var(--card); border:1px solid var(--gold); border-radius:12px; padding:12px; margin:0 0 16px; }
+.gaps h2 { font-size:.9rem; margin:0 0 8px; color:var(--gold); }
+.gaps ul { margin:0; padding-right:18px; font-size:.8rem; line-height:1.5; color:var(--txt); }
+.gaps li { margin-bottom:8px; }
 </style>
 </head>
 <body>
@@ -34,6 +38,15 @@ button { width:100%; margin-top:18px; padding:14px; border:0; border-radius:12px
 <h1>מחשבון ביטוח חיים (ריסק)</h1>
 <p class="sub">כלי פנימי לתמיר ולשותף · תעריף ריסק 1 (05.2026) + הנחות מכונות מעודכן</p>
 <div class="disc">כלי פנימי להערכה בלבד. <strong>אינו הצעת מחיר מחייבת</strong> מחברת ביטוח ואינו ייעוץ ביטוחי מורשה. גם כשמחושב מתעריפון/הנחות רשמיים — התוצאה היא אומדן פנימי בלבד; התעריפים הקובעים הם אלו שבמחשבי החברה במועד הפקת הפוליסה (כפי שמצוין בתעריפון).</div>
+
+<div class="gaps" role="note">
+  <h2>פערים במקורות — גלוי, לא ניחוש</h2>
+  <ul>
+    <li><strong>שם החברה</strong> לא מודפס ב־PDF של תעריף ריסק 1 ולא בטבלת המכונות. הדרופדאון הוא תווית תיק בלבד — אין קישור של התעריף לכלל / הפניקס / מגדל.</li>
+    <li><strong>אות הנחה א–ו</strong> — אין מקרא מלא במקור (UNKNOWN). בוחרים אות בלבד. אין לקרוא לזה «שנת פוליסה» בלי אישור.</li>
+    <li><strong>דמי פוליסה / סליקה / עמלות כרטיס</strong> לא מופיעים במקורות. האומדן הוא פרמיית ריסק בלבד — בלי דמי פוליסה.</li>
+  </ul>
+</div>
 
 <div class="row2">
   <div>
@@ -73,7 +86,7 @@ button { width:100%; margin-top:18px; padding:14px; border:0; border-radius:12px
 <label for="code">קוד הסכם הנחה</label>
 <select id="code"></select>
 
-<label for="letter">עמודת הנחה א׳–ו׳</label>
+<label for="letter">אות הנחה א׳–ו׳ (מקרא = UNKNOWN)</label>
 <select id="letter">
   <option value="א" selected>א׳</option>
   <option value="ב">ב׳</option>
@@ -182,9 +195,10 @@ function calc(){
   }
 
   document.getElementById('meta').innerHTML =
-    'הנחה שהוחלה: <b>' + pct + '%</b> · קוד ' + code + ' · עמודה ' + letter + '<br>' +
+    'הנחה שהוחלה: <b>' + pct + '%</b> · קוד ' + code + ' · אות הנחה ' + letter + ' (מקרא UNKNOWN)<br>' +
     'שיעור בסיס: ' + base + ' ₪ לשנה לכל 1,000 ₪ כיסוי<br>' +
-    'חברה (תווית בלבד, לא משפיעה): ' + companyLabel + '<br>' +
+    'חברה: ' + companyLabel + ' — תווית בלבד. שם החברה לא מודפס בתעריף ריסק 1.<br>' +
+    'דמי פוליסה / סליקה / עמלות: לא במקורות — לא חושבו.<br>' +
     'מקור: תעריף ריסק 1 · 05.2026 · הנחות «מכונות מעודכן»';
 
   out.style.display = 'block';
