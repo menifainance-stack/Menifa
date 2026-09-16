@@ -1,4 +1,4 @@
-/* מניפה — motion + quiz · internal preview */
+/* מניפה — motion + Luski/financeb quiz · internal preview */
 (function () {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -12,7 +12,7 @@
     if (bar) bar.style.width = pct + "%";
   };
 
-  /* Sticky header state */
+  /* Sticky header state — navy chrome stays navy */
   const header = $(".site-header");
   const onHeader = () => {
     if (!header) return;
@@ -82,53 +82,63 @@
     });
   });
 
-  /* Quiz — Menifa voice (relevance check, not eligibility promise) */
+  /* Quiz — financeb 10Q source copy (Luski voice) */
   const quiz = $("[data-quiz]");
   if (quiz) {
     const questions = [
       {
-        title: "מה הכי לוחץ עכשיו?",
-        opts: [
-          "ההחזר החודשי של המשכנתא",
-          "הלוואות בצד מעל המשכנתא",
-          "סירוב מהבנק / קושי לקבל אישור",
-          "רוצים לבדוק מיחזור לפני שמחליטים",
-        ],
+        title: "מה הסיבה העיקרית לפנייה שלכם?",
+        opts: ["חובות מצטברים", "משכנתא גבוהה", "הלוואות רבות", "עסק בקשיים", "רוצים לתכנן נכון", "אחר"],
       },
       {
-        title: "יש לכם דירה עם משכנתא פעילה?",
-        opts: ["כן", "בתהליך רכישה / דירה ראשונה", "עדיין לא", "לא בטוחים"],
+        title: "כמה הלוואות פעילות יש לכם כרגע?",
+        opts: ["אין הלוואות", "הלוואה אחת", "2-3 הלוואות", "4 הלוואות ומעלה"],
       },
       {
-        title: "איך נסגר החודש?",
-        opts: [
-          "נסגר בדוחק",
-          "הלוואות בצד כל חודש",
-          "ההחזר לא משאיר אוויר",
-          "בסדר יחסית — רוצים לבדוק בכל זאת",
-        ],
+        title: "האם יש לכם מינוס קבוע בחשבון הבנק?",
+        opts: ["אין מינוס", "מינוס עד 5,000 ₪", "מינוס 5,000-20,000 ₪", "מינוס מעל 20,000 ₪"],
       },
       {
-        title: "כמה הלוואות יש מחוץ למשכנתא?",
-        opts: ["אין", "1–2", "3 ומעלה", "לא בטוחים במספר"],
+        title: "מה סך ההחזרים החודשיים שלכם (הלוואות + אשראי)?",
+        opts: ["עד 2,000 ₪", "2,000–5,000 ₪", "5,000–10,000 ₪", "מעל 10,000 ₪", "לא יודע/ת"],
       },
       {
-        title: "מה חשוב לכם לבדוק קודם?",
-        opts: [
-          "אם מיחזור בכלל משתלם",
-          "אם איחוד הלוואות הגיוני",
-          "למה הבנק אמר לא",
-          "עלות כוללת — לא רק ריבית",
-        ],
+        title: "האם יש לכם נכס (דירה / רכב) בבעלותכם?",
+        opts: ["דירה בבעלותי", "רכב בבעלותי", "דירה + רכב", "אין נכסים"],
       },
       {
-        title: "איך נוח לכם להמשיך?",
-        opts: [
-          "וואטסאפ — לתיאום שיחה",
-          "שיחה טלפונית קצרה",
-          "השארת פרטים ונחזור",
-          "עוד לא — רק רציתי לבדוק",
-        ],
+        title: "מה רמת ההכנסה החודשית נטו של המשפחה?",
+        opts: ["עד 8,000 ₪", "8,000–15,000 ₪", "15,000–25,000 ₪", "מעל 25,000 ₪", "מעדיף/ה לא לציין"],
+      },
+      {
+        title: "האם פניתם בעבר לייעוץ פיננסי?",
+        opts: ["לא, זו הפעם הראשונה", "כן, אבל לא עזר", "כן, וזה עזר חלקית", "כן, ואני מחפש/ת פתרון חדש"],
+      },
+      {
+        title: "האם קיבלתם לאחרונה סירוב לאשראי או הלוואה?",
+        opts: ["לא", "כן, פעם אחת", "כן, מספר פעמים", "לא ניסיתי לבקש"],
+      },
+      {
+        title: "מה הדבר שהכי מטריד אתכם מבחינה כלכלית?",
+        opts: ["אי יכולת לחסוך", "חוסר שליטה בהוצאות", "לחץ מנושים", "חוסר ודאות לגבי העתיד"],
+      },
+      {
+        title: "מה המטרה העיקרית שלכם?",
+        opts: ["להיפטר מחובות", "להוריד החזרים חודשיים", "לקבל משכנתא", "לבנות תכנית פיננסית סדורה"],
+      },
+    ];
+    const results = [
+      {
+        t: "המצב שלכם דורש טיפול מקצועי דחוף",
+        b: "על סמך התשובות שלכם, נראה שאתם נמצאים במצב פיננסי שדורש התערבות מהירה של מומחה. אל תחכו – ככל שמטפלים מוקדם יותר, כך הפתרונות טובים יותר.",
+      },
+      {
+        t: "מצבכם הפיננסי דורש בדיקה מקצועית",
+        b: "זיהינו מספר נקודות שדורשות תשומת לב. פגישת ייעוץ מקצועית תעזור לכם למפות את המצב ולבנות תכנית פעולה ממוקדת.",
+      },
+      {
+        t: "אתם על הדרך הנכונה!",
+        b: "נראה שהמצב הפיננסי שלכם יציב יחסית. עם זאת, ייעוץ מקצועי יכול לעזור לכם למקסם את הפוטנציאל ולתכנן את העתיד בצורה חכמה יותר.",
       },
     ];
 
@@ -164,7 +174,7 @@
             } else {
               showResult();
             }
-          }, 280);
+          }, 220);
         });
         optsEl.appendChild(btn);
       });
@@ -174,11 +184,12 @@
     const showResult = () => {
       qbox.style.display = "none";
       result.classList.add("show");
-      const h = $("h3", result);
-      const p = $(".lede", result);
-      h.textContent = "מה לבדוק עכשיו";
-      p.textContent =
-        "אם כמה מהסעיפים נכונים לכם — שווה שיחה קצרה. שמים על השולחן משכנתא, הלוואות, ומה נשאר בפועל. בלי הבטחה מראש כמה יישאר בכיס.";
+      const heavy = answers.filter(
+        (a, n) => (n === 1 && a >= 2) || (n === 2 && a >= 2) || (n === 3 && a >= 2)
+      ).length;
+      const r = heavy >= 2 ? results[0] : heavy === 1 ? results[1] : results[2];
+      $("h3", result).textContent = r.t;
+      $(".lede", result).textContent = r.b;
     };
 
     backBtn.addEventListener("click", () => {
@@ -197,23 +208,31 @@
       e.preventDefault();
       const note = form.querySelector("[data-form-note]");
       if (note) {
-        note.textContent = "תודה. נחזור אליכם בהקדם לתיאום — או פתחו וואטסאפ עכשיו.";
+        note.textContent = "הפרטים נשלחו בהצלחה! נחזור אליכם בהקדם. (תצוגה מקדימה — אין שליחה אמיתית)";
       }
-      const wa = "https://wa.me/972524502821?text=" + encodeURIComponent("שלום תמיר, הגעתי מאתר מניפה ואשמח לתיאום שיחה.");
+      const wa =
+        "https://wa.me/972524502821?text=" +
+        encodeURIComponent("שלום, אשמח לקבוע פגישת ייעוץ חינם.");
       window.open(wa, "_blank", "noopener");
     });
   });
 
-  /* Mobile nav toggle (minimal) */
+  /* Mobile nav toggle */
   const menuBtn = $(".menu-btn");
   const mobileNav = $("[data-mobile-nav]");
   if (menuBtn && mobileNav) {
     menuBtn.addEventListener("click", () => {
-      const open = mobileNav.classList.toggle("open");
+      const open = !mobileNav.classList.contains("open");
+      mobileNav.classList.toggle("open", open);
+      mobileNav.hidden = !open;
       menuBtn.setAttribute("aria-expanded", open ? "true" : "false");
     });
     $$("a", mobileNav).forEach((a) =>
-      a.addEventListener("click", () => mobileNav.classList.remove("open"))
+      a.addEventListener("click", () => {
+        mobileNav.classList.remove("open");
+        mobileNav.hidden = true;
+        menuBtn.setAttribute("aria-expanded", "false");
+      })
     );
   }
 })();

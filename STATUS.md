@@ -1,20 +1,18 @@
 # STATUS — menifa-over-luski-upgrade
 
-**Updated:** 2026-09-16 ~21:32 IDT (Asia/Jerusalem)
+**Updated:** 2026-09-16 ~22:30 IDT (Asia/Jerusalem)
 
 | Item | Status |
 |------|--------|
-| `index.html` scrollable Menifa homepage | DONE |
-| Luski+2 craft (motion, type, glass, sticky) | DONE |
-| Menifa identity + tokens only | DONE |
-| Menifa voice (no competitor savings claims) | DONE |
-| Insurance secondary closer only | DONE |
-| `compare.html` side-by-side | DONE |
-| Luxury BGs from selected/ | DONE (hero: 03-penthouse-night) |
+| Sticky navy financeb header (logo right · nav center · gold CTA + phone outline) | DONE |
+| Luski source Hebrew marketing copy (financeb-COPY + daily-content source-copy) | DONE |
+| Identity wordmark מניפה פיננסית / תמיר גרמה in logo slot | DONE |
+| `index.html` + `assets/css/menifa.css` + `assets/js/menifa.js` | UPDATED |
+| `compare.html` still works | DONE |
+| Public noindex (not menifa.org main) | DONE · **not** merged to main |
 | Serve port 8780 | RUNNING |
-| QC desktop + mobile screenshots | DONE in `qc/` |
-| Public noindex (not menifa.org main) | orphan Preview branch · Vercel · **not** merged to main |
-| Merge to menifa.org main | **FORBIDDEN / not done** |
+| QC desktop header close-up + hero | DONE in `qc/` |
+| Pack tar.gz <20MB | DONE |
 
 ## Open URLs (local)
 - http://127.0.0.1:8780/index.html
@@ -22,13 +20,14 @@
 
 ## Paths
 - Folder: `/workspace/mortgage-ops/deliverables/website-landing/menifa-over-luski-upgrade/`
-- Pack: `/workspace/mortgage-ops/deliverables/website-landing/menifa-over-luski-upgrade.tar.gz` (~6.0MB)
+- Pack: `/workspace/mortgage-ops/deliverables/website-landing/menifa-over-luski-upgrade.tar.gz`
 
-## QC screenshots
+## QC screenshots (new)
+- `qc/menifa-desktop-header-closeup-1440.png` (+ `.jpg`)
 - `qc/menifa-desktop-hero-1440.png` (+ `.jpg`)
-- `qc/menifa-desktop-mid-1440.png`
-- `qc/menifa-desktop-fullpage-1440.png` / `.jpg`
-- `qc/menifa-mobile-hero-390.png` (+ `.jpg`)
-- `qc/menifa-mobile-sticky-390.png`
-- `qc/menifa-mobile-fullpage-390.png` / `.jpg`
-- `qc/compare-desktop-1440.png` (+ `.jpg`)
+- `qc/menifa-desktop-mid-1440.png` / fullpage / mobile / compare
+
+## Copy sources applied
+- Primary: `competitor-intel/2026-09-16-luski-clone-lab-evidence/copy-layer/financeb-COPY.md`
+- Also: `daily-content/2026-09-16-luski-clone-lab-source-copy.md` §financeb
+- Header craft: `competitor-intel/2026-09-16-luski-style-system-extraction.md` §financeb header + clone-lab lab.css
