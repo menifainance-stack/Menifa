@@ -12,10 +12,15 @@ Disallow: /preview-*.html
 Disallow: /mockups.html
 Disallow: /mockups/
 Disallow: /bmf-hub.html
+Disallow: /internal/
+Disallow: /internal/shilat-life-calc.html
+Disallow: /pilot/
 
 # === Google ===
 User-agent: Googlebot
 Allow: /
+Disallow: /internal/
+Disallow: /pilot/
 
 User-agent: Googlebot-Image
 Allow: /
