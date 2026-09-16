@@ -1,18 +1,16 @@
-# מניפה פיננסית — אתר רשמי
+# Menifa SaaS MVP — PUBLIC noindex Preview
 
-אתר ייעוץ משכנתאות פרימיום בישראל. תמיר גרמה — יועץ משכנתאות מוסמך עם 10 שנות ניסיון.
+**DO NOT MERGE this orphan branch into `main`.**
 
-🌐 **אתר חי**: https://manifa-financial.co.il
-📞 **טלפון**: 052-4502821
-✉️ **מייל**: menifainance@gmail.com
+This branch is a standalone static preview of the MyShkanta-style 5-screen MVP.
+It must never replace [menifa.org](https://menifa.org/) or the production homepage.
 
-## תכולה
-- מחשבונים פיננסיים (משכנתא, קופת גמל, DTI, מיחזור, הון עצמי, מדד, נטו לעצמאי)
-- מאמרים מקצועיים על משכנתאות, השקעות והתנהלות כלכלית
-- נתוני שוק מתעדכנים יומית (ריבית בנק ישראל, מדד מחירים לצרכן)
-- נגישות מלאה לפי תקן WCAG 2.1 AA
+| Hash | Screen |
+|---|---|
+| `#home` | Dashboard |
+| `#chat` | AI advisor demo |
+| `#sim` | Mix + simulator |
+| `#docs` | Document checklist |
+| `#pricing` | Plans / accompaniment |
 
-## אוטומציה
-- **יומי 9:00 בבוקר**: סוכן Claude מעדכן את נתוני הריבית והמדד
-- **חודשי**: מאמר חדש בבלוג
-- **התראות**: מייל (Resend) + WhatsApp (CallMeBot)
+Crawlers: `noindex,nofollow,noarchive` via meta + `X-Robots-Tag` + `robots.txt` `Disallow: /`.
