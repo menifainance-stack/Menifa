@@ -227,6 +227,18 @@ details.shilat-more summary {
 .shilat-howto ol { padding-right: 1.15rem; margin: 0.4rem 0 0; }
 .shilat-unknown { font-size: 0.8rem; color: var(--gray, #5C6068); }
 
+.shilat-gaps {
+  background: #FFFBF4;
+  border-color: #E2C48A;
+}
+.shilat-gaps ul {
+  margin: 0;
+  padding-right: 1.15rem;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+.shilat-gaps li { margin-bottom: 0.45rem; }
+
 .shilat-method {
   display: inline-block;
   margin-top: 0.35rem;

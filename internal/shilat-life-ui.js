@@ -147,9 +147,11 @@
       '<div class="shilat-row"><span>שיעור בסיס (₪ שנתי ל־1,000)</span><span id="base-rate">' + rate(out.base_rate_annual_per_1000) + '</span></div>' +
       discountRow +
       '<div class="shilat-row"><span>שיעור נטו אחרי הנחה</span><span id="net-rate">' + rate(out.net_rate_annual_per_1000) + '</span></div>' +
-      '<div class="shilat-row"><span>חברה בתעריפון</span><span>' + (out.company || 'לא מזוהה במקור') + '</span></div>' +
+      '<div class="shilat-row"><span>חברה בתעריפון</span><span>' + (out.company || 'לא מודפס במקור — ריק') + '</span></div>' +
       '<div class="shilat-row"><span>מוצר</span><span>תעריף ריסק 1</span></div>' +
+      '<div class="shilat-row"><span>דמי פוליסה / סליקה / עמלות</span><span>לא במקורות — לא חושבו</span></div>' +
       '</div>' +
+      '<div class="shilat-note">אות הנחה א–ו מוצגת כפי שנבחרה בטבלה. אין מקרא במקור — לא הומצאה משמעות.</div>' +
       warnHtml +
       loadingNote +
       '<details class="shilat-more"><summary>דגלי חיתום / מסמכים — לא חלק מהפרמיה</summary>' +

@@ -217,6 +217,7 @@ test('company stays null unless provided — no invented insurer name', function
   assert.strictEqual(out.company, null);
   assert.ok(out.unknown_fields.indexOf('tariff_company_name') !== -1);
   assert.ok(out.unknown_fields.indexOf('discount_year_letter_meaning') !== -1);
+  assert.ok(out.unknown_fields.indexOf('policy_fees_settlement_card_fees') !== -1);
 });
 
 test('underwriting flags do not change premium', function () {

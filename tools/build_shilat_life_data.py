@@ -53,6 +53,7 @@ payload = {
         "discount_year_letter_meaning",
         "tariff_company_name",
         "discount_table_company_name",
+        "policy_fees_settlement_card_fees",
     ],
     "official_risk1": tariff,
     "agreements": agreements,
