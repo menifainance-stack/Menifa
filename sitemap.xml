@@ -166,6 +166,13 @@
     <priority>0.92</priority>
   </url>
   <url>
+    <loc>https://menifa.org/blog/mihzur-mashkanta-bituach.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/mihzur-mashkanta-bituach.html"/>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  <url>
     <loc>https://menifa.org/blog/art-74.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-74.html"/>
     <lastmod>2026-09-16</lastmod>
@@ -191,7 +198,7 @@
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-71.html"/>
     <lastmod>2026-09-08</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.92</priority>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://menifa.org/blog/art-70.html</loc>
@@ -261,7 +268,7 @@
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-61.html"/>
     <lastmod>2026-08-16</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://menifa.org/blog/art-60.html</loc>
@@ -366,7 +373,7 @@
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-46.html"/>
     <lastmod>2026-07-09</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://menifa.org/blog/art-45.html</loc>
@@ -637,7 +644,7 @@
   <url>
     <loc>https://menifa.org/blog/art-6.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-6.html"/>
-    <lastmod>2026-07-01</lastmod>
+    <lastmod>2026-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>

@@ -85,10 +85,10 @@ def read_article(path):
 
     # קטגוריה ל-RSS — נגזרת מהכותרת, ברירת מחדל "משכנתא"
     cat = "משכנתא"
-    for key, name in [("ריבית", "ריבית"), ("מחזור", "מחזור"),
+    for key, name in [("ריבית", "ריבית"), ("מיחזור", "מחזור"), ("מחזור", "מחזור"),
                       ("תמהיל", "תמהיל"), ("מדד", "מדד"),
                       ("דיור", "שוק הדיור"), ("נדל", "שוק הדיור"),
-                      ("איחוד", "איחוד הלוואות")]:
+                      ("איחוד", "איחוד הלוואות"), ("ביטוח", "ביטוח")]:
         if key in title:
             cat = name
             break
@@ -101,7 +101,10 @@ def read_article(path):
 
 def load_articles():
     paths = sorted(glob.glob(os.path.join(ROOT, "blog", "art-*.html")))
-    extra = sorted(glob.glob(os.path.join(ROOT, "blog", "ihud-halvaot-matei-ken-lo.html")))
+    extra = sorted(
+        glob.glob(os.path.join(ROOT, "blog", "ihud-halvaot-matei-ken-lo.html"))
+        + glob.glob(os.path.join(ROOT, "blog", "mihzur-mashkanta-bituach.html"))
+    )
     arts = [a for a in (read_article(p) for p in paths + extra)
             if a]
     # החדש ביותר ראשון — לפי תאריך פרסום, ואז לפי מספר המאמר
