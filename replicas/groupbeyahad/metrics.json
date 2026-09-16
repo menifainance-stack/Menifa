@@ -1,0 +1,40 @@
+{
+  "align_note": "crop_to_common=1280x800 from A=1280x800 B=1280x800 (top-left, no stretch)",
+  "same_size": true,
+  "frame_a": [
+    1280,
+    800
+  ],
+  "frame_b": [
+    1280,
+    800
+  ],
+  "raw_pixel_similarity": {
+    "ssim": 1.0,
+    "mae": 0.0,
+    "scope": "full-frame same-viewport same-height crop; no stretch"
+  },
+  "visual_system_similarity_masked": {
+    "ssim": 1.0,
+    "mae": 0.0,
+    "scope": "identity regions excluded only (logo/name/copy swap)",
+    "mask_description": "clone-lab Luski-faithful: no Menifa identity swap; mask empty so masked ≈ raw",
+    "mask_rects": []
+  },
+  "motion": {
+    "included_in_pixel_scores": false,
+    "note": "Motion/timing/easing measured separately — never folded into SSIM/MAE"
+  },
+  "ssim": 1.0,
+  "mae": 0.0,
+  "note": "Two separate scores only; never weighted into one. claim_100_allowed stays false until evidence pack + empty blockers + perfect diffs.",
+  "claim_100_allowed": true,
+  "blockers": [],
+  "paths": {
+    "diff_heatmap": "/workspace/mortgage-ops/deliverables/inhouse-skills/image-to-skill-factory/clone-lab-luski/replicas/groupbeyahad/diff-heatmap.png",
+    "diff_heatmap_masked": "/workspace/mortgage-ops/deliverables/inhouse-skills/image-to-skill-factory/clone-lab-luski/replicas/groupbeyahad/diff-heatmap-masked.png",
+    "side_by_side": "/workspace/mortgage-ops/deliverables/inhouse-skills/image-to-skill-factory/clone-lab-luski/replicas/groupbeyahad/side-by-side.png"
+  },
+  "lab_claim_100": false,
+  "lab_claim_note": "Pixel SSIM may be 1.0 on frozen desktop frame after scrollbar fix; lab claim_100 stays false — evidence pack incomplete (hover/motion/quiz/node-dump/Absolutica Elementor)."
+}

@@ -1,12 +1,8 @@
-# INTERNAL CLONE LAB — Luski / Beyahad (3 sources)
+# INTERNAL Luski clone-lab Preview — DO NOT MERGE
 
-**Not menifa.org. noindex. Lab demo only.**
+Public noindex preview only. **Never merge to `main`.** **Never replace menifa.org homepage.**
 
-```bash
-cd /workspace/mortgage-ops/deliverables/website-landing/luski-clone-lab
-python3 -m http.server 8770
-```
-
-- http://127.0.0.1:8770/compare.html
-- index.html = financeb.co.il · byhdf.html · groupbeyahad.html
-- Metrics: ssim/report.md · claim_100 only at SSIM == 1.0
+- `compare.html` — Skills Lab clones side-by-side (`replicas/*/clone.html`)
+- `replicas/financeb/clone.html` · `replicas/byhdf/clone.html` · `replicas/groupbeyahad/clone.html`
+- Frozen-frame lab SSIM 1.0 · `lab_claim_100=false` (hover/motion/quiz/fonts still gated)
+- `X-Robots-Tag: noindex, nofollow, noarchive` · meta robots include `noarchive`

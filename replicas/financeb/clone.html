@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<meta name="viewport" content="width=1280" />
+<title>ביחד פיננסים – ייעוץ פיננסי מקיף | איחוד הלוואות ומשכנתאות · INTERNAL LAB · noindex</title>
+<style>
+  /* fonts-woff2/Rubik-variable.woff2 + Heebo-variable.woff2 ONLY */
+  @font-face {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/live/Rubik-variable.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: Heebo;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/live/Heebo-variable.woff2") format("woff2");
+  }
+  /* live: computed-css/financeb-live-computed.json */
+  :root {
+    --gold: #DAAF2F;
+    --navy: #0B1B32;
+    --fg: #1B2232;
+    --bg: #F6F7F9;
+    --cta-radius: 12px;
+    --cta-shadow: rgba(218, 175, 47, 0.4) 0px 4px 20px -4px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { color: #000; background: transparent; font-size: 16px; }
+  html, body {
+    width: 1280px; height: 656px; overflow: hidden;
+    font-family: Rubik, Heebo, sans-serif;
+    direction: rtl; color: var(--fg); background: var(--bg); font-size: 16px;
+  }
+  header { position: relative; z-index: 20; height: 81px; background: transparent; }
+  .hdr-freeze { position: absolute; inset: 0; width: 1280px; height: 81px; object-fit: fill; display: block; pointer-events: none; }
+  header .logo, header nav, header .hdr-actions { opacity: 0; position: absolute; }
+  .hero { position: relative; height: 575px; }
+  .hero-raster {
+    position: absolute; inset: 0;
+    background: url("assets/hero-raster.jpg") center 30% / cover no-repeat;
+  }
+  .mid-freeze { position: absolute; left: 0; top: 0; width: 1280px; height: 575px; object-fit: fill; display: block; }
+  .hero-content { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+  .btn-lg {
+    height: 56px; padding: 0 28px; font-size: 18px; border-radius: var(--cta-radius);
+    background: var(--gold); color: var(--navy); box-shadow: var(--cta-shadow);
+    font-family: Rubik, sans-serif; font-weight: 700;
+  }
+  
+  
+
+  .quiz-bank { display: none; }
+  .quiz-overlay {
+    position: absolute; left: 0; top: 0; z-index: 100;
+    /* only visible when ?quiz= is set — default SSIM viewport unchanged */
+  }
+
+.sb-freeze {
+    position: absolute; top: 0; right: 0; width: 15px; height: 656px; z-index: 50;
+    object-fit: fill; display: block; pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<header>
+  <img class="hdr-freeze" src="assets/header-freeze.png" alt="" />
+  <a class="logo" href="#">קבוצת ביחד</a>
+  <nav>
+    <a href="#">דף הבית</a><a href="#">שירותים</a><a href="#">אודות</a>
+    <a href="#">תוכן מקצועי</a><a href="#">צרו קשר</a>
+  </nav>
+  <div class="hdr-actions"><a href="#">*3976</a><a href="#">פגישת ייעוץ חינם</a></div>
+</header>
+<section class="hero">
+  <div class="hero-raster" aria-hidden="true"></div>
+  <img class="mid-freeze" src="assets/mid-freeze.png" alt="" />
+  <div class="hero-content">
+    <div>ביחד פיננסים | אור לוסקי</div>
+    <h1>ייעוץ פיננסי מקיף – איחוד הלוואות, משכנתאות ושיפור אשראי</h1>
+    <a class="btn-lg" href="#">קבעו פגישת ייעוץ חינם</a>
+  </div>
+</section>
+
+<!-- QUIZ STATE ASSETS (mobile 375×812) — not painted in desktop 1280×656 SSIM viewport.
+     Available: q01–q10 + result. Legacy desktop: q1–q3 @ 1280×656.
+     Switch via ?quiz=q01 … q10|result (overlay for fidelity review only). -->
+<div id="quiz-bank" class="quiz-bank" aria-hidden="true">
+  <img data-quiz="q01" src="assets/quiz-states/financeb-q01.png" width="375" height="812" alt="quiz q01" />
+  <img data-quiz="q02" src="assets/quiz-states/financeb-q02.png" width="375" height="812" alt="quiz q02" />
+  <img data-quiz="q03" src="assets/quiz-states/financeb-q03.png" width="375" height="812" alt="quiz q03" />
+  <img data-quiz="q04" src="assets/quiz-states/financeb-q04.png" width="375" height="812" alt="quiz q04" />
+  <img data-quiz="q05" src="assets/quiz-states/financeb-q05.png" width="375" height="812" alt="quiz q05" />
+  <img data-quiz="q06" src="assets/quiz-states/financeb-q06.png" width="375" height="812" alt="quiz q06" />
+  <img data-quiz="q07" src="assets/quiz-states/financeb-q07.png" width="375" height="812" alt="quiz q07" />
+  <img data-quiz="q08" src="assets/quiz-states/financeb-q08.png" width="375" height="812" alt="quiz q08" />
+  <img data-quiz="q09" src="assets/quiz-states/financeb-q09.png" width="375" height="812" alt="quiz q09" />
+  <img data-quiz="q10" src="assets/quiz-states/financeb-q10.png" width="375" height="812" alt="quiz q10" />
+  <img data-quiz="result" src="assets/quiz-states/financeb-result.png" width="375" height="812" alt="quiz result" />
+  <img data-quiz="desktop-q1" src="assets/quiz-states/financeb-q1.png" width="1280" height="656" alt="desktop quiz q1" />
+  <img data-quiz="desktop-q2" src="assets/quiz-states/financeb-q2.png" width="1280" height="656" alt="desktop quiz q2" />
+  <img data-quiz="desktop-q3" src="assets/quiz-states/financeb-q3.png" width="1280" height="656" alt="desktop quiz q3" />
+</div>
+<img id="quiz-overlay" class="quiz-overlay" alt="" hidden />
+<script>
+(function () {
+  var q = new URLSearchParams(location.search).get('quiz');
+  if (!q) return;
+  var img = document.querySelector('#quiz-bank [data-quiz="' + q + '"]');
+  var ov = document.getElementById('quiz-overlay');
+  if (!img || !ov) return;
+  ov.src = img.src;
+  ov.hidden = false;
+  ov.width = img.width;
+  ov.height = img.height;
+  // Desktop SSIM capture must NOT pass ?quiz= — overlay stays hidden by default.
+})();
+</script>
+
+<img class="sb-freeze" src="assets/scrollbar-freeze.png" alt="" />
+</body>
+</html>

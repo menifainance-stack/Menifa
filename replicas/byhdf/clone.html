@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<meta name="viewport" content="width=1280" />
+<title>ביחד פיננסים – כלים פיננסיים ומחשבונים חינמיים · INTERNAL LAB · noindex</title>
+<style>
+  /* fonts-woff2/Heebo-variable.woff2 ONLY (evening pack) */
+  @font-face {
+    font-family: Heebo;
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url("fonts/live/Heebo-variable.woff2") format("woff2");
+  }
+  /* live: computed-css/byhdf-live-computed.json */
+  :root {
+    --fg: #0F1C2E;
+    --bg: #FFFFFF;
+    --primary: #0B3165;
+    --accent: #D3B782;
+    --accent-fg: #061B37;
+    --cta-radius: 10px;
+    --cta-shadow: 0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { color: #000; background: transparent; font-size: 16px; }
+  html, body {
+    width: 1280px; height: 656px; overflow: hidden;
+    font-family: Heebo, sans-serif;
+    direction: rtl; color: var(--fg); background: var(--bg); font-size: 16px;
+  }
+  header { position: relative; z-index: 30; height: 64px; background: transparent; }
+  .hdr-freeze { position: absolute; inset: 0; width: 1280px; height: 64px; object-fit: fill; display: block; pointer-events: none; }
+  header .logo, header nav, header .hdr-cta { opacity: 0; position: absolute; }
+  .logo { right: 18px; top: 10px; width: 220px; height: 44px; }
+  nav { inset: 0 140px 0 260px; display: flex; align-items: center; justify-content: center; gap: 28px; }
+  .hdr-cta {
+    left: 18px; top: 14px; height: 36px; padding: 0 14px;
+    border-radius: var(--cta-radius); background: var(--accent); color: var(--accent-fg);
+    font: 700 14px/1 Heebo, sans-serif; box-shadow: var(--cta-shadow);
+  }
+  .hero { position: relative; height: 481px; overflow: hidden; }
+  /* hero-rasters slot under freeze */
+  .hero-raster {
+    position: absolute; inset: 0;
+    background: url("assets/hero-raster.jpg") center center / cover no-repeat;
+  }
+  .mid-freeze {
+    position: absolute; left: 0; top: 0; width: 1280px; height: 481px;
+    object-fit: fill; display: block;
+  }
+  .hero-inner { position: absolute; inset: 0; opacity: 0; pointer-events: none; text-align: center; color: #fff; padding: 52px 72px 0; }
+  h1 { font-size: 48px; font-weight: 800; line-height: 1.15; font-family: Heebo, sans-serif; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 44px; border-radius: var(--cta-radius); font: 600 16px/1 Heebo, sans-serif;
+    padding: 0 22px; box-shadow: var(--cta-shadow);
+  }
+  .btn-fill { background: var(--accent); color: var(--accent-fg); }
+  .cookie-img { position: absolute; left: 0; top: 545px; z-index: 40; width: 1280px; height: 111px; object-fit: fill; display: block; }
+  .a11y-img { position: absolute; left: 10px; top: 590px; z-index: 41; width: 60px; height: 60px; display: block; }
+  
+  
+.sb-freeze {
+    position: absolute; top: 0; right: 0; width: 15px; height: 656px; z-index: 50;
+    object-fit: fill; display: block; pointer-events: none;
+  }
+</style>
+</head>
+<body>
+<header>
+  <img class="hdr-freeze" src="assets/header-freeze.png" alt="" />
+  <a class="logo" href="#"><span>קבוצת ביחד</span></a>
+  <nav>
+    <a href="#">דף הבית</a><a href="#">אודות</a><a href="#">שירותים</a>
+    <a href="#">המלצות</a><a href="#">מאמרים</a><a href="#">צור קשר</a>
+  </nav>
+  <a class="hdr-cta" href="#">*3976</a>
+</header>
+<section class="hero">
+  <div class="hero-raster" aria-hidden="true"></div>
+  <img class="mid-freeze" src="assets/mid-freeze.png" alt="" />
+  <div class="hero-inner">
+    <h1>כלים פיננסיים ומחשבונים חינמיים ביחד פיננסים</h1>
+    <a class="btn btn-fill" href="#">שיחת ייעוץ חינם</a>
+  </div>
+</section>
+<img class="cookie-img" src="assets/cookie-band.png" alt="" />
+<img class="a11y-img" src="assets/a11y-ref.png" alt="" />
+<img class="sb-freeze" src="assets/scrollbar-freeze.png" alt="" />
+</body>
+</html>
