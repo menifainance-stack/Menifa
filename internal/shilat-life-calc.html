@@ -1,168 +1,200 @@
 <!DOCTYPE html>
-<html dir="rtl" lang="he">
+<html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<meta name="robots" content="noindex, nofollow, noarchive">
-<meta name="googlebot" content="noindex, nofollow, noarchive">
-<meta name="theme-color" content="#7A2E2E">
-<title>פנימי — מחשבון ביטוח חיים ריסק | שילת · לא לפרסום</title>
-<meta name="description" content="כלי פנימי להערכת פרמיית ריסק. אינו עמוד ציבורי של menifa.org.">
-<link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
-<link rel="stylesheet" href="../assets/style.css?v=2026-09-16-shilat">
-<link rel="stylesheet" href="shilat-life-calc.css?v=2026-09-16">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="robots" content="noindex,nofollow"/>
+<title>מחשבון ריסק — פנימי</title>
+<style>
+:root { --bg:#0f1419; --card:#1a222c; --line:#2a3542; --txt:#f4f1ea; --muted:#9aa7b5; --gold:#c9a227; --ok:#7dcea0; --warn:#e8b86d; --bad:#e07a7a; }
+* { box-sizing:border-box; }
+html,body { margin:0; background:var(--bg); color:var(--txt); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
+body { padding:0 16px 48px; max-width:480px; margin:0 auto; }
+.banner { position:sticky; top:0; z-index:20; background:#7A2E2E; color:#fff; text-align:center; font-weight:800; font-size:.92rem; padding:12px 12px; margin:0 -16px 16px; }
+h1 { font-size:1.25rem; font-weight:700; margin:0 0 4px; }
+.sub { color:var(--muted); font-size:.85rem; margin:0 0 16px; line-height:1.4; }
+.disc { background:#2a1f12; border:1px solid #5c4520; color:#f0d9a0; padding:10px 12px; border-radius:10px; font-size:.8rem; line-height:1.45; margin-bottom:16px; }
+label { display:block; font-size:.8rem; color:var(--muted); margin:12px 0 6px; }
+input, select { width:100%; padding:12px; border-radius:10px; border:1px solid var(--line); background:#121820; color:var(--txt); font-size:1rem; }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+button { width:100%; margin-top:18px; padding:14px; border:0; border-radius:12px; background:var(--gold); color:#111; font-weight:700; font-size:1.05rem; }
+.out { display:none; margin-top:18px; }
+.cards { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px; }
+.card .k { font-size:.75rem; color:var(--muted); }
+.card .v { font-size:1.25rem; font-weight:700; margin-top:4px; }
+.card.after { border-color:var(--gold); }
+.meta { margin-top:12px; font-size:.8rem; color:var(--muted); line-height:1.5; }
+.warn { margin-top:10px; background:#2a2214; color:var(--warn); padding:10px; border-radius:10px; font-size:.85rem; }
+.hint { font-size:.75rem; color:var(--muted); margin-top:4px; line-height:1.35; }
+</style>
 </head>
-<body class="shilat-page">
-<div class="shilat-sticky">
-<div class="shilat-banner" role="note">פנימי — לא לפרסום · כלי לתמיר + שותף · לא למזג ל־main כעמוד ציבורי</div>
-<div class="shilat-disclaimer" role="note">
-  כלי פנימי להערכה בלבד. <strong>אינו הצעת מחיר מחייבת</strong> מחברת ביטוח ואינו ייעוץ ביטוחי מורשה.
-  גם כשמחושב מתעריפון/הנחות רשמיים — התוצאה היא אומדן פנימי בלבד; התעריפים הקובעים הם אלו שבמחשבי החברה במועד הפקת הפוליסה.
+<body>
+<div class="banner">כלי פנימי — לא הצעת מחיר</div>
+<h1>מחשבון ביטוח חיים (ריסק)</h1>
+<p class="sub">כלי פנימי לתמיר ולשותף · תעריף ריסק 1 (05.2026) + הנחות מכונות מעודכן</p>
+<div class="disc">כלי פנימי להערכה בלבד. <strong>אינו הצעת מחיר מחייבת</strong> מחברת ביטוח ואינו ייעוץ ביטוחי מורשה. גם כשמחושב מתעריפון/הנחות רשמיים — התוצאה היא אומדן פנימי בלבד; התעריפים הקובעים הם אלו שבמחשבי החברה במועד הפקת הפוליסה (כפי שמצוין בתעריפון).</div>
+
+<div class="row2">
+  <div>
+    <label for="sex">מין</label>
+    <select id="sex">
+      <option value="female" selected>אישה</option>
+      <option value="male">גבר</option>
+    </select>
+  </div>
+  <div>
+    <label for="age">גיל (18–79)</label>
+    <input id="age" type="number" min="18" max="79" value="40" inputmode="numeric"/>
+  </div>
 </div>
+
+<label for="smoker">מעשן / לא מעשן</label>
+<select id="smoker">
+  <option value="0" selected>לא מעשן</option>
+  <option value="1">מעשן</option>
+</select>
+
+<label for="company">חברת ביטוח (תווית בלבד)</label>
+<select id="company">
+  <option value="risk1" selected>תעריף ריסק 1 — יחיד במקורות</option>
+  <option value="clal">כלל — תווית, לא משנה חישוב</option>
+  <option value="phoenix">הפניקס — תווית, לא משנה חישוב</option>
+  <option value="migdal">מגדל — תווית, לא משנה חישוב</option>
+  <option value="harel">הראל — תווית, לא משנה חישוב</option>
+  <option value="menora">מנורה — תווית, לא משנה חישוב</option>
+  <option value="other">אחר — תווית, לא משנה חישוב</option>
+</select>
+<p class="hint">אין מיפוי חברה לתעריף במקורות. החישוב תמיד לפי «תעריף ריסק 1», בלי שם חברה מודפס.</p>
+
+<label for="cover">סכום כיסוי (₪)</label>
+<input id="cover" type="number" min="1" step="1000" value="1000000" inputmode="numeric"/>
+
+<label for="code">קוד הסכם הנחה</label>
+<select id="code"></select>
+
+<label for="letter">עמודת הנחה א׳–ו׳</label>
+<select id="letter">
+  <option value="א" selected>א׳</option>
+  <option value="ב">ב׳</option>
+  <option value="ג">ג׳</option>
+  <option value="ד">ד׳</option>
+  <option value="ה">ה׳</option>
+  <option value="ו">ו׳</option>
+</select>
+<p class="hint">משמעות האותיות לא מופיעה במקור. בחרו לפי ההסכם. אין צבירת כמה קודים.</p>
+
+<button type="button" id="go">חשב מחיר</button>
+
+<div class="out" id="out">
+  <div class="cards">
+    <div class="card">
+      <div class="k">לפני הנחה · שנתי</div>
+      <div class="v" id="beforeY"></div>
+      <div class="k" id="beforeM" style="margin-top:8px"></div>
+    </div>
+    <div class="card after">
+      <div class="k">אחרי הנחה · שנתי</div>
+      <div class="v" id="afterY"></div>
+      <div class="k" id="afterM" style="margin-top:8px"></div>
+    </div>
+  </div>
+  <div class="meta" id="meta"></div>
+  <div class="warn" id="warn" style="display:none"></div>
 </div>
 
-<main class="shilat-wrap" id="main-content">
-  <header class="shilat-head">
-    <p class="eyebrow">פיילוט שילת · תעריף ריסק 1 · 05.2026</p>
-    <h1>מחשבון ביטוח חיים למשכנתא (ריסק)</h1>
-    <p>ברירת מחדל: תעריף ריסק 1 הרשמי (₪ שנתי לכל 1,000 ₪ כיסוי) + הנחת הסכם מטבלת «מכונות מעודכן».</p>
-  </header>
+<script>
+const TARIFF = [{"age": 18, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 19, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 20, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 21, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 22, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 23, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 24, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 25, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 26, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 27, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 28, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 29, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 30, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 31, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 32, "mn": 0.84, "ms": 1.25, "fn": 0.8, "fs": 1.15}, {"age": 33, "mn": 0.84, "ms": 1.29, "fn": 0.8, "fs": 1.15}, {"age": 34, "mn": 0.84, "ms": 1.33, "fn": 0.8, "fs": 1.15}, {"age": 35, "mn": 0.84, "ms": 1.38, "fn": 0.8, "fs": 1.15}, {"age": 36, "mn": 0.84, "ms": 1.43, "fn": 0.8, "fs": 1.15}, {"age": 37, "mn": 0.87, "ms": 1.51, "fn": 0.8, "fs": 1.15}, {"age": 38, "mn": 0.92, "ms": 1.6, "fn": 0.8, "fs": 1.15}, {"age": 39, "mn": 0.97, "ms": 1.71, "fn": 0.8, "fs": 1.15}, {"age": 40, "mn": 1.03, "ms": 1.83, "fn": 0.8, "fs": 1.21}, {"age": 41, "mn": 1.1, "ms": 1.97, "fn": 0.84, "fs": 1.34}, {"age": 42, "mn": 1.17, "ms": 2.12, "fn": 0.9, "fs": 1.48}, {"age": 43, "mn": 1.25, "ms": 2.3, "fn": 0.96, "fs": 1.64}, {"age": 44, "mn": 1.34, "ms": 2.5, "fn": 1.04, "fs": 1.82}, {"age": 45, "mn": 1.46, "ms": 2.76, "fn": 1.13, "fs": 2.05}, {"age": 46, "mn": 1.59, "ms": 3.05, "fn": 1.23, "fs": 2.3}, {"age": 47, "mn": 1.73, "ms": 3.38, "fn": 1.34, "fs": 2.58}, {"age": 48, "mn": 1.9, "ms": 3.77, "fn": 1.47, "fs": 2.91}, {"age": 49, "mn": 2.09, "ms": 4.21, "fn": 1.61, "fs": 3.28}, {"age": 50, "mn": 2.31, "ms": 4.71, "fn": 1.77, "fs": 3.7}, {"age": 51, "mn": 2.55, "ms": 5.28, "fn": 1.95, "fs": 4.17}, {"age": 52, "mn": 2.83, "ms": 5.93, "fn": 2.15, "fs": 4.71}, {"age": 53, "mn": 3.14, "ms": 6.67, "fn": 2.38, "fs": 5.31}, {"age": 54, "mn": 3.5, "ms": 7.51, "fn": 2.64, "fs": 5.99}, {"age": 55, "mn": 3.9, "ms": 8.46, "fn": 2.92, "fs": 6.76}, {"age": 56, "mn": 4.36, "ms": 9.54, "fn": 3.25, "fs": 7.62}, {"age": 57, "mn": 4.87, "ms": 10.75, "fn": 3.61, "fs": 8.59}, {"age": 58, "mn": 5.46, "ms": 12.12, "fn": 4.02, "fs": 9.67}, {"age": 59, "mn": 6.13, "ms": 13.66, "fn": 4.48, "fs": 10.89}, {"age": 60, "mn": 6.88, "ms": 15.38, "fn": 4.99, "fs": 12.24}, {"age": 61, "mn": 7.74, "ms": 17.31, "fn": 5.57, "fs": 13.76}, {"age": 62, "mn": 8.7, "ms": 19.46, "fn": 6.22, "fs": 15.45}, {"age": 63, "mn": 9.8, "ms": 21.86, "fn": 6.95, "fs": 17.33}, {"age": 64, "mn": 11.04, "ms": 24.54, "fn": 7.77, "fs": 19.42}, {"age": 65, "mn": 12.45, "ms": 27.51, "fn": 8.7, "fs": 21.74}, {"age": 66, "mn": 14.05, "ms": 30.8, "fn": 9.73, "fs": 24.31}, {"age": 67, "mn": 15.85, "ms": 34.44, "fn": 10.9, "fs": 27.16}, {"age": 68, "mn": 17.89, "ms": 38.46, "fn": 12.2, "fs": 30.31}, {"age": 69, "mn": 20.21, "ms": 42.89, "fn": 13.67, "fs": 33.78}, {"age": 70, "mn": 22.82, "ms": 47.76, "fn": 15.32, "fs": 37.61}, {"age": 71, "mn": 25.78, "ms": 53.1, "fn": 17.17, "fs": 41.82}, {"age": 72, "mn": 29.12, "ms": 58.94, "fn": 19.25, "fs": 46.45}, {"age": 73, "mn": 32.9, "ms": 65.31, "fn": 21.58, "fs": 51.53}, {"age": 74, "mn": 34.88, "ms": 67.8, "fn": 22.71, "fs": 53.56}, {"age": 75, "mn": 37.11, "ms": 70.53, "fn": 23.99, "fs": 55.81}, {"age": 76, "mn": 41.92, "ms": 77.76, "fn": 26.9, "fs": 61.67}, {"age": 77, "mn": 47.35, "ms": 85.58, "fn": 30.16, "fs": 68.05}, {"age": 78, "mn": 53.47, "ms": 94.02, "fn": 33.82, "fs": 74.98}, {"age": 79, "mn": 60.36, "ms": 103.11, "fn": 37.92, "fs": 82.51}];
+const CODES = [{"code": 3703, "min": 2000000, "amin": 30, "amax": 67, "א": 72, "ב": 65, "ג": 65, "ד": 55, "ה": 45, "ו": 45, "special": true}, {"code": 3585, "min": 2000000, "amin": 30, "amax": 60, "א": 60, "ב": 60, "ג": 60, "ד": 50, "ה": 50, "ו": 50, "special": false}, {"code": 3586, "min": 2000000, "amin": 30, "amax": 60, "א": 58, "ב": 58, "ג": 58, "ד": 58, "ה": 58, "ו": 58, "special": false}, {"code": 3587, "min": 1500000, "amin": 30, "amax": 60, "א": 70, "ב": 58, "ג": 58, "ד": 48, "ה": 48, "ו": 38, "special": false}, {"code": 3704, "min": 1500000, "amin": 30, "amax": 67, "א": 70, "ב": 65, "ג": 60, "ד": 55, "ה": 50, "ו": 40, "special": true}, {"code": 3589, "min": 1500000, "amin": 30, "amax": 60, "א": 53, "ב": 53, "ג": 53, "ד": 53, "ה": 53, "ו": 53, "special": false}, {"code": 3705, "min": 1000000, "amin": 30, "amax": 67, "א": 70, "ב": 65, "ג": 60, "ד": 50, "ה": 40, "ו": 40, "special": true}, {"code": 3592, "min": 1000000, "amin": 30, "amax": 60, "א": 50, "ב": 50, "ג": 50, "ד": 50, "ה": 50, "ו": 50, "special": false}, {"code": 3593, "min": 750000, "amin": 30, "amax": 60, "א": 38, "ב": 38, "ג": 38, "ד": 38, "ה": 38, "ו": 38, "special": false}, {"code": 3706, "min": 750000, "amin": 30, "amax": 67, "א": 65, "ב": 60, "ג": 55, "ד": 50, "ה": 45, "ו": 40, "special": true}, {"code": 3707, "min": 500000, "amin": 30, "amax": 67, "א": 65, "ב": 55, "ג": 55, "ד": 50, "ה": 40, "ו": 30, "special": true}];
 
-  <aside class="shilat-card shilat-gaps" aria-label="פערים במקורות">
-    <h2>פערים במקורות — גלוי, לא ניחוש</h2>
-    <ul>
-      <li><strong>שם החברה</strong> לא מודפס בתעריף ריסק 1 ולא בטבלת המכונות. השדה ריק בכוונה — אין לקשור לכלל או להפניקס בלי אישור.</li>
-      <li><strong>אות הנחה א–ו</strong> — אין מקרא בעמוד. בוחרים אות בלבד. אין לקרוא לזה «שנת פוליסה» בלי אישור עסקי.</li>
-      <li><strong>דמי פוליסה / סליקה / עמלות כרטיס</strong> לא מופיעים במקורות. האומדן הוא פרמיית ריסק בלבד, בלי תוספות אלה.</li>
-    </ul>
-  </aside>
+function ils(n){
+  return new Intl.NumberFormat('he-IL', {style:'currency', currency:'ILS', maximumFractionDigits:2}).format(n);
+}
 
-  <form class="shilat-card" id="shilat-form" novalidate>
-    <h2>קלטים</h2>
-    <div class="shilat-grid shilat-grid-2">
-      <div class="shilat-field">
-        <label for="birth_date">תאריך לידה</label>
-        <input type="date" id="birth_date" name="birth_date" value="1985-11-27">
-      </div>
-      <div class="shilat-field">
-        <label for="age">גיל <span class="hint">(מחושב מתאריך הלידה, ניתן לערוך)</span></label>
-        <input type="number" id="age" name="age" min="0" max="120" inputmode="numeric" value="40">
-      </div>
-      <div class="shilat-field">
-        <label for="as_of_date">תאריך ייחוס לגיל</label>
-        <input type="date" id="as_of_date" name="as_of_date" value="2026-09-16">
-      </div>
-      <div class="shilat-field">
-        <label for="cover_amount">סכום כיסוי (₪)</label>
-        <input type="number" id="cover_amount" name="cover_amount" min="1" step="1000" inputmode="numeric" value="1000000" required>
-      </div>
-    </div>
+const codeSel = document.getElementById('code');
+CODES.forEach(c => {
+  const o = document.createElement('option');
+  o.value = c.code;
+  const tag = c.special ? ' · מיוחד עד 67' : ' · עד 60';
+  o.textContent = c.code + ' · מינ׳ ' + c.min.toLocaleString('he-IL') + ' · גיל ' + c.amin + '–' + c.amax + tag;
+  if (c.code === 3705) o.selected = true;
+  codeSel.appendChild(o);
+});
 
-    <div class="shilat-grid shilat-grid-2" style="margin-top:0.85rem">
-      <div class="shilat-field">
-        <label>מין</label>
-        <div class="shilat-seg" role="radiogroup" aria-label="מין">
-          <label><input type="radio" name="sex" value="female" checked> אישה</label>
-          <label><input type="radio" name="sex" value="male"> גבר</label>
-        </div>
-      </div>
-      <div class="shilat-field">
-        <label>מעשן/ת <span class="hint">חובה</span></label>
-        <div class="shilat-seg" role="radiogroup" aria-label="מעשן">
-          <label><input type="radio" name="smoker" value="false" checked> לא מעשן/ת</label>
-          <label><input type="radio" name="smoker" value="true"> מעשן/ת</label>
-        </div>
-      </div>
-    </div>
+function lookupRate(age, sex, smoker){
+  const row = TARIFF.find(r => r.age === age);
+  if (!row) return null;
+  if (sex === 'male') return smoker ? row.ms : row.mn;
+  return smoker ? row.fs : row.fn;
+}
 
-    <div class="shilat-grid shilat-grid-2" style="margin-top:0.85rem">
-      <div class="shilat-field">
-        <label for="agreement_code">קוד הסכם</label>
-        <select id="agreement_code" name="agreement_code">
-          <option value="">ללא הנחת הסכם</option>
-        </select>
-        <span class="hint">הקוד הוא קלט סוכן. אין בחירה אוטומטית של «ההנחה הגבוהה ביותר».</span>
-      </div>
-      <div class="shilat-field">
-        <label for="discount_year_letter">אות הנחה</label>
-        <select id="discount_year_letter" name="discount_year_letter">
-          <option value="">—</option>
-          <option value="א" selected>א</option>
-          <option value="ב">ב</option>
-          <option value="ג">ג</option>
-          <option value="ד">ד</option>
-          <option value="ה">ה</option>
-          <option value="ו">ו</option>
-        </select>
-        <span class="hint">תווית בלבד. משמעות א–ו = UNKNOWN (אין מקרא במקור).</span>
-      </div>
-      <div class="shilat-field">
-        <label for="rate_source">מקור שיעור</label>
-        <select id="rate_source" name="rate_source">
-          <option value="official_risk1" selected>תעריף ריסק 1 הרשמי</option>
-          <option value="migdal_empirical">אמפירי מגדל (רק אם חסר תא / השוואה)</option>
-          <option value="unified_empirical">אמפירי מאוחד (רק אם חסר תא / השוואה)</option>
-        </select>
-        <span class="hint">טבלאות אמפיריות לא צורפו לפיילוט זה — לא יומצאו שיעורים.</span>
-      </div>
-      <div class="shilat-field">
-        <label for="company">חברה <span class="hint">אופציונלי — השאירו ריק</span></label>
-        <input type="text" id="company" name="company" placeholder="לא מזוהה בתעריפון" autocomplete="off">
-      </div>
-    </div>
+function calc(){
+  const age = parseInt(document.getElementById('age').value, 10);
+  const sex = document.getElementById('sex').value;
+  const smoker = document.getElementById('smoker').value === '1';
+  const cover = Number(document.getElementById('cover').value);
+  const code = parseInt(document.getElementById('code').value, 10);
+  const letter = document.getElementById('letter').value;
+  const companyLabel = document.getElementById('company').selectedOptions[0].text;
 
-    <details class="shilat-more">
-      <summary>תוספות ידניות ותנאי חיתום (לא בנוסחה אלא אם הוזנו)</summary>
-      <div class="shilat-grid shilat-grid-2" style="margin-top:0.75rem">
-        <div class="shilat-field">
-          <label for="medical_loading_pct">תוספת רפואית % <span class="hint">ידני</span></label>
-          <input type="number" id="medical_loading_pct" min="0" step="0.1" inputmode="decimal" placeholder="ריק = ללא">
-        </div>
-        <div class="shilat-field">
-          <label for="occupational_loading_pct">תוספת מקצועית % <span class="hint">ידני</span></label>
-          <input type="number" id="occupational_loading_pct" min="0" step="0.1" inputmode="decimal" placeholder="ריק = ללא">
-        </div>
-        <div class="shilat-field">
-          <label for="cover_type">סוג כיסוי לדגלי הפניקס</label>
-          <select id="cover_type">
-            <option value="mortgage" selected>משכנתא / ריסק משועבד</option>
-            <option value="regular">ריסק רגיל</option>
-          </select>
-        </div>
-        <div class="shilat-field">
-          <label><input type="checkbox" id="diabetes"> סוכרת — דגל מסמכים בלבד</label>
-        </div>
-        <div class="shilat-field">
-          <label for="height_cm">גובה (ס״מ) לבדיקת BMI</label>
-          <input type="number" id="height_cm" min="80" max="230" inputmode="numeric" placeholder="אופציונלי">
-        </div>
-        <div class="shilat-field">
-          <label for="weight_kg">משקל (ק״ג) לבדיקת BMI</label>
-          <input type="number" id="weight_kg" min="20" max="300" step="0.1" inputmode="decimal" placeholder="אופציונלי">
-        </div>
-      </div>
-    </details>
-  </form>
+  const out = document.getElementById('out');
+  const warn = document.getElementById('warn');
+  warn.style.display = 'none';
+  warn.textContent = '';
 
-  <section class="shilat-card shilat-results" aria-live="polite">
-    <h2>תוצאה</h2>
-    <div id="calc-output"></div>
-  </section>
+  if (!Number.isFinite(age) || age < 18 || age > 79) {
+    alert('גיל חייב להיות בין 18 ל-79');
+    return;
+  }
+  if (!Number.isFinite(cover) || cover <= 0) {
+    alert('סכום כיסוי חייב להיות גדול מ-0');
+    return;
+  }
 
-  <section class="shilat-card shilat-howto">
-    <h2>איך משתמשים — לתמיר</h2>
-    <ol>
-      <li>ברירת המחדל היא דמו שילת: אישה, 27.11.1985, גיל 40, לא מעשנת, כיסוי 1,000,000 ₪, קוד 3705, אות הנחה א.</li>
-      <li>המספרים הצפויים לדמו: שיעור 0.80 ₪ ל־1,000 · שנתי לפני הנחה ₪800 · הנחה 70% · שנתי אחרי ₪240 · חודשי ₪20.</li>
-      <li>בחרו קוד הסכם מהרשימה ואות הנחה. אם הגיל או הסכום מחוץ לטווח הקוד — תופיע אזהרה, בלי שיעור מומצא.</li>
-      <li>דגלי חיתום (כלל / הפניקס) הם תזכורת למסמכים בלבד. הם לא משנים את הפרמיה.</li>
-      <li>אין מספרי זהות בעמוד. אל תשתפו את הקישור כעמוד ציבורי ב־menifa.org.</li>
-    </ol>
-  </section>
-</main>
+  const base = lookupRate(age, sex, smoker);
+  if (base == null) {
+    alert('אין תא בתעריפון לגיל הזה');
+    return;
+  }
 
-<script src="shilat-life-data.js?v=2026-09-16"></script>
-<script src="shilat-life-engine.js?v=2026-09-16"></script>
-<script src="shilat-life-ui.js?v=2026-09-16"></script>
+  const agr = CODES.find(c => c.code === code);
+  const pct = agr[letter];
+  const beforeY = cover / 1000 * base;
+  const afterY = cover / 1000 * (base * (1 - pct / 100));
+  const beforeM = beforeY / 12;
+  const afterM = afterY / 12;
+
+  document.getElementById('beforeY').textContent = ils(beforeY);
+  document.getElementById('afterY').textContent = ils(afterY);
+  document.getElementById('beforeM').textContent = 'חודשי: ' + ils(beforeM);
+  document.getElementById('afterM').textContent = 'חודשי: ' + ils(afterM);
+
+  const msgs = [];
+  if (age < agr.amin || age > agr.amax) {
+    msgs.push('הגיל מחוץ לטווח הקוד (' + agr.amin + '–' + agr.amax + '). ההנחה מוצגת לפי הטבלה אבל ייתכן שההסכם לא חל.');
+  }
+  if (cover < agr.min) {
+    msgs.push('סכום הכיסוי נמוך מהמינימום לקוד (' + agr.min.toLocaleString('he-IL') + ' ₪). ההנחה מוצגת לפי הטבלה אבל ייתכן שההסכם לא חל.');
+  }
+  if (msgs.length) {
+    warn.style.display = 'block';
+    warn.textContent = msgs.join(' ');
+  }
+
+  document.getElementById('meta').innerHTML =
+    'הנחה שהוחלה: <b>' + pct + '%</b> · קוד ' + code + ' · עמודה ' + letter + '<br>' +
+    'שיעור בסיס: ' + base + ' ₪ לשנה לכל 1,000 ₪ כיסוי<br>' +
+    'חברה (תווית בלבד, לא משפיעה): ' + companyLabel + '<br>' +
+    'מקור: תעריף ריסק 1 · 05.2026 · הנחות «מכונות מעודכן»';
+
+  out.style.display = 'block';
+}
+
+document.getElementById('go').addEventListener('click', calc);
+['sex','age','smoker','cover','code','letter','company'].forEach(id => {
+  document.getElementById(id).addEventListener('change', calc);
+});
+calc();
+</script>
 </body>
 </html>
