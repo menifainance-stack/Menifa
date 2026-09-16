@@ -20,14 +20,16 @@ const monthlyPayment = (principal, annualRate, years) => {
    Attempts live fetch, falls back to last-known values
    ═══════════════════════════════════════════════════════════════ */
 const CBS_CPI_PDF = 'https://www.cbs.gov.il/he/mediarelease/Madad/DocLib/2026/293/10_26_293b.pdf';
-const CBS_CPI_TITLE = 'למ״ס הודעה 293/2026 — מדד המחירים לצרכן אוגוסט 2026 (פורסם 15.09.2026)';
+const CBS_CPI_TITLE = 'למ״ס הודעה 293/2026 — מדד אוגוסט 2026, רמה 105.8 (בסיס ממוצע 2024=100.0), פורסם 15.09.2026';
 const CPI_PERIOD_LABEL = 'אוגוסט 2026';
 const CPI_PUBLISHED_SHORT = '15.09';
+const CPI_INDEX_LEVEL = 105.8; // נקודות, בסיס ממוצע 2024 = 100.0 — למ״ס 293/2026
 const MARKET_FALLBACK = {
   boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 01.09.2026)
   prime: 4.75,       // פריים = BoI + 1.5
   cpiMonthly: 0.7,   // % שינוי חודשי — אוגוסט 2026 מול יולי 2026 (למ״ס 293/2026)
   cpiYearly: 1.5,    // % שינוי שנתי — אוגוסט 2026 מול אוגוסט 2025 (למ״ס 293/2026)
+  cpiIndexLevel: CPI_INDEX_LEVEL,
   cpiPeriodLabel: CPI_PERIOD_LABEL,
   cpiPublishedShort: CPI_PUBLISHED_SHORT,
   cpiSourceUrl: CBS_CPI_PDF,
@@ -46,6 +48,33 @@ function formatTickerUpdateDate(boiPublished) {
   return cpi + ' · ' + boi;
 }
 
+function cpiSep() {
+  const s = document.createElement('span');
+  s.className = 'cpi-sep';
+  s.setAttribute('aria-hidden', 'true');
+  s.textContent = '|';
+  return s;
+}
+
+function ensureCpiLevelPart(link) {
+  if (document.getElementById('m-cpi-level') || !link) return;
+  const monthlyVal = document.getElementById('m-cpi-m');
+  const monthlyPart = monthlyVal && monthlyVal.closest('.cpi-part');
+  const part = document.createElement('span');
+  part.className = 'cpi-part';
+  part.appendChild(document.createTextNode('רמה '));
+  const levelVal = document.createElement('span');
+  levelVal.className = 'val';
+  levelVal.id = 'm-cpi-level';
+  part.appendChild(levelVal);
+  if (monthlyPart && monthlyPart.parentNode === link) {
+    link.insertBefore(cpiSep(), monthlyPart);
+    link.insertBefore(part, monthlyPart);
+  } else {
+    link.append(cpiSep(), part);
+  }
+}
+
 function ensureCombinedCpiItem(data) {
   const existing = document.getElementById('m-cpi-item');
   if (existing) {
@@ -53,6 +82,7 @@ function ensureCombinedCpiItem(data) {
     if (src) {
       src.href = data.cpiSourceUrl || CBS_CPI_PDF;
       src.title = CBS_CPI_TITLE;
+      ensureCpiLevelPart(src);
     }
     return existing;
   }
@@ -88,13 +118,13 @@ function ensureCombinedCpiItem(data) {
   period.textContent = data.cpiPeriodLabel || CPI_PERIOD_LABEL;
   lbl.appendChild(period);
 
-  const sep = () => {
-    const s = document.createElement('span');
-    s.className = 'cpi-sep';
-    s.setAttribute('aria-hidden', 'true');
-    s.textContent = '|';
-    return s;
-  };
+  const levelPart = document.createElement('span');
+  levelPart.className = 'cpi-part';
+  levelPart.appendChild(document.createTextNode('רמה '));
+  const levelVal = document.createElement('span');
+  levelVal.className = 'val';
+  levelVal.id = 'm-cpi-level';
+  levelPart.appendChild(levelVal);
 
   const monthlyPart = document.createElement('span');
   monthlyPart.className = 'cpi-part';
@@ -117,7 +147,7 @@ function ensureCombinedCpiItem(data) {
   pub.className = 'chg';
   pub.id = 'm-cpi-pub';
 
-  link.append(lbl, sep(), monthlyPart, sep(), yearlyPart, sep(), pub);
+  link.append(lbl, cpiSep(), levelPart, cpiSep(), monthlyPart, cpiSep(), yearlyPart, cpiSep(), pub);
   wrap.appendChild(link);
   monthlyItem.parentNode.insertBefore(wrap, monthlyItem);
   monthlyItem.remove();
@@ -149,9 +179,12 @@ function setMarketData(data) {
   const cpiPeriod = data.cpiPeriodLabel || CPI_PERIOD_LABEL;
   const monthlyTxt = fmt(data.cpiMonthly);
   const yearlyTxt = data.cpiYearly.toFixed(1) + '%';
+  const levelNum = data.cpiIndexLevel != null ? data.cpiIndexLevel : CPI_INDEX_LEVEL;
+  const levelTxt = Number(levelNum).toFixed(1);
   const pubTxt = 'פורסם ' + (data.cpiPublishedShort || CPI_PUBLISHED_SHORT);
 
   set('m-cpi-period', cpiPeriod);
+  set('m-cpi-level', levelTxt);
   const monthlyNode = set('m-cpi-m', monthlyTxt);
   if (monthlyNode) monthlyNode.className = 'val ' + (data.cpiMonthly >= 0 ? 'up' : 'down');
   set('m-cpi-y', yearlyTxt);
@@ -161,7 +194,7 @@ function setMarketData(data) {
   if (src) {
     src.setAttribute(
       'aria-label',
-      'מדד המחירים לצרכן — ' + cpiPeriod + ' | חודשי ' + monthlyTxt + ' | שנתי ' + yearlyTxt + ' | ' + pubTxt + ' | מקור למ״ס הודעה 293/2026'
+      'מדד המחירים לצרכן — ' + cpiPeriod + ' | רמה ' + levelTxt + ' | חודשי ' + monthlyTxt + ' | שנתי ' + yearlyTxt + ' | ' + pubTxt + ' | מקור למ״ס הודעה 293/2026'
     );
   }
 
