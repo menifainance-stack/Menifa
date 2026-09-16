@@ -159,6 +159,10 @@ function calc1() {
   const mo = monthlyPayment(loan, rate, years);
   document.getElementById('m1-out').textContent = fmt(mo) + ' / חודש';
   document.getElementById('m1-total').textContent = fmt(mo * years * 12);
+  const bar = document.getElementById('m1-bar');
+  const share = document.getElementById('m1-share');
+  if (bar) bar.style.width = Math.min(100, (mo / 15000) * 100) + '%';
+  if (share) share.textContent = Math.round((mo / 15000) * 100) + '%';
 }
 if (document.getElementById('m1-loan')) ['m1-loan','m1-rate','m1-years'].forEach(id => document.getElementById(id).addEventListener('input', calc1));
 if (document.getElementById('m1-loan')) calc1();

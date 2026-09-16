@@ -27,7 +27,8 @@
 <meta name="twitter:description" content="ייעוץ משכנתאות מוסמך. מחזור ואיחוד הלוואות. שיחת היכרות — בלי הבטחה מראש.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=2026-09-16-luski-qc2">
+<link rel="stylesheet" href="assets/style.css?v=2026-09-16-luski-craft">
+<link rel="stylesheet" href="assets/home-craft.css?v=2026-09-16-luski-craft">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1724,6 +1725,10 @@
 
 <!-- ═══ HERO ═══ -->
 <header class="hero">
+  <div class="hero-media" aria-hidden="true">
+    <img src="assets/images/tamir-og.jpg" alt="" width="1200" height="1200">
+  </div>
+  <div class="hero-photo-overlay" aria-hidden="true"></div>
   <div class="container">
     <div class="hero-grid">
 
@@ -1769,6 +1774,13 @@
           </div>
           <div class="out-label">החזר חודשי משוער</div>
           <div class="out-val" id="m1-out">₪0 / חודש</div>
+          <div class="pay-viz" aria-hidden="true">
+            <div class="pay-viz-bar"><i id="m1-bar"></i></div>
+            <div class="pay-viz-legend">
+              <span>לחץ החזר מול 15,000 ₪</span>
+              <span id="m1-share">—</span>
+            </div>
+          </div>
           <p class="tool-disclaimer">אומדן בלבד — לא הצעת בנק. סך תקופה: <span id="m1-total">₪0</span></p>
         </div>
       </div>
@@ -1783,6 +1795,20 @@
       <div class="trust-cell"><strong>בדיקה שקופה</strong><span>ריבית, החזר ותמהיל — לפני שחותמים</span></div>
       <div class="trust-cell"><strong>ליווי עד החתימה</strong><span>שיחה אחת ברורה, בלי לחץ</span></div>
       <div class="trust-cell"><strong>בלי הבטחה מראש</strong><span>אם אין מה לשפר — אומרים את זה</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="founder-early" id="founder" aria-label="תמיר גרמה">
+  <div class="container founder-early-grid">
+    <div class="founder-photo reveal">
+      <img src="assets/images/tamir-large.jpg" alt="תמיר גרמה — יועץ משכנתאות מוסמך, מניפה פיננסית" width="220" height="260">
+    </div>
+    <div class="reveal">
+      <span class="eyebrow">הכירו את תמיר</span>
+      <h2>עשור בבנקאות. עכשיו בצד שלכם.</h2>
+      <p>אני מכיר את השולחן מהצד של הבנק. בודקים איתכם החזר ותמהיל — בלי עמלה מהבנק, בלי קונפליקט. אם אין מה לשפר, אומרים את זה.</p>
+      <a class="founder-link" href="about.html">עוד עליי ←</a>
     </div>
   </div>
 </section>
@@ -2001,22 +2027,6 @@
       <p class="lead">ציטוטים מלקוחות. בלי הבטחת סכום מראש.</p>
     </div>
 
-    <!-- Personal intro by Tamir -->
-    <div class="testimonials-intro reveal">
-      <div class="ti-photo">
-        <img src="assets/images/tamir-medium.jpg" alt="תמיר גרמה — יועץ משכנתאות מוסמך">
-      </div>
-      <div class="ti-quote">
-        <svg class="ti-quote-mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 7c-3 0-5 2-5 5v5h5v-5H7c0-1.5 1-2.5 2.5-2.5V7zm9 0c-3 0-5 2-5 5v5h5v-5h-2c0-1.5 1-2.5 2.5-2.5V7z"/></svg>
-        <p>אני בוחר את הלקוחות שלי. אם הבדיקה מראה שאין מה לשפר — אני אומר את זה מראש בכנות, בלי הבטחה מראש. ונפרדים בידידות.</p>
-        <div class="ti-sig">
-          <span class="ti-sig-name">— תמיר גרמה</span>
-          <span class="ti-sig-role">יועץ משכנתאות מוסמך</span>
-        </div>
-      </div>
-    </div>
-
-
     <div class="testimonial-track">
 
       <div class="testimonial reveal" data-delay="1">
@@ -2065,7 +2075,7 @@
           <svg fill="currentColor" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
           <svg fill="currentColor" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
         </div>
-        <p>"היו לי 3 הלוואות חוץ-בנקאיות שחנקו אותי. תמיר איחד הכל לתוך המשכנתא בריבית נמוכה ופתאום נשמתי. החזר חודשי קטן יותר ב-2,800 ₪. פשוט הצלת חיים."</p>
+        <p>"היו לי 3 הלוואות חוץ-בנקאיות שחנקו אותי. תמיר איחד הכל לתוך המשכנתא, והתזרים נפתח. בלי הבטחת סכום מראש — זה היה המקרה שלי."</p>
         <div class="testimonial-foot">
           <div class="t-avatar">רב</div>
           <div class="t-info">
@@ -2137,63 +2147,53 @@
   </div>
 </section>
 
-<!-- ═══ LATEST ARTICLES — internal linking + freshness boost ═══ -->
-<section style="padding:4rem 0;background:linear-gradient(180deg,#FCFDFE 0%,#F0F7FB 100%);">
+<section class="blog-latest" id="latest-articles">
   <div class="container">
-    <div class="section-head reveal" style="text-align:center;margin-bottom:2.5rem;">
+    <div class="section-head reveal">
       <span class="eyebrow">בלוג מקצועי</span>
       <h2>המאמרים החדשים</h2>
       <p class="lead">תוכן עדכני על משכנתאות בישראל — נתונים אמיתיים, מקורות רשמיים, ייעוץ מקצועי.</p>
     </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.4rem;margin-bottom:2rem;">
-
-      <a href="blog/art-36.html" style="display:block;padding:1.4rem 1.5rem;background:#fff;border:1px solid rgba(91,175,216,0.2);border-radius:14px;text-decoration:none;color:inherit;transition:transform 0.2s, box-shadow 0.2s;">
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-size:0.82rem;color:#3D8B6E;font-weight:700;">🆕 חדש</div>
-        <h3 style="font-size:1.05rem;margin:0 0 0.5rem;color:#0E3C5C;">10 מלכודות בחוזה משכנתא — מה חייבים לבדוק</h3>
-        <p style="font-size:0.88rem;color:#5C7090;margin:0 0 0.7rem;line-height:1.5;">הסעיפים שרוב הלווים מפספסים: עמלת פירעון מוקדם, ריבית משתנה, עילות פירעון מיידי, ערבים ועוד.</p>
-        <span style="color:#5BAFD8;font-size:0.85rem;font-weight:600;">קרא ←</span>
+    <div class="blog-latest-grid">
+      <a href="blog/art-36.html" class="blog-teaser-card reveal">
+        <div class="kicker is-new">חדש</div>
+        <h3>10 מלכודות בחוזה משכנתא — מה חייבים לבדוק</h3>
+        <p>הסעיפים שרוב הלווים מפספסים: עמלת פירעון מוקדם, ריבית משתנה, עילות פירעון מיידי, ערבים ועוד.</p>
+        <span class="more">קרא ←</span>
       </a>
-
-      <a href="blog/art-35.html" style="display:block;padding:1.4rem 1.5rem;background:#fff;border:1px solid rgba(91,175,216,0.2);border-radius:14px;text-decoration:none;color:inherit;transition:transform 0.2s, box-shadow 0.2s;">
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;font-size:0.82rem;color:#3D8B6E;font-weight:700;">🆕 חדש</div>
-        <h3 style="font-size:1.05rem;margin:0 0 0.5rem;color:#0E3C5C;">מסמכים למשכנתא 2026 — הרשימה המלאה</h3>
-        <p style="font-size:0.88rem;color:#5C7090;margin:0 0 0.7rem;line-height:1.5;">שכירים, עצמאים, יד שנייה ומקבלן — כל הרשימה. איך אוספים ומה עושים אם משהו חסר.</p>
-        <span style="color:#5BAFD8;font-size:0.85rem;font-weight:600;">קרא ←</span>
+      <a href="blog/art-35.html" class="blog-teaser-card reveal">
+        <div class="kicker is-new">חדש</div>
+        <h3>מסמכים למשכנתא 2026 — הרשימה המלאה</h3>
+        <p>שכירים, עצמאים, יד שנייה ומקבלן — כל הרשימה. איך אוספים ומה עושים אם משהו חסר.</p>
+        <span class="more">קרא ←</span>
       </a>
-
-      <a href="blog/art-33.html" style="display:block;padding:1.4rem 1.5rem;background:#fff;border:1px solid rgba(91,175,216,0.2);border-radius:14px;text-decoration:none;color:inherit;transition:transform 0.2s, box-shadow 0.2s;">
-        <div style="font-size:0.82rem;color:#5BAFD8;font-weight:700;margin-bottom:0.6rem;">ביטוח</div>
-        <h3 style="font-size:1.05rem;margin:0 0 0.5rem;color:#0E3C5C;">ביטוח משכנתא 2026 — מה הבנק לא אומר</h3>
-        <p style="font-size:0.88rem;color:#5C7090;margin:0 0 0.7rem;line-height:1.5;">מה חובה, מה אופציונלי, ולמה כדאי לבדוק מחוץ לבנק אחרי שיש כיוון בריבית.</p>
-        <span style="color:#5BAFD8;font-size:0.85rem;font-weight:600;">קרא ←</span>
+      <a href="blog/art-33.html" class="blog-teaser-card reveal">
+        <div class="kicker">ביטוח</div>
+        <h3>ביטוח משכנתא 2026 — מה הבנק לא אומר</h3>
+        <p>מה חובה, מה אופציונלי, ולמה כדאי לבדוק מחוץ לבנק אחרי שיש כיוון בריבית.</p>
+        <span class="more">קרא ←</span>
       </a>
-
-      <a href="blog/art-27.html" style="display:block;padding:1.4rem 1.5rem;background:#fff;border:1px solid rgba(91,175,216,0.2);border-radius:14px;text-decoration:none;color:inherit;transition:transform 0.2s, box-shadow 0.2s;">
-        <div style="font-size:0.82rem;color:#5BAFD8;font-weight:700;margin-bottom:0.6rem;">אסטרטגיה</div>
-        <h3 style="font-size:1.05rem;margin:0 0 0.5rem;color:#0E3C5C;">לפרוע מוקדם או להשקיע? — הניתוח ליוני 2026</h3>
-        <p style="font-size:0.88rem;color:#5C7090;margin:0 0 0.7rem;line-height:1.5;">חישוב מדויק: כמה חוסכים בפירעון מוקדם ומתי הכסף עובד יותר טוב בשוק ההון.</p>
-        <span style="color:#5BAFD8;font-size:0.85rem;font-weight:600;">קרא ←</span>
+      <a href="blog/art-27.html" class="blog-teaser-card reveal">
+        <div class="kicker">אסטרטגיה</div>
+        <h3>לפרוע מוקדם או להשקיע? — הניתוח ליוני 2026</h3>
+        <p>חישוב מדויק: כמה חוסכים בפירעון מוקדם ומתי הכסף עובד יותר טוב בשוק ההון.</p>
+        <span class="more">קרא ←</span>
       </a>
-
-      <a href="blog/art-21.html" style="display:block;padding:1.4rem 1.5rem;background:#fff;border:1px solid rgba(91,175,216,0.2);border-radius:14px;text-decoration:none;color:inherit;transition:transform 0.2s, box-shadow 0.2s;">
-        <div style="font-size:0.82rem;color:#5BAFD8;font-weight:700;margin-bottom:0.6rem;">ריבית</div>
-        <h3 style="font-size:1.05rem;margin:0 0 0.5rem;color:#0E3C5C;">ריבית 3.75% — מה זה אומר לנוטל המשכנתא</h3>
-        <p style="font-size:0.88rem;color:#5C7090;margin:0 0 0.7rem;line-height:1.5;">בנק ישראל הוריד ריבית. כמה כסף זה חוסך, מתי כדאי למחזר, ומה הצפי.</p>
-        <span style="color:#5BAFD8;font-size:0.85rem;font-weight:600;">קרא ←</span>
+      <a href="blog/art-21.html" class="blog-teaser-card reveal">
+        <div class="kicker">ריבית</div>
+        <h3>ריבית 3.75% — מה זה אומר לנוטל המשכנתא</h3>
+        <p>בנק ישראל הוריד ריבית. כמה כסף זה חוסך, מתי כדאי למחזר, ומה הצפי.</p>
+        <span class="more">קרא ←</span>
       </a>
-
-      <a href="madrich-mashkanta.html" style="display:block;padding:1.4rem 1.5rem;background:linear-gradient(135deg,#0E3C5C,#082945);border-radius:14px;text-decoration:none;color:#fff;transition:transform 0.2s, box-shadow 0.2s;">
-        <div style="font-size:0.82rem;color:#7BC1E0;font-weight:700;margin-bottom:0.6rem;">מדריך מלא</div>
-        <h3 style="font-size:1.05rem;margin:0 0 0.5rem;color:#fff;">המדריך המלא למשכנתא 2026</h3>
-        <p style="font-size:0.88rem;color:rgba(255,255,255,0.85);margin:0 0 0.7rem;line-height:1.5;">4,500 מילים על כל מה שצריך לדעת — תמהיל, ריביות, יחס החזר, תהליך.</p>
-        <span style="color:#5BAFD8;font-size:0.85rem;font-weight:600;">קרא ←</span>
+      <a href="madrich-mashkanta.html" class="blog-teaser-card is-guide reveal">
+        <div class="kicker">מדריך מלא</div>
+        <h3>המדריך המלא למשכנתא 2026</h3>
+        <p>4,500 מילים על כל מה שצריך לדעת — תמהיל, ריביות, יחס החזר, תהליך.</p>
+        <span class="more">קרא ←</span>
       </a>
-
     </div>
-
-    <div style="text-align:center;">
-      <a href="blog.html" style="display:inline-block;padding:0.9rem 2rem;background:#0E3C5C;color:#fff;text-decoration:none;border-radius:10px;font-weight:600;">לכל המאמרים (36+) ←</a>
+    <div class="blog-latest-foot">
+      <a href="blog.html" class="blog-all">לכל המאמרים (36+) ←</a>
     </div>
   </div>
 </section>
@@ -2507,6 +2507,10 @@
   </div>
 </div>
 
+<div class="sticky-mobile-cta">
+  <a href="https://wa.me/972524502821?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94" target="_blank" rel="noopener" class="btn btn-primary">וואטסאפ — לתיאום שיחה</a>
+</div>
+
 <!-- ═══ FLOATING CONTACT GROUP ═══ -->
 <div class="fab-group" role="navigation" aria-label="כפתורי יצירת קשר">
   <a href="tel:052-4502821" class="fab fab-phone" aria-label="התקשרו עכשיו 052-4502821">
@@ -2520,6 +2524,6 @@
 </div>
 
 
-<script src="assets/script.js?v=2026-09-16-luski-qc2"></script>
+<script src="assets/script.js?v=2026-09-16-luski-craft"></script>
 </body>
 </html>

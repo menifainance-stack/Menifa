@@ -57,6 +57,12 @@ for phrase in anti_ai:
     if phrase in html:
         errors.append(f"anti-AI / anti-copy phrase: {phrase}")
 
+if 'class="hero-media"' not in html or "tamir-og.jpg" not in html:
+    errors.append("hero missing approved photo under overlay")
+if "hero-photo-overlay" not in html:
+    errors.append("hero photo overlay missing")
+if "2,800" in html or "2800" in html:
+    errors.append("unsubstantiated ₪2,800 savings claim still on homepage")
 if "id=\"home-quiz\"" not in html:
     errors.append("quiz missing")
 if "שלב" not in html or "מתוך" not in html:
