@@ -10,10 +10,11 @@
 * { box-sizing:border-box; }
 html,body { margin:0; background:var(--bg); color:var(--txt); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
 body { padding:0 16px 48px; max-width:480px; margin:0 auto; }
-.banner { position:sticky; top:0; z-index:20; background:#7A2E2E; color:#fff; text-align:center; font-weight:800; font-size:.92rem; padding:12px 12px; margin:0 -16px 16px; }
+.sticky { position:sticky; top:0; z-index:20; margin:0 -16px 16px; }
+.banner { background:#7A2E2E; color:#fff; text-align:center; font-weight:800; font-size:.92rem; padding:12px; }
+.disc { background:#2a1f12; border:0; border-bottom:1px solid #5c4520; color:#f0d9a0; padding:10px 16px; border-radius:0; font-size:.8rem; line-height:1.45; margin:0; }
 h1 { font-size:1.25rem; font-weight:700; margin:0 0 4px; }
 .sub { color:var(--muted); font-size:.85rem; margin:0 0 16px; line-height:1.4; }
-.disc { background:#2a1f12; border:1px solid #5c4520; color:#f0d9a0; padding:10px 12px; border-radius:10px; font-size:.8rem; line-height:1.45; margin-bottom:16px; }
 label { display:block; font-size:.8rem; color:var(--muted); margin:12px 0 6px; }
 input, select { width:100%; padding:12px; border-radius:10px; border:1px solid var(--line); background:#121820; color:var(--txt); font-size:1rem; }
 .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
@@ -34,10 +35,12 @@ button { width:100%; margin-top:18px; padding:14px; border:0; border-radius:12px
 </style>
 </head>
 <body>
+<div class="sticky">
 <div class="banner">כלי פנימי — לא הצעת מחיר</div>
+<div class="disc">כלי פנימי להערכה בלבד. <strong>אינו הצעת מחיר מחייבת</strong> מחברת ביטוח ואינו ייעוץ ביטוחי מורשה. גם כשמחושב מתעריפון/הנחות רשמיים — התוצאה היא אומדן פנימי בלבד; התעריפים הקובעים הם אלו שבמחשבי החברה במועד הפקת הפוליסה (כפי שמצוין בתעריפון).</div>
+</div>
 <h1>מחשבון ביטוח חיים (ריסק)</h1>
 <p class="sub">כלי פנימי לתמיר ולשותף · תעריף ריסק 1 (05.2026) + הנחות מכונות מעודכן</p>
-<div class="disc">כלי פנימי להערכה בלבד. <strong>אינו הצעת מחיר מחייבת</strong> מחברת ביטוח ואינו ייעוץ ביטוחי מורשה. גם כשמחושב מתעריפון/הנחות רשמיים — התוצאה היא אומדן פנימי בלבד; התעריפים הקובעים הם אלו שבמחשבי החברה במועד הפקת הפוליסה (כפי שמצוין בתעריפון).</div>
 
 <div class="gaps" role="note">
   <h2>פערים במקורות — גלוי, לא ניחוש</h2>
@@ -68,7 +71,7 @@ button { width:100%; margin-top:18px; padding:14px; border:0; border-radius:12px
   <option value="1">מעשן</option>
 </select>
 
-<label for="company">חברת ביטוח (תווית בלבד)</label>
+<label for="company">חברה / הקשר הסכם (תווית בלבד — לא משנה תעריף)</label>
 <select id="company">
   <option value="risk1" selected>תעריף ריסק 1 — יחיד במקורות</option>
   <option value="clal">כלל — תווית, לא משנה חישוב</option>
@@ -78,7 +81,7 @@ button { width:100%; margin-top:18px; padding:14px; border:0; border-radius:12px
   <option value="menora">מנורה — תווית, לא משנה חישוב</option>
   <option value="other">אחר — תווית, לא משנה חישוב</option>
 </select>
-<p class="hint">אין מיפוי חברה לתעריף במקורות. החישוב תמיד לפי «תעריף ריסק 1», בלי שם חברה מודפס.</p>
+<p class="hint">אין מיפוי חברה→תעריף. התעריף נקבע רק לפי מין, גיל, עישון, סכום כיסוי, קוד הסכם ואות הנחה א–ו.</p>
 
 <label for="cover">סכום כיסוי (₪)</label>
 <input id="cover" type="number" min="1" step="1000" value="1000000" inputmode="numeric"/>
@@ -110,6 +113,14 @@ button { width:100%; margin-top:18px; padding:14px; border:0; border-radius:12px
       <div class="k">אחרי הנחה · שנתי</div>
       <div class="v" id="afterY"></div>
       <div class="k" id="afterM" style="margin-top:8px"></div>
+    </div>
+    <div class="card">
+      <div class="k">לפני הנחה · חודשי</div>
+      <div class="v" id="beforeM2"></div>
+    </div>
+    <div class="card after">
+      <div class="k">אחרי הנחה · חודשי</div>
+      <div class="v" id="afterM2"></div>
     </div>
   </div>
   <div class="meta" id="meta"></div>
@@ -181,6 +192,8 @@ function calc(){
   document.getElementById('afterY').textContent = ils(afterY);
   document.getElementById('beforeM').textContent = 'חודשי: ' + ils(beforeM);
   document.getElementById('afterM').textContent = 'חודשי: ' + ils(afterM);
+  document.getElementById('beforeM2').textContent = ils(beforeM);
+  document.getElementById('afterM2').textContent = ils(afterM);
 
   const msgs = [];
   if (age < agr.amin || age > agr.amax) {
