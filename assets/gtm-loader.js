@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
    GTM loader — gated. Will not fetch googletagmanager.com unless
    MENIFA_MEASUREMENT_PREVIEW === true AND MENIFA_GTM_ID is a real
-   GTM-… id (not the GTM-XXXXXXX /* REPLACE_ME */ placeholder).
+   GTM-… id (not the GTM-XXXXXXX REPLACE_ME placeholder).
    ═══════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';

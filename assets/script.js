@@ -983,7 +983,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 /* ═══════════════════════════════════════════════════════════════
    Measurement preview — attribution + WhatsApp dataLayer.
    GTM itself is gated (MENIFA_MEASUREMENT_PREVIEW=false and
-   placeholder GTM-XXXXXXX /* REPLACE_ME */). Loader no-ops on live.
+   placeholder GTM-XXXXXXX REPLACE_ME). Loader no-ops on live.
    ═══════════════════════════════════════════════════════════════ */
 (function loadMenifaMeasurement() {
   if (window.__menifaMeasurementLoader) return;
