@@ -3221,7 +3221,7 @@ body.has-ticker .navbar { top: 42px; }
 .navbar #menuToggle {
   display: flex !important;
   width: 44px; height: 44px;
-  border: 1px solid rgba(184, 146, 89, 0.3);
+  border: 1px solid rgba(91, 175, 216, 0.35);
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
