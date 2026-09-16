@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="googlebot" content="noindex,nofollow,noarchive" />
+  <title>השוואה · Luski craft vs מניפה +2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root{--ink:#0E3C5C;--accent:#5BAFD8;--trust:#C4A574;--bg:#0a1620}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Heebo,system-ui,sans-serif;background:var(--bg);color:#e8f0f6;min-height:100vh;direction:rtl}
+    .bar{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      padding:12px 18px;background:#071018;border-bottom:1px solid rgba(196,165,116,.35);
+      position:sticky;top:0;z-index:10;
+    }
+    .bar b{color:var(--trust);font-weight:700}
+    .bar a{color:var(--accent);font-weight:600;text-decoration:none}
+    .bar a:hover{text-decoration:underline}
+    .modes{display:flex;gap:8px}
+    .modes button{
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);
+      color:#fff;padding:8px 14px;border-radius:999px;cursor:pointer;font:inherit;font-size:13px;font-weight:600
+    }
+    .modes button.on{background:var(--accent);border-color:var(--accent);color:#062033}
+    .grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:0;
+      height:calc(100vh - 54px);min-height:520px;
+    }
+    .pane{display:flex;flex-direction:column;min-width:0;border-inline-start:1px solid rgba(255,255,255,.08)}
+    .pane:first-child{border-inline-start:0}
+    .pane-label{
+      padding:10px 14px;font-size:12px;font-weight:700;letter-spacing:.04em;
+      display:flex;justify-content:space-between;align-items:center;
+      background:#0d1c28;
+    }
+    .pane-label .tag{opacity:.7;font-weight:500}
+    .left .pane-label{color:#E0C984}
+    .right .pane-label{color:var(--trust)}
+    .frame-wrap{flex:1;position:relative;background:#111;overflow:hidden}
+    .frame-wrap iframe,.frame-wrap img{
+      position:absolute;inset:0;width:100%;height:100%;border:0;
+      background:#fff;
+    }
+    .frame-wrap img{object-fit:cover;object-position:top center}
+    .note{padding:8px 14px;font-size:11px;opacity:.65;background:#071018;border-top:1px solid rgba(255,255,255,.06)}
+    body.mobile .grid{grid-template-columns:1fr;height:auto}
+    body.mobile .pane{height:70vh;border-inline-start:0;border-top:1px solid rgba(255,255,255,.08)}
+    @media(max-width:800px){
+      .grid{grid-template-columns:1fr;height:auto}
+      .pane{height:65vh;border-inline-start:0;border-top:1px solid rgba(255,255,255,.08)}
+    }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <div><b>COMPARE</b> · שמאל: Luski/financeb source · ימין: מניפה +2 · <a href="index.html">פתחו מניפה מלאה</a></div>
+    <div class="modes">
+      <button type="button" class="on" data-mode="split">Split</button>
+      <button type="button" data-mode="mobile">Mobile stack</button>
+      <button type="button" data-mode="shot">Luski shot</button>
+    </div>
+  </div>
+  <div class="grid" id="grid">
+    <section class="pane left">
+      <div class="pane-label"><span>LEFT · Luski craft reference</span><span class="tag" data-left-tag>source shot</span></div>
+      <div class="frame-wrap" id="left-wrap">
+        <img id="left-img" src="assets/images/luski-financeb-desktop.png" alt="Luski financeb desktop source" />
+        <iframe id="left-frame" title="Luski clone lab" style="display:none" sandbox="allow-same-origin allow-scripts"></iframe>
+      </div>
+      <div class="note">מקור: clone-lab financeb desktop · לזהות craft בלבד · לא מותג מניפה</div>
+    </section>
+    <section class="pane right">
+      <div class="pane-label"><span>RIGHT · מניפה פיננסית (+2)</span><span class="tag">live preview</span></div>
+      <div class="frame-wrap">
+        <iframe src="index.html" title="Menifa upgrade homepage"></iframe>
+      </div>
+      <div class="note">זהות מניפה בלבד · ink/accent/trust-gold · Frank Ruhl+Heebo · בלי טענות 50%/30יום</div>
+    </section>
+  </div>
+  <script>
+    const body = document.body;
+    const leftImg = document.getElementById('left-img');
+    const leftFrame = document.getElementById('left-frame');
+    const leftTag = document.querySelector('[data-left-tag]');
+    const btns = [...document.querySelectorAll('[data-mode]')];
+    const cloneCandidates = [
+      '../luski-clone-lab-slim/index.html',
+      '../clone-lab-luski/index.html',
+      '/workspace/luski-clone-lab-slim/index.html'
+    ];
+    btns.forEach(b => b.addEventListener('click', () => {
+      btns.forEach(x => x.classList.remove('on'));
+      b.classList.add('on');
+      const m = b.dataset.mode;
+      body.classList.toggle('mobile', m === 'mobile');
+      if (m === 'shot' || m === 'split' || m === 'mobile') {
+        leftImg.style.display = 'block';
+        leftFrame.style.display = 'none';
+        leftImg.src = m === 'mobile'
+          ? 'assets/images/luski-financeb-mobile.png'
+          : 'assets/images/luski-financeb-desktop.png';
+        leftTag.textContent = m === 'mobile' ? 'source mobile 375' : 'source shot';
+      }
+    }));
+    // Optional: try loading clone lab iframe if reachable from same server tree
+    fetch('../luski-clone-lab-slim/index.html', { method: 'HEAD' }).then(r => {
+      if (!r.ok) return;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.textContent = 'Luski iframe';
+      btn.style.cssText = 'background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#fff;padding:8px 14px;border-radius:999px;cursor:pointer;font:inherit;font-size:13px;font-weight:600';
+      btn.addEventListener('click', () => {
+        btns.forEach(x => x.classList.remove('on'));
+        leftImg.style.display = 'none';
+        leftFrame.style.display = 'block';
+        leftFrame.src = '../luski-clone-lab-slim/index.html';
+        leftTag.textContent = 'clone-lab iframe';
+      });
+      document.querySelector('.modes').appendChild(btn);
+    }).catch(() => {});
+  </script>
+</body>
+</html>
