@@ -23,15 +23,20 @@
 - **P1 motion:** homepage reveals 320ms ease, once.
 - **Graphics:** leftover `#B89259` drawer chevron → `#5BAFD8`.
 
-## Verified (after push)
+## Verified
 
-Fill in after Vercel + browser pass:
+- Staging `https://menifa-aqkronc12-menifainance-stacks-projects.vercel.app` — HTML/CSS/JS/photo 200, no login.
+- Desktop: calculator ₪6,670; overlay tokens in place. Overlay then lightened so the Tamir photo actually reads (follow-up commit).
+- Mobile 375: nav CTA + FABs hidden; sticky WA at bottom. Cookie moved to a slim top strip so it does not cover the sticky CTA.
+- `python3 tools/check_luski_polish.py` exits 0.
 
-- [ ] Staging HTML 200 + CSS/images 200
-- [ ] Desktop hero shows photo through overlay + calc ≠ ₪0
-- [ ] Mobile 375: single sticky WA; cookie does not cover it
-- [ ] Quiz RTL still works
-- [ ] `python3 tools/check_luski_polish.py` = 0
+## Still not working / not claimed
+
+- Hero media is Tamir’s **studio portrait**, not office/lifestyle video (none in repo).
+- Tamir’s subjective “≥ Luski first screen” gate is still his.
+- Cookie can still appear after 8s on first visit (top strip, not over the sticky CTA).
+- Schema/blog savings language not scrubbed.
+- Headless Chrome stills reverse RTL glyphs; live page is `dir=rtl`.
 
 ## Still missing / honest gaps
 
