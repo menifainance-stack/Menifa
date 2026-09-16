@@ -60,12 +60,12 @@
       event: 'whatsapp_click',
       page_path: location.pathname,
       landing_page_path: utm.landing_page_path || location.pathname,
+      session_source: utm.session_source || utm.utm_source || '',
+      session_medium: utm.session_medium || utm.utm_medium || '',
+      session_campaign: utm.session_campaign || utm.utm_campaign || '',
       wa_variant: variant || 'bare',
       link_url: linkUrl
     };
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
-      if (utm[k]) payload[k] = utm[k];
-    });
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(payload);
   }

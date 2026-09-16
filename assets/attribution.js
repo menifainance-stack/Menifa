@@ -1,7 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
    Attribution — UTM / gclid / fbclid → sessionStorage (first-touch
-   landing path + last-present campaign params for the tab).
-   No PII. Safe without GTM: only sessionStorage + a public getter.
+   only: never overwrite an existing key for this tab).
+   Exposes landing_page_path + session_source / session_medium /
+   session_campaign for dataLayer (no PII).
+   Safe without GTM: only sessionStorage + a public getter.
    ═══════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -14,8 +16,9 @@
   function ssGet(key) {
     try { return sessionStorage.getItem(key); } catch (e) { return null; }
   }
-  function ssSet(key, value) {
+  function ssSetFirst(key, value) {
     if (value == null || value === '') return;
+    if (ssGet(key)) return;
     try { sessionStorage.setItem(key, String(value)); } catch (e) { /* private mode */ }
   }
 
@@ -25,12 +28,10 @@
     if (params) {
       PARAMS.forEach(function (k) {
         var v = params.get(k);
-        if (v) ssSet(PREFIX + k, v);
+        if (v) ssSetFirst(PREFIX + k, v);
       });
     }
-    if (!ssGet(LANDING_KEY)) {
-      ssSet(LANDING_KEY, location.pathname || '/');
-    }
+    ssSetFirst(LANDING_KEY, location.pathname || '/');
   }
 
   function get() {
@@ -40,6 +41,9 @@
       if (v) out[k] = v;
     });
     out.landing_page_path = ssGet(LANDING_KEY) || location.pathname || '/';
+    out.session_source = out.utm_source || '';
+    out.session_medium = out.utm_medium || '';
+    out.session_campaign = out.utm_campaign || '';
     return out;
   }
 

@@ -60,6 +60,7 @@ for (const file of htmlFiles) {
   const raw = fs.readFileSync(path.join(root, file), 'utf8');
   const live = stripHtmlComments(raw);
   ok(file + ' has commented GTM placeholder', /GTM-XXXXXXX/.test(raw));
+  ok(file + ' marks GTM-XXXXXXX as REPLACE_ME', /REPLACE_ME/.test(raw));
   ok(file + ' live HTML has no googletagmanager.com', !/googletagmanager\.com/.test(live));
   ok(file + ' live HTML has no executing GTM-XXXXXXX snippet', !/gtm\.js\?id='/.test(live) && !/ns\.html\?id=GTM-/.test(live));
 }
@@ -71,6 +72,13 @@ ok('measurement-config preview flag is false',
   /MENIFA_MEASUREMENT_PREVIEW = false/.test(fs.readFileSync(path.join(root, 'assets/measurement-config.js'), 'utf8')));
 ok('gtm-loader refuses placeholder',
   /GTM-XXXXXXX/.test(fs.readFileSync(path.join(root, 'assets/gtm-loader.js'), 'utf8')));
+ok('measurement-config marks REPLACE_ME placeholders',
+  /REPLACE_ME/.test(fs.readFileSync(path.join(root, 'assets/measurement-config.js'), 'utf8')) &&
+  /G-XXXXXXXX/.test(fs.readFileSync(path.join(root, 'assets/measurement-config.js'), 'utf8')));
+ok('STATUS doc explains placeholders + DoD',
+  /REPLACE_ME/.test(fs.readFileSync(path.join(root, 'docs/website-landing/2026-09-16-ga4-gtm-preview-status.md'), 'utf8')) &&
+  /Definition of Done/.test(fs.readFileSync(path.join(root, 'docs/website-landing/2026-09-16-ga4-gtm-preview-status.md'), 'utf8')) &&
+  /session_source/.test(fs.readFileSync(path.join(root, 'docs/website-landing/2026-09-16-ga4-gtm-preview-status.md'), 'utf8')));
 
 /* ── 2. Attribution ── */
 console.log('attribution.js');
@@ -83,8 +91,25 @@ console.log('attribution.js');
   ok('stores utm_campaign', a.utm_campaign === 'test');
   ok('stores gclid', a.gclid === 'abc');
   ok('landing_page_path first-touch', a.landing_page_path === '/calculators.html');
+  ok('session_source first-touch', a.session_source === 'google');
+  ok('session_medium first-touch', a.session_medium === 'cpc');
+  ok('session_campaign first-touch', a.session_campaign === 'test');
   ok('sessionStorage has utm_source',
     dom.window.sessionStorage.getItem('menifa_attr_utm_source') === 'google');
+}
+{
+  const dom = makeDom(
+    '<!doctype html><html><body></body></html>',
+    'https://menifa.org/calculators.html?utm_source=google&utm_medium=cpc&utm_campaign=first'
+  );
+  loadScript(dom.window, 'assets/attribution.js');
+  dom.window.history.replaceState({}, '', 'https://menifa.org/contact.html?utm_source=facebook&utm_medium=paid&utm_campaign=later');
+  delete dom.window.MenifaAttribution;
+  loadScript(dom.window, 'assets/attribution.js');
+  const again = dom.window.MenifaAttribution.get();
+  ok('first-touch does not overwrite utm_source', again.session_source === 'google');
+  ok('first-touch does not overwrite campaign', again.session_campaign === 'first');
+  ok('first-touch keeps landing_page_path', again.landing_page_path === '/calculators.html');
 }
 
 /* ── 3. GTM loader gates ── */
@@ -134,7 +159,10 @@ console.log('wa-track.js');
   ok('fab click pushes whatsapp_click', events.length === 1);
   ok('wa_variant fab', events[0].wa_variant === 'fab');
   ok('link_url strips text=', events[0].link_url === 'https://wa.me/972524502821');
-  ok('utm_source on WA event', events[0].utm_source === 'google');
+  ok('session_source on WA event', events[0].session_source === 'google');
+  ok('session_medium on WA event', events[0].session_medium === 'cpc');
+  ok('session_campaign on WA event', events[0].session_campaign === 'test');
+  ok('WA event has no raw utm_* keys', !('utm_source' in events[0]));
   ok('no PII keys on WA event', !('name' in events[0]) && !('phone' in events[0]) && !/secret|שלום/.test(JSON.stringify(events[0])));
 
   dom.window.open('https://wa.me/972524502821?text=private-message', '_blank');
@@ -230,7 +258,11 @@ async function runLeadTests() {
     ok('form_submit_success after res.ok', ev.length === 1);
     ok('dataLayer form_id', ev[0].form_id === 'calc_mortgage');
     ok('dataLayer lead_uuid matches Make', ev[0].lead_uuid === body.lead_uuid);
-    ok('dataLayer has utm_source', ev[0].utm_source === 'google');
+    ok('dataLayer session_source', ev[0].session_source === 'google');
+    ok('dataLayer session_medium', ev[0].session_medium === 'cpc');
+    ok('dataLayer session_campaign', ev[0].session_campaign === 'test');
+    ok('dataLayer landing_page_path', ev[0].landing_page_path === '/calculators.html');
+    ok('dataLayer has no raw utm_* keys', !('utm_source' in ev[0]));
     ok('dataLayer has no PII', !('name' in ev[0]) && !('phone' in ev[0]) && !('email' in ev[0]) && !('amount' in ev[0]) && !('note' in ev[0]));
   }
 

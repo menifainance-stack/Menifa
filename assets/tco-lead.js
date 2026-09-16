@@ -33,6 +33,9 @@
       if (v) out[k] = v;
     });
     out.landing_page_path = location.pathname || '/';
+    out.session_source = out.utm_source || '';
+    out.session_medium = out.utm_medium || '';
+    out.session_campaign = out.utm_campaign || '';
     return out;
   }
 
@@ -43,11 +46,11 @@
       form_id: formId,
       page_path: location.pathname,
       landing_page_path: (attr && attr.landing_page_path) || location.pathname,
+      session_source: (attr && (attr.session_source || attr.utm_source)) || '',
+      session_medium: (attr && (attr.session_medium || attr.utm_medium)) || '',
+      session_campaign: (attr && (attr.session_campaign || attr.utm_campaign)) || '',
       lead_uuid: leadUuid
     };
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
-      if (attr && attr[k]) payload[k] = attr[k];
-    });
     window.dataLayer.push(payload);
   }
 

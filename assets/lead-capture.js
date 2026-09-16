@@ -10,7 +10,8 @@
 
    דורש: assets/script.js (עבור monthlyPayment ו-fmt) ו-lead-capture.css
    מדידה: data-form-id, lead_uuid, utm_* ל-Make; form_submit_success
-   ל-dataLayer רק אחרי res.ok — בלי PII.
+   ל-dataLayer רק אחרי res.ok — landing_page_path + session_source /
+   session_medium / session_campaign (first-touch). בלי PII.
    ═══════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -73,8 +74,14 @@
         if (v) out[k] = v;
       });
       out.landing_page_path = sessionStorage.getItem('menifa_landing_page_path') || location.pathname || '/';
+      out.session_source = out.utm_source || '';
+      out.session_medium = out.utm_medium || '';
+      out.session_campaign = out.utm_campaign || '';
     } catch (e) {
       out.landing_page_path = location.pathname || '/';
+      out.session_source = '';
+      out.session_medium = '';
+      out.session_campaign = '';
     }
     return out;
   }
@@ -86,11 +93,11 @@
       form_id: formId,
       page_path: location.pathname,
       landing_page_path: (attr && attr.landing_page_path) || location.pathname,
+      session_source: (attr && (attr.session_source || attr.utm_source)) || '',
+      session_medium: (attr && (attr.session_medium || attr.utm_medium)) || '',
+      session_campaign: (attr && (attr.session_campaign || attr.utm_campaign)) || '',
       lead_uuid: leadUuid
     };
-    ATTR_KEYS.forEach(function (k) {
-      if (k.indexOf('utm_') === 0 && attr && attr[k]) payload[k] = attr[k];
-    });
     Object.keys(payload).forEach(function (k) {
       if (PII_KEYS[k]) delete payload[k];
     });
