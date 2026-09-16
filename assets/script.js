@@ -648,7 +648,7 @@ setTimeout(() => {
   } catch (e) {
     document.getElementById('cookieBanner').classList.add('visible');
   }
-}, 1800);
+}, 8000);
 
 /* ═══════════════════════════════════════════════════════════════
    LEAD FORM
