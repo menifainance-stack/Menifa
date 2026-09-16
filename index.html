@@ -27,7 +27,7 @@
 <meta name="twitter:description" content="ייעוץ משכנתאות מוסמך. מחזור ואיחוד הלוואות. שיחת היכרות 30 דקות — בלי הבטחה מראש.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=2026-09-16-nav">
+<link rel="stylesheet" href="assets/style.css?v=2026-09-16-cpi">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1685,15 +1685,16 @@
         <span class="val" id="m-boi">3.25%</span>
         <span class="chg up" id="m-boi-chg" aria-label="ללא שינוי">—</span>
       </div>
-      <div class="market-item">
-        <span class="lbl">מדד מחירים חודשי</span>
-        <span class="val" id="m-cpi-m">+0.7%</span>
-        <span class="chg" id="m-cpi-m-chg">אוג׳ 2026</span>
-      </div>
-      <div class="market-item">
-        <span class="lbl">מדד שנתי</span>
-        <span class="val" id="m-cpi-y">1.5%</span>
-        <span class="chg" id="m-cpi-y-chg">12 ח׳ עד אוג׳ 2026</span>
+      <div class="market-item market-item-cpi" id="m-cpi-item">
+        <a class="cpi-line" id="m-cpi-source" href="https://www.cbs.gov.il/he/mediarelease/Madad/DocLib/2026/293/10_26_293b.pdf" target="_blank" rel="noopener noreferrer" title="למ״ס הודעה 293/2026 — מדד המחירים לצרכן אוגוסט 2026 (פורסם 15.09.2026)" aria-label="מדד המחירים לצרכן — אוגוסט 2026 | חודשי +0.7% | שנתי 1.5% | פורסם 15.09 | מקור למ״ס הודעה 293/2026">
+          <span class="lbl">מדד המחירים לצרכן — <span id="m-cpi-period">אוגוסט 2026</span></span>
+          <span class="cpi-sep" aria-hidden="true">|</span>
+          <span class="cpi-part">חודשי <span class="val" id="m-cpi-m">+0.7%</span></span>
+          <span class="cpi-sep" aria-hidden="true">|</span>
+          <span class="cpi-part">שנתי <span class="val" id="m-cpi-y">1.5%</span></span>
+          <span class="cpi-sep" aria-hidden="true">|</span>
+          <span class="chg up" id="m-cpi-pub">פורסם 15.09</span>
+        </a>
       </div>
       <div class="market-item">
         <span class="lbl">פריים</span>
@@ -1702,7 +1703,7 @@
       </div>
     </div>
     <div class="market-update">
-      <span>עדכון אחרון: <span id="m-update">ספט׳ 2026 · BOI 01.09</span></span>
+      <span>עדכון אחרון: <span id="m-update">מדד 15.09 · BOI 01.09</span></span>
     </div>
   </div>
 </div>
@@ -2370,6 +2371,6 @@
 </div>
 
 
-<script src="assets/script.js?v=2026-09-16-mf"></script>
+<script src="assets/script.js?v=2026-09-16-cpi"></script>
 </body>
 </html>
