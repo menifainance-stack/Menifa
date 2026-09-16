@@ -1,227 +1,180 @@
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl"><head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <meta name="robots" content="noindex,nofollow"/>
-<title>מחשבון ריסק — פנימי</title>
+<title>מחשבון ריסק v3.2</title>
 <style>
-:root { --bg:#0f1419; --card:#1a222c; --line:#2a3542; --txt:#f4f1ea; --muted:#9aa7b5; --gold:#c9a227; --ok:#7dcea0; --warn:#e8b86d; --bad:#e07a7a; }
-* { box-sizing:border-box; }
-html,body { margin:0; background:var(--bg); color:var(--txt); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; }
-body { padding:0 16px 48px; max-width:480px; margin:0 auto; }
-.sticky { position:sticky; top:0; z-index:20; margin:0 -16px 16px; }
-.banner { background:#7A2E2E; color:#fff; text-align:center; font-weight:800; font-size:.92rem; padding:12px; }
-.disc { background:#2a1f12; border:0; border-bottom:1px solid #5c4520; color:#f0d9a0; padding:10px 16px; border-radius:0; font-size:.8rem; line-height:1.45; margin:0; }
-h1 { font-size:1.25rem; font-weight:700; margin:0 0 4px; }
-.sub { color:var(--muted); font-size:.85rem; margin:0 0 16px; line-height:1.4; }
-label { display:block; font-size:.8rem; color:var(--muted); margin:12px 0 6px; }
-input, select { width:100%; padding:12px; border-radius:10px; border:1px solid var(--line); background:#121820; color:var(--txt); font-size:1rem; }
-.row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-button { width:100%; margin-top:18px; padding:14px; border:0; border-radius:12px; background:var(--gold); color:#111; font-weight:700; font-size:1.05rem; }
-.out { display:none; margin-top:18px; }
-.cards { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px; }
-.card .k { font-size:.75rem; color:var(--muted); }
-.card .v { font-size:1.25rem; font-weight:700; margin-top:4px; }
-.card.after { border-color:var(--gold); }
-.meta { margin-top:12px; font-size:.8rem; color:var(--muted); line-height:1.5; }
-.warn { margin-top:10px; background:#2a2214; color:var(--warn); padding:10px; border-radius:10px; font-size:.85rem; }
-.hint { font-size:.75rem; color:var(--muted); margin-top:4px; line-height:1.35; }
-.gaps { background:var(--card); border:1px solid var(--gold); border-radius:12px; padding:12px; margin:0 0 16px; }
-.gaps h2 { font-size:.9rem; margin:0 0 8px; color:var(--gold); }
-.gaps ul { margin:0; padding-right:18px; font-size:.8rem; line-height:1.5; color:var(--txt); }
-.gaps li { margin-bottom:8px; }
-</style>
-</head>
-<body>
-<div class="sticky">
-<div class="banner">כלי פנימי — לא הצעת מחיר</div>
-<div class="disc">כלי פנימי להערכה בלבד. <strong>אינו הצעת מחיר מחייבת</strong> מחברת ביטוח ואינו ייעוץ ביטוחי מורשה. גם כשמחושב מתעריפון/הנחות רשמיים — התוצאה היא אומדן פנימי בלבד; התעריפים הקובעים הם אלו שבמחשבי החברה במועד הפקת הפוליסה (כפי שמצוין בתעריפון).</div>
-</div>
-<h1>מחשבון ביטוח חיים (ריסק)</h1>
-<p class="sub">כלי פנימי לתמיר ולשותף · תעריף ריסק 1 (05.2026) + הנחות מכונות מעודכן</p>
+:root{--bg:#0f1419;--card:#1a222c;--line:#2a3542;--txt:#f4f1ea;--muted:#9aa7b5;--gold:#c9a227;--warn:#e8b86d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,sans-serif;padding:16px 16px 64px;max-width:480px;margin:0 auto}
+h1{font-size:1.15rem;margin:0 0 6px}.sub{color:var(--muted);font-size:.82rem;margin:0 0 12px;line-height:1.4}
+.disc{background:#2a1f12;border:1px solid #5c4520;color:#f0d9a0;padding:10px;border-radius:10px;font-size:.78rem;margin-bottom:12px;line-height:1.4}
+label{display:block;font-size:.78rem;color:var(--muted);margin:10px 0 5px}
+input,select,button{font-size:16px}input,select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#121820;color:var(--txt)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{width:100%;margin-top:14px;padding:15px;border:0;border-radius:12px;background:var(--gold);color:#111;font-weight:800}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.card.after{border-color:var(--gold);background:#241c0a}
+.k{font-size:.72rem;color:var(--muted)}.v{font-size:1.1rem;font-weight:700;margin-top:4px}
+.pct{margin-top:10px;background:#1e2a22;border:1px solid #3d5c45;border-radius:10px;padding:10px;font-size:.9rem}
+.meta{margin-top:10px;font-size:.78rem;color:var(--muted);line-height:1.45}
+.warn,.err{margin-top:10px;padding:10px;border-radius:10px;font-size:.82rem;display:none}
+.warn{background:#2a2214;color:var(--warn)}.err{background:#3a1818;color:#f0b4b4}
+.hint{font-size:.72rem;color:var(--muted);margin-top:4px;line-height:1.35}.hid{display:none!important}
+</style></head><body>
+<h1>מחשבון ביטוח חיים v3.2</h1>
+<p class="sub">פרויקט שילת · לפני ואחרי הנחה</p>
+<div class="disc">כלי פנימי להערכה בלבד. אינו הצעת מחיר מחייבת ואינו ייעוץ ביטוחי מורשה.</div>
 
-<div class="gaps" role="note">
-  <h2>פערים במקורות — גלוי, לא ניחוש</h2>
-  <ul>
-    <li><strong>שם החברה</strong> לא מודפס ב־PDF של תעריף ריסק 1 ולא בטבלת המכונות. הדרופדאון הוא תווית תיק בלבד — אין קישור של התעריף לכלל / הפניקס / מגדל.</li>
-    <li><strong>אות הנחה א–ו</strong> — אין מקרא מלא במקור (UNKNOWN). בוחרים אות בלבד. אין לקרוא לזה «שנת פוליסה» בלי אישור.</li>
-    <li><strong>דמי פוליסה / סליקה / עמלות כרטיס</strong> לא מופיעים במקורות. האומדן הוא פרמיית ריסק בלבד — בלי דמי פוליסה.</li>
-  </ul>
-</div>
+<label>חברה / מוצר</label>
+<select id="company">
+  <option value="phoenix">הפניקס — תעריף ריסק 1</option>
+  <option value="migdal">מגדל — ריסק אור 1</option>
+  <option value="clal" selected>כלל — ספיר 1</option>
+  <option value="harel" disabled>הראל — חסר מחירון</option>
+  <option value="menora" disabled>מנורה — חסר מחירון</option>
+</select>
 
 <div class="row2">
-  <div>
-    <label for="sex">מין</label>
-    <select id="sex">
-      <option value="female" selected>אישה</option>
-      <option value="male">גבר</option>
-    </select>
-  </div>
-  <div>
-    <label for="age">גיל (18–79)</label>
-    <input id="age" type="number" min="18" max="79" value="40" inputmode="numeric"/>
-  </div>
+  <div><label>מין</label><select id="sex"><option value="female" selected>אישה</option><option value="male">גבר</option></select></div>
+  <div><label>גיל</label><input id="age" type="number" min="18" max="79" value="40"/></div>
 </div>
+<label>מעשן</label>
+<select id="smoker"><option value="0" selected>לא מעשן</option><option value="1">מעשן</option></select>
+<label>סכום כיסוי (ש"ח)</label>
+<input id="cover" type="number" min="1" step="1000" value="1000000"/>
 
-<label for="smoker">מעשן / לא מעשן</label>
-<select id="smoker">
-  <option value="0" selected>לא מעשן</option>
-  <option value="1">מעשן</option>
-</select>
-
-<label for="company">חברה / הקשר הסכם (תווית בלבד — לא משנה תעריף)</label>
-<select id="company">
-  <option value="risk1" selected>תעריף ריסק 1 — יחיד במקורות</option>
-  <option value="clal">כלל — תווית, לא משנה חישוב</option>
-  <option value="phoenix">הפניקס — תווית, לא משנה חישוב</option>
-  <option value="migdal">מגדל — תווית, לא משנה חישוב</option>
-  <option value="harel">הראל — תווית, לא משנה חישוב</option>
-  <option value="menora">מנורה — תווית, לא משנה חישוב</option>
-  <option value="other">אחר — תווית, לא משנה חישוב</option>
-</select>
-<p class="hint">אין מיפוי חברה→תעריף. התעריף נקבע רק לפי מין, גיל, עישון, סכום כיסוי, קוד הסכם ואות הנחה א–ו.</p>
-
-<label for="cover">סכום כיסוי (₪)</label>
-<input id="cover" type="number" min="1" step="1000" value="1000000" inputmode="numeric"/>
-
-<label for="code">קוד הסכם הנחה</label>
-<select id="code"></select>
-
-<label for="letter">אות הנחה א׳–ו׳ (מקרא = UNKNOWN)</label>
-<select id="letter">
-  <option value="א" selected>א׳</option>
-  <option value="ב">ב׳</option>
-  <option value="ג">ג׳</option>
-  <option value="ד">ד׳</option>
-  <option value="ה">ה׳</option>
-  <option value="ו">ו׳</option>
-</select>
-<p class="hint">משמעות האותיות לא מופיעה במקור. בחרו לפי ההסכם. אין צבירת כמה קודים.</p>
+<div id="phxBox" class="hid">
+  <label>קוד הסכם (מכונות מעודכן)</label><select id="phxCode"></select>
+  <label>עמודת הנחה</label>
+  <select id="letter"><option value="a" selected>א</option><option value="b">ב</option><option value="g">ג</option><option value="d">ד</option><option value="h">ה</option><option value="v">ו</option></select>
+</div>
+<div id="migBox" class="hid">
+  <label>סוג הנחה מגדל</label>
+  <select id="migMode"><option value="stepped" selected>מדורגת</option><option value="fixed">קבועה</option><option value="gold">הסכם זהב</option><option value="none">ללא הנחה</option></select>
+  <label>שנת הנחה</label>
+  <select id="migLetter"><option value="a" selected>א</option><option value="b">ב</option><option value="g">ג</option><option value="d">ד</option><option value="h">ה</option><option value="v">ו</option></select>
+  <label>חודש חינם</label>
+  <select id="migFree"><option value="0" selected>ללא</option><option value="1">עם חודש חינם</option></select>
+</div>
+<div id="clalBox">
+  <label>שנת הנחה (מדורגת כלל)</label>
+  <select id="clalLetter"><option value="a" selected>א — שנה 1</option><option value="b">ב — שנה 2</option><option value="g">ג — שנה 3</option></select>
+  <p class="hint">תעריף לפי עד/מעל 500K → מין → עישון → גיל. הנחה לפי סכום: עד 1M / עד 1.5M (+5%) / מעל 2M. טווח 1.5M–2M לא סופק.</p>
+</div>
 
 <button type="button" id="go">חשב מחיר</button>
-
-<div class="out" id="out">
-  <div class="cards">
-    <div class="card">
-      <div class="k">לפני הנחה · שנתי</div>
-      <div class="v" id="beforeY"></div>
-      <div class="k" id="beforeM" style="margin-top:8px"></div>
-    </div>
-    <div class="card after">
-      <div class="k">אחרי הנחה · שנתי</div>
-      <div class="v" id="afterY"></div>
-      <div class="k" id="afterM" style="margin-top:8px"></div>
-    </div>
-    <div class="card">
-      <div class="k">לפני הנחה · חודשי</div>
-      <div class="v" id="beforeM2"></div>
-    </div>
-    <div class="card after">
-      <div class="k">אחרי הנחה · חודשי</div>
-      <div class="v" id="afterM2"></div>
-    </div>
-  </div>
-  <div class="meta" id="meta"></div>
-  <div class="warn" id="warn" style="display:none"></div>
+<div class="err" id="err"></div>
+<div class="pct" id="pctBox">הנחה שהוחלה: —</div>
+<div class="cards">
+  <div class="card"><div class="k">לפני הנחה · חודשי</div><div class="v" id="beforeM">—</div><div class="k" id="beforeY" style="margin-top:8px"></div></div>
+  <div class="card after"><div class="k">אחרי הנחה · חודשי</div><div class="v" id="afterM">—</div><div class="k" id="afterY" style="margin-top:8px"></div></div>
 </div>
+<div class="meta" id="meta"></div>
+<div class="warn" id="warn"></div>
 
 <script>
-const TARIFF = [{"age": 18, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 19, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 20, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 21, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 22, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 23, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 24, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 25, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 26, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 27, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 28, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 29, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 30, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 31, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 32, "mn": 0.84, "ms": 1.25, "fn": 0.8, "fs": 1.15}, {"age": 33, "mn": 0.84, "ms": 1.29, "fn": 0.8, "fs": 1.15}, {"age": 34, "mn": 0.84, "ms": 1.33, "fn": 0.8, "fs": 1.15}, {"age": 35, "mn": 0.84, "ms": 1.38, "fn": 0.8, "fs": 1.15}, {"age": 36, "mn": 0.84, "ms": 1.43, "fn": 0.8, "fs": 1.15}, {"age": 37, "mn": 0.87, "ms": 1.51, "fn": 0.8, "fs": 1.15}, {"age": 38, "mn": 0.92, "ms": 1.6, "fn": 0.8, "fs": 1.15}, {"age": 39, "mn": 0.97, "ms": 1.71, "fn": 0.8, "fs": 1.15}, {"age": 40, "mn": 1.03, "ms": 1.83, "fn": 0.8, "fs": 1.21}, {"age": 41, "mn": 1.1, "ms": 1.97, "fn": 0.84, "fs": 1.34}, {"age": 42, "mn": 1.17, "ms": 2.12, "fn": 0.9, "fs": 1.48}, {"age": 43, "mn": 1.25, "ms": 2.3, "fn": 0.96, "fs": 1.64}, {"age": 44, "mn": 1.34, "ms": 2.5, "fn": 1.04, "fs": 1.82}, {"age": 45, "mn": 1.46, "ms": 2.76, "fn": 1.13, "fs": 2.05}, {"age": 46, "mn": 1.59, "ms": 3.05, "fn": 1.23, "fs": 2.3}, {"age": 47, "mn": 1.73, "ms": 3.38, "fn": 1.34, "fs": 2.58}, {"age": 48, "mn": 1.9, "ms": 3.77, "fn": 1.47, "fs": 2.91}, {"age": 49, "mn": 2.09, "ms": 4.21, "fn": 1.61, "fs": 3.28}, {"age": 50, "mn": 2.31, "ms": 4.71, "fn": 1.77, "fs": 3.7}, {"age": 51, "mn": 2.55, "ms": 5.28, "fn": 1.95, "fs": 4.17}, {"age": 52, "mn": 2.83, "ms": 5.93, "fn": 2.15, "fs": 4.71}, {"age": 53, "mn": 3.14, "ms": 6.67, "fn": 2.38, "fs": 5.31}, {"age": 54, "mn": 3.5, "ms": 7.51, "fn": 2.64, "fs": 5.99}, {"age": 55, "mn": 3.9, "ms": 8.46, "fn": 2.92, "fs": 6.76}, {"age": 56, "mn": 4.36, "ms": 9.54, "fn": 3.25, "fs": 7.62}, {"age": 57, "mn": 4.87, "ms": 10.75, "fn": 3.61, "fs": 8.59}, {"age": 58, "mn": 5.46, "ms": 12.12, "fn": 4.02, "fs": 9.67}, {"age": 59, "mn": 6.13, "ms": 13.66, "fn": 4.48, "fs": 10.89}, {"age": 60, "mn": 6.88, "ms": 15.38, "fn": 4.99, "fs": 12.24}, {"age": 61, "mn": 7.74, "ms": 17.31, "fn": 5.57, "fs": 13.76}, {"age": 62, "mn": 8.7, "ms": 19.46, "fn": 6.22, "fs": 15.45}, {"age": 63, "mn": 9.8, "ms": 21.86, "fn": 6.95, "fs": 17.33}, {"age": 64, "mn": 11.04, "ms": 24.54, "fn": 7.77, "fs": 19.42}, {"age": 65, "mn": 12.45, "ms": 27.51, "fn": 8.7, "fs": 21.74}, {"age": 66, "mn": 14.05, "ms": 30.8, "fn": 9.73, "fs": 24.31}, {"age": 67, "mn": 15.85, "ms": 34.44, "fn": 10.9, "fs": 27.16}, {"age": 68, "mn": 17.89, "ms": 38.46, "fn": 12.2, "fs": 30.31}, {"age": 69, "mn": 20.21, "ms": 42.89, "fn": 13.67, "fs": 33.78}, {"age": 70, "mn": 22.82, "ms": 47.76, "fn": 15.32, "fs": 37.61}, {"age": 71, "mn": 25.78, "ms": 53.1, "fn": 17.17, "fs": 41.82}, {"age": 72, "mn": 29.12, "ms": 58.94, "fn": 19.25, "fs": 46.45}, {"age": 73, "mn": 32.9, "ms": 65.31, "fn": 21.58, "fs": 51.53}, {"age": 74, "mn": 34.88, "ms": 67.8, "fn": 22.71, "fs": 53.56}, {"age": 75, "mn": 37.11, "ms": 70.53, "fn": 23.99, "fs": 55.81}, {"age": 76, "mn": 41.92, "ms": 77.76, "fn": 26.9, "fs": 61.67}, {"age": 77, "mn": 47.35, "ms": 85.58, "fn": 30.16, "fs": 68.05}, {"age": 78, "mn": 53.47, "ms": 94.02, "fn": 33.82, "fs": 74.98}, {"age": 79, "mn": 60.36, "ms": 103.11, "fn": 37.92, "fs": 82.51}];
-const CODES = [{"code": 3703, "min": 2000000, "amin": 30, "amax": 67, "א": 72, "ב": 65, "ג": 65, "ד": 55, "ה": 45, "ו": 45, "special": true}, {"code": 3585, "min": 2000000, "amin": 30, "amax": 60, "א": 60, "ב": 60, "ג": 60, "ד": 50, "ה": 50, "ו": 50, "special": false}, {"code": 3586, "min": 2000000, "amin": 30, "amax": 60, "א": 58, "ב": 58, "ג": 58, "ד": 58, "ה": 58, "ו": 58, "special": false}, {"code": 3587, "min": 1500000, "amin": 30, "amax": 60, "א": 70, "ב": 58, "ג": 58, "ד": 48, "ה": 48, "ו": 38, "special": false}, {"code": 3704, "min": 1500000, "amin": 30, "amax": 67, "א": 70, "ב": 65, "ג": 60, "ד": 55, "ה": 50, "ו": 40, "special": true}, {"code": 3589, "min": 1500000, "amin": 30, "amax": 60, "א": 53, "ב": 53, "ג": 53, "ד": 53, "ה": 53, "ו": 53, "special": false}, {"code": 3705, "min": 1000000, "amin": 30, "amax": 67, "א": 70, "ב": 65, "ג": 60, "ד": 50, "ה": 40, "ו": 40, "special": true}, {"code": 3592, "min": 1000000, "amin": 30, "amax": 60, "א": 50, "ב": 50, "ג": 50, "ד": 50, "ה": 50, "ו": 50, "special": false}, {"code": 3593, "min": 750000, "amin": 30, "amax": 60, "א": 38, "ב": 38, "ג": 38, "ד": 38, "ה": 38, "ו": 38, "special": false}, {"code": 3706, "min": 750000, "amin": 30, "amax": 67, "א": 65, "ב": 60, "ג": 55, "ד": 50, "ה": 45, "ו": 40, "special": true}, {"code": 3707, "min": 500000, "amin": 30, "amax": 67, "א": 65, "ב": 55, "ג": 55, "ד": 50, "ה": 40, "ו": 30, "special": true}];
-
-function ils(n){
-  return new Intl.NumberFormat('he-IL', {style:'currency', currency:'ILS', maximumFractionDigits:2}).format(n);
+var PHX=[{"age": 18, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 19, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 20, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 21, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 22, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 23, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 24, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 25, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 26, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 27, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 28, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 29, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 30, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 31, "mn": 0.84, "ms": 1.21, "fn": 0.8, "fs": 1.15}, {"age": 32, "mn": 0.84, "ms": 1.25, "fn": 0.8, "fs": 1.15}, {"age": 33, "mn": 0.84, "ms": 1.29, "fn": 0.8, "fs": 1.15}, {"age": 34, "mn": 0.84, "ms": 1.33, "fn": 0.8, "fs": 1.15}, {"age": 35, "mn": 0.84, "ms": 1.38, "fn": 0.8, "fs": 1.15}, {"age": 36, "mn": 0.84, "ms": 1.43, "fn": 0.8, "fs": 1.15}, {"age": 37, "mn": 0.87, "ms": 1.51, "fn": 0.8, "fs": 1.15}, {"age": 38, "mn": 0.92, "ms": 1.6, "fn": 0.8, "fs": 1.15}, {"age": 39, "mn": 0.97, "ms": 1.71, "fn": 0.8, "fs": 1.15}, {"age": 40, "mn": 1.03, "ms": 1.83, "fn": 0.8, "fs": 1.21}, {"age": 41, "mn": 1.1, "ms": 1.97, "fn": 0.84, "fs": 1.34}, {"age": 42, "mn": 1.17, "ms": 2.12, "fn": 0.9, "fs": 1.48}, {"age": 43, "mn": 1.25, "ms": 2.3, "fn": 0.96, "fs": 1.64}, {"age": 44, "mn": 1.34, "ms": 2.5, "fn": 1.04, "fs": 1.82}, {"age": 45, "mn": 1.46, "ms": 2.76, "fn": 1.13, "fs": 2.05}, {"age": 46, "mn": 1.59, "ms": 3.05, "fn": 1.23, "fs": 2.3}, {"age": 47, "mn": 1.73, "ms": 3.38, "fn": 1.34, "fs": 2.58}, {"age": 48, "mn": 1.9, "ms": 3.77, "fn": 1.47, "fs": 2.91}, {"age": 49, "mn": 2.09, "ms": 4.21, "fn": 1.61, "fs": 3.28}, {"age": 50, "mn": 2.31, "ms": 4.71, "fn": 1.77, "fs": 3.7}, {"age": 51, "mn": 2.55, "ms": 5.28, "fn": 1.95, "fs": 4.17}, {"age": 52, "mn": 2.83, "ms": 5.93, "fn": 2.15, "fs": 4.71}, {"age": 53, "mn": 3.14, "ms": 6.67, "fn": 2.38, "fs": 5.31}, {"age": 54, "mn": 3.5, "ms": 7.51, "fn": 2.64, "fs": 5.99}, {"age": 55, "mn": 3.9, "ms": 8.46, "fn": 2.92, "fs": 6.76}, {"age": 56, "mn": 4.36, "ms": 9.54, "fn": 3.25, "fs": 7.62}, {"age": 57, "mn": 4.87, "ms": 10.75, "fn": 3.61, "fs": 8.59}, {"age": 58, "mn": 5.46, "ms": 12.12, "fn": 4.02, "fs": 9.67}, {"age": 59, "mn": 6.13, "ms": 13.66, "fn": 4.48, "fs": 10.89}, {"age": 60, "mn": 6.88, "ms": 15.38, "fn": 4.99, "fs": 12.24}, {"age": 61, "mn": 7.74, "ms": 17.31, "fn": 5.57, "fs": 13.76}, {"age": 62, "mn": 8.7, "ms": 19.46, "fn": 6.22, "fs": 15.45}, {"age": 63, "mn": 9.8, "ms": 21.86, "fn": 6.95, "fs": 17.33}, {"age": 64, "mn": 11.04, "ms": 24.54, "fn": 7.77, "fs": 19.42}, {"age": 65, "mn": 12.45, "ms": 27.51, "fn": 8.7, "fs": 21.74}, {"age": 66, "mn": 14.05, "ms": 30.8, "fn": 9.73, "fs": 24.31}, {"age": 67, "mn": 15.85, "ms": 34.44, "fn": 10.9, "fs": 27.16}, {"age": 68, "mn": 17.89, "ms": 38.46, "fn": 12.2, "fs": 30.31}, {"age": 69, "mn": 20.21, "ms": 42.89, "fn": 13.67, "fs": 33.78}, {"age": 70, "mn": 22.82, "ms": 47.76, "fn": 15.32, "fs": 37.61}, {"age": 71, "mn": 25.78, "ms": 53.1, "fn": 17.17, "fs": 41.82}, {"age": 72, "mn": 29.12, "ms": 58.94, "fn": 19.25, "fs": 46.45}, {"age": 73, "mn": 32.9, "ms": 65.31, "fn": 21.58, "fs": 51.53}, {"age": 74, "mn": 34.88, "ms": 67.8, "fn": 22.71, "fs": 53.56}, {"age": 75, "mn": 37.11, "ms": 70.53, "fn": 23.99, "fs": 55.81}, {"age": 76, "mn": 41.92, "ms": 77.76, "fn": 26.9, "fs": 61.67}, {"age": 77, "mn": 47.35, "ms": 85.58, "fn": 30.16, "fs": 68.05}, {"age": 78, "mn": 53.47, "ms": 94.02, "fn": 33.82, "fs": 74.98}, {"age": 79, "mn": 60.36, "ms": 103.11, "fn": 37.92, "fs": 82.51}];
+var PHX_CODES=[{"code": 3703, "min": 2000000, "amin": 30, "amax": 67, "a": 72, "b": 65, "g": 65, "d": 55, "h": 45, "v": 45}, {"code": 3585, "min": 2000000, "amin": 30, "amax": 60, "a": 60, "b": 60, "g": 60, "d": 50, "h": 50, "v": 50}, {"code": 3586, "min": 2000000, "amin": 30, "amax": 60, "a": 58, "b": 58, "g": 58, "d": 58, "h": 58, "v": 58}, {"code": 3587, "min": 1500000, "amin": 30, "amax": 60, "a": 70, "b": 58, "g": 58, "d": 48, "h": 48, "v": 38}, {"code": 3704, "min": 1500000, "amin": 30, "amax": 67, "a": 70, "b": 65, "g": 60, "d": 55, "h": 50, "v": 40}, {"code": 3589, "min": 1500000, "amin": 30, "amax": 60, "a": 53, "b": 53, "g": 53, "d": 53, "h": 53, "v": 53}, {"code": 3705, "min": 1000000, "amin": 30, "amax": 67, "a": 70, "b": 65, "g": 60, "d": 50, "h": 40, "v": 40}, {"code": 3592, "min": 1000000, "amin": 30, "amax": 60, "a": 50, "b": 50, "g": 50, "d": 50, "h": 50, "v": 50}, {"code": 3593, "min": 750000, "amin": 30, "amax": 60, "a": 38, "b": 38, "g": 38, "d": 38, "h": 38, "v": 38}, {"code": 3706, "min": 750000, "amin": 30, "amax": 67, "a": 65, "b": 60, "g": 55, "d": 50, "h": 45, "v": 40}, {"code": 3707, "min": 500000, "amin": 30, "amax": 67, "a": 65, "b": 55, "g": 55, "d": 50, "h": 40, "v": 30}];
+var MIG=[{"age": 18, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 19, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 20, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 21, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 22, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 23, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 24, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 25, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 26, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 27, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 28, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 29, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 30, "mn": 6.0, "fn": 3.1, "ms": 8.83, "fs": 6.15}, {"age": 31, "mn": 6.0, "fn": 3.1, "ms": 9.12, "fs": 6.15}, {"age": 32, "mn": 6.0, "fn": 3.1, "ms": 9.4, "fs": 6.15}, {"age": 33, "mn": 6.0, "fn": 3.42, "ms": 9.69, "fs": 6.15}, {"age": 34, "mn": 6.0, "fn": 3.83, "ms": 9.98, "fs": 6.76}, {"age": 35, "mn": 6.0, "fn": 4.23, "ms": 10.26, "fs": 7.37}, {"age": 36, "mn": 6.0, "fn": 4.58, "ms": 11.05, "fs": 7.87}, {"age": 37, "mn": 6.0, "fn": 4.78, "ms": 11.83, "fs": 8.14}, {"age": 38, "mn": 6.0, "fn": 5.08, "ms": 12.61, "fs": 8.55}, {"age": 39, "mn": 6.64, "fn": 5.49, "ms": 13.4, "fs": 9.14}, {"age": 40, "mn": 6.91, "fn": 5.57, "ms": 14.18, "fs": 9.21}, {"age": 41, "mn": 7.58, "fn": 6.22, "ms": 15.46, "fs": 10.15}, {"age": 42, "mn": 8.34, "fn": 7.21, "ms": 16.89, "fs": 11.62}, {"age": 43, "mn": 9.24, "fn": 8.3, "ms": 18.61, "fs": 13.21}, {"age": 44, "mn": 10.08, "fn": 9.53, "ms": 20.19, "fs": 15.0}, {"age": 45, "mn": 11.12, "fn": 11.08, "ms": 22.13, "fs": 17.25}, {"age": 46, "mn": 12.32, "fn": 12.77, "ms": 24.38, "fs": 19.68}, {"age": 47, "mn": 13.66, "fn": 14.55, "ms": 26.88, "fs": 22.24}, {"age": 48, "mn": 15.18, "fn": 16.41, "ms": 29.68, "fs": 24.85}, {"age": 49, "mn": 17.28, "fn": 18.17, "ms": 33.59, "fs": 27.32}, {"age": 50, "mn": 19.51, "fn": 19.01, "ms": 37.71, "fs": 28.38}, {"age": 51, "mn": 21.92, "fn": 19.75, "ms": 42.12, "fs": 29.27}, {"age": 52, "mn": 24.33, "fn": 20.78, "ms": 46.46, "fs": 30.59}, {"age": 53, "mn": 26.92, "fn": 22.6, "ms": 51.11, "fs": 33.03}, {"age": 54, "mn": 29.63, "fn": 25.18, "ms": 55.91, "fs": 36.53}, {"age": 55, "mn": 32.94, "fn": 28.36, "ms": 61.79, "fs": 40.83}, {"age": 56, "mn": 36.46, "fn": 31.87, "ms": 68.0, "fs": 45.56}, {"age": 57, "mn": 40.58, "fn": 34.81, "ms": 75.24, "fs": 49.43}, {"age": 58, "mn": 45.44, "fn": 37.61, "ms": 83.75, "fs": 53.05}, {"age": 59, "mn": 52.2, "fn": 41.64, "ms": 95.63, "fs": 58.33}, {"age": 60, "mn": 59.43, "fn": 47.05, "ms": 108.24, "fs": 65.46}, {"age": 61, "mn": 68.11, "fn": 54.31, "ms": 123.3, "fs": 75.05}, {"age": 62, "mn": 77.87, "fn": 63.09, "ms": 140.15, "fs": 86.59}, {"age": 63, "mn": 87.67, "fn": 72.63, "ms": 156.84, "fs": 99.03}, {"age": 64, "mn": 97.68, "fn": 81.79, "ms": 173.7, "fs": 110.81}, {"age": 65, "mn": 109.11, "fn": 90.59, "ms": 192.87, "fs": 121.95}, {"age": 66, "mn": 122.98, "fn": 98.81, "ms": 216.08, "fs": 132.18}, {"age": 67, "mn": 139.5, "fn": 107.78, "ms": 243.64, "fs": 143.28}, {"age": 68, "mn": 155.86, "fn": 119.32, "ms": 270.58, "fs": 157.62}, {"age": 69, "mn": 171.23, "fn": 132.14, "ms": 295.48, "fs": 173.47}, {"age": 70, "mn": 186.3, "fn": 149.07, "ms": 319.56, "fs": 194.47}, {"age": 71, "mn": 210.76, "fn": 168.42, "ms": 362.35, "fs": 220.19}, {"age": 72, "mn": 239.95, "fn": 191.28, "ms": 413.51, "fs": 250.6}, {"age": 73, "mn": 275.9, "fn": 213.61, "ms": 476.55, "fs": 280.47}, {"age": 74, "mn": 310.56, "fn": 235.14, "ms": 537.67, "fs": 309.42}, {"age": 75, "mn": 341.83, "fn": 253.83, "ms": 593.17, "fs": 334.75}, {"age": 76, "mn": 370.58, "fn": 274.92, "ms": 644.5, "fs": 363.33}, {"age": 77, "mn": 401.75, "fn": 297.25, "ms": 700.25, "fs": 393.83}, {"age": 78, "mn": 437.83, "fn": 325.25, "ms": 765.0, "fs": 431.83}, {"age": 79, "mn": 477.0, "fn": 365.25, "ms": 835.33, "fs": 485.92}];
+var MIG_DISC=[{"cmin": 0, "cmax": 1000000, "amin": 0, "amax": 39, "code0": "21527", "code1": "21533", "y": "a", "pct": 45, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 0, "amax": 39, "code0": "21527", "code1": "21533", "y": "b", "pct": 35, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 0, "amax": 39, "code0": "21527", "code1": "21533", "y": "g", "pct": 30, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 0, "amax": 39, "code0": "21527", "code1": "21533", "y": "d", "pct": 15, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 0, "amax": 39, "code0": "21527", "code1": "21533", "y": "h", "pct": 15, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 0, "amax": 39, "code0": "21527", "code1": "21533", "y": "v", "pct": 15, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 40, "amax": 49, "code0": "21528", "code1": "21534", "y": "a", "pct": 50, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 40, "amax": 49, "code0": "21528", "code1": "21534", "y": "b", "pct": 40, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 40, "amax": 49, "code0": "21528", "code1": "21534", "y": "g", "pct": 35, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 40, "amax": 49, "code0": "21528", "code1": "21534", "y": "d", "pct": 25, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 40, "amax": 49, "code0": "21528", "code1": "21534", "y": "h", "pct": 25, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 40, "amax": 49, "code0": "21528", "code1": "21534", "y": "v", "pct": 25, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 50, "amax": 70, "code0": "21529", "code1": "21535", "y": "a", "pct": 55, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 50, "amax": 70, "code0": "21529", "code1": "21535", "y": "b", "pct": 55, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 50, "amax": 70, "code0": "21529", "code1": "21535", "y": "g", "pct": 45, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 50, "amax": 70, "code0": "21529", "code1": "21535", "y": "d", "pct": 45, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 50, "amax": 70, "code0": "21529", "code1": "21535", "y": "h", "pct": 35, "kind": "stepped"}, {"cmin": 0, "cmax": 1000000, "amin": 50, "amax": 70, "code0": "21529", "code1": "21535", "y": "v", "pct": 35, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21530", "code1": "21536", "y": "a", "pct": 55, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21530", "code1": "21536", "y": "b", "pct": 45, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21530", "code1": "21536", "y": "g", "pct": 35, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21530", "code1": "21536", "y": "d", "pct": 25, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21530", "code1": "21536", "y": "h", "pct": 25, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21530", "code1": "21536", "y": "v", "pct": 25, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21531", "code1": "21537", "y": "a", "pct": 55, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21531", "code1": "21537", "y": "b", "pct": 50, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21531", "code1": "21537", "y": "g", "pct": 45, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21531", "code1": "21537", "y": "d", "pct": 35, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21531", "code1": "21537", "y": "h", "pct": 35, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21531", "code1": "21537", "y": "v", "pct": 35, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21532", "code1": "21538", "y": "a", "pct": 60, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21532", "code1": "21538", "y": "b", "pct": 60, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21532", "code1": "21538", "y": "g", "pct": 50, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21532", "code1": "21538", "y": "d", "pct": 50, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21532", "code1": "21538", "y": "h", "pct": 40, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21532", "code1": "21538", "y": "v", "pct": 40, "kind": "stepped"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21721", "code1": "", "y": "a", "pct": 70, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21721", "code1": "", "y": "b", "pct": 65, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21721", "code1": "", "y": "g", "pct": 65, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21721", "code1": "", "y": "d", "pct": 55, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21721", "code1": "", "y": "h", "pct": 45, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21721", "code1": "", "y": "v", "pct": 45, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21722", "y": "a", "pct": 70, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21722", "y": "b", "pct": 65, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21722", "y": "g", "pct": 65, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21722", "y": "d", "pct": 55, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21722", "y": "h", "pct": 45, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21722", "y": "v", "pct": 45, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21723", "code1": "", "y": "a", "pct": 65, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21723", "code1": "", "y": "b", "pct": 65, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21723", "code1": "", "y": "g", "pct": 65, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21723", "code1": "", "y": "d", "pct": 55, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21723", "code1": "", "y": "h", "pct": 50, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "21723", "code1": "", "y": "v", "pct": 40, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21724", "y": "a", "pct": 65, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21724", "y": "b", "pct": 65, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21724", "y": "g", "pct": 65, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21724", "y": "d", "pct": 55, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21724", "y": "h", "pct": 50, "kind": "gold"}, {"cmin": 1000000, "cmax": 3000000, "amin": null, "amax": null, "code0": "", "code1": "21724", "y": "v", "pct": 40, "kind": "gold"}, {"cmin": 0, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21539", "code1": "21542", "y": "a", "pct": 30, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21539", "code1": "21542", "y": "b", "pct": 30, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21539", "code1": "21542", "y": "g", "pct": 30, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21539", "code1": "21542", "y": "d", "pct": 30, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21539", "code1": "21542", "y": "h", "pct": 30, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 0, "amax": 39, "code0": "21539", "code1": "21542", "y": "v", "pct": 30, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21540", "code1": "21543", "y": "a", "pct": 35, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21540", "code1": "21543", "y": "b", "pct": 35, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21540", "code1": "21543", "y": "g", "pct": 35, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21540", "code1": "21543", "y": "d", "pct": 35, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21540", "code1": "21543", "y": "h", "pct": 35, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 40, "amax": 49, "code0": "21540", "code1": "21543", "y": "v", "pct": 35, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21541", "code1": "21544", "y": "a", "pct": 45, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21541", "code1": "21544", "y": "b", "pct": 45, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21541", "code1": "21544", "y": "g", "pct": 45, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21541", "code1": "21544", "y": "d", "pct": 45, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21541", "code1": "21544", "y": "h", "pct": 45, "kind": "fixed"}, {"cmin": 0, "cmax": 3000000, "amin": 50, "amax": 70, "code0": "21541", "code1": "21544", "y": "v", "pct": 45, "kind": "fixed"}];
+var SAPIR={"18|over_500000|female|smoker": 6.21, "18|over_500000|female|nonsmoker": 4.56, "18|over_500000|male|smoker": 7.79, "18|over_500000|male|nonsmoker": 5.54, "18|up_to_500000|female|smoker": 10.73, "18|up_to_500000|female|nonsmoker": 7.4, "18|up_to_500000|male|smoker": 10.67, "18|up_to_500000|male|nonsmoker": 8.02, "19|over_500000|female|smoker": 6.21, "19|over_500000|female|nonsmoker": 4.56, "19|over_500000|male|smoker": 7.79, "19|over_500000|male|nonsmoker": 5.54, "19|up_to_500000|female|smoker": 10.73, "19|up_to_500000|female|nonsmoker": 7.4, "19|up_to_500000|male|smoker": 10.67, "19|up_to_500000|male|nonsmoker": 8.02, "20|over_500000|female|smoker": 6.21, "20|over_500000|female|nonsmoker": 4.56, "20|over_500000|male|smoker": 7.79, "20|over_500000|male|nonsmoker": 5.54, "20|up_to_500000|female|smoker": 10.73, "20|up_to_500000|female|nonsmoker": 7.4, "20|up_to_500000|male|smoker": 10.67, "20|up_to_500000|male|nonsmoker": 8.02, "21|over_500000|female|smoker": 6.21, "21|over_500000|female|nonsmoker": 4.56, "21|over_500000|male|smoker": 7.79, "21|over_500000|male|nonsmoker": 5.54, "21|up_to_500000|female|smoker": 10.73, "21|up_to_500000|female|nonsmoker": 7.4, "21|up_to_500000|male|smoker": 10.67, "21|up_to_500000|male|nonsmoker": 8.02, "22|over_500000|female|smoker": 6.21, "22|over_500000|female|nonsmoker": 4.56, "22|over_500000|male|smoker": 7.85, "22|over_500000|male|nonsmoker": 5.54, "22|up_to_500000|female|smoker": 10.73, "22|up_to_500000|female|nonsmoker": 7.4, "22|up_to_500000|male|smoker": 10.67, "22|up_to_500000|male|nonsmoker": 8.02, "23|over_500000|female|smoker": 6.21, "23|over_500000|female|nonsmoker": 4.56, "23|over_500000|male|smoker": 7.85, "23|over_500000|male|nonsmoker": 5.54, "23|up_to_500000|female|smoker": 10.73, "23|up_to_500000|female|nonsmoker": 7.4, "23|up_to_500000|male|smoker": 10.67, "23|up_to_500000|male|nonsmoker": 8.02, "24|over_500000|female|smoker": 6.21, "24|over_500000|female|nonsmoker": 4.56, "24|over_500000|male|smoker": 7.85, "24|over_500000|male|nonsmoker": 5.54, "24|up_to_500000|female|smoker": 10.73, "24|up_to_500000|female|nonsmoker": 7.4, "24|up_to_500000|male|smoker": 10.67, "24|up_to_500000|male|nonsmoker": 8.02, "25|over_500000|female|smoker": 6.27, "25|over_500000|female|nonsmoker": 4.62, "25|over_500000|male|smoker": 7.91, "25|over_500000|male|nonsmoker": 5.6, "25|up_to_500000|female|smoker": 10.79, "25|up_to_500000|female|nonsmoker": 7.46, "25|up_to_500000|male|smoker": 10.73, "25|up_to_500000|male|nonsmoker": 8.08, "26|over_500000|female|smoker": 6.33, "26|over_500000|female|nonsmoker": 4.62, "26|over_500000|male|smoker": 7.97, "26|over_500000|male|nonsmoker": 5.6, "26|up_to_500000|female|smoker": 10.79, "26|up_to_500000|female|nonsmoker": 7.46, "26|up_to_500000|male|smoker": 10.73, "26|up_to_500000|male|nonsmoker": 8.08, "27|over_500000|female|smoker": 6.33, "27|over_500000|female|nonsmoker": 4.68, "27|over_500000|male|smoker": 8.03, "27|over_500000|male|nonsmoker": 5.6, "27|up_to_500000|female|smoker": 10.79, "27|up_to_500000|female|nonsmoker": 7.46, "27|up_to_500000|male|smoker": 10.73, "27|up_to_500000|male|nonsmoker": 8.08, "28|over_500000|female|smoker": 6.33, "28|over_500000|female|nonsmoker": 4.68, "28|over_500000|male|smoker": 8.03, "28|over_500000|male|nonsmoker": 5.6, "28|up_to_500000|female|smoker": 10.85, "28|up_to_500000|female|nonsmoker": 7.52, "28|up_to_500000|male|smoker": 10.79, "28|up_to_500000|male|nonsmoker": 8.14, "29|over_500000|female|smoker": 6.39, "29|over_500000|female|nonsmoker": 4.75, "29|over_500000|male|smoker": 8.09, "29|over_500000|male|nonsmoker": 5.66, "29|up_to_500000|female|smoker": 10.85, "29|up_to_500000|female|nonsmoker": 7.52, "29|up_to_500000|male|smoker": 10.79, "29|up_to_500000|male|nonsmoker": 8.14, "30|over_500000|female|smoker": 6.45, "30|over_500000|female|nonsmoker": 4.81, "30|over_500000|male|smoker": 8.09, "30|over_500000|male|nonsmoker": 5.66, "30|up_to_500000|female|smoker": 10.92, "30|up_to_500000|female|nonsmoker": 7.52, "30|up_to_500000|male|smoker": 10.85, "30|up_to_500000|male|nonsmoker": 8.14, "31|over_500000|female|smoker": 6.51, "31|over_500000|female|nonsmoker": 4.87, "31|over_500000|male|smoker": 8.15, "31|over_500000|male|nonsmoker": 5.72, "31|up_to_500000|female|smoker": 10.98, "31|up_to_500000|female|nonsmoker": 7.59, "31|up_to_500000|male|smoker": 10.85, "31|up_to_500000|male|nonsmoker": 8.2, "32|over_500000|female|smoker": 6.69, "32|over_500000|female|nonsmoker": 4.93, "32|over_500000|male|smoker": 8.4, "32|over_500000|male|nonsmoker": 5.84, "32|up_to_500000|female|smoker": 11.04, "32|up_to_500000|female|nonsmoker": 7.65, "32|up_to_500000|male|smoker": 10.92, "32|up_to_500000|male|nonsmoker": 8.2, "33|over_500000|female|smoker": 6.94, "33|over_500000|female|nonsmoker": 5.05, "33|over_500000|male|smoker": 8.7, "33|over_500000|male|nonsmoker": 6.02, "33|up_to_500000|female|smoker": 11.16, "33|up_to_500000|female|nonsmoker": 7.71, "33|up_to_500000|male|smoker": 11.22, "33|up_to_500000|male|nonsmoker": 8.26, "34|over_500000|female|smoker": 7.24, "34|over_500000|female|nonsmoker": 5.23, "34|over_500000|male|smoker": 9.06, "34|over_500000|male|nonsmoker": 6.27, "34|up_to_500000|female|smoker": 11.29, "34|up_to_500000|female|nonsmoker": 7.77, "34|up_to_500000|male|smoker": 11.59, "34|up_to_500000|male|nonsmoker": 8.33, "35|over_500000|female|smoker": 7.54, "35|over_500000|female|nonsmoker": 5.41, "35|over_500000|male|smoker": 9.55, "35|over_500000|male|nonsmoker": 6.51, "35|up_to_500000|female|smoker": 11.41, "35|up_to_500000|female|nonsmoker": 7.83, "35|up_to_500000|male|smoker": 12.15, "35|up_to_500000|male|nonsmoker": 8.51, "36|over_500000|female|smoker": 7.97, "36|over_500000|female|nonsmoker": 5.72, "36|over_500000|male|smoker": 10.22, "36|over_500000|male|nonsmoker": 6.87, "36|up_to_500000|female|smoker": 11.59, "36|up_to_500000|female|nonsmoker": 7.96, "36|up_to_500000|male|smoker": 12.95, "36|up_to_500000|male|nonsmoker": 8.94, "37|over_500000|female|smoker": 8.7, "37|over_500000|female|nonsmoker": 6.02, "37|over_500000|male|smoker": 11.07, "37|over_500000|male|nonsmoker": 7.24, "37|up_to_500000|female|smoker": 12.46, "37|up_to_500000|female|nonsmoker": 8.26, "37|up_to_500000|male|smoker": 13.94, "37|up_to_500000|male|nonsmoker": 9.37, "38|over_500000|female|smoker": 9.31, "38|over_500000|female|nonsmoker": 6.33, "38|over_500000|male|smoker": 11.86, "38|over_500000|male|nonsmoker": 7.73, "38|up_to_500000|female|smoker": 13.2, "38|up_to_500000|female|nonsmoker": 8.57, "38|up_to_500000|male|smoker": 14.86, "38|up_to_500000|male|nonsmoker": 9.93, "39|over_500000|female|smoker": 10.04, "39|over_500000|female|nonsmoker": 6.75, "39|over_500000|male|smoker": 13.02, "39|over_500000|male|nonsmoker": 8.4, "39|up_to_500000|female|smoker": 14.06, "39|up_to_500000|female|nonsmoker": 9.0, "39|up_to_500000|male|smoker": 16.22, "39|up_to_500000|male|nonsmoker": 10.73, "40|over_500000|female|smoker": 11.01, "40|over_500000|female|nonsmoker": 7.18, "40|over_500000|male|smoker": 14.24, "40|over_500000|male|nonsmoker": 8.94, "40|up_to_500000|female|smoker": 15.11, "40|up_to_500000|female|nonsmoker": 9.5, "40|up_to_500000|male|smoker": 17.58, "40|up_to_500000|male|nonsmoker": 11.35, "41|over_500000|female|smoker": 12.05, "41|over_500000|female|nonsmoker": 7.67, "41|over_500000|male|smoker": 15.63, "41|over_500000|male|nonsmoker": 9.79, "41|up_to_500000|female|smoker": 16.4, "41|up_to_500000|female|nonsmoker": 9.99, "41|up_to_500000|male|smoker": 19.18, "41|up_to_500000|male|nonsmoker": 11.96, "42|over_500000|female|smoker": 13.32, "42|over_500000|female|nonsmoker": 8.27, "42|over_500000|male|smoker": 17.4, "42|over_500000|male|nonsmoker": 10.71, "42|up_to_500000|female|smoker": 17.88, "42|up_to_500000|female|nonsmoker": 10.55, "42|up_to_500000|male|smoker": 21.28, "42|up_to_500000|male|nonsmoker": 13.01, "43|over_500000|female|smoker": 14.78, "43|over_500000|female|nonsmoker": 8.94, "43|over_500000|male|smoker": 19.22, "43|over_500000|male|nonsmoker": 11.74, "43|up_to_500000|female|smoker": 19.61, "43|up_to_500000|female|nonsmoker": 11.29, "43|up_to_500000|male|smoker": 23.37, "43|up_to_500000|male|nonsmoker": 14.12, "44|over_500000|female|smoker": 16.3, "44|over_500000|female|nonsmoker": 9.67, "44|over_500000|male|smoker": 21.47, "44|over_500000|male|nonsmoker": 12.9, "44|up_to_500000|female|smoker": 21.34, "44|up_to_500000|female|nonsmoker": 12.09, "44|up_to_500000|male|smoker": 25.9, "44|up_to_500000|male|nonsmoker": 15.42, "45|over_500000|female|smoker": 18.01, "45|over_500000|female|nonsmoker": 10.46, "45|over_500000|male|smoker": 24.03, "45|over_500000|male|nonsmoker": 14.3, "45|up_to_500000|female|smoker": 23.25, "45|up_to_500000|female|nonsmoker": 12.89, "45|up_to_500000|male|smoker": 28.8, "45|up_to_500000|male|nonsmoker": 16.9, "46|over_500000|female|smoker": 20.14, "46|over_500000|female|nonsmoker": 11.62, "46|over_500000|male|smoker": 26.77, "46|over_500000|male|nonsmoker": 15.82, "46|up_to_500000|female|smoker": 25.72, "46|up_to_500000|female|nonsmoker": 14.25, "46|up_to_500000|male|smoker": 31.82, "46|up_to_500000|male|nonsmoker": 18.62, "47|over_500000|female|smoker": 22.33, "47|over_500000|female|nonsmoker": 12.65, "47|over_500000|male|smoker": 29.93, "47|over_500000|male|nonsmoker": 17.64, "47|up_to_500000|female|smoker": 28.18, "47|up_to_500000|female|nonsmoker": 15.36, "47|up_to_500000|male|smoker": 35.27, "47|up_to_500000|male|nonsmoker": 20.54, "48|over_500000|female|smoker": 24.82, "48|over_500000|female|nonsmoker": 13.93, "48|over_500000|male|smoker": 33.64, "48|over_500000|male|nonsmoker": 19.59, "48|up_to_500000|female|smoker": 30.9, "48|up_to_500000|female|nonsmoker": 16.71, "48|up_to_500000|male|smoker": 39.34, "48|up_to_500000|male|nonsmoker": 22.63, "49|over_500000|female|smoker": 27.86, "49|over_500000|female|nonsmoker": 15.39, "49|over_500000|male|smoker": 37.66, "49|over_500000|male|nonsmoker": 21.96, "49|up_to_500000|female|smoker": 34.35, "49|up_to_500000|female|nonsmoker": 18.25, "49|up_to_500000|male|smoker": 43.6, "49|up_to_500000|male|nonsmoker": 25.1, "50|over_500000|female|smoker": 31.03, "50|over_500000|female|nonsmoker": 16.85, "50|over_500000|male|smoker": 42.22, "50|over_500000|male|nonsmoker": 24.33, "50|up_to_500000|female|smoker": 37.68, "50|up_to_500000|female|nonsmoker": 19.8, "50|up_to_500000|male|smoker": 48.47, "50|up_to_500000|male|nonsmoker": 27.5, "51|over_500000|female|smoker": 34.31, "51|over_500000|female|nonsmoker": 18.49, "51|over_500000|male|smoker": 47.09, "51|over_500000|male|nonsmoker": 27.01, "51|up_to_500000|female|smoker": 41.19, "51|up_to_500000|female|nonsmoker": 21.46, "51|up_to_500000|male|smoker": 53.59, "51|up_to_500000|male|nonsmoker": 30.28, "52|over_500000|female|smoker": 38.57, "52|over_500000|female|nonsmoker": 20.44, "52|over_500000|male|smoker": 47.14, "52|over_500000|male|nonsmoker": 27.01, "52|up_to_500000|female|smoker": 45.76, "52|up_to_500000|female|nonsmoker": 23.43, "52|up_to_500000|male|smoker": 59.26, "52|up_to_500000|male|nonsmoker": 33.36, "53|over_500000|female|smoker": 38.57, "53|over_500000|female|nonsmoker": 20.44, "53|over_500000|male|smoker": 47.66, "53|over_500000|male|nonsmoker": 27.01, "53|up_to_500000|female|smoker": 49.95, "53|up_to_500000|female|nonsmoker": 25.65, "53|up_to_500000|male|smoker": 65.74, "53|up_to_500000|male|nonsmoker": 36.51, "54|over_500000|female|smoker": 40.33, "54|over_500000|female|nonsmoker": 20.98, "54|over_500000|male|smoker": 47.66, "54|over_500000|male|nonsmoker": 27.01, "54|up_to_500000|female|smoker": 55.56, "54|up_to_500000|female|nonsmoker": 27.94, "54|up_to_500000|male|smoker": 72.77, "54|up_to_500000|male|nonsmoker": 40.39, "55|over_500000|female|smoker": 44.08, "55|over_500000|female|nonsmoker": 22.92, "55|over_500000|male|smoker": 50.31, "55|over_500000|male|nonsmoker": 28.39, "55|up_to_500000|female|smoker": 60.99, "55|up_to_500000|female|nonsmoker": 30.71, "55|up_to_500000|male|smoker": 80.35, "55|up_to_500000|male|nonsmoker": 44.28, "56|over_500000|female|smoker": 48.72, "56|over_500000|female|nonsmoker": 25.39, "56|over_500000|male|smoker": 55.17, "56|over_500000|male|nonsmoker": 30.86, "56|up_to_500000|female|smoker": 60.99, "56|up_to_500000|female|nonsmoker": 30.71, "56|up_to_500000|male|smoker": 81.24, "56|up_to_500000|male|nonsmoker": 44.28, "57|over_500000|female|smoker": 52.65, "57|over_500000|female|nonsmoker": 27.33, "57|over_500000|male|smoker": 61.4, "57|over_500000|male|nonsmoker": 34.03, "57|up_to_500000|female|smoker": 63.3, "57|up_to_500000|female|nonsmoker": 31.78, "57|up_to_500000|male|smoker": 82.25, "57|up_to_500000|male|nonsmoker": 44.28, "58|over_500000|female|smoker": 57.27, "58|over_500000|female|nonsmoker": 29.45, "58|over_500000|male|smoker": 67.55, "58|over_500000|male|nonsmoker": 37.38, "58|up_to_500000|female|smoker": 68.91, "58|up_to_500000|female|nonsmoker": 34.24, "58|up_to_500000|male|smoker": 84.77, "58|up_to_500000|male|nonsmoker": 45.69, "59|over_500000|female|smoker": 63.13, "59|over_500000|female|nonsmoker": 32.09, "59|over_500000|male|smoker": 76.25, "59|over_500000|male|nonsmoker": 42.32, "59|up_to_500000|female|smoker": 76.13, "59|up_to_500000|female|nonsmoker": 37.32, "59|up_to_500000|male|smoker": 93.29, "59|up_to_500000|male|nonsmoker": 50.61, "60|over_500000|female|smoker": 70.77, "60|over_500000|female|nonsmoker": 35.79, "60|over_500000|male|smoker": 85.8, "60|over_500000|male|nonsmoker": 47.61, "60|up_to_500000|female|smoker": 85.59, "60|up_to_500000|female|nonsmoker": 41.62, "60|up_to_500000|male|smoker": 102.57, "60|up_to_500000|male|nonsmoker": 56.12, "61|over_500000|female|smoker": 80.93, "61|over_500000|female|nonsmoker": 40.91, "61|over_500000|male|smoker": 98.18, "61|over_500000|male|nonsmoker": 53.96, "61|up_to_500000|female|smoker": 97.91, "61|up_to_500000|female|nonsmoker": 47.57, "61|up_to_500000|male|smoker": 114.89, "61|up_to_500000|male|nonsmoker": 62.74, "62|over_500000|female|smoker": 93.23, "62|over_500000|female|nonsmoker": 47.08, "62|over_500000|male|smoker": 110.41, "62|over_500000|male|nonsmoker": 61.01, "62|up_to_500000|female|smoker": 111.8, "62|up_to_500000|female|nonsmoker": 54.75, "62|up_to_500000|male|smoker": 128.54, "62|up_to_500000|male|nonsmoker": 70.94, "63|over_500000|female|smoker": 106.97, "63|over_500000|female|nonsmoker": 53.78, "63|over_500000|male|smoker": 123.84, "63|over_500000|male|nonsmoker": 68.24, "63|up_to_500000|female|smoker": 127.16, "63|up_to_500000|female|nonsmoker": 62.54, "63|up_to_500000|male|smoker": 144.11, "63|up_to_500000|male|nonsmoker": 79.35, "64|over_500000|female|smoker": 121.59, "64|over_500000|female|nonsmoker": 60.66, "64|over_500000|male|smoker": 137.42, "64|over_500000|male|nonsmoker": 75.65, "64|up_to_500000|female|smoker": 143.33, "64|up_to_500000|female|nonsmoker": 70.53, "64|up_to_500000|male|smoker": 160.12, "64|up_to_500000|male|nonsmoker": 87.96, "65|over_500000|female|smoker": 134.91, "65|over_500000|female|nonsmoker": 67.18, "65|over_500000|male|smoker": 154.33, "65|over_500000|male|nonsmoker": 83.93, "65|up_to_500000|female|smoker": 157.44, "65|up_to_500000|female|nonsmoker": 78.12, "65|up_to_500000|male|smoker": 179.81, "65|up_to_500000|male|nonsmoker": 97.6, "66|over_500000|female|smoker": 147.71, "66|over_500000|female|nonsmoker": 73.53, "66|over_500000|male|smoker": 171.57, "66|over_500000|male|nonsmoker": 93.98, "66|up_to_500000|female|smoker": 171.82, "66|up_to_500000|female|nonsmoker": 85.5, "66|up_to_500000|male|smoker": 200.02, "66|up_to_500000|male|nonsmoker": 109.29, "67|over_500000|female|smoker": 162.38, "67|over_500000|female|nonsmoker": 80.76, "67|over_500000|male|smoker": 193.18, "67|over_500000|male|nonsmoker": 105.8, "67|up_to_500000|female|smoker": 188.93, "67|up_to_500000|female|nonsmoker": 93.91, "67|up_to_500000|male|smoker": 224.74, "67|up_to_500000|male|nonsmoker": 123.02, "68|over_500000|female|smoker": 180.05, "68|over_500000|female|nonsmoker": 89.75, "68|over_500000|male|smoker": 215.86, "68|over_500000|male|nonsmoker": 117.44, "68|up_to_500000|female|smoker": 209.29, "68|up_to_500000|female|nonsmoker": 104.37, "68|up_to_500000|male|smoker": 251.36, "68|up_to_500000|male|nonsmoker": 136.56, "69|over_500000|female|smoker": 201.74, "69|over_500000|female|nonsmoker": 99.8, "69|over_500000|male|smoker": 234.95, "69|over_500000|male|nonsmoker": 128.19, "69|up_to_500000|female|smoker": 234.56, "69|up_to_500000|female|nonsmoker": 116.05, "69|up_to_500000|male|smoker": 273.49, "69|up_to_500000|male|nonsmoker": 149.06, "70|over_500000|female|smoker": 270.08, "70|over_500000|female|nonsmoker": 134.2, "70|over_500000|male|smoker": 296.86, "70|over_500000|male|nonsmoker": 163.54, "70|up_to_500000|female|smoker": 265.87, "70|up_to_500000|female|nonsmoker": 132.25, "70|up_to_500000|male|smoker": 292.98, "70|up_to_500000|male|nonsmoker": 161.16};
+var CLAL_DISC=[{"cmin": 0, "cmax": 1000000, "y": "a", "pct": 65}, {"cmin": 0, "cmax": 1000000, "y": "b", "pct": 60}, {"cmin": 0, "cmax": 1000000, "y": "g", "pct": 55}, {"cmin": 1000001, "cmax": 1500000, "y": "a", "pct": 70}, {"cmin": 1000001, "cmax": 1500000, "y": "b", "pct": 65}, {"cmin": 1000001, "cmax": 1500000, "y": "g", "pct": 60}, {"cmin": 2000001, "cmax": 999999999, "y": "a", "pct": 72}, {"cmin": 2000001, "cmax": 999999999, "y": "b", "pct": 65}, {"cmin": 2000001, "cmax": 999999999, "y": "g", "pct": 60}];
+var L={a:'א',b:'ב',g:'ג',d:'ד',h:'ה',v:'ו'};
+function $(id){return document.getElementById(id)}
+function ils(n){if(!isFinite(n))return'—';try{return new Intl.NumberFormat('he-IL',{style:'currency',currency:'ILS',maximumFractionDigits:2}).format(n)}catch(e){return (Math.round(n*100)/100)+' ש"ח'}}
+function showErr(t){var e=$('err');e.style.display=t?'block':'none';e.textContent=t||''}
+function fillPhx(){var s=$('phxCode');s.innerHTML='';for(var i=0;i<PHX_CODES.length;i++){var c=PHX_CODES[i],o=document.createElement('option');o.value=String(c.code);o.textContent=c.code+' | min '+c.min;if(c.code===3705)o.selected=true;s.appendChild(o)}}
+function row(arr,age){for(var i=0;i<arr.length;i++) if(+arr[i].age===+age) return arr[i]; return null}
+function rt(r,sex,sm){if(!r)return null; return sex==='male'?(sm?r.ms:r.mn):(sm?r.fs:r.fn)}
+function ui(){
+  var c=$('company').value;
+  $('phxBox').className=c==='phoenix'?'':'hid';
+  $('migBox').className=c==='migdal'?'':'hid';
+  $('clalBox').className=c==='clal'?'':'hid';
 }
-
-const codeSel = document.getElementById('code');
-CODES.forEach(c => {
-  const o = document.createElement('option');
-  o.value = c.code;
-  const tag = c.special ? ' · מיוחד עד 67' : ' · עד 60';
-  o.textContent = c.code + ' · מינ׳ ' + c.min.toLocaleString('he-IL') + ' · גיל ' + c.amin + '–' + c.amax + tag;
-  if (c.code === 3705) o.selected = true;
-  codeSel.appendChild(o);
-});
-
-function lookupRate(age, sex, smoker){
-  const row = TARIFF.find(r => r.age === age);
-  if (!row) return null;
-  if (sex === 'male') return smoker ? row.ms : row.mn;
-  return smoker ? row.fs : row.fn;
+function findMigDisc(age,cover,mode,letter,free){
+  if(mode==='none') return {pct:0,code:'—',warn:''};
+  for(var i=0;i<MIG_DISC.length;i++){
+    var d=MIG_DISC[i];
+    if(d.kind!==mode||d.y!==letter) continue;
+    if(cover<d.cmin||cover>d.cmax) continue;
+    if(mode==='stepped'&&cover===1000000&&d.cmax!==1000000) continue;
+    if(mode==='stepped'&&cover>1000000&&d.cmin<1000000) continue;
+    if(d.amin!=null&&d.amax!=null&&(age<d.amin||age>d.amax)) continue;
+    return {pct:+d.pct, code:free?d.code1:d.code0, warn: mode==='gold'?'הסכם זהב: 1M–3M ופרמיה מינ׳ 180.':''};
+  }
+  return {pct:null,code:'',warn:'לא נמצאה הנחה מתאימה'};
 }
-
+function findClalDisc(cover, letter){
+  if(cover>1500000 && cover<=2000000) return {pct:null, warn:'חסרה הנחה לטווח 1.5M–2M — תמיר עדיין לא מסר'};
+  for(var i=0;i<CLAL_DISC.length;i++){
+    var d=CLAL_DISC[i];
+    if(d.y!==letter) continue;
+    if(cover>=d.cmin && cover<=d.cmax) return {pct:+d.pct, warn:''};
+  }
+  return {pct:null, warn:'לא נמצאה הנחה לכלל לסכום זה'};
+}
 function calc(){
-  const age = parseInt(document.getElementById('age').value, 10);
-  const sex = document.getElementById('sex').value;
-  const smoker = document.getElementById('smoker').value === '1';
-  const cover = Number(document.getElementById('cover').value);
-  const code = parseInt(document.getElementById('code').value, 10);
-  const letter = document.getElementById('letter').value;
-  const companyLabel = document.getElementById('company').selectedOptions[0].text;
+  showErr(''); ui();
+  var company=$('company').value;
+  var age=parseInt($('age').value,10);
+  var sex=$('sex').value;
+  var smoker=$('smoker').value==='1';
+  var cover=Number($('cover').value);
+  $('warn').style.display='none'; $('warn').textContent='';
+  if(!isFinite(age)||age<18||age>79){showErr('גיל 18–79');return}
+  if(!isFinite(cover)||cover<=0){showErr('סכום כיסוי לא תקין');return}
+  var beforeM=0, afterM=0, beforeY=0, afterY=0, pct=0, info='', codeTxt='';
 
-  const out = document.getElementById('out');
-  const warn = document.getElementById('warn');
-  warn.style.display = 'none';
-  warn.textContent = '';
+  if(company==='phoenix'){
+    var b=rt(row(PHX,age),sex,smoker); if(b==null){showErr('אין תעריף הפניקס');return}
+    var code=parseInt($('phxCode').value,10), letter=$('letter').value;
+    var agr=null; for(var i=0;i<PHX_CODES.length;i++) if(PHX_CODES[i].code===code){agr=PHX_CODES[i];break}
+    if(!agr){showErr('לא נבחר קוד');return}
+    pct=Number(agr[letter]); if(!isFinite(pct)){showErr('אין אחוז הנחה');return}
+    beforeY=cover/1000*b; afterY=beforeY*(1-pct/100); beforeM=beforeY/12; afterM=afterY/12;
+    codeTxt='קוד '+code+' · עמודה '+L[letter];
+    info='הפניקס · תעריף ריסק 1 · שיעור שנתי/1000 = '+b;
+  } else if(company==='migdal'){
+    var b=rt(row(MIG,age),sex,smoker); if(b==null){showErr('אין תעריף מגדל');return}
+    beforeM=cover/100000*b; beforeY=beforeM*12;
+    var d=findMigDisc(age,cover,$('migMode').value,$('migLetter').value,$('migFree').value==='1');
+    if(d.pct==null){showErr(d.warn||'אין הנחה');pct=0;afterM=beforeM;afterY=beforeY;codeTxt='—'}
+    else {pct=+d.pct; afterM=beforeM*(1-pct/100); afterY=afterM*12; codeTxt='הסכם '+d.code+' · שנה '+L[$('migLetter').value]; if(d.warn){$('warn').style.display='block';$('warn').textContent=d.warn}}
+    info='מגדל · ריסק אור 1 · שיעור חודשי/100k = '+b;
+  } else if(company==='clal'){
+    if(age>70){showErr('ספיר 1 עד גיל 70');return}
+    var band=cover<=500000?'up_to_500000':'over_500000';
+    var sexK=sex==='male'?'male':'female', smK=smoker?'smoker':'nonsmoker';
+    var b=SAPIR[age+'|'+band+'|'+sexK+'|'+smK];
+    if(b==null){showErr('אין תא בספיר 1');return}
+    beforeM=cover/100000*b; beforeY=beforeM*12;
+    var letter=$('clalLetter').value;
+    var d=findClalDisc(cover, letter);
+    if(d.pct==null){
+      showErr(d.warn||'אין הנחה');
+      pct=0; afterM=beforeM; afterY=beforeY; codeTxt='—';
+      if(d.warn){$('warn').style.display='block'; $('warn').textContent=d.warn}
+    } else {
+      pct=+d.pct; afterM=beforeM*(1-pct/100); afterY=afterM*12;
+      codeTxt='הנחה מדורגת שנה '+L[letter];
+    }
+    info='כלל · ספיר 1 · מדרגת תעריף: '+(band==='up_to_500000'?'עד 500k':'מעל 500k')+' · שיעור/100k = '+b+' (לפני הנחה)';
+  } else {showErr('חסר מחירון');return}
 
-  if (!Number.isFinite(age) || age < 18 || age > 79) {
-    alert('גיל חייב להיות בין 18 ל-79');
-    return;
-  }
-  if (!Number.isFinite(cover) || cover <= 0) {
-    alert('סכום כיסוי חייב להיות גדול מ-0');
-    return;
-  }
-
-  const base = lookupRate(age, sex, smoker);
-  if (base == null) {
-    alert('אין תא בתעריפון לגיל הזה');
-    return;
-  }
-
-  const agr = CODES.find(c => c.code === code);
-  const pct = agr[letter];
-  const beforeY = cover / 1000 * base;
-  const afterY = cover / 1000 * (base * (1 - pct / 100));
-  const beforeM = beforeY / 12;
-  const afterM = afterY / 12;
-
-  document.getElementById('beforeY').textContent = ils(beforeY);
-  document.getElementById('afterY').textContent = ils(afterY);
-  document.getElementById('beforeM').textContent = 'חודשי: ' + ils(beforeM);
-  document.getElementById('afterM').textContent = 'חודשי: ' + ils(afterM);
-  document.getElementById('beforeM2').textContent = ils(beforeM);
-  document.getElementById('afterM2').textContent = ils(afterM);
-
-  const msgs = [];
-  if (age < agr.amin || age > agr.amax) {
-    msgs.push('הגיל מחוץ לטווח הקוד (' + agr.amin + '–' + agr.amax + '). ההנחה מוצגת לפי הטבלה אבל ייתכן שההסכם לא חל.');
-  }
-  if (cover < agr.min) {
-    msgs.push('סכום הכיסוי נמוך מהמינימום לקוד (' + agr.min.toLocaleString('he-IL') + ' ₪). ההנחה מוצגת לפי הטבלה אבל ייתכן שההסכם לא חל.');
-  }
-  if (msgs.length) {
-    warn.style.display = 'block';
-    warn.textContent = msgs.join(' ');
-  }
-
-  document.getElementById('meta').innerHTML =
-    'הנחה שהוחלה: <b>' + pct + '%</b> · קוד ' + code + ' · אות הנחה ' + letter + ' (מקרא UNKNOWN)<br>' +
-    'שיעור בסיס: ' + base + ' ₪ לשנה לכל 1,000 ₪ כיסוי<br>' +
-    'חברה: ' + companyLabel + ' — תווית בלבד. שם החברה לא מודפס בתעריף ריסק 1.<br>' +
-    'דמי פוליסה / סליקה / עמלות: לא במקורות — לא חושבו.<br>' +
-    'מקור: תעריף ריסק 1 · 05.2026 · הנחות «מכונות מעודכן»';
-
-  out.style.display = 'block';
+  if(!isFinite(afterM)){showErr('שגיאה בחישוב אחרי הנחה');return}
+  $('beforeM').textContent=ils(beforeM); $('afterM').textContent=ils(afterM);
+  $('beforeY').textContent='שנתי: '+ils(beforeY); $('afterY').textContent='שנתי: '+ils(afterY);
+  $('pctBox').innerHTML='הנחה שהוחלה: <b>'+pct+'%</b> · '+codeTxt+'<br>חיסכון חודשי: <b>'+ils(beforeM-afterM)+'</b>';
+  $('meta').innerHTML=info;
 }
-
-document.getElementById('go').addEventListener('click', calc);
-['sex','age','smoker','cover','code','letter','company'].forEach(id => {
-  document.getElementById(id).addEventListener('change', calc);
-});
-calc();
-</script>
-</body>
-</html>
+function bind(){
+  fillPhx();
+  $('go').onclick=function(e){if(e)e.preventDefault();calc();return false};
+  ['company','sex','age','smoker','cover','phxCode','letter','migMode','migLetter','migFree','clalLetter'].forEach(function(id){var el=$(id); if(el){el.onchange=calc; el.oninput=calc}});
+  calc();
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', bind); else bind();
+</script></body></html>
