@@ -675,10 +675,10 @@ section[style*="background:"] .btn-ghost,
   margin-top: 0.25rem;
 }
 
-/* Hero visual card */
+/* Hero visual card — visible immediately (tool above the fold) */
 .hero-visual {
   position: relative;
-  animation: fadeUp 1.2s ease-out 0.4s both;
+  animation: none;
 }
 
 .advisor-card {
@@ -3320,16 +3320,11 @@ body.has-ticker .navbar { top: 42px; }
 }
 @media (max-width: 380px) {
   .navbar .logo-tagline-only { display: none !important; }
-  /* On very narrow phones — show only the phone icon (hide the number) */
-  .navbar .nav-phone {
-    padding: 0.5rem 0.65rem;
-    font-size: 0;
-    gap: 0;
-  }
-  .navbar .nav-phone svg {
-    width: 18px;
-    height: 18px;
-  }
+  .navbar .nav-phone { display: none !important; }
+}
+.home-polish .navbar .nav-phone { display: none; }
+@media (max-width: 768px) {
+  .home-polish .navbar .nav-phone { display: none !important; }
 }
 .navbar .menu-toggle:hover {
   background: var(--gold);
@@ -4017,6 +4012,7 @@ body.drawer-open .side-drawer { transform: translateX(0); }
   padding: 1.35rem 1.3rem 1.4rem;
   box-shadow: 0 4px 24px -4px rgba(14, 60, 92, 0.18), 0 18px 40px -16px rgba(10, 47, 72, 0.35);
   border: 1px solid rgba(91, 175, 216, 0.22);
+  min-width: min(100%, 340px);
 }
 .hero-tool h3 {
   font-size: 1.15rem;
