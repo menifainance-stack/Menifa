@@ -19,15 +19,113 @@ const monthlyPayment = (principal, annualRate, years) => {
    FINANCIAL DATA — ריבית בנק ישראל ומדד
    Attempts live fetch, falls back to last-known values
    ═══════════════════════════════════════════════════════════════ */
+const CBS_CPI_PDF = 'https://www.cbs.gov.il/he/mediarelease/Madad/DocLib/2026/293/10_26_293b.pdf';
+const CBS_CPI_TITLE = 'למ״ס הודעה 293/2026 — מדד המחירים לצרכן אוגוסט 2026 (פורסם 15.09.2026)';
+const CPI_PERIOD_LABEL = 'אוגוסט 2026';
+const CPI_PUBLISHED_SHORT = '15.09';
 const MARKET_FALLBACK = {
   boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 01.09.2026)
   prime: 4.75,       // פריים = BoI + 1.5
-  cpiMonthly: 0.3,   // % שינוי חודשי — אוגוסט 2026 (עדכון יומי; לא לטעון «עכשיו»)
-  cpiYearly: 1.5,    // % שינוי שנתי — 12 חודשים עד אוגוסט 2026
-  updateDate: 'ספט׳ 2026 · BOI 01.09'
+  cpiMonthly: 0.7,   // % שינוי חודשי — אוגוסט 2026 מול יולי 2026 (למ״ס 293/2026)
+  cpiYearly: 1.5,    // % שינוי שנתי — אוגוסט 2026 מול אוגוסט 2025 (למ״ס 293/2026)
+  cpiPeriodLabel: CPI_PERIOD_LABEL,
+  cpiPublishedShort: CPI_PUBLISHED_SHORT,
+  cpiSourceUrl: CBS_CPI_PDF,
+  updateDate: 'מדד 15.09 · BOI 01.09'
 };
-const CPI_PERIOD_LABEL = 'אוג׳ 2026';
 // ממוצעי מסלולי משכנתא (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
+
+function formatTickerUpdateDate(boiPublished) {
+  const cpi = 'מדד ' + CPI_PUBLISHED_SHORT;
+  let boi = 'BOI 01.09';
+  if (boiPublished && !Number.isNaN(boiPublished.getTime())) {
+    const dd = String(boiPublished.getDate()).padStart(2, '0');
+    const mm = String(boiPublished.getMonth() + 1).padStart(2, '0');
+    boi = 'BOI ' + dd + '.' + mm;
+  }
+  return cpi + ' · ' + boi;
+}
+
+function ensureCombinedCpiItem(data) {
+  const existing = document.getElementById('m-cpi-item');
+  if (existing) {
+    const src = document.getElementById('m-cpi-source');
+    if (src) {
+      src.href = data.cpiSourceUrl || CBS_CPI_PDF;
+      src.title = CBS_CPI_TITLE;
+    }
+    return existing;
+  }
+
+  const monthlyVal = document.getElementById('m-cpi-m');
+  if (!monthlyVal) return null;
+
+  const monthlyItem = monthlyVal.closest('.market-item');
+  if (!monthlyItem || !monthlyItem.parentNode) return null;
+
+  const yearlyVal = document.getElementById('m-cpi-y');
+  const yearlyItem = yearlyVal && yearlyVal.closest('.market-item');
+  const chgM = document.getElementById('m-cpi-m-chg');
+  const chgY = document.getElementById('m-cpi-y-chg');
+
+  const wrap = document.createElement('div');
+  wrap.className = 'market-item market-item-cpi';
+  wrap.id = 'm-cpi-item';
+
+  const link = document.createElement('a');
+  link.className = 'cpi-line';
+  link.id = 'm-cpi-source';
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.href = data.cpiSourceUrl || CBS_CPI_PDF;
+  link.title = CBS_CPI_TITLE;
+
+  const lbl = document.createElement('span');
+  lbl.className = 'lbl';
+  lbl.appendChild(document.createTextNode('מדד המחירים לצרכן — '));
+  const period = document.createElement('span');
+  period.id = 'm-cpi-period';
+  period.textContent = data.cpiPeriodLabel || CPI_PERIOD_LABEL;
+  lbl.appendChild(period);
+
+  const sep = () => {
+    const s = document.createElement('span');
+    s.className = 'cpi-sep';
+    s.setAttribute('aria-hidden', 'true');
+    s.textContent = '|';
+    return s;
+  };
+
+  const monthlyPart = document.createElement('span');
+  monthlyPart.className = 'cpi-part';
+  monthlyPart.appendChild(document.createTextNode('חודשי '));
+  monthlyPart.appendChild(monthlyVal);
+
+  const yearlyPart = document.createElement('span');
+  yearlyPart.className = 'cpi-part';
+  yearlyPart.appendChild(document.createTextNode('שנתי '));
+  if (yearlyVal) {
+    yearlyPart.appendChild(yearlyVal);
+  } else {
+    const y = document.createElement('span');
+    y.className = 'val';
+    y.id = 'm-cpi-y';
+    yearlyPart.appendChild(y);
+  }
+
+  const pub = document.createElement('span');
+  pub.className = 'chg';
+  pub.id = 'm-cpi-pub';
+
+  link.append(lbl, sep(), monthlyPart, sep(), yearlyPart, sep(), pub);
+  wrap.appendChild(link);
+  monthlyItem.parentNode.insertBefore(wrap, monthlyItem);
+  monthlyItem.remove();
+  if (yearlyItem && yearlyItem !== wrap && yearlyItem.parentNode) yearlyItem.remove();
+  if (chgM && chgM.parentNode) chgM.remove();
+  if (chgY && chgY.parentNode) chgY.remove();
+  return wrap;
+}
 
 function setMarketData(data) {
   const fmt = n => (n > 0 ? '+' : '') + n.toFixed(1) + '%';
@@ -45,16 +143,41 @@ function setMarketData(data) {
   set('m-prime', fmtRate(data.prime));
   set('boi-policy-rate', fmtRate(data.boi));
   set('boi-policy-prime', fmtRate(data.prime));
-  set('m-cpi-m', fmt(data.cpiMonthly));
-  set('m-cpi-y', data.cpiYearly.toFixed(1) + '%');
-  set('m-update', data.updateDate);
+
+  ensureCombinedCpiItem(data);
 
   const cpiPeriod = data.cpiPeriodLabel || CPI_PERIOD_LABEL;
-  const mc = set('m-cpi-m-chg', (data.cpiMonthly >= 0 ? '↑ ' : '↓ ') + cpiPeriod);
-  if (mc) mc.className = 'chg ' + (data.cpiMonthly >= 0 ? 'up' : 'down');
+  const monthlyTxt = fmt(data.cpiMonthly);
+  const yearlyTxt = data.cpiYearly.toFixed(1) + '%';
+  const pubTxt = 'פורסם ' + (data.cpiPublishedShort || CPI_PUBLISHED_SHORT);
 
-  const yc = set('m-cpi-y-chg', '12 ח׳ עד ' + cpiPeriod);
-  if (yc) yc.className = 'chg ' + (data.cpiYearly >= 2 ? 'up' : 'down');
+  set('m-cpi-period', cpiPeriod);
+  const monthlyNode = set('m-cpi-m', monthlyTxt);
+  if (monthlyNode) monthlyNode.className = 'val ' + (data.cpiMonthly >= 0 ? 'up' : 'down');
+  set('m-cpi-y', yearlyTxt);
+  const pub = set('m-cpi-pub', pubTxt);
+  if (pub) pub.className = 'chg ' + (data.cpiMonthly >= 0 ? 'up' : 'down');
+  const src = document.getElementById('m-cpi-source');
+  if (src) {
+    src.setAttribute(
+      'aria-label',
+      'מדד המחירים לצרכן — ' + cpiPeriod + ' | חודשי ' + monthlyTxt + ' | שנתי ' + yearlyTxt + ' | ' + pubTxt + ' | מקור למ״ס הודעה 293/2026'
+    );
+  }
+
+  // דפים שעדיין מציגים שני פריטי מדד נפרדים (לפני המרה)
+  const mc = document.getElementById('m-cpi-m-chg');
+  if (mc) {
+    mc.textContent = (data.cpiMonthly >= 0 ? '↑ ' : '↓ ') + cpiPeriod;
+    mc.className = 'chg ' + (data.cpiMonthly >= 0 ? 'up' : 'down');
+  }
+  const yc = document.getElementById('m-cpi-y-chg');
+  if (yc) {
+    yc.textContent = '12 ח׳ עד ' + cpiPeriod;
+    yc.className = 'chg ' + (data.cpiYearly >= 0 ? 'up' : 'down');
+  }
+
+  set('m-update', data.updateDate || formatTickerUpdateDate(null));
 }
 
 async function fetchMarketData() {
@@ -67,16 +190,11 @@ async function fetchMarketData() {
       const j = await r.json();
       if (j && j.currentInterest != null) {
         const published = j.lastPublishedDate ? new Date(j.lastPublishedDate) : null;
-        const heMonths = ['ינו׳','פבר׳','מרץ','אפר׳','מאי','יונ׳','יול׳','אוג׳','ספט׳','אוק׳','נוב׳','דצמ׳'];
-        let dateLabel = MARKET_FALLBACK.updateDate;
-        if (published && !Number.isNaN(published.getTime())) {
-          dateLabel = heMonths[published.getMonth()] + ' ' + published.getFullYear() + ' · BOI';
-        }
         const live = {
           ...MARKET_FALLBACK,
           boi: parseFloat(j.currentInterest),
           prime: parseFloat(j.currentInterest) + 1.5,
-          updateDate: dateLabel
+          updateDate: formatTickerUpdateDate(published)
         };
         setMarketData(live);
       }
