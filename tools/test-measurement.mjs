@@ -77,10 +77,11 @@ function listPublicHtml() {
 /* ── 1. Static: live HTML must not load GTM ── */
 console.log('static GTM gate');
 const htmlFiles = listPublicHtml();
-ok('public HTML inventory includes masurvei + art-55 + mihzur',
+ok('public HTML inventory includes masurvei + art-55 + mihzur + ihud week-1',
   htmlFiles.includes('masurvei-bankim.html') &&
   htmlFiles.includes(path.join('blog', 'art-55.html')) &&
-  htmlFiles.includes('mihzur-mashkanta.html'));
+  htmlFiles.includes('mihzur-mashkanta.html') &&
+  htmlFiles.includes(path.join('blog', 'ihud-halvaot-matei-ken-lo.html')));
 for (const file of htmlFiles) {
   const raw = fs.readFileSync(path.join(root, file), 'utf8');
   const live = stripHtmlComments(raw);
