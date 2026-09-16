@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="googlebot" content="noindex, nofollow, noarchive">
+<meta name="theme-color" content="#7A2E2E">
+<title>פנימי — מחשבון ביטוח חיים ריסק | שילת · לא לפרסום</title>
+<meta name="description" content="כלי פנימי להערכת פרמיית ריסק. אינו עמוד ציבורי של menifa.org.">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+<link rel="stylesheet" href="../assets/style.css?v=2026-09-16-shilat">
+<link rel="stylesheet" href="shilat-life-calc.css?v=2026-09-16">
+</head>
+<body class="shilat-page">
+<div class="shilat-sticky">
+<div class="shilat-banner" role="note">פנימי — לא לפרסום · כלי לתמיר + שותף · לא למזג ל־main כעמוד ציבורי</div>
+<div class="shilat-disclaimer" role="note">
+  כלי פנימי להערכה בלבד. <strong>אינו הצעת מחיר מחייבת</strong> מחברת ביטוח ואינו ייעוץ ביטוחי מורשה.
+  גם כשמחושב מתעריפון/הנחות רשמיים — התוצאה היא אומדן פנימי בלבד; התעריפים הקובעים הם אלו שבמחשבי החברה במועד הפקת הפוליסה.
+</div>
+</div>
+
+<main class="shilat-wrap" id="main-content">
+  <header class="shilat-head">
+    <p class="eyebrow">פיילוט שילת · תעריף ריסק 1 · 05.2026</p>
+    <h1>מחשבון ביטוח חיים למשכנתא (ריסק)</h1>
+    <p>ברירת מחדל: תעריף ריסק 1 הרשמי (₪ שנתי לכל 1,000 ₪ כיסוי) + הנחת הסכם מטבלת «מכונות מעודכן». שם החברה בתעריפון <strong>לא מזוהה</strong> במקור — השדה ריק.</p>
+  </header>
+
+  <form class="shilat-card" id="shilat-form" novalidate>
+    <h2>קלטים</h2>
+    <div class="shilat-grid shilat-grid-2">
+      <div class="shilat-field">
+        <label for="birth_date">תאריך לידה</label>
+        <input type="date" id="birth_date" name="birth_date" value="1985-11-27">
+      </div>
+      <div class="shilat-field">
+        <label for="age">גיל <span class="hint">(מחושב מתאריך הלידה, ניתן לערוך)</span></label>
+        <input type="number" id="age" name="age" min="0" max="120" inputmode="numeric" value="40">
+      </div>
+      <div class="shilat-field">
+        <label for="as_of_date">תאריך ייחוס לגיל</label>
+        <input type="date" id="as_of_date" name="as_of_date" value="2026-09-16">
+      </div>
+      <div class="shilat-field">
+        <label for="cover_amount">סכום כיסוי (₪)</label>
+        <input type="number" id="cover_amount" name="cover_amount" min="1" step="1000" inputmode="numeric" value="1000000" required>
+      </div>
+    </div>
+
+    <div class="shilat-grid shilat-grid-2" style="margin-top:0.85rem">
+      <div class="shilat-field">
+        <label>מין</label>
+        <div class="shilat-seg" role="radiogroup" aria-label="מין">
+          <label><input type="radio" name="sex" value="female" checked> אישה</label>
+          <label><input type="radio" name="sex" value="male"> גבר</label>
+        </div>
+      </div>
+      <div class="shilat-field">
+        <label>מעשן/ת <span class="hint">חובה</span></label>
+        <div class="shilat-seg" role="radiogroup" aria-label="מעשן">
+          <label><input type="radio" name="smoker" value="false" checked> לא מעשן/ת</label>
+          <label><input type="radio" name="smoker" value="true"> מעשן/ת</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="shilat-grid shilat-grid-2" style="margin-top:0.85rem">
+      <div class="shilat-field">
+        <label for="agreement_code">קוד הסכם</label>
+        <select id="agreement_code" name="agreement_code">
+          <option value="">ללא הנחת הסכם</option>
+        </select>
+        <span class="hint">הקוד הוא קלט סוכן. אין בחירה אוטומטית של «ההנחה הגבוהה ביותר».</span>
+      </div>
+      <div class="shilat-field">
+        <label for="discount_year_letter">אות הנחה</label>
+        <select id="discount_year_letter" name="discount_year_letter">
+          <option value="">—</option>
+          <option value="א" selected>א</option>
+          <option value="ב">ב</option>
+          <option value="ג">ג</option>
+          <option value="ד">ד</option>
+          <option value="ה">ה</option>
+          <option value="ו">ו</option>
+        </select>
+        <span class="hint">תווית בלבד. משמעות א–ו = UNKNOWN (אין מקרא במקור).</span>
+      </div>
+      <div class="shilat-field">
+        <label for="rate_source">מקור שיעור</label>
+        <select id="rate_source" name="rate_source">
+          <option value="official_risk1" selected>תעריף ריסק 1 הרשמי</option>
+          <option value="migdal_empirical">אמפירי מגדל (רק אם חסר תא / השוואה)</option>
+          <option value="unified_empirical">אמפירי מאוחד (רק אם חסר תא / השוואה)</option>
+        </select>
+        <span class="hint">טבלאות אמפיריות לא צורפו לפיילוט זה — לא יומצאו שיעורים.</span>
+      </div>
+      <div class="shilat-field">
+        <label for="company">חברה <span class="hint">אופציונלי — השאירו ריק</span></label>
+        <input type="text" id="company" name="company" placeholder="לא מזוהה בתעריפון" autocomplete="off">
+      </div>
+    </div>
+
+    <details class="shilat-more">
+      <summary>תוספות ידניות ותנאי חיתום (לא בנוסחה אלא אם הוזנו)</summary>
+      <div class="shilat-grid shilat-grid-2" style="margin-top:0.75rem">
+        <div class="shilat-field">
+          <label for="medical_loading_pct">תוספת רפואית % <span class="hint">ידני</span></label>
+          <input type="number" id="medical_loading_pct" min="0" step="0.1" inputmode="decimal" placeholder="ריק = ללא">
+        </div>
+        <div class="shilat-field">
+          <label for="occupational_loading_pct">תוספת מקצועית % <span class="hint">ידני</span></label>
+          <input type="number" id="occupational_loading_pct" min="0" step="0.1" inputmode="decimal" placeholder="ריק = ללא">
+        </div>
+        <div class="shilat-field">
+          <label for="cover_type">סוג כיסוי לדגלי הפניקס</label>
+          <select id="cover_type">
+            <option value="mortgage" selected>משכנתא / ריסק משועבד</option>
+            <option value="regular">ריסק רגיל</option>
+          </select>
+        </div>
+        <div class="shilat-field">
+          <label><input type="checkbox" id="diabetes"> סוכרת — דגל מסמכים בלבד</label>
+        </div>
+        <div class="shilat-field">
+          <label for="height_cm">גובה (ס״מ) לבדיקת BMI</label>
+          <input type="number" id="height_cm" min="80" max="230" inputmode="numeric" placeholder="אופציונלי">
+        </div>
+        <div class="shilat-field">
+          <label for="weight_kg">משקל (ק״ג) לבדיקת BMI</label>
+          <input type="number" id="weight_kg" min="20" max="300" step="0.1" inputmode="decimal" placeholder="אופציונלי">
+        </div>
+      </div>
+    </details>
+  </form>
+
+  <section class="shilat-card shilat-results" aria-live="polite">
+    <h2>תוצאה</h2>
+    <div id="calc-output"></div>
+  </section>
+
+  <section class="shilat-card shilat-howto">
+    <h2>איך משתמשים — לתמיר</h2>
+    <ol>
+      <li>ברירת המחדל היא דמו שילת: אישה, 27.11.1985, גיל 40, לא מעשנת, כיסוי 1,000,000 ₪, קוד 3705, אות הנחה א.</li>
+      <li>המספרים הצפויים לדמו: שיעור 0.80 ₪ ל־1,000 · שנתי לפני הנחה ₪800 · הנחה 70% · שנתי אחרי ₪240 · חודשי ₪20.</li>
+      <li>בחרו קוד הסכם מהרשימה ואות הנחה. אם הגיל או הסכום מחוץ לטווח הקוד — תופיע אזהרה, בלי שיעור מומצא.</li>
+      <li>דגלי חיתום (כלל / הפניקס) הם תזכורת למסמכים בלבד. הם לא משנים את הפרמיה.</li>
+      <li>אין מספרי זהות בעמוד. אל תשתפו את הקישור כעמוד ציבורי ב־menifa.org.</li>
+    </ol>
+  </section>
+</main>
+
+<script src="shilat-life-data.js?v=2026-09-16"></script>
+<script src="shilat-life-engine.js?v=2026-09-16"></script>
+<script src="shilat-life-ui.js?v=2026-09-16"></script>
+</body>
+</html>
