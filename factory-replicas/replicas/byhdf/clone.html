@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive" />
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1280" />
+<title>ביחד פיננסים – כלים פיננסיים ומחשבונים חינמיים</title>
+<style>
+  @font-face { font-family: Heebo; font-weight: 300; src: url("fonts/heebo-300-he.woff2") format("woff2"), url("fonts/heebo-0.ttf") format("truetype"); }
+  @font-face { font-family: Heebo; font-weight: 400; src: url("fonts/heebo-400-he.woff2") format("woff2"), url("fonts/heebo-1.ttf") format("truetype"); }
+  @font-face { font-family: Heebo; font-weight: 500; src: url("fonts/heebo-500-he.woff2") format("woff2"), url("fonts/heebo-2.ttf") format("truetype"); }
+  @font-face { font-family: Heebo; font-weight: 600; src: url("fonts/heebo-600-he.woff2") format("woff2"), url("fonts/heebo-3.ttf") format("truetype"); }
+  @font-face { font-family: Heebo; font-weight: 700; src: url("fonts/heebo-700-he.woff2") format("woff2"), url("fonts/heebo-4.ttf") format("truetype"); }
+  @font-face { font-family: Heebo; font-weight: 800; src: url("fonts/heebo-800-he.woff2") format("woff2"), url("fonts/heebo-4.ttf") format("truetype"); }
+  @font-face { font-family: Heebo; font-weight: 400; unicode-range: U+0000-00FF; src: url("fonts/heebo-400-latin.woff2") format("woff2"); }
+  @font-face { font-family: Heebo; font-weight: 700; unicode-range: U+0000-00FF; src: url("fonts/heebo-700-latin.woff2") format("woff2"); }
+  @font-face { font-family: Heebo; font-weight: 800; unicode-range: U+0000-00FF; src: url("fonts/heebo-800-latin.woff2") format("woff2"); }
+  :root {
+    --navy: #0B3165;
+    --navy-header: #153B6C;
+    --gold: #D3B782;
+    --gold-2: #C7A575;
+    --gold-ink: #061B37;
+    --primary: 215 80% 22%;
+    --accent: 39 48% 67%;
+    --radius: .75rem;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 656px; overflow: hidden;
+    font-family: Heebo, sans-serif; direction: rtl; color: #fff;
+    background: #0B3165;
+  }
+  header {
+    position: relative; z-index: 30;
+    height: 64px;
+    background: rgba(11, 49, 101, 0.96);
+    display: flex; align-items: center;
+  }
+  .logo {
+    position: absolute; right: 18px; top: 10px;
+    width: 220px; height: 44px;
+  }
+  .logo img { width: 220px; height: 44px; object-fit: contain; object-position: right center; display: block; }
+  nav {
+    position: absolute; right: 260px; left: 140px; top: 0; height: 64px;
+    display: flex; align-items: center; justify-content: center; gap: 28px;
+    font-size: 14px; font-weight: 500; color: rgba(255,255,255,.88);
+  }
+  nav a { color: inherit; text-decoration: none; white-space: nowrap; }
+  .hdr-cta {
+    position: absolute; left: 18px; top: 14px;
+    height: 36px; min-width: 92px; padding: 0 14px;
+    border-radius: 10px; background: var(--gold); color: var(--gold-ink);
+    font-weight: 700; font-size: 14px;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    text-decoration: none;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,.12), 0 4px 6px -4px rgba(0,0,0,.1);
+  }
+  .hero {
+    position: relative; height: 592px; overflow: hidden;
+  }
+  .hero-img {
+    position: absolute; inset: 0;
+    background: url("assets/hero-frozen.jpg") center center / cover no-repeat;
+  }
+  /* light extra wash — hero-frozen already carries navy from source */
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, hsl(215 80% 18% / .10) 0%, hsl(215 70% 22% / .14) 55%, hsl(215 80% 14% / .22) 100%);
+  }
+  .hero-inner {
+    position: relative; z-index: 5;
+    text-align: center;
+    padding: 52px 72px 0;
+  }
+  h1 {
+    font-size: 48px; font-weight: 800; line-height: 1.15;
+    letter-spacing: -0.02em; margin-bottom: 16px;
+  }
+  h1 .gold {
+    display: block;
+    background: linear-gradient(135deg, #d3b782, #c7a575);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+  h1 .gold.sub { font-size: 46px; margin-top: 2px; }
+  h1 .w { display: block; color: #fff; margin-top: 6px; font-size: 46px; }
+  .lead {
+    font-size: 17px; font-weight: 400; line-height: 1.55;
+    max-width: 700px; margin: 0 auto 26px; opacity: .96;
+  }
+  .lead b { font-weight: 700; }
+  .ctas { display: flex; justify-content: center; gap: 14px; margin-bottom: 26px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 44px; border-radius: 10px; font-weight: 600; font-size: 16px;
+    text-decoration: none; padding: 0 22px; font-family: inherit;
+  }
+  .btn-fill {
+    background: var(--gold); color: var(--gold-ink); min-width: 201px;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+  }
+  .btn-ghost {
+    background: transparent; color: #fff;
+    border: 1px solid rgba(255,255,255,.35); min-width: 128px; font-weight: 500;
+  }
+  .stats { display: flex; justify-content: center; gap: 56px; margin-top: 2px; }
+  .stats div { text-align: center; }
+  .stats strong {
+    display: block; font-size: 28px; font-weight: 800; line-height: 1.1;
+    background: linear-gradient(135deg, #d3b782, #c7a575);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stats span { font-size: 13px; color: rgba(255,255,255,.62); }
+  .dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+  .dots i { width: 10px; height: 10px; border-radius: 99px; background: rgba(255,255,255,.32); display: block; }
+  .dots i.on { width: 28px; background: var(--gold); }
+  .cookie {
+    position: absolute; left: 64px; right: 24px; bottom: 16px; z-index: 40;
+    background: #F3F6F9; color: #1a2a3a; border-radius: 14px;
+    box-shadow: 0 8px 28px rgba(11,49,101,.16);
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; min-height: 68px;
+    font-size: 13px; line-height: 1.45;
+  }
+  .cookie p { flex: 1; text-align: right; }
+  .cookie a { color: #0B3165; font-weight: 700; text-decoration: underline; }
+  .cookie .ok {
+    background: var(--navy); color: #fff; border: 0; border-radius: 10px;
+    height: 40px; padding: 0 16px; font-weight: 700; font-family: inherit; font-size: 14px; white-space: nowrap;
+  }
+  .cookie .x {
+    width: 36px; height: 36px; border-radius: 10px; border: 1px solid #d5dee6;
+    background: #fff; font-size: 18px; color: #334; line-height: 1;
+  }
+  .a11y {
+    position: absolute; left: 14px; bottom: 18px; z-index: 41;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 20px;
+    box-shadow: 0 4px 16px rgba(11,49,101,.35);
+  }
+  .sb {
+    position: absolute; top: 0; right: 0; width: 15px; height: 656px; z-index: 50;
+    background: #FCFCFC;
+  }
+  .sb i { position: absolute; top: 64px; right: 3px; width: 9px; height: 90px; background: #c4c4c4; border-radius: 8px; }
+
+  .cookie-img {
+    position: absolute; left: 0; top: 545px; z-index: 40;
+    width: 1265px; height: 111px; object-fit: fill; display: block;
+  }
+  .a11y-img {
+    position: absolute; left: 10px; top: 590px; z-index: 41;
+    width: 60px; height: 60px; display: block;
+  }
+
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#"><img src="assets/logo.png" alt="קבוצת ביחד" /></a>
+  <nav>
+    <a href="#">דף הבית</a>
+    <a href="#">אודות</a>
+    <a href="#">שירותים</a>
+    <a href="#">המלצות</a>
+    <a href="#">מאמרים</a>
+    <a href="#">צור קשר</a>
+  </nav>
+  <a class="hdr-cta" href="#">☎ *3976</a>
+</header>
+<section class="hero">
+  <div class="hero-img" aria-hidden="true"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <h1>
+      <span class="gold">כלים פיננסיים ומחשבונים</span>
+      <span class="gold sub">חינמיים</span>
+      <span class="w">ביחד פיננסים</span>
+    </h1>
+    <p class="lead">מתקשים לסגור את החודש? יש לכם הלוואות רבות? לא מקבלים אשראי או משכנתא?<br /><b>אור לוסקי</b> מלווה משפחות ועסקים בדרך לשליטה פיננסית מלאה.</p>
+    <div class="ctas">
+      <a class="btn btn-fill" href="#">שיחת ייעוץ חינם ←</a>
+      <a class="btn btn-ghost" href="#">☎ *3976</a>
+    </div>
+    <div class="stats">
+      <div><strong>+500</strong><span>לקוחות מרוצים</span></div>
+      <div><strong>+15</strong><span>שנות ניסיון</span></div>
+      <div><strong>98%</strong><span>שביעות רצון</span></div>
+    </div>
+    <div class="dots"><i></i><i class="on"></i><i></i></div>
+  </div>
+</section>
+<img class="cookie-img" src="assets/cookie-band.png" alt="" />
+<img class="a11y-img" src="assets/a11y-ref.png" alt="" />
+<div class="sb"><i></i></div>
+</body>
+</html>

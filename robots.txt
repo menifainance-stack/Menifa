@@ -1,0 +1,3 @@
+# INTERNAL Luski/Beyahad clone lab — never index
+User-agent: *
+Disallow: /

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive" />
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Luski clone-lab — side-by-sides</title>
+<style>
+  :root { --navy:#0B3165; --gold:#D7B56D; }
+  body { font-family: Heebo, Arial, sans-serif; margin:0; background:#f4f1ea; color:#121732; }
+  header { background:var(--navy); color:#fff; padding:20px 24px; }
+  header span { color:var(--gold); }
+  main { max-width:1100px; margin:0 auto; padding:24px; }
+  .card { background:#fff; border-radius:12px; padding:18px 20px; margin-bottom:14px;
+    box-shadow:0 4px 20px -6px rgba(11,49,101,.12); border:1px solid #e5dcc8; }
+  a { color:var(--navy); font-weight:700; }
+  a.gold { color:#8a6a20; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; margin-top:8px; }
+  th, td { text-align:right; padding:8px; border-bottom:1px solid #eee; }
+  th { background:#efe6d4; }
+  .note { font-size:.88rem; color:#5a5a6e; margin-top:20px; }
+  img.thumb { width:100%; max-width:100%; border-radius:8px; margin-top:10px; border:1px solid #ddd; }
+</style>
+</head>
+<body>
+<header>
+  <strong>Clone-lab Luski / Beyachad</strong><br />
+  <span>SOURCE navy/gold · claim_100=false · masked≈raw · Asia/Jerusalem</span>
+</header>
+<main>
+  <p>גלריית side-by-side. ציונים נפרדים — raw ו-masked. אין החלפת זהות מניפה בפרויקט זה.</p>
+
+  <div class="card">
+    <a href="replicas/byhdf/side-by-side.html">1. byhdf</a> —
+    <a class="gold" href="replicas/byhdf/side-by-side.png">PNG</a> ·
+    <a href="replicas/byhdf/metrics.json">metrics</a> ·
+    <a href="skill-cards/byhdf.md">skill-card</a>
+    <div>raw SSIM <strong>0.6268</strong> · masked <strong>0.6268</strong> · 1280×656</div>
+    <img class="thumb" src="replicas/byhdf/side-by-side.png" alt="byhdf sbs" />
+  </div>
+  <div class="card">
+    <a href="replicas/financeb/side-by-side.html">2. financeb</a> —
+    <a class="gold" href="replicas/financeb/side-by-side.png">PNG</a> ·
+    <a href="replicas/financeb/metrics.json">metrics</a> ·
+    <a href="skill-cards/financeb.md">skill-card</a>
+    <div>raw SSIM <strong>0.7682</strong> · masked <strong>0.7682</strong> · 1280×656</div>
+    <img class="thumb" src="replicas/financeb/side-by-side.png" alt="financeb sbs" />
+  </div>
+  <div class="card">
+    <a href="replicas/groupbeyahad/side-by-side.html">3. groupbeyahad</a> —
+    <a class="gold" href="replicas/groupbeyahad/side-by-side.png">PNG</a> ·
+    <a href="replicas/groupbeyahad/metrics.json">metrics</a> ·
+    <a href="skill-cards/groupbeyahad.md">skill-card</a>
+    <div>raw SSIM <strong>0.6811</strong> · masked <strong>0.6811</strong> · 1280×800</div>
+    <img class="thumb" src="replicas/groupbeyahad/side-by-side.png" alt="groupbeyahad sbs" />
+  </div>
+
+  <h2>Metrics</h2>
+  <table>
+    <thead>
+      <tr><th>slug</th><th>raw SSIM</th><th>raw MAE</th><th>masked SSIM</th><th>claim_100</th></tr>
+    </thead>
+    <tbody id="tb"></tbody>
+  </table>
+  <p class="note">
+    See <code>STATUS.md</code> and evidence <code>GAPS-TO-1.0.md</code>.
+    Remaining blockers: other hovers + motion video. No live deploy.
+  </p>
+</main>
+<script>
+Promise.all(['byhdf','financeb','groupbeyahad'].map(s =>
+  fetch('replicas/'+s+'/metrics.json').then(r=>r.json()).then(m=>({s,m}))
+)).then(rows => {
+  document.getElementById('tb').innerHTML = rows.map(({s,m}) => `<tr>
+    <td>${s}</td>
+    <td>${m.raw_pixel_similarity.ssim}</td>
+    <td>${m.raw_pixel_similarity.mae}</td>
+    <td>${m.visual_system_similarity_masked.ssim}</td>
+    <td>${m.claim_100_allowed}</td>
+  </tr>`).join('');
+}).catch(() => {
+  document.getElementById('tb').innerHTML = '<tr><td colspan="5">Open via file server or read STATUS.md</td></tr>';
+});
+</script>
+</body>
+</html>

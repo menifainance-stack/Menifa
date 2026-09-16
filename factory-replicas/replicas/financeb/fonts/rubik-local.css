@@ -1,0 +1,105 @@
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("rubik-400-he.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("rubik-400-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("rubik-400-latinex.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("rubik-500-he.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("rubik-500-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("rubik-500-latinex.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("rubik-600-he.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("rubik-600-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("rubik-600-latinex.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("rubik-700-he.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("rubik-700-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("rubik-700-latinex.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("rubik-800-he.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("rubik-800-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Rubik";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("rubik-800-latinex.woff2") format("woff2");
+}

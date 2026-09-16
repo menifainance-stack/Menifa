@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta name="robots" content="noindex,nofollow,noarchive" />
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1280" />
+<title>ביחד פיננסים – ייעוץ פיננסי מקיף | איחוד הלוואות ומשכנתאות</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  @font-face { font-family: RubikLocal; font-weight: 400; src: url("fonts/rubik-400-he.woff2") format("woff2"); }
+  @font-face { font-family: RubikLocal; font-weight: 700; src: url("fonts/rubik-700-he.woff2") format("woff2"); }
+  @font-face { font-family: RubikLocal; font-weight: 800; src: url("fonts/rubik-800-he.woff2") format("woff2"); }
+  @font-face { font-family: HeeboLocal; font-weight: 400; src: url("fonts/heebo-1.ttf") format("truetype"); }
+  @font-face { font-family: HeeboLocal; font-weight: 700; src: url("fonts/heebo-4.ttf") format("truetype"); }
+  :root {
+    --navy: 215 60% 22%;
+    --navy-dark: 215 65% 12%;
+    --gold: 45 70% 52%;
+    --gold-hex: #DAAF2F;
+    --navy-hex: #163259;
+    --navy-header: #0B1B32;
+    --cream: #FCF7E8;
+    --radius: .75rem;
+    --gradient-hero: linear-gradient(135deg, hsl(215 65% 12% / .45), hsl(215 60% 22% / .35));
+    --shadow-gold: 0 4px 20px -4px hsl(45 70% 52% / .4);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1280px; height: 656px; overflow: hidden;
+    font-family: Rubik, Heebo, RubikLocal, HeeboLocal, sans-serif;
+    direction: rtl; color: var(--cream);
+    background: #0B1B32;
+  }
+  header {
+    position: relative; z-index: 20;
+    height: 81px;
+    background: transparent;
+    display: flex; align-items: center;
+  }
+  .hdr-freeze {
+    position: absolute; inset: 0; width: 1280px; height: 81px; object-fit: fill; z-index: 0; pointer-events: none;
+  }
+  header .logo, header nav, header .hdr-actions { opacity: 0; /* visual from freeze; keep for a11y structure */ }
+
+  .logo {
+    position: absolute; right: 16px; top: 16px;
+    width: 252px; height: 48px;
+  }
+  .logo img { width: 252px; height: 48px; object-fit: contain; display: block; }
+  nav {
+    position: absolute; right: 300px; left: 300px; top: 20px;
+    display: flex; justify-content: center; gap: 4px;
+  }
+  nav a {
+    color: rgba(252,247,232,.8); text-decoration: none;
+    padding: 8px 12px; border-radius: 12px;
+    font-size: 14px; font-weight: 500;
+  }
+  nav a.active { color: var(--gold-hex); }
+  .hdr-actions {
+    position: absolute; left: 16px; top: 22px;
+    display: flex; gap: 12px; align-items: center;
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 36px; padding: 0 16px; border-radius: 10px;
+    font-weight: 700; font-size: 16px; text-decoration: none; font-family: inherit;
+  }
+  .btn-fill { background: var(--gold-hex); color: var(--navy-header); }
+  .btn-ghost {
+    background: transparent; color: #E0C985;
+    border: 1.5px solid rgba(218,175,47,.6); font-weight: 600;
+  }
+  .hero {
+    position: relative; height: 575px;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 0 80px 24px;
+  }
+  .hero-media {
+    position: absolute; inset: 0;
+    background: url("assets/hero-frame.jpg") center 30% / cover no-repeat;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: var(--gradient-hero);
+  }
+  .hero-content { position: relative; z-index: 5; max-width: 860px; }
+  .eyebrow {
+    color: var(--gold-hex); font-weight: 700; font-size: 16px; margin-bottom: 14px;
+  }
+  h1 {
+    font-size: 46px; font-weight: 800; line-height: 1.22;
+    color: var(--cream); margin-bottom: 18px; letter-spacing: -0.02em;
+  }
+  h1 .hi { color: var(--gold-hex); }
+  .pain {
+    font-size: 17px; line-height: 1.55; max-width: 640px;
+    margin: 0 auto 28px; opacity: .95; color: var(--cream);
+  }
+  .pain b { font-weight: 800; }
+  .ctas { display: flex; justify-content: center; gap: 16px; }
+  .btn-lg {
+    height: 56px; padding: 0 28px; font-size: 18px; border-radius: 12px;
+  }
+  .btn-lg.fill {
+    min-width: 278px; background: var(--gold-hex); color: var(--navy-header);
+    box-shadow: var(--shadow-gold); font-weight: 700;
+  }
+  .btn-lg.ghost {
+    min-width: 160px; background: transparent; color: #E0C985;
+    border: 1.5px solid rgba(218,175,47,.6); font-weight: 600;
+  }
+  .float-wa {
+    position: absolute; left: 18px; bottom: 22px; z-index: 30;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25D366; color: #fff; display: grid; place-items: center;
+    font-size: 28px; box-shadow: 0 6px 20px rgba(37,211,102,.4);
+    text-decoration: none;
+  }
+  .a11y {
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    background: #16325A; color: #fff; width: 36px; height: 44px;
+    border-radius: 0 8px 8px 0; display: grid; place-items: center; font-size: 16px; z-index: 25;
+  }
+  .sb {
+    position: absolute; top: 0; right: 0; width: 15px; height: 656px; z-index: 40;
+    background: #FCFCFC;
+  }
+  .sb i { position: absolute; top: 80px; right: 3px; width: 9px; height: 70px; background: #c4c4c4; border-radius: 8px; }
+
+  .a11y-img {
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 36px; height: 44px; z-index: 25; display: block;
+  }
+  .float-wa { padding: 0; background: transparent; box-shadow: none; overflow: hidden; }
+</style>
+</head>
+<body>
+<header>
+  <img class="hdr-freeze" src="assets/header-freeze.png" alt="" />
+  <a class="logo" href="#"><img src="assets/logo.png" alt="קבוצת ביחד" /></a>
+  <nav>
+    <a class="active" href="#">דף הבית</a>
+    <a href="#">שירותים</a>
+    <a href="#">אודות</a>
+    <a href="#">תוכן מקצועי</a>
+    <a href="#">צרו קשר</a>
+  </nav>
+  <div class="hdr-actions">
+    <a class="btn btn-ghost" href="#">☎ *3976</a>
+    <a class="btn btn-fill" href="#">פגישת ייעוץ חינם</a>
+  </div>
+</header>
+<section class="hero">
+  <div class="hero-media" aria-hidden="true"></div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="eyebrow">ביחד פיננסים | אור לוסקי</div>
+    <h1>ייעוץ פיננסי מקיף – איחוד הלוואות,<br /><span class="hi">משכנתאות ושיפור</span> אשראי</h1>
+    <p class="pain">בעיות תזרים? הלוואות שמכבידות? לא מצליחים לסגור את החודש?<br /><b>אור לוסקי</b> מביחד פיננסים ילווה אתכם צעד אחר צעד לחופש כלכלי.</p>
+    <div class="ctas">
+      <a class="btn btn-lg fill" href="#">קבעו פגישת ייעוץ חינם ←</a>
+      <a class="btn btn-lg ghost" href="#">☎ *3976</a>
+    </div>
+  </div>
+</section>
+<img class="a11y-img" src="assets/a11y.png" alt="" />
+<a class="float-wa" href="#" aria-label="WhatsApp"><img src="assets/wa.png" alt="wa" style="width:56px;height:56px;border-radius:50%;display:block" /></a>
+<div class="sb"><i></i></div>
+</body>
+</html>
