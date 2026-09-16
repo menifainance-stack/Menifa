@@ -99,16 +99,39 @@ def test_lp_pages():
             fail(f"{rel} should position mortgage consult")
 
 
-def test_draft():
+def test_product_300k():
     html = read("lp/pikdonot-300k.html")
     for needle in ("טיוטה", "ממתין לאישור מוצר", "lp-draft-watermark", "lp-draft-banner"):
+        if needle in html:
+            fail(f"300K LP should not be a draft: found {needle}")
+    for needle in ("סכום פנוי משמעותי", "מה אנחנו עושים כאן", "למי זה רלוונטי", "מה לא תמצאו", "איך נראית השיחה"):
         if needle not in html:
-            fail(f"draft page missing {needle}")
-    ok("draft watermark + product-pending copy")
+            fail(f"300K LP missing Tamir copy block: {needle}")
+    ok("300K LP is full product copy, not draft")
     if "ביטוח" in html:
-        fail("draft page should omit insurance")
-    if "תשואה מובטחת" in html or "הכי משתלם" in html:
-        fail("draft page has hard product claim")
+        fail("300K LP should omit insurance hook")
+    if "noindex" not in html:
+        fail("300K LP must stay noindex in pilot")
+    # Yield promise as a claim — allowed only as a 'what you will not find' item
+    if re.search(r"תשואה של|ריבית מובטחת|תשואה מובטחת", html):
+        fail("300K LP has a yield/interest promise")
+    if html.count("הכי משתלם") != 1 or "מה לא תמצאו" not in html:
+        fail("«הכי משתלם» may appear only once, as a rejected claim")
+    ok("300K LP has no yield promises; anti-claim list present")
+
+
+def test_finished_mortgage_lps():
+    for rel, needle in (
+        ("lp/ihud-halvaot.html", "איחוד הלוואות"),
+        ("lp/mihzur-mashkanta.html", "מיחזור"),
+    ):
+        html = read(rel)
+        for block in ("מה אנחנו עושים כאן", "איך נראית השיחה", "מה לא תמצאו"):
+            if block not in html:
+                fail(f"{rel} missing finished-LP block {block}")
+        if "noindex" not in html:
+            fail(f"{rel} must stay noindex")
+        ok(f"{rel} finished paid LP ({needle})")
 
 
 def test_hub_and_robots():
@@ -174,7 +197,8 @@ def main():
     test_files_exist()
     test_organic_untouched_content()
     test_lp_pages()
-    test_draft()
+    test_product_300k()
+    test_finished_mortgage_lps()
     test_hub_and_robots()
     test_js_payload_contract()
     if len(sys.argv) > 1:
