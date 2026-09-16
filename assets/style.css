@@ -605,7 +605,7 @@ section[style*="background:"] .btn-ghost,
 }
 .hero-particle {
   position: absolute; width: 3px; height: 3px; border-radius: 50%;
-  animation: hero-particle-rise linear infinite;
+  animation: none;
 }
 .hero-particle.sky {
   background: #5BAFD8;
@@ -1528,11 +1528,7 @@ input[type="range"]::-moz-range-thumb {
   flex-wrap: wrap;
   margin-bottom: 2.5rem;
 }
-.cta-buttons .btn { animation: pulse-cta 2.4s ease-in-out infinite; }
-@keyframes pulse-cta {
-  0%, 100% { box-shadow: var(--shadow-gold); }
-  50% { box-shadow: 0 20px 60px rgba(184, 146, 89, 0.7); }
-}
+.cta-buttons .btn { animation: none; } /* no pulse — hover lift only */
 
 .cta-phone {
   display: inline-flex;
@@ -1664,24 +1660,16 @@ footer::before {
 .fab-whatsapp {
   background: #25D366;
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-  animation: float-pulse 3s ease-in-out infinite;
+  animation: none;
 }
 .fab-whatsapp:hover { box-shadow: 0 10px 28px rgba(37, 211, 102, 0.55); }
-.fab-whatsapp::before {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: 50%;
-  border: 2px solid #25D366;
-  opacity: 0.55;
-  animation: ring 2.5s infinite;
-}
+.fab-whatsapp::before { display: none; } /* no ring pulse */
 .fab-phone {
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
   color: var(--navy);
-  box-shadow: 0 6px 20px rgba(184, 146, 89, 0.35);
+  box-shadow: 0 6px 20px rgba(91, 175, 216, 0.35);
 }
-.fab-phone:hover { box-shadow: 0 10px 28px rgba(184, 146, 89, 0.5); }
+.fab-phone:hover { box-shadow: 0 10px 28px rgba(91, 175, 216, 0.5); }
 
 @keyframes float-pulse {
   0%, 100% { transform: translateY(0); }
@@ -1990,7 +1978,7 @@ body.a11y-cursor input { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http:/
   width: 6px; height: 6px;
   background: #6CC494;
   border-radius: 50%;
-  animation: pulse-dot 2s infinite;
+  animation: none;
 }
 
 /* Adjust navbar to sit below ticker (fixes overlap bug) */
@@ -3431,8 +3419,8 @@ body.drawer-open .side-drawer { transform: translateX(0); }
 .drawer-hero-cta .eyebrow::before {
   content: ''; width: 6px; height: 6px; border-radius: 50%;
   background: #4FAA7B;
-  box-shadow: 0 0 0 0 rgba(79, 170, 123, 0.6);
-  animation: drawer-pulse 2s infinite;
+  box-shadow: none;
+  animation: none;
 }
 @keyframes drawer-pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(79, 170, 123, 0.6); }

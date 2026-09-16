@@ -202,7 +202,7 @@ document.querySelectorAll('.yield-preset').forEach(btn => {
     // Visual feedback — briefly highlight the chosen preset
     document.querySelectorAll('.yield-preset').forEach(b => b.style.borderColor = '');
     btn.style.borderColor = 'var(--gold)';
-    btn.style.background = 'rgba(201, 168, 118, 0.1)';
+    btn.style.background = 'rgba(91, 175, 216, 0.12)';
     setTimeout(() => { btn.style.background = ''; }, 1500);
   });
 });
