@@ -11,6 +11,7 @@ Disallow: /preview.html
 Disallow: /preview-*.html
 Disallow: /mockups.html
 Disallow: /mockups/
+Disallow: /clone-lab/
 
 # === Google ===
 User-agent: Googlebot
