@@ -12,6 +12,7 @@ Disallow: /preview-*.html
 Disallow: /mockups.html
 Disallow: /mockups/
 Disallow: /bmf-hub.html
+Disallow: /lp/
 
 # === Google ===
 User-agent: Googlebot
