@@ -47,15 +47,40 @@ function makeDom(html, url) {
   return dom;
 }
 
+function listPublicHtml() {
+  const skipNames = new Set([
+    'preview.html', 'preview-elite.html', 'preview-elite-v2.html', 'preview-elite-v3.html',
+    'preview-palettes.html', 'preview-palettes-v2.html', 'preview-palettes-v3.html',
+    'preview-bright.html', 'mockups.html', 'index-v2.html',
+    'alut-kolelet-mashkanta-bituach.html'
+  ]);
+  const skipDirs = new Set(['mockups', 'assets']);
+  function walk(dir, acc) {
+    for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (ent.name.startsWith('.')) continue;
+      const full = path.join(dir, ent.name);
+      const rel = path.relative(root, full);
+      if (ent.isDirectory()) {
+        if (skipDirs.has(ent.name)) continue;
+        walk(full, acc);
+      } else if (ent.name.endsWith('.html')) {
+        if (skipNames.has(ent.name)) continue;
+        if (rel === path.join('blog', 'index.html')) continue;
+        acc.push(rel);
+      }
+    }
+    return acc;
+  }
+  return walk(root, []).sort();
+}
+
 /* ── 1. Static: live HTML must not load GTM ── */
 console.log('static GTM gate');
-const htmlFiles = [
-  'index.html',
-  'calculators.html',
-  'madrich-mashkanta.html',
-  'contact.html',
-  'alut-mashkanta-kolel-bituach.html'
-];
+const htmlFiles = listPublicHtml();
+ok('public HTML inventory includes masurvei + art-55 + mihzur',
+  htmlFiles.includes('masurvei-bankim.html') &&
+  htmlFiles.includes(path.join('blog', 'art-55.html')) &&
+  htmlFiles.includes('mihzur-mashkanta.html'));
 for (const file of htmlFiles) {
   const raw = fs.readFileSync(path.join(root, file), 'utf8');
   const live = stripHtmlComments(raw);
@@ -63,6 +88,11 @@ for (const file of htmlFiles) {
   ok(file + ' marks GTM-XXXXXXX as REPLACE_ME', /REPLACE_ME/.test(raw));
   ok(file + ' live HTML has no googletagmanager.com', !/googletagmanager\.com/.test(live));
   ok(file + ' live HTML has no executing GTM-XXXXXXX snippet', !/gtm\.js\?id='/.test(live) && !/ns\.html\?id=GTM-/.test(live));
+  const prefix = file.startsWith('blog' + path.sep) ? '../assets/' : 'assets/';
+  ok(file + ' includes measurement-config.js', raw.includes(`src="${prefix}measurement-config.js`));
+  ok(file + ' includes attribution.js', raw.includes(`src="${prefix}attribution.js`));
+  ok(file + ' includes wa-track.js', raw.includes(`src="${prefix}wa-track.js`));
+  ok(file + ' includes gtm-loader.js', raw.includes(`src="${prefix}gtm-loader.js`));
 }
 ok('contact notes missing contact_main form',
   /contact_main/.test(fs.readFileSync(path.join(root, 'contact.html'), 'utf8')));

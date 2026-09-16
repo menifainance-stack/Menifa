@@ -16,7 +16,7 @@
 אין בריפו שום `G-` / `GTM-` production ID. אל תמציאו אחד.
 
 ## מה בקוד
-1. **GTM head + noscript** כ־HTML comment עם `GTM-XXXXXXX /* REPLACE_ME */` ב־`index.html`, `calculators.html`, `madrich-mashkanta.html`, `contact.html`, `alut-mashkanta-kolel-bituach.html`. העתק לשימוש: `assets/gtm-snippet.commented.html`.
+1. **GTM head + noscript** כ־HTML comment עם `GTM-XXXXXXX /* REPLACE_ME */` **בכל דף ציבורי** (דף הבית, מחשבונים, עמודי שירות/פילר, בלוג `art-*`, FAQ, אודות, פרטיות, תנאי שימוש). דפי preview/mockup ודפי redirect לא נכללים. העתק לשימוש: `assets/gtm-snippet.commented.html`.
 2. **שער כפול שלא טוען לייב:**
    - `MENIFA_MEASUREMENT_PREVIEW = false` ב־`assets/measurement-config.js`
    - `assets/gtm-loader.js` מסרב ל־`GTM-XXXXXXX` / כל ID עם `XXX` / כל ערך שאינו `GTM-[A-Z0-9]+`
