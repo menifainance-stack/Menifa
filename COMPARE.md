@@ -12,10 +12,10 @@ Job owner: website · Audience: תמיר · Goal: decide A vs B tonight
 | Side-by-side | `/workspace/mortgage-ops/deliverables/website-landing/2026-09-17-ab-lp-refinance/compare.html` |
 | This file | `/workspace/mortgage-ops/deliverables/website-landing/2026-09-17-ab-lp-refinance/COMPARE.md` |
 
-## Local links (server on :8791)
-- Compare: http://127.0.0.1:8791/compare.html
-- A: http://127.0.0.1:8791/variant-a-menifa-skill/
-- B: http://127.0.0.1:8791/variant-b-chain/
+## Local links (QC serve on :8793 — do not use 8790/8791)
+- Compare: http://127.0.0.1:8793/compare.html
+- A: http://127.0.0.1:8793/variant-a-menifa-skill/
+- B: http://127.0.0.1:8793/variant-b-chain/
 
 ## Shared brief (identical in A & B)
 - Product: מחזור משכנתא
@@ -60,8 +60,35 @@ Job owner: website · Audience: תמיר · Goal: decide A vs B tonight
 - `…/variant-b-chain/qc/playwright-report.md`
 - Brief/Taste/Emil docs under `variant-b-chain/docs/`
 
+
+## P0 QC fixes — morning 2026-09-17 (Asia/Jerusalem)
+
+Applied to **both** A and B:
+
+1. **Single WhatsApp CTA** — removed header WA button + floating bubble. Header now logo + secondary «להערכת החזר» → `#magnet`. Primary WA only in hero/form (and final section). No desktop floater; no mobile sticky (form CTA is ATF).
+2. **Above the fold @390** — magnet card ordered first on mobile; tightened paddings/inputs; calc + name/phone + submit fully in 390×844 without clip.
+3. **Stronger header/logo** — larger fan mark (42px) + Frank Ruhl brand; **preview ribbon removed/hidden** (`display:none`; DOM removed). `noindex` meta kept.
+4. **Secondary button contrast** — ghost/nav buttons use stronger border + weight; typography sharpened (letter-spacing, optimizeLegibility).
+5. **A:** monthly payment signature enlarged (`clamp(2.35–3.1rem)`) on ink calc-out. **B:** lifted hero/deep surfaces (`#0A2838`→ink gradient), lighter hero text, chalk/paper magnet `#F7FAFC` with soft shadow, clearer muted contrast; fixed calc title tag mismatch.
+6. **Trust list** — RTL `t-item` bullets (gold dots) + separators + readable line-height.
+
+### New QC screenshots
+**A**
+- `…/variant-a-menifa-skill/qc/desktop-hero.png`
+- `…/variant-a-menifa-skill/qc/mobile-hero.png`
+
+**B**
+- `…/variant-b-chain/qc/desktop-hero.png`
+- `…/variant-b-chain/qc/mobile-hero.png`
+- `…/variant-b-chain/qc/desktop-cta.png`
+- `…/variant-b-chain/qc/mobile-form.png`
+
+**Root copies:** `…/qc/a-*.png`, `…/qc/b-*.png`
+
+Pack: `…/website-landing/2026-09-17-ab-lp-refinance-qc-public.tar.gz`
+
 ## Public preview
-Vercel: skipped (no credentials; temporary deploy hung). **Local :8791 + screenshots = tonight delivery.** Both pages `noindex`.
+Vercel: skipped. **P0 QC morning pack** on :8793 (stopped after shots). Both pages `noindex`. Do not bind http.server on 8790/8791.
 
 ## Do not
 - Merge to menifa.org main

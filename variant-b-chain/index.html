@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<meta name="googlebot" content="noindex,nofollow">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow,noarchive">
 <title>מחזור משכנתא — השוואה לפני שחותמים | מניפה פיננסית · Variant B</title>
 <meta name="description" content="ההחזר החודשי לוחץ ואתם חוששים לחתום על הצעת מחזור בלי השוואה. שיחה קצרה לתיאום — בלי התחייבות.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,60 +12,67 @@
 <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700;900&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#0E3C5C; --deep:#071E2E; --deep-2:#0B2838; --accent:#5BAFD8; --gold:#C4A574;
-  --wa:#25D366; --paper:#F4F7FA; --chalk:#E8EEF2; --text:#1A2430; --muted:#5A6570;
-  --line:rgba(7,30,46,.1); --radius:20px; --max:1140px;
+  --ink:#0E3C5C; --deep:#0A2838; --deep-2:#0E3348; --accent:#5BAFD8; --gold:#C4A574;
+  --wa:#25D366; --paper:#F6F8FB; --chalk:#EEF2F6; --text:#1A2430; --muted:#4E5A66;
+  --line:rgba(7,30,46,.12); --radius:20px; --max:1140px;
   --ease-out:cubic-bezier(0.23, 1, 0.32, 1);
+  --hero-fg:#F7F3EB; --hero-muted:rgba(247,243,235,.88);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:Rubik,Heebo,system-ui,sans-serif;color:var(--text);background:var(--paper);line-height:1.65;font-size:16.5px;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:Rubik,Heebo,system-ui,sans-serif;color:var(--text);background:var(--paper);line-height:1.65;font-size:16.5px;-webkit-font-smoothing:antialiased;overflow-x:hidden;text-rendering:optimizeLegibility}
 h1,h2,h3{font-family:"Frank Ruhl Libre",Rubik,serif;font-weight:700;line-height:1.15;color:var(--ink);letter-spacing:-.015em}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:var(--max);margin-inline:auto;padding-inline:28px}
-.preview-banner{background:#071E2E;color:#E8D5B5;text-align:center;font-size:.8rem;padding:8px;letter-spacing:.02em;font-weight:500}
-.topbar{position:fixed;inset-inline:0;top:28px;z-index:50;height:64px;display:flex;align-items:center;background:#071E2E;border-bottom:1px solid rgba(232,213,181,.18);transition:box-shadow 160ms var(--ease-out)}
-.topbar.scrolled{box-shadow:none;align-items:center;justify-content:space-between;width:100%}
-.brand{display:flex;align-items:center;gap:10px}
-.brand .fan{width:32px;height:32px}
-.brand,.brand b,.brand span{font-family:"Frank Ruhl Libre",serif;color:#FFFFFF}.brand b{font-size:1.15rem}
-
-.brand em{display:block;font-style:normal;font-size:.72rem;letter-spacing:.04em;color:#E8D5B5;font-weight:500}
-.top-cta{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:#0B2838;border:1px solid #E8D5B5;color:#F7F3EB;font-weight:600;font-size:.88rem;transition:transform 120ms var(--ease-out), background 160ms var(--ease-out)}
-
+.preview-banner{display:none!important}
+.topbar{position:fixed;inset-inline:0;top:0;z-index:50;height:64px;display:flex;align-items:center;background:rgba(10,40,56,.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(232,213,181,.22);transition:box-shadow 160ms var(--ease-out)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+.topbar.scrolled{box-shadow:0 10px 28px rgba(0,0,0,.25)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .fan{width:42px;height:42px;flex-shrink:0}
+.brand,.brand b,.brand span{font-family:"Frank Ruhl Libre",serif;color:#FFFFFF}
+.brand b{font-size:1.35rem;font-weight:900;letter-spacing:-.01em}
+.brand em{display:block;font-style:normal;font-size:.72rem;letter-spacing:.14em;color:#E8D5B5;font-weight:600;margin-top:1px}
+.nav-calc{display:inline-flex;align-items:center;padding:8px 14px;border-radius:999px;border:1.5px solid rgba(232,213,181,.55);font-weight:700;font-size:.88rem;color:#F7F3EB;background:rgba(247,243,235,.06);transition:transform 120ms var(--ease-out), background 160ms var(--ease-out)}
 @media (hover:hover) and (pointer:fine){
-  .top-cta:hover{background:rgba(91,175,216,.2)}
-  .btn-primary:hover{filter:brightness(1.05)}
+  .nav-calc:hover{background:rgba(91,175,216,.22)}
+  .btn-primary:hover{filter:brightness(1.06)}
+  .btn-ghost:hover{background:rgba(247,243,235,.12)}
 }
-.btn-primary:active,.top-cta:active,.wafloat:active{transform:scale(0.97)}
-.hero{padding:130px 40px 56px;background:#071E2E;color:#F7F3EB;position:relative;overflow:hidden}
+.btn-primary:active,.nav-calc:active{transform:scale(0.97)}
+.hero{padding:92px 24px 40px;background:linear-gradient(165deg,#0A2838 0%,#0E3C5C 55%,#123A52 100%);color:var(--hero-fg);position:relative;overflow:hidden}
 .hero::before{display:none}
-.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.08fr .92fr;gap:32px;align-items:start;padding-inline:12px}
-.hero .eyebrow{color:#E8D5B5;font-size:.9rem;font-weight:500;margin-bottom:14px;display:inline-block}
-.hero h1{color:#F7F3EB;font-size:clamp(1.9rem,4.4vw,3.25rem);margin-bottom:14px;max-width:14em}
-.hero .lead{color:rgba(247,243,235,.78);font-weight:400;font-size:clamp(1.02rem,1.5vw,1.18rem);max-width:32em;margin-bottom:14px}
-.promise{display:inline-block;padding:8px 0;margin:0 0 20px;color:rgba(247,243,235,.9);font-weight:500;font-size:.98rem;border-bottom:2px solid #E8D5B5}
-.cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:Rubik,sans-serif;font-weight:700;font-size:.98rem;padding:14px 24px;border-radius:999px;border:none;cursor:pointer;transition:transform 120ms var(--ease-out), filter 160ms var(--ease-out), background 160ms var(--ease-out)}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.08fr .92fr;gap:28px;align-items:start}
+.hero-copy{min-width:0}
+.hero .eyebrow{color:#E8D5B5;font-size:.82rem;font-weight:600;letter-spacing:.06em;margin-bottom:10px;display:inline-block}
+.hero h1{color:#FFFEF9;font-size:clamp(1.55rem,3.8vw,2.95rem);margin-bottom:10px;max-width:14em;letter-spacing:-.015em}
+.hero .lead{color:var(--hero-muted);font-weight:400;font-size:clamp(.95rem,1.4vw,1.12rem);max-width:32em;margin-bottom:10px;line-height:1.55}
+.promise{display:inline-block;padding:8px 0;margin:0 0 14px;color:#FFFEF9;font-weight:600;font-size:.92rem;border-bottom:2px solid #C4A574;line-height:1.45}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:Rubik,sans-serif;font-weight:700;font-size:.98rem;padding:13px 22px;border-radius:999px;border:none;cursor:pointer;transition:transform 120ms var(--ease-out), filter 160ms var(--ease-out), background 160ms var(--ease-out)}
 .btn svg{width:18px;height:18px}
-.btn-primary{background:#0A5C52;color:#fff;box-shadow:none;border:1px solid rgba(247,243,235,.28);color:#F7F3EB}
-.btn-ghost:hover{background:rgba(247,243,235,.08)}
-.micro{font-size:.9rem;color:rgba(247,243,235,.72);margin-bottom:16px}
-.trust-strip{display:flex;flex-wrap:wrap;gap:10px 16px;font-size:.85rem;color:rgba(247,243,235,.62)}
-.trust-strip b{color:#E8D5B5;font-weight:600}
-.magnet{background:#E8EEF2;color:#1A2430;border-radius:22px;padding:22px;box-shadow:none;border:1px solid #d5dde4}
-.calc h2.card-title,.lead-form h2.card-title{font-size:1.35rem;color:var(--ink);margin-bottom:4px;font-family:"Frank Ruhl Libre",serif}
-.calc-grid{display:grid;gap:10px;margin:12px 0}
-.calc-grid label,.fld{display:block;font-size:.8rem;font-weight:600;color:var(--ink)}
-.calc-grid input,.fld input{width:100%;margin-top:5px;padding:12px;border:1.5px solid #c9d4dc;border-radius:12px;font:inherit;font-size:1rem;background:#fff;transition:border-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out)}
-.calc-grid input:focus,.fld input:focus{outline:none;border-color:var(--accent);box-shadow:none}
-.calc-out{background:#071E2E;color:#F7F3EB;border-radius:16px;padding:18px 14px;text-align:center;margin-top:6px}
-.calc-lbl{display:block;font-size:.82rem;color:rgba(247,243,235,.7);letter-spacing:0}
-.calc-num{display:block;font-family:"Frank Ruhl Libre",serif;font-size:clamp(2.2rem,5vw,2.85rem);color:#fff;margin:6px 0;letter-spacing:-.02em;font-weight:700}
-.calc-note{display:block;font-size:.8rem;color:rgba(247,243,235,.65);line-height:1.4}
-.lead-form{margin-top:16px;padding-top:14px;border-top:1px solid rgba(14,60,92,.12)}
-.lead-form .sub{color:var(--muted);font-size:.88rem;margin-bottom:10px}
-.fld{margin-bottom:9px}
+.btn-primary{background:#128C7E;color:#fff;box-shadow:0 8px 22px rgba(18,140,126,.28);border:1px solid rgba(255,255,255,.18)}
+.btn-ghost{background:rgba(247,243,235,.08);border:1.5px solid rgba(247,243,235,.55);color:#FFFEF9;font-weight:700}
+.btn-ghost:hover{background:rgba(247,243,235,.14)}
+.micro{font-size:.84rem;color:rgba(247,243,235,.8);margin-bottom:12px;line-height:1.45}
+.trust-strip{display:flex;flex-wrap:wrap;align-items:center;gap:8px 0;font-size:.86rem;color:rgba(247,243,235,.78);line-height:1.65;row-gap:6px}
+.trust-strip .t-item{display:inline-flex;align-items:center;gap:6px;padding-inline-end:12px;margin-inline-end:12px;border-inline-end:1px solid rgba(232,213,181,.35)}
+.trust-strip .t-item:last-child{border-inline-end:none;margin-inline-end:0;padding-inline-end:0}
+.trust-strip .t-item::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.trust-strip b{color:#E8D5B5;font-weight:700}
+.magnet{background:#F7FAFC;color:#1A2430;border-radius:20px;padding:18px;box-shadow:0 18px 40px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.55)}
+.calc h2.card-title,.lead-form h2.card-title{font-size:1.2rem;color:var(--ink);margin-bottom:4px;font-family:"Frank Ruhl Libre",serif;font-weight:700}
+.calc-grid{display:grid;gap:8px;margin:10px 0}
+.calc-grid label,.fld{display:block;font-size:.8rem;font-weight:700;color:var(--ink)}
+.calc-grid input,.fld input{width:100%;margin-top:4px;padding:10px 11px;border:1.5px solid #c5d0da;border-radius:11px;font:inherit;font-size:.95rem;background:#fff;transition:border-color 150ms var(--ease-out), box-shadow 150ms var(--ease-out)}
+.calc-grid input:focus,.fld input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(91,175,216,.18)}
+.calc-out{background:linear-gradient(160deg,#0E3C5C,#0A2838);color:#F7F3EB;border-radius:16px;padding:14px 12px;text-align:center;margin-top:6px;border:1px solid rgba(91,175,216,.25)}
+.calc-lbl{display:block;font-size:.8rem;color:rgba(247,243,235,.78);letter-spacing:0;font-weight:500}
+.calc-num{display:block;font-family:"Frank Ruhl Libre",serif;font-size:clamp(2.4rem,5.5vw,3.05rem);color:#fff;margin:2px 0;letter-spacing:-.02em;font-weight:700;line-height:1.05}
+.calc-note{display:block;font-size:.75rem;color:rgba(247,243,235,.72);line-height:1.4}
+.lead-form{margin-top:14px;padding-top:12px;border-top:1px solid rgba(14,60,92,.14)}
+.lead-form .sub{color:var(--muted);font-size:.85rem;margin-bottom:8px;line-height:1.4}
+.fld{margin-bottom:8px}
 .consent{display:flex;gap:8px;align-items:flex-start;font-size:.85rem;color:var(--muted);margin:8px 0 12px}
 .consent input{margin-top:3px}
 .lead-form .btn{width:100%}
@@ -73,13 +80,13 @@ a{color:inherit;text-decoration:none}
 .form-ok{text-align:center;padding:18px 6px}
 .form-ok a{color:#0E3C5C;font-weight:700;text-decoration:underline}
 .band{padding:72px 24px}
-.band-alt{background:#E8EEF3}
+.band-alt{background:#EEF2F6}
 .sec{max-width:680px;margin:0 auto 34px;text-align:center}
 .kicker{color:#6E5A38;font-weight:600;font-size:.88rem;margin-bottom:8px;display:inline-block}
 .sec h2{font-size:clamp(1.75rem,3.2vw,2.45rem);margin-bottom:12px}
 .sec p{color:var(--muted);font-size:1.02rem}
 .pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.pain{background:#fff;border-radius:16px;padding:18px 16px;border:1px solid var(--line)}
+.pain{background:#FFFEFE;border-radius:16px;padding:18px 16px;border:1px solid var(--line);box-shadow:0 4px 16px rgba(14,60,92,.04)}
 .pain b{display:block;margin-bottom:6px;font-size:1.02rem;color:var(--ink)}
 .pain p{color:var(--muted);font-size:.94rem}
 .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -109,21 +116,38 @@ a{color:inherit;text-decoration:none}
 .faq summary{cursor:pointer;font-weight:600;color:var(--ink);list-style:none}
 .faq summary::-webkit-details-marker{display:none}
 .faq .ans{margin-top:8px;color:var(--muted);font-size:.94rem}
-.final{padding:72px 24px;background:#071E2E;color:#F7F3EB}
+.final{padding:72px 24px;background:linear-gradient(165deg,#0A2838,#0E3C5C);color:#F7F3EB}
 .final .wrap{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
-.final h2{color:#fff;font-size:clamp(1.6rem,3vw,2.35rem);margin-bottom:10px}
-.final > .wrap > div > p{color:rgba(247,243,235,.7);margin-bottom:16px}
-.final .magnet{background:#E8EEF2;color:#1A2430;box-shadow:none}
-footer{padding:26px 0;background:#071E2E;color:rgba(247,243,235,.55);font-size:.85rem;text-align:center}
-.wafloat{position:fixed;bottom:22px;inset-inline-start:22px;z-index:60;width:56px;height:56px;border-radius:50%;background:#0A5C52;color:#fff;display:grid;place-items:center;box-shadow:none;transition:transform 120ms var(--ease-out)}
-.wafloat svg{width:28px;height:28px}
+.final h2{color:#FFFEF9;font-size:clamp(1.6rem,3vw,2.35rem);margin-bottom:10px}
+.final > .wrap > div > p{color:rgba(247,243,235,.85);margin-bottom:16px}
+.final .magnet{background:#F7FAFC;color:#1A2430;box-shadow:0 18px 40px rgba(0,0,0,.18)}
+footer{padding:26px 0;background:#0A2838;color:rgba(247,243,235,.65);font-size:.85rem;text-align:center}
+/* no floater/sticky — single form CTA */
 @media (max-width:860px){
   .hero .wrap,.final .wrap,.compare,.pain-grid,.why-grid,.trust-sec{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr 1fr}
-  .hero{padding:108px 0 40px}
-  .topbar{top:26px}
+  .hero{padding:76px 16px 20px}
+  .hero .wrap{gap:14px}
+  .hero-copy{order:1}
+  .magnet{order:0;padding:14px}
+  .hero h1{font-size:1.35rem;margin-bottom:8px;line-height:1.22}
+  .hero .lead{font-size:.9rem;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .promise{font-size:.82rem;margin-bottom:10px}
+  .cta-row .btn-primary{display:none}
+  .micro{margin-bottom:8px;font-size:.78rem}
+  .trust-strip{font-size:.78rem}
+  .trust-strip .t-item{padding-inline-end:8px;margin-inline-end:8px}
+  .calc-grid{gap:6px;margin:8px 0}
+  .calc-grid input,.fld input{padding:9px 10px;font-size:.92rem}
+  .calc-num{font-size:2.45rem}
+  .calc-out{padding:12px 10px}
+  .lead-form{margin-top:10px;padding-top:10px}
+  .lead-form h2.card-title,.calc h2.card-title{font-size:1.05rem}
+  .consent{font-size:.75rem;margin:6px 0 8px}
+  .btn{padding:12px 18px;font-size:.92rem}
   .brand b{color:#F7F3EB}
-}
+  /* sticky removed — form CTA is ATF primary */
+  }
 @media (max-width:480px){.steps{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -131,17 +155,16 @@ footer{padding:26px 0;background:#071E2E;color:rgba(247,243,235,.55);font-size:.
 </style>
 </head>
 <body>
-<div class="preview-banner">תצוגה מקדימה B · Taste · Emil · Impeccable · Playwright · noindex</div>
 <header class="topbar">
   <div class="wrap">
-    <a class="brand" href="#top"><svg class="fan" viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#071E2E"/><path d="M12 26c4-10 12-14 16-15-2 6-4 14-8 18-3-1-6-2-8-3z" fill="#5BAFD8"/><path d="M14 24c3-7 9-11 13-12-1 5-3 11-6 15-3-1-5-2-7-3z" fill="#C4A574" opacity=".9"/></svg><span><b>מניפה</b><em>פיננסית</em></span></a>
-    <a class="top-cta" href="#magnet" data-wa><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.269.655 4.357 1.846 6.105l-.999 3.648 3.642-.954zm11.387-5.671c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.149-.173.198-.297.298-.495.099-.198.05-.372-.025-.521-.075-.149-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg><span>וואטסאפ — לתיאום שיחה</span></a>
+    <a class="brand" href="#top"><svg class="fan" viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#0E3C5C"/><path d="M12 26c4-10 12-14 16-15-2 6-4 14-8 18-3-1-6-2-8-3z" fill="#5BAFD8"/><path d="M14 24c3-7 9-11 13-12-1 5-3 11-6 15-3-1-5-2-7-3z" fill="#C4A574" opacity=".9"/></svg><span><b>מניפה</b><em>פיננסית</em></span></a>
+    <a class="nav-calc" href="#magnet">להערכת החזר</a>
   </div>
 </header>
 
 <section class="hero" id="top">
   <div class="wrap">
-    <div>
+    <div class="hero-copy">
       <span class="eyebrow">מחזור משכנתא</span>
       <h1>ההחזר החודשי לוחץ — ואתם חוששים לחתום בלי השוואה</h1>
       <p class="lead">לפני שממחזרים משכנתא, כדאי לראות מה באמת יוצא מהכיס מול מה שיש היום. בלי לחץ. בלי התחייבות.</p>
@@ -151,16 +174,16 @@ footer{padding:26px 0;background:#071E2E;color:rgba(247,243,235,.55);font-size:.
         <a class="btn btn-ghost" href="#magnet">להערכת החזר</a>
       </div>
       <p class="micro">מתאם אנושי חוזר אליכם. לא בוט. לא התחייבות.</p>
-      <div class="trust-strip">
-        <span><b>ייעוץ אובייקטיבי</b> · לא סניף בנק</span>
-        <span><b>השוואה לפני חתימה</b></span>
-        <span><b>בלי התחייבות</b></span>
+      <div class="trust-strip" role="list">
+        <span class="t-item" role="listitem"><b>ייעוץ אובייקטיבי</b> — לא סניף בנק</span>
+        <span class="t-item" role="listitem"><b>השוואה לפני חתימה</b></span>
+        <span class="t-item" role="listitem"><b>בלי התחייבות</b></span>
       </div>
     </div>
     <aside class="magnet" id="magnet">
       
       <div class="calc" id="hero-calc">
-        <h2 class="card-title">הערכת החזר חודשי</h3>
+        <h2 class="card-title">הערכת החזר חודשי</h2>
         <div class="calc-grid">
           <label>יתרת משכנתא (₪)<input type="number" id="hero-bal" value="800000" min="50000" step="10000" inputmode="numeric"></label>
           <label>ריבית שנתית משוערת (%)<input type="number" id="hero-rate" value="4.8" min="0.1" max="20" step="0.1" inputmode="decimal"></label>
@@ -298,7 +321,6 @@ footer{padding:26px 0;background:#071E2E;color:rgba(247,243,235,.55);font-size:.
 </section>
 
 <footer><div class="wrap">מניפה פיננסית · ייעוץ משכנתאות אובייקטיבי · תצוגה מקדימה (noindex) · Variant B</div></footer>
-<a class="wafloat" data-wa aria-label="וואטסאפ — לתיאום שיחה"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M.057 24l1.687-6.163a11.867 11.867 0 0 1-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 0 1 8.413 3.488 11.824 11.824 0 0 1 3.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 0 1-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.269.655 4.357 1.846 6.105l-.999 3.648 3.642-.954zm11.387-5.671c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.149-.173.198-.297.298-.495.099-.198.05-.372-.025-.521-.075-.149-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></a>
 
 <script>
 const CFG = { WHATSAPP: "972524502821", WA_TEXT: "שלום, אשמח לתיאום שיחה לגבי מחזור משכנתא" };
