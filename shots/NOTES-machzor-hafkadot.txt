@@ -1,0 +1,15 @@
+Menifa 3×6 campaign LP gallery — titles and primary CTAs
+
+machzor/
+- premium-calc — Title: מחשבון משכנתא - הדרך שלך ללכת על בטוח | Primary CTA: לפגישת ייעוץ חינם
+- cohen-sim — Title: simulator – עומר כהן גור – המומחית שלכם למימון נדל"ן חכם | Primary CTA: נתחיל!
+- zmizrahi-calc — Title: מחשבון משכנתא חכם 2026 - חישוב החזר חודשי בזמן אמת | זוהר מזרחי | Primary CTA: פנייה מהירה - זוהר חוזר אליך
+- lsmashkanta-recycle — Title: מחזור משכנתא - ממחזירים וחוסכים הרבה כסף במשכנתא עם אמון משכנתאות | Primary CTA: לבדיקה מחזור משכנתא ללא עלות וללא התחייבות
+- smart20-michzur — Title: בדיקת מחזור משכנתא - חינם | Primary CTA: לחצו כאן לקבלת בדיקת כדאיות ללא עלות
+
+hafkadot/
+- nadavfinance — Title: נדב פרידמן | ליווי פיננסי אישי | Primary CTA: בואו נדבר
+- creditcenter-match — Title: match | מרכז האשראי | Primary CTA: לבדיקה זכאות מהירה ללא עלות
+- karincal — Title: KARIN CAL - בדיקת זכאות משכנתא חכמה | Primary CTA: מתחילים בדיקה
+- kalifi-elig — Title: מחשבון זכאות - הפטר מחובות - משרד עורכי דין אודי קליפי | Primary CTA: הבא
+- zmizrahi-match — Title: ZOHAR Match - תוך 60 שניות תדע אם משכנתא חכמה משנה לך את החיים | זוהר מזרחי | Primary CTA: בוא נתחיל ←
