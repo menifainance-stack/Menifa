@@ -12,7 +12,7 @@
     <copyright>© מניפה פיננסית — תמיר גרמה</copyright>
     <managingEditor>menifainance@gmail.com (תמיר גרמה)</managingEditor>
     <webMaster>menifainance@gmail.com (תמיר גרמה)</webMaster>
-    <lastBuildDate>Wed, 16 Sep 2026 12:00:00 +0300</lastBuildDate>
+    <lastBuildDate>Thu, 17 Sep 2026 12:00:00 +0300</lastBuildDate>
     <generator>Menifa Editorial</generator>
     <image>
       <url>https://menifa.org/assets/images/tamir-og.jpg</url>
@@ -20,6 +20,15 @@
       <link>https://menifa.org/</link>
     </image>
 
+    <item>
+      <title>משכנתא בלון 2026: הגבלות הרגולציה החדשה ומה זה אומר לכם</title>
+      <link>https://menifa.org/blog/art-75.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-75.html</guid>
+      <description>בנק ישראל הגביל משכנתאות בלון ל-10% מהאשראי הרבעוני של הבנקים. מה זה אומר לרוכשי דירות, מה האלטרנטיבות, ואיך מתמרנים נכון ב-2026.</description>
+      <pubDate>Thu, 17 Sep 2026 12:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>משכנתא</category>
+    </item>
     <item>
       <title>איחוד הלוואות למשכנתא — מתי כן ומתי לא</title>
       <link>https://menifa.org/blog/ihud-halvaot-matei-ken-lo.html</link>
@@ -280,15 +289,6 @@
       <pubDate>Sun, 12 Jul 2026 12:00:00 +0300</pubDate>
       <dc:creator>תמיר גרמה</dc:creator>
       <category>משכנתא</category>
-    </item>
-    <item>
-      <title>ביקושים כבושים בנדל&quot;ן 2026: חלון ההזדמנויות לרוכשי דירה — ועד מתי?</title>
-      <link>https://menifa.org/blog/art-46.html</link>
-      <guid isPermaLink="true">https://menifa.org/blog/art-46.html</guid>
-      <description>מחירי דירות בתל אביב ירדו 5.1%, הריבית יורדת ל-3.5% — אך חלון ההזדמנויות לרוכשי דירה מצטמצם. ביקושים כבושים וסיכוי פספוס — מה לעשות עכשיו.</description>
-      <pubDate>Thu, 09 Jul 2026 12:00:00 +0300</pubDate>
-      <dc:creator>תמיר גרמה</dc:creator>
-      <category>שוק הדיור</category>
     </item>
   </channel>
 </rss>
