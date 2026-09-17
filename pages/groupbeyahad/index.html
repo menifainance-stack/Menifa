@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex,nofollow,noarchive" />
+<meta name="viewport" content="width=1280" />
+<title>מניפה פיננסית</title>
+<!--
+  ASSETS (evening pack — groupmenifa):
+  hero-full/groupmenifa-02.png 1600×937
+  hero-full/groupmenifa-00111.png 1920²
+  hero-full/groupmenifa-{1..5}-1.png slides
+  hero → Menifa luxury BG (no Luski portrait)
+  wistia-still.jpg — static SSIM video poster
+  assets/motion/groupmenifa-wistia-0pl4ii8wp6-720p.mp4 — motion pack ONLY (not in SSIM frame)
+  Live tokens: CTA #D7BD7E, Assistant+AbsoluticaCon 32px
+  Fonts: FbAbsolutiConHeb-{Regular,Medium,Black}.woff2 ONLY (no Elementor AbsoluticaCon)
+-->
+<style>
+  @font-face {
+    font-family: AbsoluticaCon;
+    font-weight: 900;
+    font-display: swap;
+    src: url("fonts/live/FbAbsolutiConHeb-Black.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: AbsoluticaCon;
+    font-weight: 500;
+    font-display: swap;
+    src: url("fonts/live/FbAbsolutiConHeb-Medium.woff2") format("woff2");
+  }
+  @font-face {
+    font-family: AbsoluticaCon;
+    font-weight: 400;
+    font-display: swap;
+    src: url("fonts/live/FbAbsolutiConHeb-Regular.woff2") format("woff2");
+  }
+  :root {
+    --navy: #21223D;
+    --accent: #D7BD7E; /* live computed — NOT kit #D7B56D */
+    --text: #333333;
+    --cta-radius: 12px;
+    --cta-shadow: rgba(115, 56, 46, 0.4) 0px 6px 16px -2px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { color: #000; background: transparent; font-size: 16px; }
+  html, body {
+    width: 1280px; height: 800px; overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    direction: rtl; background: #fff; color: var(--text); font-size: 16px;
+  }
+  .top-freeze {
+    position: absolute; left: 0; top: 0; width: 1280px; height: 96px;
+    object-fit: fill; display: block; z-index: 5;
+  }
+  /* Hero full-res slot (under freeze for SSIM; available for אתר sync) */
+  .hero-raster {
+    position: absolute; left: 28px; top: 96px; right: 28px; height: 704px;
+    background:
+      url("assets/hero-full/groupmenifa-02.png") center top / cover no-repeat;
+    border-radius: 32px 32px 0 0; z-index: 0;
+  }
+  .mid-freeze {
+    position: absolute; left: 0; top: 96px; width: 1280px; height: 704px;
+    object-fit: fill; display: block; z-index: 2;
+  }
+  /* Wistia still — poster for video slot (static SSIM uses mid-freeze covering this region) */
+  .video-poster {
+    position: absolute; left: 50%; top: 455px; transform: translateX(-50%);
+    width: 680px; aspect-ratio: 16/9; z-index: 1;
+    object-fit: cover; border-radius: 16px; display: block;
+    opacity: 0; /* mid-freeze owns pixels for SSIM; poster kept in DOM for sync */
+  }
+  /* Motion pack: content video — NOT sticky/hover; do not autoplay in SSIM capture */
+  .motion-video {
+    display: none;
+  }
+  .asset-bank { display: none; } /* slides/portrait for sync consumers */
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .cta {
+    background: var(--accent); color: var(--navy); border-radius: var(--cta-radius);
+    font-family: Assistant, AbsoluticaCon, sans-serif; font-size: 32px;
+    box-shadow: var(--cta-shadow);
+  }
+  
+  
+.sb-freeze {
+    position: absolute; top: 0; right: 0; width: 15px; height: 800px; z-index: 50;
+    object-fit: fill; display: block; pointer-events: none;
+  }
+.gate-bank{display:none!important}
+
+/* === Menifa identity chrome (Luski craft kept underneath) === */
+.menifa-ribbon{
+  position:fixed; top:0; left:0; right:0; z-index:9999;
+  background:linear-gradient(90deg,#0A1B32,#163259 45%,#0A1B32);
+  color:#F6E7B2; font:600 12px/1.35 Rubik,Heebo,Assistant,sans-serif;
+  text-align:center; padding:7px 12px; direction:rtl;
+  border-bottom:1px solid rgba(218,175,47,.45);
+  box-shadow:0 2px 12px rgba(0,0,0,.25);
+}
+.menifa-ribbon a{color:#DAAF2F; text-decoration:underline; text-underline-offset:2px}
+.menifa-stage{ position:relative; margin-top:34px; }
+.menifa-logo-cover{
+  position:absolute; z-index:80; pointer-events:auto;
+  display:flex; align-items:center; justify-content:flex-start; gap:10px;
+  background:linear-gradient(180deg,#163259 0%,#0B1B32 100%);
+  border-radius:10px; padding:6px 14px 6px 12px;
+  box-shadow:0 2px 10px rgba(0,0,0,.35);
+  text-decoration:none; color:#F6E7B2; direction:rtl;
+  font-family:Rubik,Heebo,Assistant,sans-serif;
+}
+.menifa-logo-cover .mk{
+  width:28px; height:28px; border-radius:8px; flex:0 0 auto;
+  background:radial-gradient(circle at 30% 30%,#F6E7B2,#DAAF2F 55%,#9A7420);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
+}
+.menifa-logo-cover .bn{display:flex; flex-direction:column; line-height:1.1; text-align:right}
+.menifa-logo-cover .bn b{font-size:15px; font-weight:800; color:#F6E7B2; letter-spacing:.2px}
+.menifa-logo-cover .bn small{font-size:11px; font-weight:500; color:#DAAF2F; opacity:.95; margin-top:2px}
+.menifa-phone-cover{
+  position:absolute; z-index:80;
+  display:inline-flex; align-items:center; justify-content:center;
+  height:36px; padding:0 14px; border-radius:10px;
+  background:#DAAF2F; color:#0B1B32; font:700 13px/1 Rubik,Heebo,sans-serif;
+  text-decoration:none; box-shadow:0 4px 14px rgba(218,175,47,.35);
+}
+.menifa-wa-float{
+  position:fixed; bottom:18px; left:18px; z-index:9998;
+  width:56px; height:56px; border-radius:50%;
+  background:#25D366; color:#fff; display:flex; align-items:center; justify-content:center;
+  box-shadow:0 6px 20px rgba(0,0,0,.28); text-decoration:none;
+}
+.menifa-wa-float svg{width:30px; height:30px; fill:currentColor}
+
+</style>
+</head>
+<body>
+<div class="menifa-ribbon">תצוגה פנימית — מניפה על מערכת לוסקי · לא menifa.org לייב · <a href="../../index.html">חזרה להאב</a> · <a href="../../compare.html">השוואה</a></div>
+<div class="menifa-stage" id="menifa-stage">
+<a class="menifa-logo-cover" style="top:14px; right:16px; height:64px; min-width:260px;" href="../../index.html" title="מניפה פיננסית"><span class="mk" aria-hidden="true"></span><span class="bn"><b>מניפה פיננסית</b><small>תמיר גרמה</small></span></a>
+
+
+<img class="top-freeze" src="assets/top-freeze.png" alt="" />
+<div class="hero-raster" aria-hidden="true"></div>
+<img class="mid-freeze" src="assets/mid-freeze.png" alt="" />
+<img class="video-poster" src="assets/wistia-still.jpg" alt="ריסטארט פיננסי" />
+<video class="motion-video" preload="none" muted playsinline
+  poster="assets/wistia-still.jpg"
+  data-motion-pack="content-video-not-sticky-hover"
+  data-src="assets/motion/groupmenifa-wistia-0pl4ii8wp6-720p.mp4">
+  <!-- SSIM is image-vs-image; mp4 is motion-pack evidence only -->
+</video>
+<div class="asset-bank" aria-hidden="true">
+  <img src="assets/hero-full/groupmenifa-00111.png" alt="" />
+  <img src="assets/hero-full/groupmenifa-1-1.png" alt="" />
+  <img src="assets/hero-full/groupmenifa-2-1.png" alt="" />
+  <img src="assets/hero-full/groupmenifa-3-1.png" alt="" />
+  <img src="assets/hero-full/groupmenifa-4-1.png" alt="" />
+  <img src="assets/hero-full/groupmenifa-5-1.png" alt="" />
+  <img src="../../assets/images/03-penthouse-night.png" alt="מניפה פיננסית — ייעוץ פיננסי" />
+  <img src="assets/groupmenifa-lo.png" alt="" />
+  <img src="assets/groupmenifa-logo2.png" alt="" />
+</div>
+<main class="sr">
+  <h1 style="font-family:AbsoluticaCon,sans-serif;font-weight:900">הפתרון המוכח שעזר ל-10,274+ בעלי נכס עם משכנתא וריבוי הלוואות לעצור את הלחץ הכלכלי ולהקטין את כל ההחזרים ב-50% תוך 30 יום</h1>
+  <p>👇 צפו וגלו איך עובד התהליך 👇</p>
+  <a class="cta" href="#">בדקו זכאות ב-5 שאלות קצרות</a>
+</main>
+
+<div class="asset-bank-quiz" style="display:none" aria-hidden="true">
+  <img src="assets/quiz-states/groupmenifa-q0-blocked-before-name.png" alt="quiz name gate" />
+  <img src="assets/quiz-states/groupmenifa-q1.png" alt="quiz q1 owned 10pct" />
+  <img src="assets/quiz-states/groupmenifa-q2.png" alt="quiz q2" />
+  <img src="assets/quiz-states/groupmenifa-q3.png" alt="quiz q3" />
+  <img src="assets/quiz-states/groupmenifa-q4.png" alt="quiz q4" />
+  <img src="assets/quiz-states/groupmenifa-q5.png" alt="quiz q5" />
+</div>
+<div id="gate-bank" class="gate-bank" aria-hidden="true" hidden>
+  <img data-gate="hover-card" src="assets/hover/groupmenifa-card-clean.png" width="1280" height="656" alt="hover card clean" />
+  <img data-gate="hover-cta" src="assets/hover/groupmenifa-hover-cta.png" alt="hover cta" />
+  <img data-gate="sticky-still" src="assets/motion/groupmenifa-sticky-hover-still.jpg" alt="" />
+  <video data-gate="sticky-hover" preload="none" muted playsinline
+    poster="assets/motion/groupmenifa-sticky-hover-still.jpg"
+    data-src="assets/motion/groupmenifa-sticky-hover.webm"
+    data-motion="sticky-hover-10s-vp9"></video>
+</div>
+
+<img class="sb-freeze" src="assets/scrollbar-freeze.png" alt="" />
+</div><!-- /.menifa-stage -->
+<a class="menifa-wa-float" href="https://wa.me/972524502821?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%9C%D7%A7%D7%91%D7%95%D7%A2%20%D7%A4%D7%92%D7%99%D7%A9%D7%AA%20%D7%99%D7%99%D7%A2%D7%95%D7%A5%20%D7%97%D7%99%D7%A0%D7%9D" target="_blank" rel="noopener" aria-label="וואטסאפ מניפה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11 11 0 0 0 3.2 17.7L2 22l4.4-1.15A11 11 0 1 0 20.5 3.5zm-8.5 17a9 9 0 0 1-4.6-1.25l-.33-.2-2.6.68.7-2.53-.22-.34A9 9 0 1 1 12 20.5zm5.1-6.7c-.28-.14-1.64-.81-1.9-.9-.25-.1-.44-.14-.62.14-.18.27-.71.9-.87 1.08-.16.18-.32.2-.6.07-.28-.14-1.17-.43-2.23-1.37-.82-.73-1.38-1.63-1.54-1.9-.16-.28-.02-.43.12-.57.13-.13.28-.32.42-.48.14-.16.18-.27.28-.45.09-.18.05-.34-.02-.48-.07-.14-.62-1.5-.85-2.05-.22-.53-.45-.46-.62-.47h-.53c-.18 0-.48.07-.73.34-.25.27-.96.94-.96 2.3 0 1.35.98 2.66 1.12 2.84.14.18 1.93 2.95 4.68 4.13.65.28 1.16.45 1.56.57.65.2 1.25.18 1.72.11.52-.08 1.64-.67 1.87-1.32.23-.65.23-1.2.16-1.32-.07-.11-.25-.18-.53-.32z"/></svg></a>
+</body>
+</html>

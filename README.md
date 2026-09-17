@@ -1,18 +1,35 @@
-# מניפה פיננסית — אתר רשמי
+# מניפה על מערכת לוסקי — אתר מלא (6 עמודים)
 
-אתר ייעוץ משכנתאות פרימיום בישראל. תמיר גרמה — יועץ משכנתאות מוסמך עם 10 שנות ניסיון.
+**Date:** 2026-09-17 (Asia/Jerusalem)  
+**Identity:** מניפה פיננסית · תמיר גרמה  
+**Craft:** Luski clone-lab (financeb / byhdf / groupbeyahad / byhd / finbyhd / byhdfinance)  
+**Rule:** NOT merged to menifa.org main · noindex on every page
 
-🌐 **אתר חי**: https://manifa-financial.co.il
-📞 **טלפון**: 052-4502821
-✉️ **מייל**: menifainance@gmail.com
+## Open
+```bash
+cd /workspace/mortgage-ops/deliverables/website-landing/menifa-luski-full-site
+python3 -m http.server 8792 --bind 0.0.0.0
+```
+- Hub: http://127.0.0.1:8792/index.html
+- Compare: http://127.0.0.1:8792/compare.html
 
-## תכולה
-- מחשבונים פיננסיים (משכנתא, קופת גמל, DTI, מיחזור, הון עצמי, מדד, נטו לעצמאי)
-- מאמרים מקצועיים על משכנתאות, השקעות והתנהלות כלכלית
-- נתוני שוק מתעדכנים יומית (ריבית בנק ישראל, מדד מחירים לצרכן)
-- נגישות מלאה לפי תקן WCAG 2.1 AA
+## Pages
+| Hub label | Path | Source replica |
+|-----------|------|----------------|
+| דף בית | pages/home/ | financeb |
+| byhdf | pages/byhdf/ | byhdf |
+| groupbeyahad | pages/groupbeyahad/ | groupbeyahad |
+| byhd | pages/byhd/ | byhd |
+| finbyhd | pages/finbyhd/ | finbyhd |
+| byhdfinance | pages/byhdfinance/ | byhdfinance |
 
-## אוטומציה
-- **יומי 9:00 בבוקר**: סוכן Claude מעדכן את נתוני הריבית והמדד
-- **חודשי**: מאמר חדש בבלוג
-- **התראות**: מייל (Resend) + WhatsApp (CallMeBot)
+## Identity swaps
+- ביחד פיננסים / ביחד פיננסית / ביהד פיננסים → מניפה פיננסית
+- אור לוסקי → תמיר גרמה
+- Beyahad / Or Luski → Menifa / Tamir Garma
+- *3976 / byhd emails → 052-4502821 / contact@menifa.org
+- Logo slot: text wordmark מניפה פיננסית (covers freeze logo)
+- Luski face/logo files not used as brand mark
+
+## Banner
+«תצוגה פנימית — מניפה על מערכת לוסקי · לא menifa.org לייב»
