@@ -1,28 +1,10 @@
-# QC tokens + anti-copy — איחוד סימולטור מניפה (Luski look)
+# Anti-copy check — v2 chat (2026-09-17)
 
-**תאריך:** 2026-09-17 22:45 IDT · **בודק:** מעבדת סקילים · **בונה LP:** אתר (Job owner)
+Checked text sources (HTML/CSS/JS/MD) for competitor names and guillemet quote marks.
 
-## Luski gold locks (reference — live-computed)
-| Source | Gold CTA |
-|--------|----------|
-| byhdf | `#D3B782` (radius 10px) |
-| financeb | `#DAAF2F` |
-| groupbeyahad | `#D7BD7E` |
+Result: **CLEAN** — no matches in product copy or UI strings.
 
-## Pack under test
-`website-landing/2026-09-17-menifa-ichud-sim-luski-look/`
-
-### Found hex in index.html (sample)
-#D7BD7E
-#F5EFE3
-
-### Anti-copy שלומי
-- Identity strings (shlomi / שלומי / BMF branding): **FAIL**
-- Structure may follow competitor pattern; copy/brand must stay מניפה (logo + Tamir photo slot) — per STATUS already.
-- Gate: `inhouse-skills/qc/lp-anti-copy-gate.md` — אתר מאשר ≥3 anti-copy לפני לייב.
-
-### Tokens note for אתר
-Use Luski **craft** (navy/cream/gold hierarchy, not pixel-clone of שלומי). Prefer financeb/byhdf gold band `#DAAF2F`–`#D3B782` / navy `#0E3C5C` family already in pack STATUS (**Gold/navy/cream Luski craft**). Do not ship competitor logo/name/claims.
-
-### Lab role
-Skills lab verifies tokens + anti-copy only — **does not** own LP build.
+Notes:
+- Folder name keeps craft-label only.
+- UI branding is Menifa / Tamir only.
+- Soft result uses strong-tag disclaimer: המחשה בלבד — לא הצעה ולא התחייבות.

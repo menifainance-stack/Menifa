@@ -1,3 +1,3 @@
-# Throwaway loan-consolidation simulator Preview — do not index, do not merge to main
+# Throwaway loan-consolidation chatbot Preview — do not index, do not merge to main
 User-agent: *
 Disallow: /
