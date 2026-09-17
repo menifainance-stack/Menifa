@@ -1,0 +1,2 @@
+SEEDED
+Seeded from luski-clone-lab (groupbeyahad, byhdf desktop+mobile) and competitor-visual-archive / paid-lp-shots (machzor desktops + zmizrahi-match desktop). Live computerUse continues for remaining mobile + missing LPs. Prefer live over seed when both exist (cp -n for lab; paid-lp forced refresh for archive desktops).

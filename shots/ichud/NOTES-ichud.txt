@@ -1,0 +1,26 @@
+Competitor LP gallery — 2026-09-17
+Viewport captures: desktop 1280x656 content; mobile 375x656. No cookie or translation banners were visible on the captured pages.
+
+financeb
+Title: ביחד פיננסים – ייעוץ פיננסי מקיף | איחוד הלוואות ומשכנתאות
+Primary CTA: קבעו פגישת ייעוץ חינם
+
+mashyaron-ichud
+Title: איחוד הלוואות | Lighthouse פיננסים
+Primary CTA: שיחה עכשיו
+
+mashkanta-ichud
+Title: איחוד הלוואות | Lighthouse פיננסים
+Primary CTA: שיחה עכשיו
+
+shlomi-loan-sim
+Title: סימולטור איחוד הלוואות - שלומי הרוש
+Primary CTA: נתחיל בבדיקה אונליין לאיחוד הלוואות
+
+pama-ichud
+Title: איחוד הלוואות לכל מטרה: עושים סדר ומחזירים את השליטה לידיים - פמה משכנתאות
+Primary CTA: הגשת בקשה
+
+eli-gabbay-buddy
+Title: איחוד הלוואות למשכנתא - חסכו אלפי שקלים בחודש
+Primary CTA: לשאלה הבאה (2/4)
