@@ -40,25 +40,42 @@
     });
   }
 
-  function softScroll(el, block) {
-    if (!el) return;
-    el.scrollIntoView({
-      block: block || "center",
-      inline: "nearest",
-      behavior: reduceMotion ? "auto" : "smooth",
+  function scrollBottom(opts) {
+    opts = opts || {};
+    var prefer = opts.prefer || "last"; /* last | replies | bot */
+    var target = null;
+    if (prefer === "replies" && repliesEl && repliesEl.children.length) {
+      target = repliesEl;
+    } else if (prefer === "bot") {
+      var bots = logEl.querySelectorAll(".bubble--bot");
+      target = bots.length ? bots[bots.length - 1] : logEl.lastElementChild;
+    } else {
+      target = logEl.lastElementChild;
+    }
+    if (!target) return;
+    if (target.classList && target.classList.contains("bubble--bot")) {
+      target.classList.add("is-focus-target");
+    }
+    /* Soft scroll a bit downward into the next question — not a hard jump */
+    requestAnimationFrame(function () {
+      target.scrollIntoView({
+        block: reduceMotion ? "nearest" : "center",
+        behavior: reduceMotion ? "auto" : "smooth",
+        inline: "nearest",
+      });
+      /* Extra nudge so chips sit comfortably in view */
+      if (!reduceMotion && prefer !== "replies") {
+        setTimeout(function () {
+          if (repliesEl && repliesEl.children.length) {
+            repliesEl.scrollIntoView({
+              block: "nearest",
+              behavior: "smooth",
+              inline: "nearest",
+            });
+          }
+        }, 220);
+      }
     });
-  }
-
-  function scrollBottom() {
-    var last = logEl && logEl.lastElementChild;
-    softScroll(last, "center");
-  }
-
-  function bringChipsIntoView() {
-    if (!repliesEl || !repliesEl.children.length) return;
-    window.setTimeout(function () {
-      softScroll(repliesEl, "nearest");
-    }, reduceMotion ? 0 : 220);
   }
 
   function updateProgress(atLead) {
@@ -94,7 +111,7 @@
     el.className = "bubble bubble--bot" + (extraClass ? " " + extraClass : "");
     el.innerHTML = html;
     logEl.appendChild(el);
-    scrollBottom();
+    scrollBottom({ prefer: "bot" });
     return el;
   }
 
@@ -138,8 +155,7 @@
     });
     var first = repliesEl.querySelector("button, a");
     if (first) first.focus({ preventScroll: true });
-    scrollBottom();
-    bringChipsIntoView();
+    scrollBottom({ prefer: "replies" });
   }
 
   async function botSay(html, extraClass) {
