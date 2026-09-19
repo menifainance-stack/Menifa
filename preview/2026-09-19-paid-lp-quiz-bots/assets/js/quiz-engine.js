@@ -40,14 +40,25 @@
     });
   }
 
+  function softScroll(el, block) {
+    if (!el) return;
+    el.scrollIntoView({
+      block: block || "center",
+      inline: "nearest",
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  }
+
   function scrollBottom() {
-    var last = logEl.lastElementChild;
-    if (last) {
-      last.scrollIntoView({
-        block: "nearest",
-        behavior: reduceMotion ? "auto" : "smooth",
-      });
-    }
+    var last = logEl && logEl.lastElementChild;
+    softScroll(last, "center");
+  }
+
+  function bringChipsIntoView() {
+    if (!repliesEl || !repliesEl.children.length) return;
+    window.setTimeout(function () {
+      softScroll(repliesEl, "nearest");
+    }, reduceMotion ? 0 : 220);
   }
 
   function updateProgress(atLead) {
@@ -128,6 +139,7 @@
     var first = repliesEl.querySelector("button, a");
     if (first) first.focus({ preventScroll: true });
     scrollBottom();
+    bringChipsIntoView();
   }
 
   async function botSay(html, extraClass) {

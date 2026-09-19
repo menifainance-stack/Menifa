@@ -1,20 +1,23 @@
-/* Menifa paid LP quiz bots — ichud-sim v2 chat craft · Menifa live tokens */
+/* Menifa paid LP quiz bots — brighter optimistic wash · Menifa ink/gold/accent */
 :root {
   --ink: #0E3C5C;
   --ink-2: #0A2F48;
   --ink-3: #134A6E;
   --ink-deep: #071F30;
   --accent: #5BAFD8;
+  --accent-soft: #E8F4FB;
   --gold: #C4A574;
   --gold-2: #B8956A;
   --gold-lite: #D4BC94;
   --cream: #F7F2E8;
   --cream-2: #FFFCF6;
+  --sky: #E8F4FB;
+  --sky-2: #D6ECF7;
   --text-ink: #1A2433;
   --muted: #5A6678;
   --wa: #25D366;
   --radius: 18px;
-  --shadow: 0 18px 50px rgba(0,0,0,.38);
+  --shadow: 0 14px 36px rgba(14, 60, 92, .10);
   --header-h: 64px;
   --font: "Heebo", system-ui, sans-serif;
   --display: "Frank Ruhl Libre", "Heebo", serif;
@@ -27,8 +30,8 @@ body {
   margin: 0;
   min-height: 100%;
   font-family: var(--font);
-  color: #fff;
-  background: var(--ink-deep);
+  color: var(--text-ink);
+  background: var(--cream-2);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   text-align: start;
@@ -46,7 +49,7 @@ body {
   position: absolute; inset: 0;
   background: url("../bg/bg-plexus.png") center / cover no-repeat;
   transform: scale(1.04);
-  filter: saturate(0.88) contrast(1.06) brightness(0.72);
+  filter: saturate(0.92) contrast(1.02) brightness(1.18);
 }
 .page-bg--plexus .page-bg__photo {
   background-image: url("../bg/bg-plexus.png");
@@ -60,15 +63,15 @@ body {
 .page-bg__overlay {
   position: absolute; inset: 0;
   background:
-    linear-gradient(180deg, rgba(7,31,48,.90) 0%, rgba(14,60,92,.78) 40%, rgba(7,31,48,.94) 100%),
-    radial-gradient(ellipse at 72% 18%, rgba(196,165,116,.20), transparent 55%),
-    radial-gradient(ellipse at 15% 80%, rgba(91,175,216,.12), transparent 50%);
+    linear-gradient(180deg, rgba(255,252,246,.86) 0%, rgba(232,244,251,.70) 42%, rgba(247,242,232,.90) 100%),
+    radial-gradient(ellipse at 78% 12%, rgba(196,165,116,.22), transparent 52%),
+    radial-gradient(ellipse at 14% 82%, rgba(91,175,216,.18), transparent 48%);
 }
 
 .preview-ribbon {
   position: relative; z-index: 5;
-  background: linear-gradient(90deg, #2a2214, #4a3a22);
-  color: var(--gold-lite);
+  background: linear-gradient(90deg, #F3E8D4, #E8F4FB);
+  color: var(--ink);
   text-align: center;
   font-size: 11px;
   letter-spacing: .03em;
@@ -80,8 +83,8 @@ body {
   position: sticky; top: 0; z-index: 20;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  background: rgba(14,60,92,.72);
-  border-bottom: 1px solid rgba(196,165,116,.22);
+  background: rgba(255,252,246,.88);
+  border-bottom: 1px solid rgba(196,165,116,.28);
 }
 .header-inner {
   max-width: 720px;
@@ -101,8 +104,8 @@ body {
   box-shadow: 0 0 0 1px rgba(196,165,116,.45);
 }
 .bn { display: flex; flex-direction: column; line-height: 1.15; }
-.bn b { font-size: 15px; font-weight: 700; color: #F5F0E6; }
-.bn small { font-size: 11px; color: var(--gold); font-weight: 500; }
+.bn b { font-size: 15px; font-weight: 700; color: var(--ink); }
+.bn small { font-size: 11px; color: var(--gold-2); font-weight: 500; }
 
 .chat-shell {
   position: relative; z-index: 2;
@@ -129,9 +132,9 @@ body {
 .tamir-slot {
   width: 118px; height: 118px;
   border-radius: 16px;
-  background: linear-gradient(160deg, rgba(19,74,110,.9), rgba(7,31,48,.95));
+  background: linear-gradient(160deg, var(--sky), var(--cream-2));
   border: 2px solid var(--gold);
-  box-shadow: 0 12px 28px rgba(0,0,0,.4), 0 0 0 4px rgba(14,60,92,.45);
+  box-shadow: 0 12px 28px rgba(14,60,92,.14), 0 0 0 4px rgba(255,252,246,.7);
   display: grid;
   place-items: center;
   text-align: center;
@@ -143,13 +146,13 @@ body {
 }
 .slot-dash {
   position: absolute; inset: 10px;
-  border: 1px dashed rgba(196,165,116,.25);
+  border: 1px dashed rgba(196,165,116,.35);
   border-radius: 10px;
   pointer-events: none;
 }
 .slot-label {
   font-size: 11px;
-  color: rgba(247,242,232,.78);
+  color: var(--ink);
   line-height: 1.35;
   padding: 8px;
   z-index: 1;
@@ -163,7 +166,7 @@ body {
 }
 
 .bubble {
-  background: var(--cream);
+  background: var(--cream-2);
   color: var(--text-ink);
   border-radius: var(--radius);
   padding: 18px 18px 16px;
@@ -173,6 +176,8 @@ body {
   opacity: 0;
   transform: translateY(10px);
   animation: bubbleIn .38s var(--ease-out) forwards;
+  scroll-margin-top: calc(var(--header-h) + 28px);
+  scroll-margin-bottom: 88px;
 }
 .bubble--bot {
   border: 1px solid rgba(196,165,116,.38);
@@ -183,7 +188,7 @@ body {
   inset-inline-end: 14px; bottom: -7px;
   width: 28px; height: 28px;
   background: url("../img/menifa-mark.svg") center / contain no-repeat;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+  filter: drop-shadow(0 2px 4px rgba(14,60,92,.18));
 }
 .bubble--user {
   align-self: flex-end;
@@ -198,7 +203,7 @@ body {
 }
 .bubble--user::after { display: none; }
 .bubble--result {
-  background: linear-gradient(180deg, #FFFCF6, #F0E6D4);
+  background: linear-gradient(180deg, #FFFCF6, #F3E8D4);
   border: 1px solid var(--gold);
 }
 .bubble p { margin: 0 0 10px; font-size: 15px; }
@@ -214,11 +219,11 @@ body {
 .bubble .soft-note {
   font-size: 13px;
   color: var(--muted);
-  background: rgba(196,165,116,.18);
+  background: rgba(196,165,116,.14);
   border-radius: 10px;
   padding: 10px 12px;
   margin-top: 12px;
-  border: 1px solid rgba(196,165,116,.35);
+  border: 1px solid rgba(196,165,116,.32);
 }
 .bubble .tags {
   display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;
@@ -238,7 +243,7 @@ body {
 
 .typing {
   display: inline-flex; gap: 5px; align-items: center;
-  background: var(--cream);
+  background: var(--cream-2);
   border-radius: 14px;
   padding: 12px 16px;
   width: fit-content;
@@ -265,12 +270,14 @@ body {
   justify-content: flex-start;
   min-height: 48px;
   padding-top: 4px;
+  scroll-margin-top: 16px;
+  scroll-margin-bottom: 28px;
 }
 .chip {
   appearance: none;
   border: 1px solid rgba(196,165,116,.55);
-  background: linear-gradient(180deg, rgba(19,74,110,.94), rgba(14,60,92,.96));
-  color: #F7F2E8;
+  background: linear-gradient(180deg, #FFFCF6, #F3E8D4);
+  color: var(--ink);
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
@@ -278,13 +285,13 @@ body {
   border-radius: 12px;
   cursor: pointer;
   transition: transform .14s var(--ease-out), border-color .14s var(--ease-out), box-shadow .14s var(--ease-out);
-  box-shadow: 0 8px 20px rgba(0,0,0,.28);
+  box-shadow: 0 6px 16px rgba(14,60,92,.10);
   text-decoration: none;
 }
 @media (hover: hover) and (pointer: fine) {
   .chip:hover {
-    border-color: var(--gold-lite);
-    box-shadow: 0 0 0 1px rgba(196,165,116,.35), 0 10px 24px rgba(0,0,0,.32);
+    border-color: var(--gold);
+    box-shadow: 0 0 0 1px rgba(196,165,116,.35), 0 10px 22px rgba(14,60,92,.12);
   }
 }
 .chip:focus-visible {
@@ -315,7 +322,7 @@ body {
 }
 .progress i {
   width: 28px; height: 3px; border-radius: 2px;
-  background: rgba(247,242,232,.22);
+  background: rgba(14,60,92,.14);
 }
 .progress i.on { background: var(--gold); }
 .progress i.done { background: var(--accent); }
@@ -373,12 +380,12 @@ body {
   text-align: center;
   padding: 8px 16px 28px;
   font-size: 11px;
-  color: rgba(247,242,232,.55);
+  color: var(--muted);
 }
 .site-foot .closer {
   margin-top: 6px;
   font-size: 11px;
-  color: rgba(247,242,232,.42);
+  color: rgba(26,36,51,.48);
   max-width: 420px;
   margin-inline: auto;
 }
@@ -395,10 +402,10 @@ body {
   font-size: clamp(1.6rem, 4vw, 2.1rem);
   font-weight: 700;
   margin: 0 0 8px;
-  color: #F7F2E8;
+  color: var(--ink);
 }
 .hub-shell .lead {
-  color: rgba(247,242,232,.78);
+  color: var(--muted);
   margin: 0 0 24px;
   font-size: 15px;
 }
@@ -410,8 +417,8 @@ body {
   display: block;
   text-decoration: none;
   color: inherit;
-  background: linear-gradient(160deg, rgba(255,252,246,.12), rgba(14,60,92,.55));
-  border: 1px solid rgba(196,165,116,.4);
+  background: linear-gradient(160deg, #FFFCF6, #F3E8D4);
+  border: 1px solid rgba(196,165,116,.45);
   border-radius: 16px;
   padding: 20px 18px;
   box-shadow: var(--shadow);
@@ -420,7 +427,7 @@ body {
 }
 @media (hover: hover) and (pointer: fine) {
   .hub-card:hover {
-    border-color: var(--gold-lite);
+    border-color: var(--gold);
     transform: translateY(-2px);
   }
 }
@@ -429,15 +436,15 @@ body {
   font-family: var(--display);
   font-size: 1.35rem;
   margin: 0 0 6px;
-  color: var(--gold-lite);
+  color: var(--ink);
 }
-.hub-card p { margin: 0; font-size: 14px; color: rgba(247,242,232,.82); }
+.hub-card p { margin: 0; font-size: 14px; color: var(--muted); }
 .hub-card .go {
   display: inline-block;
   margin-top: 12px;
   font-size: 13px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--ink-3);
 }
 
 @media (min-width: 768px) {
