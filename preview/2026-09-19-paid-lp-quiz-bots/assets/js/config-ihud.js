@@ -74,8 +74,7 @@ window.MENIFA_QUIZ = {
         { label: "עד 8,000 ₪", primary: true },
         { label: "8,000-15,000 ₪" },
         { label: "15,000-25,000 ₪" },
-        { label: "מעל 25,000 ₪" },
-        { label: "מעדיף/ה לא לציין" }
+        { label: "מעל 25,000 ₪" }
       ],
     },
     {
