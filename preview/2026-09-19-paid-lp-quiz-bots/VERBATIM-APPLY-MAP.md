@@ -1,13 +1,11 @@
-# VERBATIM apply map — 2026-09-20 Asia/Jerusalem
+# VERBATIM apply map — 2026-09-20 (post-recapture)
 
-Source: `VERBATIM-question-flows.md` (מעקב מתחרים)
+Source: `VERBATIM-question-flows.md` (מעקב מתחרים) — gaps closed 2026-09-20.
 
 | LP | Source | Applied |
 |----|--------|---------|
-| `/ihud/` | financeb Q1–10 + result body | Full wording; brand → תמיר גרמה / מניפה פיננסית. Q9–10 includes JS-fill opts flagged in source. |
-| `/mihzur/` | cohen intro + Q1–9 + pitch | Full wording; brand swap. Number/text inputs for amounts/name. Partial OCR ₪ savings figure **not** pasted as a number. Phone via lead form. |
-| `/pikdonot-300k/` | zmizrahi Q1–5 | Closest full flow (no deposits-specific verbatim in pack). Sliders → chip anchors at range ends/defaults. Result missing in source → soft closer. |
+| `/ihud/` | financeb Q1–10 + result (q09-full / q10-full / q-result-full) | Exact wording; brand → תמיר גרמה / מניפה. |
+| `/mihzur/` | cohen intro + Q1–9 + pitch | Brand swap; amounts via number input; OCR ₪ figure not pasted as number. |
+| `/pikdonot-300k/` | zmizrahi Q1–5 + result structure | Sliders → chip anchors. Result tone kept; **no** competitor ₪96k / 1,500+ / 450M as Menifa claims. |
 
-**Anti:** No AI rewrite. Menifa name/logo only.
-**Engine:** `quiz-engine.js` supports `input: "number"|"text"` for cohen amounts.
-**shlomi:** phone-gate only — not used as full flow.
+**Anti:** No AI rewrite. Menifa name only. No merge.

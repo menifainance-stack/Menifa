@@ -10,7 +10,7 @@
 
 Hub: `index.html`
 
-**2026-09-20:** החלפת קופי לשאלות VERBATIM מהמתחרים (מיתוג מניפה בלבד — בלי שכתוב AI). מיפוי: `VERBATIM-APPLY-MAP.md`.
+**2026-09-20:** החלפת קופי לשאלות VERBATIM מהמתחרים (מיתוג מניפה בלבד — בלי שכתוב AI). מיפוי: `VERBATIM-APPLY-MAP.md`. Recapture: financeb Q9–Q10 + result, zmizrahi result.
 
 ## אסור
 - merge ל־main
