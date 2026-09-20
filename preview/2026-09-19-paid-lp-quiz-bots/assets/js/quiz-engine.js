@@ -232,6 +232,20 @@
     showLeadForm();
   }
 
+  async function advanceFrom(idx, label) {
+    answers[cfg.questions[idx].id] = label;
+    clearReplies();
+    addUserBubble(label);
+    await sleep(DELAY_NEXT);
+    if (idx + 1 < cfg.questions.length) {
+      await askQuestion(idx + 1);
+    } else {
+      qIndex = cfg.questions.length;
+      updateProgress();
+      await showResult();
+    }
+  }
+
   async function askQuestion(idx) {
     qIndex = idx;
     updateProgress();
@@ -242,23 +256,38 @@
         "</strong></p>" +
         (q.sub ? "<p>" + q.sub + "</p>" : "")
     );
+    if (q.input === "number" || q.input === "text") {
+      clearReplies();
+      var wrap = document.createElement("form");
+      wrap.className = "lead-form input-step";
+      wrap.innerHTML =
+        "<label>" +
+        (q.inputLabel || (q.input === "number" ? "סכום" : "תשובה")) +
+        '<input name="v" type="' +
+        (q.input === "number" ? "number" : "text") +
+        '" ' +
+        (q.input === "number" ? 'inputmode="numeric" ' : "") +
+        'required placeholder="' +
+        (q.placeholder || "הקלד פה...") +
+        '" dir="ltr" /></label>' +
+        '<div class="lead-actions"><button type="submit" class="chip chip--primary">המשך</button></div>';
+      repliesEl.appendChild(wrap);
+      scrollBottom({ prefer: "replies" });
+      wrap.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var v = String(new FormData(wrap).get("v") || "").trim();
+        if (!v) return;
+        advanceFrom(idx, v);
+      });
+      return;
+    }
     setChips(
-      q.chips.map(function (chip, i) {
+      (q.chips || []).map(function (chip, i) {
         return {
           label: chip.label,
           primary: !!chip.primary || i === 0,
-          onClick: async function (label) {
-            answers[q.id] = label;
-            clearReplies();
-            addUserBubble(label);
-            await sleep(DELAY_NEXT);
-            if (idx + 1 < cfg.questions.length) {
-              await askQuestion(idx + 1);
-            } else {
-              qIndex = cfg.questions.length;
-              updateProgress();
-              await showResult();
-            }
+          onClick: function (label) {
+            advanceFrom(idx, label);
           },
         };
       })
