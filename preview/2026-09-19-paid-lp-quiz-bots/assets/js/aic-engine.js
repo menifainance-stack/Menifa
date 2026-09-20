@@ -1,7 +1,6 @@
 /**
- * AIC-like chat engine · config: window.MENIFA_AIC
- * { product, introHtml, questions[], softResult(answers), portraitSrc?, startLabel? }
- * question: { id, title, sub?, chips?[{label}], input?:"number"|"text", placeholder? }
+ * AIC-like chat engine · window.MENIFA_AIC
+ * Fixes: working Back, stacked history (no overlap), photoreal bg via CSS
  */
 (function () {
   "use strict";
@@ -16,9 +15,15 @@
   var reduce =
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   var answers = {};
-  var stack = []; /* history of question indices for back */
   var qIndex = -1;
+  var phase = "intro"; /* intro | ask | result */
+  var busy = false;
+  /* each turn: { qIdx, botNodes:[], userNode, timeNode, answerKey, answerVal } */
+  var turns = [];
+  var introNodes = [];
+
   var logEl = document.getElementById("aic-log");
   var repliesEl = document.getElementById("aic-replies");
   var backBtn = document.getElementById("aic-back");
@@ -38,21 +43,57 @@
     );
   }
   function scrollEnd() {
+    /* Soft nudge toward latest bot card — conversation advance, not hard jump */
     requestAnimationFrame(function () {
-      var t = logEl.lastElementChild;
-      if (t) t.scrollIntoView({ block: "end", behavior: reduce ? "auto" : "smooth" });
-      if (repliesEl && repliesEl.children.length) {
+      if (!logEl) return;
+      var reduceMotion =
+        window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var bots = logEl.querySelectorAll(".aic-card");
+      var target = bots.length ? bots[bots.length - 1] : logEl.lastElementChild;
+      if (!target) return;
+      target.classList.add("aic-focus");
+      try {
+        target.scrollIntoView({
+          block: reduceMotion ? "nearest" : "center",
+          behavior: reduceMotion ? "auto" : "smooth",
+          inline: "nearest",
+        });
+      } catch (e) {
+        logEl.scrollTop = logEl.scrollHeight;
+      }
+      /* Extra soft nudge so docked chips stay comfortable */
+      if (!reduceMotion) {
         setTimeout(function () {
-          repliesEl.scrollIntoView({ block: "nearest", behavior: reduce ? "auto" : "smooth" });
-        }, 180);
+          var dock = document.querySelector(".aic-dock");
+          if (dock) {
+            dock.scrollIntoView({ block: "nearest", behavior: "smooth", inline: "nearest" });
+          }
+        }, 220);
       }
     });
   }
+  function updateBack() {
+    if (!backBtn) return;
+    /* Show Back only when there is a previous answered step to restore */
+    var answered = 0;
+    for (var i = 0; i < turns.length; i++) {
+      if (!turns[i].pending && !turns[i].isResult) answered++;
+    }
+    var can =
+      (phase === "ask" && (answered > 0 || turns.length > 1)) ||
+      phase === "result";
+    backBtn.hidden = !can;
+  }
   function clearReplies() {
-    repliesEl.innerHTML = "";
+    if (repliesEl) repliesEl.innerHTML = "";
     if (hintEl) hintEl.textContent = "";
   }
-  function addBotCard(html) {
+  function setHint(t) {
+    if (hintEl) hintEl.textContent = t || "";
+  }
+
+  function addBotCard(html, trackArr) {
     var card = document.createElement("div");
     card.className = "aic-card";
     var portrait = cfg.portraitSrc || "../assets/img/tamir.jpg";
@@ -69,18 +110,23 @@
     time.className = "aic-time";
     time.textContent = nowTime();
     logEl.appendChild(time);
+    if (trackArr) {
+      trackArr.push(card);
+      trackArr.push(time);
+    }
     scrollEnd();
+    return { card: card, time: time };
   }
+
   function addUser(text) {
     var el = document.createElement("div");
     el.className = "aic-user";
     el.textContent = text;
     logEl.appendChild(el);
     scrollEnd();
+    return el;
   }
-  function setHint(t) {
-    if (hintEl) hintEl.textContent = t || "";
-  }
+
   function setChips(items) {
     clearReplies();
     setHint("בחר אפשרות");
@@ -96,6 +142,7 @@
       if (item.onClick) {
         b.addEventListener("click", function (e) {
           if (!item.href) e.preventDefault();
+          if (busy) return;
           item.onClick(item.label);
         });
       }
@@ -103,9 +150,14 @@
     });
     scrollEnd();
   }
+
   function setInput(kind, placeholder, onSubmit) {
     clearReplies();
-    setHint(kind === "number" ? "בבקשה להזין סכום מלא ללא פסיקים וללחוץ על לשליחה" : "ללחוץ על לשליחה");
+    setHint(
+      kind === "number"
+        ? "בבקשה להזין סכום מלא ללא פסיקים וללחוץ על שליחה"
+        : "ללחוץ על שליחה"
+    );
     var row = document.createElement("form");
     row.className = "aic-input-row";
     row.innerHTML =
@@ -115,32 +167,46 @@
       (kind === "number" ? 'inputmode="numeric" ' : "") +
       'required placeholder="' +
       (placeholder || "הקלד כאן...") +
-      '" />' +
+      '" autocomplete="off" />' +
       '<button type="submit" class="aic-send" aria-label="שליחה">' +
       '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>' +
       "</button>";
     repliesEl.appendChild(row);
     row.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (busy) return;
       var v = String(new FormData(row).get("v") || "").trim();
       if (!v) return;
       onSubmit(v);
     });
-    row.querySelector("input").focus();
+    var inp = row.querySelector("input");
+    if (inp) inp.focus();
     scrollEnd();
   }
 
   async function ask(idx) {
+    phase = "ask";
     qIndex = idx;
-    if (backBtn) backBtn.hidden = idx < 0;
+    updateBack();
     var q = cfg.questions[idx];
+    var botNodes = [];
     addBotCard(
       "<p><strong>" +
         q.title +
         "</strong></p>" +
-        (q.sub ? "<p>" + q.sub + "</p>" : "")
+        (q.sub ? "<p>" + q.sub + "</p>" : ""),
+      botNodes
     );
-    await sleep(220);
+    /* stash open turn (answer filled on advance) */
+    turns.push({
+      qIdx: idx,
+      botNodes: botNodes,
+      userNode: null,
+      answerKey: q.id,
+      answerVal: null,
+      pending: true,
+    });
+    await sleep(200);
     if (q.input === "number" || q.input === "text") {
       setInput(q.input, q.placeholder, function (v) {
         advance(idx, v);
@@ -160,31 +226,57 @@
   }
 
   async function advance(idx, label) {
-    answers[cfg.questions[idx].id] = label;
-    stack.push(idx);
-    clearReplies();
-    addUser(label);
-    await sleep(280);
-    if (idx + 1 < cfg.questions.length) {
-      await ask(idx + 1);
-    } else {
-      await showResult();
+    if (busy) return;
+    busy = true;
+    try {
+      var q = cfg.questions[idx];
+      answers[q.id] = label;
+      clearReplies();
+      var userNode = addUser(label);
+      /* close pending turn */
+      var turn = turns[turns.length - 1];
+      if (turn && turn.pending && turn.qIdx === idx) {
+        turn.userNode = userNode;
+        turn.answerVal = label;
+        turn.pending = false;
+      }
+      await sleep(260);
+      if (idx + 1 < cfg.questions.length) {
+        busy = false;
+        await ask(idx + 1);
+      } else {
+        busy = false;
+        await showResult();
+      }
+    } catch (err) {
+      busy = false;
+      console.error(err);
     }
   }
 
   async function showResult() {
-    if (backBtn) backBtn.hidden = true;
+    phase = "result";
+    updateBack();
     var html =
       typeof cfg.softResult === "function"
         ? cfg.softResult(answers)
         : cfg.softResult || "";
-    /* split into cards by <!--card--> */
     var parts = String(html).split("<!--card-->");
+    var resultNodes = [];
     for (var i = 0; i < parts.length; i++) {
       if (!parts[i].trim()) continue;
-      addBotCard(parts[i]);
-      await sleep(320);
+      addBotCard(parts[i], resultNodes);
+      await sleep(280);
     }
+    turns.push({
+      qIdx: -1,
+      botNodes: resultNodes,
+      userNode: null,
+      answerKey: "__result",
+      answerVal: null,
+      pending: false,
+      isResult: true,
+    });
     setHint("לאיזה מספר לחזור אליך?");
     setInput("text", "הקלד טלפון כאן...", function (phone) {
       answers.phone = phone;
@@ -195,31 +287,109 @@
           (answers.name ? ", " + answers.name : "") +
           ". אפשר גם לתאם עכשיו בוואטסאפ — בלי התחייבות.</p>"
       );
-      setChips([
-        {
-          label: "וואטסאפ — לתיאום שיחה",
-          href: WA,
-        },
-      ]);
+      setChips([{ label: "וואטסאפ — לתיאום שיחה", href: WA }]);
       setHint("");
+      if (backBtn) backBtn.hidden = true;
     });
   }
 
+  function removeNodes(nodes) {
+    (nodes || []).forEach(function (n) {
+      if (n && n.parentNode) n.parentNode.removeChild(n);
+    });
+  }
+
+  async function goBack() {
+    if (busy) return;
+    if (phase === "result") {
+      /* peel result turn, restore last question */
+      busy = true;
+      var last = turns.pop();
+      if (last && last.isResult) {
+        removeNodes(last.botNodes);
+        if (last.userNode && last.userNode.parentNode) {
+          last.userNode.parentNode.removeChild(last.userNode);
+        }
+      }
+      /* also remove pending phone user if any — handled above */
+      clearReplies();
+      /* re-open last answered question: remove its user bubble + answer, re-ask */
+      var prev = turns[turns.length - 1];
+      if (prev && !prev.pending) {
+        if (prev.userNode && prev.userNode.parentNode) {
+          prev.userNode.parentNode.removeChild(prev.userNode);
+        }
+        if (prev.answerKey) delete answers[prev.answerKey];
+        removeNodes(prev.botNodes);
+        turns.pop();
+        busy = false;
+        await ask(prev.qIdx);
+        return;
+      }
+      busy = false;
+      updateBack();
+      return;
+    }
+
+    if (phase !== "ask") return;
+    busy = true;
+    clearReplies();
+
+    var cur = turns[turns.length - 1];
+    if (cur && cur.pending) {
+      /* remove unanswered question card, restore previous */
+      removeNodes(cur.botNodes);
+      turns.pop();
+      var prev2 = turns[turns.length - 1];
+      if (prev2 && !prev2.pending) {
+        if (prev2.userNode && prev2.userNode.parentNode) {
+          prev2.userNode.parentNode.removeChild(prev2.userNode);
+        }
+        if (prev2.answerKey) delete answers[prev2.answerKey];
+        removeNodes(prev2.botNodes);
+        var idx = prev2.qIdx;
+        turns.pop();
+        busy = false;
+        if (idx >= 0) await ask(idx);
+        else {
+          phase = "intro";
+          updateBack();
+        }
+        return;
+      }
+      /* back to intro */
+      busy = false;
+      phase = "intro";
+      qIndex = -1;
+      updateBack();
+      setHint("בחר אפשרות");
+      /* if lockProduct, re-ask q0 */
+      if (cfg.lockProduct) {
+        await ask(0);
+      }
+      return;
+    }
+
+    busy = false;
+    updateBack();
+  }
+
   if (backBtn) {
-    backBtn.addEventListener("click", function () {
-      /* soft back: reload flow from start for simplicity */
-      location.reload();
+    backBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      goBack();
     });
   }
 
   async function start() {
-    addBotCard(cfg.introHtml);
-    await sleep(300);
+    phase = "intro";
+    addBotCard(cfg.introHtml, introNodes);
+    await sleep(280);
     if (cfg.lockProduct) {
-      /* skip product picker — go to Q0 */
       await ask(0);
       return;
     }
+    updateBack();
     setChips(
       (cfg.openerChips || []).map(function (c) {
         return {
@@ -228,7 +398,7 @@
             answers.interest = label;
             clearReplies();
             addUser(label);
-            await sleep(280);
+            await sleep(260);
             await ask(0);
           },
         };
