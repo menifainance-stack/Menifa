@@ -1,4 +1,4 @@
-/** AUTO from VERBATIM-question-flows.md financeb · Menifa brand only · NO rewrite */
+/** financeb base + Tamir edits 2026-09-20: Q3 mortgage payment, Q4 except mortgage, Q5 apartment only */
 window.MENIFA_QUIZ = {
   product: "ihud",
   portraitSrc: "../assets/img/tamir.jpg",
@@ -35,18 +35,19 @@ window.MENIFA_QUIZ = {
     },
     {
       id: "q3",
-      title: "האם יש לכם מינוס קבוע בחשבון הבנק?",
+      title: "כמה ההחזר החודשי של המשכנתא שלכם?",
       sub: "שאלה 3 מתוך 10",
       chips: [
-        { label: "אין מינוס", primary: true },
-        { label: "מינוס עד 5,000 ₪" },
-        { label: "מינוס 5,000-20,000 ₪" },
-        { label: "מינוס מעל 20,000 ₪" }
+        { label: "אין משכנתא", primary: true },
+        { label: "עד 3,000 ₪" },
+        { label: "3,000-6,000 ₪" },
+        { label: "6,000-10,000 ₪" },
+        { label: "מעל 10,000 ₪" }
       ],
     },
     {
       id: "q4",
-      title: "מה סך ההחזרים החודשיים שלכם (הלוואות + אשראי)?",
+      title: "מה סך ההחזרים החודשיים שלכם (הלוואות + אשראי), למעט המשכנתא?",
       sub: "שאלה 4 מתוך 10",
       chips: [
         { label: "עד 2,000 ₪", primary: true },
@@ -58,13 +59,11 @@ window.MENIFA_QUIZ = {
     },
     {
       id: "q5",
-      title: "האם יש לכם נכס (דירה / רכב) בבעלותכם?",
+      title: "האם יש לכם דירה בבעלותכם?",
       sub: "שאלה 5 מתוך 10",
       chips: [
-        { label: "דירה בבעלותי", primary: true },
-        { label: "רכב בבעלותי" },
-        { label: "דירה + רכב" },
-        { label: "אין נכסים" }
+        { label: "כן, דירה בבעלותי", primary: true },
+        { label: "לא" }
       ],
     },
     {
