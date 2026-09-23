@@ -1,0 +1,283 @@
+/* AIC-like chat · Menifa · RTL · fixed dock (no overlap) */
+:root {
+  --aic-blue: #2F55A4;
+  --aic-blue-user: #4B6FB8;
+  --aic-ink: #30354F;
+  --aic-white: #fff;
+  --menifa-ink: #0E3C5C;
+  --menifa-accent: #5BAFD8;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --dock-h: auto;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+body.aic-shell {
+  font-family: "Heebo", system-ui, -apple-system, sans-serif;
+  color: var(--aic-ink);
+  background: #e8f4fa;
+  min-height: 100%;
+  height: 100%;
+  direction: rtl;
+  overflow: hidden;
+}
+/* Full-bleed — Direction A (chosen): soft bright champagne home + light sky wash (Tamir 2026-09-23) */
+.aic-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 38%, transparent 45%, rgba(14, 60, 92, .14) 100%),
+    linear-gradient(
+      165deg,
+      rgba(255, 252, 248, .28) 0%,
+      rgba(232, 244, 250, .22) 40%,
+      rgba(91, 175, 216, .14) 72%,
+      rgba(14, 60, 92, .18) 100%
+    ),
+    url("../bg/bg-champagne-soft.jpg") center / cover no-repeat;
+  pointer-events: none;
+}
+.aic-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .18) 0%, transparent 40%, rgba(14, 60, 92, .12) 100%);
+  pointer-events: none;
+}
+.aic-frame {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 0 auto;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 12px 14px 0;
+  display: flex;
+  flex-direction: column;
+}
+.aic-top {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding: 4px 0;
+}
+.aic-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #0E3C5C;
+  font-weight: 700;
+  font-size: 14px;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+.aic-brand img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, .35);
+  background: #fff;
+}
+.aic-back {
+  appearance: none;
+  border: 0;
+  background: rgba(255, 255, 255, .94);
+  color: var(--aic-ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .25);
+}
+.aic-back:hover { filter: brightness(1.03); }
+.aic-back[hidden] { display: none !important; }
+
+/* Scrollable chat history — never under dock */
+.aic-log {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 2px 16px;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-bottom: 24px;
+}
+.aic-card {
+  background: var(--aic-white);
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+  position: relative;
+  z-index: 1;
+  max-width: 92%;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+.aic-card__row { display: flex; gap: 10px; align-items: flex-start; }
+.aic-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #e8eef8;
+}
+.aic-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--menifa-ink);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.aic-card p { margin: 0 0 8px; line-height: 1.45; font-size: 15px; }
+.aic-card p:last-child { margin-bottom: 0; }
+.aic-card strong { font-weight: 700; }
+.aic-user {
+  align-self: flex-end;
+  background: var(--aic-blue-user);
+  color: #fff;
+  border-radius: 14px 14px 4px 14px;
+  padding: 10px 14px;
+  max-width: 78%;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.aic-time {
+  font-size: 11px;
+  color: rgba(255, 255, 255, .55);
+  align-self: flex-end;
+  margin-top: -6px;
+  flex-shrink: 0;
+}
+
+/* Fixed dock — opaque so chips never cover bubbles */
+.aic-dock {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 5;
+  margin: 0 -14px 0;
+  padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0) 0%, rgba(255, 252, 248, .72) 22%, rgba(232, 244, 250, .92) 100%);
+  border-top: 1px solid rgba(14, 60, 92, .1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.aic-hint {
+  color: rgba(14, 60, 92, .78);
+  font-size: 13px;
+  margin: 0 2px 8px;
+  min-height: 1.2em;
+}
+.aic-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+.aic-chip {
+  appearance: none;
+  border: 0;
+  background: var(--aic-blue);
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(47, 85, 164, .35);
+  transition: transform .12s var(--ease), filter .12s var(--ease);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.aic-chip:hover { filter: brightness(1.06); }
+.aic-chip:active { transform: scale(.98); }
+.aic-input-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  background: #fff;
+  border: 2px solid var(--aic-blue);
+  border-radius: 10px;
+  padding: 6px;
+  align-items: center;
+}
+.aic-input-row input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 15px;
+  padding: 10px 8px;
+  direction: ltr;
+  text-align: right;
+  background: transparent;
+  color: var(--aic-ink);
+}
+.aic-input-row input::placeholder { color: #9aa3b8; }
+.aic-send {
+  appearance: none;
+  border: 0;
+  background: var(--aic-blue);
+  color: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.aic-send svg { width: 20px; height: 20px; }
+.aic-foot {
+  margin-top: 8px;
+  text-align: center;
+  color: rgba(14, 60, 92, .45);
+  font-size: 11px;
+}
+@media (max-width: 480px) {
+  .aic-card { max-width: 100%; }
+  .aic-chip { flex: 1 1 calc(50% - 10px); text-align: center; }
+  .aic-chip:only-child,
+  .aic-replies .aic-chip:first-child:nth-last-child(n + 3),
+  .aic-replies .aic-chip:first-child:nth-last-child(n + 3) ~ .aic-chip {
+    flex: 1 1 100%;
+  }
+}
+/* Soft-scroll focus target — next question sits comfortably above dock */
+.aic-card.aic-focus {
+  scroll-margin-top: 72px;
+  scroll-margin-bottom: 140px;
+}
+.aic-dock {
+  scroll-margin-bottom: 8px;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
