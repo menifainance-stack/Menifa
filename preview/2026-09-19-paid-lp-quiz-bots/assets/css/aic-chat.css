@@ -19,20 +19,34 @@ html { scroll-behavior: smooth; }
 body.aic-shell {
   font-family: "Heebo", system-ui, -apple-system, sans-serif;
   color: var(--aic-ink);
-  background: #0a1628;
+  background: #e8f4fa;
   min-height: 100%;
   height: 100%;
   direction: rtl;
   overflow: hidden;
 }
-/* Full-bleed photoreal bg (Menifa approved office) + dark overlay — AIC style */
+/* Full-bleed — Direction A (chosen): soft bright champagne home + light sky wash (Tamir 2026-09-23) */
 .aic-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
   background:
-    linear-gradient(180deg, rgba(6, 14, 28, .62) 0%, rgba(6, 14, 28, .78) 45%, rgba(6, 14, 28, .88) 100%),
-    url("../bg/bg-office.jpg") center / cover no-repeat;
+    radial-gradient(ellipse 90% 70% at 50% 38%, transparent 45%, rgba(14, 60, 92, .14) 100%),
+    linear-gradient(
+      165deg,
+      rgba(255, 252, 248, .28) 0%,
+      rgba(232, 244, 250, .22) 40%,
+      rgba(91, 175, 216, .14) 72%,
+      rgba(14, 60, 92, .18) 100%
+    ),
+    url("../bg/bg-champagne-soft.jpg") center / cover no-repeat;
+  pointer-events: none;
+}
+.aic-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .18) 0%, transparent 40%, rgba(14, 60, 92, .12) 100%);
   pointer-events: none;
 }
 .aic-frame {
@@ -60,9 +74,10 @@ body.aic-shell {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #fff;
+  color: #0E3C5C;
   font-weight: 700;
   font-size: 14px;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
 }
 .aic-brand img {
   width: 36px;
@@ -165,11 +180,13 @@ body.aic-shell {
   z-index: 5;
   margin: 0 -14px 0;
   padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
-  background: linear-gradient(180deg, rgba(6, 14, 28, 0) 0%, rgba(6, 14, 28, .92) 28%, rgba(6, 14, 28, .96) 100%);
-  border-top: 1px solid rgba(255, 255, 255, .08);
+  background: linear-gradient(180deg, rgba(255, 252, 248, 0) 0%, rgba(255, 252, 248, .72) 22%, rgba(232, 244, 250, .92) 100%);
+  border-top: 1px solid rgba(14, 60, 92, .1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .aic-hint {
-  color: rgba(255, 255, 255, .88);
+  color: rgba(14, 60, 92, .78);
   font-size: 13px;
   margin: 0 2px 8px;
   min-height: 1.2em;
@@ -241,7 +258,7 @@ body.aic-shell {
 .aic-foot {
   margin-top: 8px;
   text-align: center;
-  color: rgba(255, 255, 255, .4);
+  color: rgba(14, 60, 92, .45);
   font-size: 11px;
 }
 @media (max-width: 480px) {
