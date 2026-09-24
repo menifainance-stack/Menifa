@@ -34,6 +34,8 @@ jobs:
           python-version: '3.12'
 
       - name: בניית פידים מחדש
+        # regen_seo.py refuses to write feeds when canonical / hreflang /
+        # og:url / BreadcrumbList still point at github.io.
         run: python3 tools/regen_seo.py
 
       - name: קומיט אם השתנה משהו
