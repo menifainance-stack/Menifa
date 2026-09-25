@@ -14,15 +14,19 @@ regen_seo.py — מחולל SEO אוטומטי ל-menifa.org
 """
 
 import re
+import subprocess
 import sys
 import json
 import glob
 import os
 from datetime import datetime, timezone, timedelta
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SITE = "https://menifa.org"
-GITHUB_IO_HOST = "menifainance-stack.github.io"
+_TOOLS = os.path.dirname(os.path.abspath(__file__))
+if _TOOLS not in sys.path:
+    sys.path.insert(0, _TOOLS)
+from site_url import SITE
+
+ROOT = os.path.dirname(_TOOLS)
 IL_TZ = timezone(timedelta(hours=3))
 
 # דפים ראשיים: (נתיב, priority, changefreq)
@@ -311,22 +315,15 @@ def write(name, content):
     print(f"  ✓ {name}")
 
 
-def assert_public_host():
-    """מונע פרסום canonical/og:url/JSON-LD עם כתובת github.io במקום menifa.org."""
-    bad = []
-    for pattern in (os.path.join(ROOT, "blog", "*.html"),
-                    os.path.join(ROOT, "*.html")):
-        for path in glob.glob(pattern):
-            with open(path, encoding="utf-8") as fh:
-                if GITHUB_IO_HOST in fh.read():
-                    bad.append(os.path.relpath(path, ROOT))
-    if bad:
-        sys.exit("כתובת github.io במקום %s ב: %s" % (SITE, ", ".join(bad)))
-
-
 def main():
     today = datetime.now(IL_TZ).strftime("%Y-%m-%d")
-    assert_public_host()
+    # Tag check only. Sitemap membership is enforced by check_public_urls.py
+    # in CI; running that half here would refuse to write the sitemap entry
+    # the generator is about to add.
+    guard = os.path.join(_TOOLS, "check_public_urls.py")
+    tag_check = subprocess.call([sys.executable, guard, "--tags-only"])
+    if tag_check != 0:
+        sys.exit(tag_check)
     arts = load_articles()
     if not arts:
         sys.exit("לא נמצאו מאמרים בתיקיית blog/ — עוצר.")
