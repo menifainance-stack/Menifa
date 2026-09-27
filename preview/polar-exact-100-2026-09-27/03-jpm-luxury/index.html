@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="theme-color" content="#0E3C5C">
+<title>JPM Private Bank · מניפה פיננסית · Preview exact</title>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0E3C5C;--sky:#5BAFD8;--champ:#C4A574;--wa:#25D366}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Heebo,system-ui,sans-serif;background:#fff;color:#111;line-height:1.5;text-align:right;overflow-x:hidden}
+.preview-strip{background:#0a1520;color:rgba(255,255,255,.5);font-size:11px;text-align:center;padding:5px}
+.utility{display:flex;justify-content:space-between;align-items:center;padding:8px 40px;font-size:12px;color:#555;border-bottom:1px solid #eee;background:#fff}
+.utility .fdic{display:flex;align-items:center;gap:8px}
+.utility .fdic-badge{font-size:9px;font-weight:800;letter-spacing:.06em;border:1.5px solid #1a5f9e;color:#1a5f9e;padding:2px 5px;border-radius:2px}
+.utility .right{display:flex;gap:18px;align-items:center}
+.utility a{color:#111;text-decoration:none}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;background:#fff;gap:20px;border-bottom:1px solid #f0f0f0}
+.brand{display:flex;align-items:baseline;gap:12px;text-decoration:none;color:#111}
+.brand .name{font-family:"Frank Ruhl Libre",Georgia,serif;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.brand .tag{font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--champ);text-transform:uppercase}
+.nav-links{display:flex;gap:26px;font-size:14px;font-weight:500}
+.nav-links a{color:#111;text-decoration:none}
+.nav-links a:hover{color:var(--ink)}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.search{width:18px;height:18px;opacity:.7}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 18px;font-weight:600;font-size:13px;text-decoration:none;cursor:pointer;font-family:inherit;transition:transform .1s,background .15s;border-radius:2px}
+.btn:active{transform:scale(.98)}
+.btn-outline{background:#fff;border:1px solid #111;color:#111}
+.btn-black{background:#111;border:1px solid #111;color:#fff}
+.btn-black:hover{background:#333}
+.btn-wa{background:var(--wa);color:#fff;border:none;border-radius:999px}
+.btn svg{width:16px;height:16px}
+.hero{position:relative;min-height:72vh;display:flex;flex-direction:column;justify-content:flex-end;
+  background:#1a1a1a center/cover no-repeat;
+  background-image:linear-gradient(90deg,rgba(10,20,30,.15) 0%,rgba(10,20,30,.55) 55%,rgba(10,20,30,.75) 100%),url(assets/hero.jpg);padding:48px 40px 64px}
+.carousel{display:flex;align-items:center;gap:8px;margin-bottom:28px}
+.carousel .pause{width:14px;height:14px;border:1.5px solid rgba(255,255,255,.8);border-radius:2px;position:relative}
+.carousel .pause::before,.carousel .pause::after{content:"";position:absolute;top:2px;bottom:2px;width:2px;background:rgba(255,255,255,.85)}
+.carousel .pause::before{left:3px}.carousel .pause::after{right:3px}
+.dash{height:3px;width:36px;background:rgba(255,255,255,.35);border-radius:1px;overflow:hidden}
+.dash.active{background:rgba(255,255,255,.25)}
+.dash.active i{display:block;height:100%;width:55%;background:var(--sky)}
+.hero-copy{max-width:560px;color:#fff;margin-inline-start:auto}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.16em;color:var(--champ);margin-bottom:14px;text-transform:uppercase}
+.hero h1{font-family:"Frank Ruhl Libre",Georgia,serif;font-size:clamp(28px,4vw,46px);font-weight:700;line-height:1.22;margin-bottom:14px;letter-spacing:-.015em}
+.hero .sub{font-size:16px;color:rgba(255,255,255,.88);max-width:480px;line-height:1.55}
+.section{padding:64px 40px;max-width:1100px;margin:0 auto}
+.section h2{font-family:"Frank Ruhl Libre",Georgia,serif;font-size:28px;margin-bottom:24px;text-align:center}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.pain-card{border:1px solid #e8e8e8;padding:22px;background:#fff}
+.pain-card h3{font-size:16px;margin-bottom:8px}
+.pain-card p{font-size:14px;color:#555}
+.value-list{list-style:none;max-width:640px;margin:0 auto;display:grid;gap:10px}
+.value-list li{padding:14px 16px;border-bottom:1px solid #eee;font-size:15px}
+.ins{text-align:center;max-width:680px;margin:0 auto;font-size:15px;color:#444;line-height:1.65;padding:24px;background:#F7F4EF}
+.trust{text-align:center;font-size:14px;color:#666}
+.footer-cta{text-align:center;padding:56px 24px;background:#111;color:#fff}
+.footer-cta h2{font-family:"Frank Ruhl Libre",Georgia,serif;font-size:26px;margin-bottom:10px}
+.footer-cta p{opacity:.8;margin-bottom:20px}
+.site-foot{text-align:center;padding:16px;font-size:12px;color:#888;border-top:1px solid #eee}
+.wa-float{position:fixed;bottom:22px;left:22px;z-index:50;width:48px;height:48px;border-radius:2px;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none}
+.wa-float svg{width:22px;height:22px}
+@media(max-width:800px){
+  .utility,.nav-links{display:none}
+  .nav{padding:12px 14px}
+  .hero{padding:36px 18px 48px;min-height:70vh}
+  .pain-grid{grid-template-columns:1fr}
+  .brand .tag{display:none}
+}
+</style>
+</head>
+<body>
+<div class="preview-strip">תצוגת Preview · JPM luxury exact · noindex · לא לייב · מניפה פיננסית · תמיר גרמה</div>
+<div class="utility">
+  <div class="fdic"><span class="fdic-badge">מניפה</span><span>ייעוץ משכנתאות מוסמך · שפה ברורה</span></div>
+  <div class="right"><a href="#trust">אודות</a><span>ישראל | עברית</span></div>
+</div>
+<header class="nav">
+  <a class="brand" href="#"><span class="name">מניפה פיננסית</span><span class="tag">תמיר גרמה</span></a>
+  <nav class="nav-links"><a href="#pain">הכאב</a><a href="#value">התהליך</a><a href="#ins">ביטוח</a><a href="#trust">אמון</a></nav>
+  <div class="nav-actions">
+    <svg class="search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+    <a class="btn btn-outline" href="#value">איך זה עובד</a>
+    <a class="btn btn-black" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94">וואטסאפ — לתיאום שיחה</a>
+  </div>
+</header>
+<section class="hero">
+  <div class="carousel" aria-hidden="true"><span class="pause"></span><span class="dash active"><i></i></span><span class="dash"></span><span class="dash"></span><span class="dash"></span></div>
+  <div class="hero-copy">
+    <div class="eyebrow">מניפה פיננסית · תמיר גרמה</div>
+    <h1>ההחזר לוחץ — ואף אחד לא מראה לכם את התמונה המלאה</h1>
+    <p class="sub">בודקים משכנתא, תזרים והלוואות בצד — לפני שחותמים. בלי הבטחות ריבית.</p>
+  </div>
+</section>
+<section class="section" id="pain">
+  <h2>מה לוחץ עכשיו</h2>
+  <div class="pain-grid">
+    <article class="pain-card"><h3>החזר שחונק</h3><p>המספר על הלוח לא מספר את כל הסיפור.</p></article>
+    <article class="pain-card"><h3>הלוואות בצד</h3><p>רכב, כרטיסים, "עוד קצת" — והתזרים מתפזר.</p></article>
+    <article class="pain-card"><h3>פחד לחתום</h3><p>בלי לבדוק הרכב מסלולים מול החיים האמיתיים שלכם.</p></article>
+  </div>
+</section>
+<section class="section" id="value">
+  <h2>מה עושים אצלנו</h2>
+  <ul class="value-list"><li>מחברים את כל ההחזרים לתמונה אחת.</li><li>בודקים הרכב מסלולים מול תזרים — לא רק כותרת פריים.</li><li>מגישים רק אחרי שהמספרים מסתדרים לכם.</li></ul>
+</section>
+<section class="section" id="ins"><div class="ins">ובודקים גם את <strong>עלות הביטוח</strong> מול הבנק — חיים ומבנה. הבנק יכול לדרוש; לא חייב שתקנו דווקא דרכו.</div></section>
+<section class="section" id="trust"><p class="trust">יועץ משכנתאות מוסמך · שפה ברורה · בלי לחץ לסגור בשיחה הראשונה.</p></section>
+<section class="footer-cta">
+  <h2>מוכנים לתיאום שיחה?</h2>
+  <p>תשלחו בוואטסאפ — לתיאום שיחה. נחזור אליכם בהקדם לתיאום.</p>
+  <a class="btn btn-wa" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg> וואטסאפ — לתיאום שיחה</a>
+</section>
+<footer class="site-foot">מניפה פיננסית · תמיר גרמה · Preview · noindex · טל׳ <span dir="ltr">052-450-2821</span></footer>
+<a class="wa-float" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94" aria-label="וואטסאפ"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg></a>
+</body>
+</html>

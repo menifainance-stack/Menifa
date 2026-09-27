@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="theme-color" content="#0E3C5C">
+<title>Liquid Glass · מניפה פיננסית · Preview exact</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0E3C5C;--sky:#5BAFD8;--champ:#C4A574;--wa:#25D366;--bg:#060d18}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Heebo,system-ui,sans-serif;color:#fff;background:var(--bg);line-height:1.55;text-align:right;min-height:100vh;overflow-x:hidden}
+.preview-strip{background:#03080f;color:rgba(255,255,255,.4);font-size:10px;text-align:center;padding:5px}
+.bg{position:fixed;inset:0;z-index:0;background:url(assets/bg-frost.jpg) center/cover no-repeat;pointer-events:none}
+.bg::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(ellipse 55% 45% at 75% 20%, rgba(91,175,216,.35) 0%, transparent 55%),
+  radial-gradient(ellipse 50% 40% at 15% 75%, rgba(196,165,116,.22) 0%, transparent 50%),
+  radial-gradient(ellipse 40% 35% at 50% 50%, rgba(14,60,92,.5) 0%, transparent 60%),
+  linear-gradient(165deg, rgba(6,13,24,.4) 0%, rgba(10,40,70,.55) 100%);
+  animation:drift 18s ease-in-out infinite alternate}
+.bg::after{content:"";position:absolute;inset:0;opacity:.35;background:
+  url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;pointer-events:none}
+@keyframes drift{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.08) translate(-2%,1%)}}
+.liquid-blob{position:absolute;border-radius:40% 60% 55% 45%;filter:blur(40px);opacity:.45;animation:morph 12s ease-in-out infinite}
+.blob1{width:420px;height:420px;background:rgba(91,175,216,.4);top:5%;left:55%}
+.blob2{width:360px;height:360px;background:rgba(196,165,116,.28);bottom:10%;right:50%;animation-delay:-4s;border-radius:55% 45% 40% 60%}
+.blob3{width:280px;height:280px;background:rgba(91,175,216,.2);top:40%;left:10%;animation-delay:-7s}
+@keyframes morph{0%,100%{border-radius:40% 60% 55% 45%;transform:translate(0,0) rotate(0)}50%{border-radius:60% 40% 45% 55%;transform:translate(20px,-15px) rotate(8deg)}}
+.shell{position:relative;z-index:1}
+.nav-pill{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:880px;margin:22px auto 0;padding:9px 16px 9px 10px;background:rgba(255,255,255,.07);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.14);border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.1)}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;font-weight:700;font-size:14px}
+.brand img{height:26px;filter:brightness(0) invert(1)}
+.ver{font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.1)}
+.nav-links{display:flex;gap:18px;font-size:13px;font-weight:500}
+.nav-links a{color:rgba(255,255,255,.7);text-decoration:none}
+.nav-links a:hover{color:#fff}
+.btn-gh{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;background:rgba(255,255,255,.1);color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.14)}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;max-width:1120px;margin:0 auto;padding:56px 28px 40px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600;background:linear-gradient(90deg,rgba(91,175,216,.25),rgba(196,165,116,.2));border:1px solid rgba(91,175,216,.35);color:rgba(255,255,255,.9);margin-bottom:18px;box-shadow:0 0 20px rgba(91,175,216,.2)}
+.hero h1{font-size:clamp(30px,4.6vw,52px);font-weight:800;letter-spacing:-.035em;line-height:1.15;margin-bottom:16px}
+.hero h1 .grad{background:linear-gradient(100deg,var(--sky) 0%,#8ec8e8 40%,var(--champ) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{font-size:15px;color:rgba(255,255,255,.72);margin-bottom:28px;max-width:440px;line-height:1.6}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none;cursor:pointer;border:none;font-family:inherit;transition:transform .12s,box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.btn-glow{background:linear-gradient(100deg,var(--sky),#3d8fba);color:#fff;box-shadow:0 0 32px rgba(91,175,216,.5),0 4px 16px rgba(0,0,0,.3)}
+.btn-glow:hover{box-shadow:0 0 40px rgba(91,175,216,.65)}
+.btn-outline{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(8px)}
+.btn svg{width:17px;height:17px}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stat{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;font-size:11px;font-weight:600;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.75);backdrop-filter:blur(8px)}
+.glass{background:rgba(12,24,40,.55);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.14);border-radius:18px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.12);position:relative}
+.glass::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 40%,transparent 60%,rgba(91,175,216,.06) 100%);pointer-events:none}
+.gc-chrome{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.1);position:relative;direction:ltr}
+.dots{display:flex;gap:6px}
+.dot{width:9px;height:9px;border-radius:50%}.dot.r{background:#FF5F57}.dot.y{background:#FEBC2E}.dot.g{background:#28C840}
+.use-client{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:var(--sky)}
+.code{padding:18px 16px 12px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px;line-height:1.7;direction:ltr;text-align:left;overflow-x:auto;position:relative}
+.code .k{color:#c4a5e8}.code .c{color:var(--sky)}.code .s{color:#9dcea0}.code .cm{color:rgba(255,255,255,.35)}
+.code-foot{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,0,0,.25);border-top:1px solid rgba(255,255,255,.08);font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:rgba(255,255,255,.55);direction:ltr}
+.dep{position:absolute;bottom:-12px;left:16px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:999px;background:rgba(14,60,92,.85);border:1px solid rgba(91,175,216,.35);color:var(--sky);backdrop-filter:blur(8px)}
+.glass-wrap{position:relative;padding-bottom:16px}
+.section{max-width:1000px;margin:0 auto;padding:48px 24px 24px}
+.section h2{font-size:22px;font-weight:800;text-align:center;margin-bottom:22px}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pain-card{background:rgba(255,255,255,.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:20px 16px}
+.pain-card h3{font-size:15px;margin-bottom:8px}
+.pain-card p{font-size:13px;color:rgba(255,255,255,.65)}
+.value-list{list-style:none;max-width:580px;margin:0 auto;display:grid;gap:8px}
+.value-list li{padding:12px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;font-size:14px;backdrop-filter:blur(10px)}
+.ins{text-align:center;max-width:640px;margin:28px auto 0;font-size:14px;color:rgba(255,255,255,.75);line-height:1.65;padding:20px;background:rgba(196,165,116,.08);border:1px solid rgba(196,165,116,.2);border-radius:16px;backdrop-filter:blur(12px)}
+.trust{text-align:center;font-size:13px;color:rgba(255,255,255,.5);margin-top:16px}
+.footer-cta{text-align:center;padding:56px 24px 40px}
+.footer-cta h2{font-size:22px;margin-bottom:10px}
+.footer-cta p{opacity:.7;margin-bottom:20px}
+.site-foot{text-align:center;padding:16px;font-size:11px;color:rgba(255,255,255,.3)}
+.wa-float{position:fixed;bottom:22px;left:22px;z-index:50;width:48px;height:48px;border-radius:50%;background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 0 24px rgba(37,211,102,.4)}
+.wa-float svg{width:22px;height:22px}
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding-top:36px}
+  .nav-links{display:none}
+  .nav-pill{margin:14px 12px 0;border-radius:18px}
+  .pain-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.bg::before,.liquid-blob{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="preview-strip">תצוגת Preview · Liquid Glass exact · noindex · לא לייב · מניפה פיננסית · תמיר גרמה</div>
+<div class="bg" aria-hidden="true"><div class="liquid-blob blob1"></div><div class="liquid-blob blob2"></div><div class="liquid-blob blob3"></div></div>
+<div class="shell">
+  <header class="nav-pill">
+    <a class="brand" href="#"><img src="assets/menifa-logo.png" alt=""><span>מניפה פיננסית</span><span class="ver">v1</span></a>
+    <nav class="nav-links"><a href="#pain">הכאב</a><a href="#value">התהליך</a><a href="#ins">ביטוח</a><a href="#trust">אמון</a></nav>
+    <a class="btn-gh" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94">וואטסאפ</a>
+  </header>
+  <section class="hero">
+    <div>
+      <div class="badge">תמיר גרמה — יועץ משכנתאות מוסמך ←</div>
+      <h1>התמונה המלאה.<br><span class="grad">בלי הבטחות ריבית.</span></h1>
+      <p class="sub">בודקים משכנתא, תזרים והלוואות בצד — לפני שחותמים. מחברים את כל ההחזרים לתמונה אחת.</p>
+      <div class="cta-row">
+        <a class="btn btn-glow" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg> וואטסאפ — לתיאום שיחה</a>
+        <a class="btn btn-outline" href="#value">איך זה עובד</a>
+      </div>
+      <div class="stats">
+        <span class="stat">תמונה מלאה</span>
+        <span class="stat">בלי לחץ לסגור</span>
+        <span class="stat">שפה ברורה</span>
+      </div>
+    </div>
+    <div class="glass-wrap">
+      <div class="glass">
+        <div class="gc-chrome">
+          <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+          <span class="use-client">menifa · full picture ✓</span>
+        </div>
+        <div class="code">
+          <div><span class="cm">// מניפה — לפני שחותמים</span></div>
+          <div><span class="k">const</span> picture = <span class="c">fullPicture</span>({</div>
+          <div>  mortgage: <span class="s">"מסלולים מול תזרים"</span>,</div>
+          <div>  sideLoans: <span class="s">"רכב · כרטיסים · עוד קצת"</span>,</div>
+          <div>  insurance: <span class="s">"חיים ומבנה מול הבנק"</span>,</div>
+          <div>  promise: <span class="s">false</span> <span class="cm">// אין הבטחת ריבית</span></div>
+          <div>});</div>
+          <div style="margin-top:8px"><span class="c">submit</span>(picture) <span class="cm">// רק אחרי שהמספרים מסתדרים</span></div>
+        </div>
+        <div class="code-foot"><span>מניפה פיננסית · תמיר גרמה</span><span>תיאום שיחה</span></div>
+      </div>
+      <span class="dep">בלי לחץ בשיחה הראשונה</span>
+    </div>
+  </section>
+  <section class="section" id="pain">
+    <h2>מה לוחץ עכשיו</h2>
+    <div class="pain-grid">
+      <article class="pain-card"><h3>החזר שחונק</h3><p>המספר על הלוח לא מספר את כל הסיפור.</p></article>
+      <article class="pain-card"><h3>הלוואות בצד</h3><p>רכב, כרטיסים, "עוד קצת" — והתזרים מתפזר.</p></article>
+      <article class="pain-card"><h3>פחד לחתום</h3><p>בלי לבדוק הרכב מסלולים מול החיים האמיתיים שלכם.</p></article>
+    </div>
+  </section>
+  <section class="section" id="value">
+    <h2>מה עושים אצלנו</h2>
+    <ul class="value-list"><li>מחברים את כל ההחזרים לתמונה אחת.</li><li>בודקים הרכב מסלולים מול תזרים — לא רק כותרת פריים.</li><li>מגישים רק אחרי שהמספרים מסתדרים לכם.</li></ul>
+    <div class="ins" id="ins">ובודקים גם את <strong>עלות הביטוח</strong> מול הבנק — חיים ומבנה. הבנק יכול לדרוש; לא חייב שתקנו דווקא דרכו.</div>
+    <p class="trust" id="trust">יועץ משכנתאות מוסמך · שפה ברורה · בלי לחץ לסגור בשיחה הראשונה.</p>
+  </section>
+  <section class="footer-cta">
+    <h2>מוכנים לתיאום שיחה?</h2>
+    <p>תשלחו בוואטסאפ — לתיאום שיחה. נחזור אליכם בהקדם לתיאום.</p>
+    <a class="btn btn-glow" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg> וואטסאפ — לתיאום שיחה</a>
+  </section>
+  <footer class="site-foot">מניפה פיננסית · תמיר גרמה · Preview · noindex · טל׳ <span dir="ltr">052-450-2821</span></footer>
+</div>
+<a class="wa-float" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94" aria-label="וואטסאפ"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg></a>
+</body>
+</html>

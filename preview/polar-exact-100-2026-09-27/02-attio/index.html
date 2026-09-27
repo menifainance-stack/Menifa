@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="theme-color" content="#0E3C5C">
+<title>Attio craft · מניפה פיננסית · Preview exact</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0E3C5C;--sky:#5BAFD8;--champ:#C4A574;--wa:#25D366;--line:#E8ECF1;--mute:#5A6B7A}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Heebo,system-ui,sans-serif;background:#fff;color:var(--ink);line-height:1.55;text-align:right;overflow-x:hidden}
+.preview-strip{background:#0a1520;color:rgba(255,255,255,.55);font-size:11px;text-align:center;padding:6px}
+.announce{background:#0a0a0a;color:#fff;font-size:13px;text-align:center;padding:11px 40px 11px 16px;font-weight:500;position:relative}
+.announce a{color:var(--sky);text-decoration:none;margin-inline-start:4px}
+.announce .x{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.6);font-size:16px;cursor:default;line-height:1}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 40px;background:#fff;border-bottom:1px solid transparent;max-width:1200px;margin:0 auto;gap:16px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);font-weight:800;font-size:15px}
+.brand img{height:32px}
+.nav-links{display:flex;gap:24px;font-size:14px;font-weight:500}
+.nav-links a{color:#1a1a1a;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.nav-links a:hover{opacity:.7}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;cursor:pointer;transition:transform .12s cubic-bezier(.23,1,.32,1);font-family:inherit;border:none}
+.btn:active{transform:scale(.97)}
+.btn-ghost{background:#fff;border:1px solid var(--line);color:#1a1a1a;padding:9px 16px}
+.btn-ink{background:#0a0a0a;color:#fff}
+.btn-ink:hover{background:#222}
+.btn-wa{background:var(--wa);color:#fff}
+.btn svg{width:16px;height:16px}
+.hero{padding:64px 24px 0;text-align:center;background:linear-gradient(180deg,#fff 42%,#eef2ff 72%,#e4ecfb 100%);min-height:92vh;display:flex;flex-direction:column}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border:1px solid var(--line);border-top:2px solid var(--sky);border-radius:999px;font-size:13px;color:var(--mute);margin:0 auto 26px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.hero h1{font-size:clamp(34px,5.4vw,60px);font-weight:800;letter-spacing:-.04em;line-height:1.12;max-width:820px;margin:0 auto 16px;color:#0a0a0a}
+.hero .sub{font-size:clamp(15px,1.5vw,18px);color:var(--mute);max-width:520px;margin:0 auto 28px;line-height:1.55}
+.cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:52px}
+.product-window{max-width:1000px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:14px 14px 0 0;box-shadow:0 -2px 50px rgba(14,60,92,.1),0 0 0 1px rgba(0,0,0,.02);overflow:hidden;text-align:right;flex:1;width:100%}
+.pw-chrome{display:flex;align-items:center;gap:7px;padding:11px 14px;background:#F5F6F8;border-bottom:1px solid var(--line);direction:ltr}
+.dot{width:10px;height:10px;border-radius:50%}.dot.r{background:#FF5F57}.dot.y{background:#FEBC2E}.dot.g{background:#28C840}
+.pw-title{font-size:12px;color:var(--mute);margin-inline-start:6px}
+.pw-body{display:grid;grid-template-columns:190px 1fr;min-height:340px}
+.pw-side{background:#F7F8FA;border-inline-end:1px solid var(--line);padding:16px 12px;font-size:13px}
+.pw-side .lab{font-size:11px;color:var(--mute);margin-bottom:10px;font-weight:600}
+.pw-side .item{padding:8px 10px;border-radius:8px;margin-bottom:2px;color:var(--mute);font-weight:500}
+.pw-side .item.active{background:rgba(91,175,216,.16);color:var(--ink);font-weight:700}
+.pw-main{padding:22px 24px;background:#fff}
+.pw-main h3{font-size:17px;margin-bottom:4px;color:#0a0a0a}
+.pw-main .meta{font-size:13px;color:var(--mute);margin-bottom:18px}
+.chat{background:#F7F8FA;border-radius:12px;padding:14px;margin-bottom:14px}
+.bubble{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:13px;max-width:85%;margin-bottom:8px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.bubble.me{margin-inline-start:auto;background:var(--ink);color:#fff;border-color:var(--ink)}
+.thinking{font-size:12px;color:var(--mute);display:flex;align-items:center;gap:6px}
+.thinking::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--sky);animation:pulse 1.2s infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+.metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.metric{background:#F7F8FA;border-radius:10px;padding:12px}
+.metric .lbl{font-size:11px;color:var(--mute);margin-bottom:3px}
+.metric .val{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums}
+.metric .val.sky{color:var(--sky)}
+.section{padding:72px 24px;max-width:1080px;margin:0 auto}
+.section h2{font-size:28px;font-weight:800;text-align:center;margin-bottom:28px;letter-spacing:-.02em}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pain-card{border:1px solid var(--line);border-radius:14px;padding:22px;background:#fff}
+.pain-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.pain-card p{font-size:14px;color:var(--mute)}
+.value-list{list-style:none;max-width:640px;margin:0 auto;display:grid;gap:10px}
+.value-list li{padding:14px 16px;border:1px solid var(--line);border-radius:12px;font-weight:500;font-size:15px}
+.ins-box{max-width:720px;margin:0 auto;text-align:center;padding:26px;background:#F7F4EF;border-radius:16px;font-size:15px;color:#3a5568}
+.trust{text-align:center;color:var(--mute);font-size:14px}
+.footer-cta{text-align:center;padding:64px 24px;background:#0a0a0a;color:#fff}
+.footer-cta h2{font-size:24px;margin-bottom:10px}
+.footer-cta p{opacity:.8;margin-bottom:20px}
+.site-foot{text-align:center;padding:16px;font-size:12px;color:var(--mute);border-top:1px solid var(--line)}
+.wa-float{position:fixed;bottom:22px;left:22px;z-index:50;width:48px;height:48px;border-radius:50%;background:#1a1a1a;color:#fff;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.wa-float svg{width:22px;height:22px}
+@media(max-width:800px){
+  .nav-links{display:none}.nav{padding:12px}
+  .nav-actions .btn-ghost{display:none}
+  .pw-body{grid-template-columns:1fr}.pw-side{display:none}
+  .pain-grid,.metric-row{grid-template-columns:1fr}
+  .hero{padding-top:40px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="preview-strip">תצוגת Preview · Attio exact · noindex · לא לייב · מניפה פיננסית · תמיר גרמה</div>
+<div class="announce">יועץ משכנתאות מוסמך · שפה ברורה · בלי לחץ לסגור בשיחה הראשונה <a href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94">לתיאום ←</a><span class="x" aria-hidden="true">×</span></div>
+<header class="nav">
+  <a class="brand" href="#"><img src="assets/menifa-logo.png" alt=""><span>מניפה פיננסית</span></a>
+  <nav class="nav-links" aria-label="ניווט">
+    <a href="#pain">הכאב</a><a href="#value">התהליך</a><a href="#trust">אמון</a><a href="#ins">ביטוח</a>
+  </nav>
+  <div class="nav-actions">
+    <a class="btn btn-ghost" href="#value">איך זה עובד</a>
+    <a class="btn btn-ink" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94">וואטסאפ — לתיאום שיחה</a>
+  </div>
+</header>
+<section class="hero">
+  <div class="badge">תמיר גרמה · ייעוץ משכנתאות מוסמך ‹</div>
+  <h1>ההחזר לוחץ — ואף אחד לא מראה לכם את התמונה המלאה</h1>
+  <p class="sub">בודקים משכנתא, תזרים והלוואות בצד — לפני שחותמים. בלי הבטחות ריבית.</p>
+  <div class="cta-row">
+    <a class="btn btn-ghost" href="#value">איך זה עובד</a>
+    <a class="btn btn-ink" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg> וואטסאפ — לתיאום שיחה</a>
+  </div>
+  <div class="product-window">
+    <div class="pw-chrome"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="pw-title">מניפה · תמונה מלאה</span></div>
+    <div class="pw-body">
+      <aside class="pw-side">
+        <div class="lab">מניפה</div>
+        <div class="item active">תמונה מלאה</div>
+        <div class="item">החזרים</div>
+        <div class="item">הלוואות בצד</div>
+        <div class="item">מסלולים</div>
+        <div class="item">תזרים</div>
+        <div class="item">ביטוח</div>
+      </aside>
+      <div class="pw-main">
+        <h3>לפני שחותמים — רואים הכל</h3>
+        <p class="meta">משכנתא + תזרים + הלוואות בצד · בלי הבטחות ריבית</p>
+        <div class="chat">
+          <div class="bubble me">אפשר לראות את התמונה המלאה של ההחזר?</div>
+          <div class="thinking">בודקים הרכב מסלולים מול התזרים…</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric"><div class="lbl">החזר חודשי</div><div class="val">מחובר</div></div>
+          <div class="metric"><div class="lbl">הלוואות בצד</div><div class="val sky">נבדק</div></div>
+          <div class="metric"><div class="lbl">מוכנים להגיש?</div><div class="val">אחרי מספרים</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" id="pain">
+  <h2>מה לוחץ עכשיו</h2>
+  <div class="pain-grid">
+    <article class="pain-card"><h3>החזר שחונק</h3><p>המספר על הלוח לא מספר את כל הסיפור.</p></article>
+    <article class="pain-card"><h3>הלוואות בצד</h3><p>רכב, כרטיסים, "עוד קצת" — והתזרים מתפזר.</p></article>
+    <article class="pain-card"><h3>פחד לחתום</h3><p>בלי לבדוק הרכב מסלולים מול החיים האמיתיים שלכם.</p></article>
+  </div>
+</section>
+<section class="section" id="value">
+  <h2>מה עושים אצלנו</h2>
+  <ul class="value-list"><li>מחברים את כל ההחזרים לתמונה אחת.</li><li>בודקים הרכב מסלולים מול תזרים — לא רק כותרת פריים.</li><li>מגישים רק אחרי שהמספרים מסתדרים לכם.</li></ul>
+</section>
+<section class="section" id="ins"><div class="ins-box">ובודקים גם את <strong>עלות הביטוח</strong> מול הבנק — חיים ומבנה. הבנק יכול לדרוש; לא חייב שתקנו דווקא דרכו.</div></section>
+<section class="section" id="trust"><p class="trust">יועץ משכנתאות מוסמך · שפה ברורה · בלי לחץ לסגור בשיחה הראשונה.</p></section>
+<section class="footer-cta">
+  <h2>מוכנים לתיאום שיחה?</h2>
+  <p>תשלחו בוואטסאפ — לתיאום שיחה. נחזור אליכם בהקדם לתיאום.</p>
+  <a class="btn btn-wa" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg> וואטסאפ — לתיאום שיחה</a>
+</section>
+<footer class="site-foot">מניפה פיננסית · תמיר גרמה · Preview · noindex · טל׳ <span dir="ltr">052-450-2821</span></footer>
+<a class="wa-float" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94" aria-label="וואטסאפ"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg></a>
+</body>
+</html>
