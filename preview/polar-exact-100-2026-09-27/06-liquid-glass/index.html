@@ -7,61 +7,66 @@
 <meta name="googlebot" content="noindex,nofollow">
 <meta name="theme-color" content="#0E3C5C">
 <title>Liquid Glass · מניפה פיננסית · Preview exact</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#0E3C5C;--sky:#5BAFD8;--champ:#C4A574;--wa:#25D366;--bg:#060d18}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Heebo,system-ui,sans-serif;color:#fff;background:var(--bg);line-height:1.55;text-align:right;min-height:100vh;overflow-x:hidden}
 .preview-strip{background:#03080f;color:rgba(255,255,255,.4);font-size:10px;text-align:center;padding:5px}
-.bg{position:fixed;inset:0;z-index:0;background:url(assets/bg-frost.jpg) center/cover no-repeat;pointer-events:none}
-.bg::before{content:"";position:absolute;inset:0;background:
-  radial-gradient(ellipse 55% 45% at 75% 20%, rgba(91,175,216,.35) 0%, transparent 55%),
-  radial-gradient(ellipse 50% 40% at 15% 75%, rgba(196,165,116,.22) 0%, transparent 50%),
-  radial-gradient(ellipse 40% 35% at 50% 50%, rgba(14,60,92,.5) 0%, transparent 60%),
-  linear-gradient(165deg, rgba(6,13,24,.4) 0%, rgba(10,40,70,.55) 100%);
-  animation:drift 18s ease-in-out infinite alternate}
-.bg::after{content:"";position:absolute;inset:0;opacity:.35;background:
-  url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+.filters{position:absolute;width:0;height:0;overflow:hidden}
+.bg{position:fixed;inset:0;z-index:0;background:#060d18 url(assets/bg-frost.jpg) center/cover no-repeat;pointer-events:none;overflow:hidden}
+.bg-waves{position:absolute;inset:-8%;width:116%;height:116%;filter:url(#liquid);opacity:.85;will-change:transform}
+.bg-waves .wave{position:absolute;border-radius:40% 60% 70% 30% / 40% 50% 60% 50%;filter:blur(28px);opacity:.55}
+.w1{width:70%;height:55%;top:-10%;left:20%;background:radial-gradient(ellipse,rgba(91,175,216,.55),transparent 70%);animation:driftA 22s ease-in-out infinite alternate}
+.w2{width:60%;height:50%;bottom:-5%;right:15%;background:radial-gradient(ellipse,rgba(196,165,116,.35),transparent 70%);animation:driftB 18s ease-in-out infinite alternate}
+.w3{width:50%;height:45%;top:30%;left:-5%;background:radial-gradient(ellipse,rgba(14,60,92,.7),transparent 65%);animation:driftA 26s ease-in-out infinite alternate-reverse}
+.w4{width:40%;height:40%;top:10%;right:5%;background:radial-gradient(ellipse,rgba(91,175,216,.3),transparent 70%);animation:driftB 20s ease-in-out infinite}
+.bg::after{content:"";position:absolute;inset:0;opacity:.28;background:
+  url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
   mix-blend-mode:overlay;pointer-events:none}
-@keyframes drift{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.08) translate(-2%,1%)}}
-.liquid-blob{position:absolute;border-radius:40% 60% 55% 45%;filter:blur(40px);opacity:.45;animation:morph 12s ease-in-out infinite}
-.blob1{width:420px;height:420px;background:rgba(91,175,216,.4);top:5%;left:55%}
-.blob2{width:360px;height:360px;background:rgba(196,165,116,.28);bottom:10%;right:50%;animation-delay:-4s;border-radius:55% 45% 40% 60%}
-.blob3{width:280px;height:280px;background:rgba(91,175,216,.2);top:40%;left:10%;animation-delay:-7s}
-@keyframes morph{0%,100%{border-radius:40% 60% 55% 45%;transform:translate(0,0) rotate(0)}50%{border-radius:60% 40% 45% 55%;transform:translate(20px,-15px) rotate(8deg)}}
+@keyframes driftA{0%{transform:translate(0,0) scale(1) rotate(0)}100%{transform:translate(-3%,2%) scale(1.06) rotate(3deg)}}
+@keyframes driftB{0%{transform:translate(0,0) scale(1.02) rotate(0)}100%{transform:translate(2%,-2%) scale(1.08) rotate(-4deg)}}
+.liquid-blob{position:absolute;border-radius:42% 58% 55% 45%;filter:blur(48px);opacity:.4;animation:morph 14s ease-in-out infinite}
+.blob1{width:440px;height:440px;background:rgba(91,175,216,.42);top:4%;left:52%}
+.blob2{width:380px;height:380px;background:rgba(196,165,116,.28);bottom:8%;right:48%;animation-delay:-5s;border-radius:55% 45% 40% 60%}
+.blob3{width:300px;height:300px;background:rgba(91,175,216,.22);top:38%;left:8%;animation-delay:-8s}
+@keyframes morph{0%,100%{border-radius:40% 60% 55% 45%;transform:translate(0,0) rotate(0)}50%{border-radius:60% 40% 45% 55%;transform:translate(18px,-12px) rotate(6deg)}}
 .shell{position:relative;z-index:1}
-.nav-pill{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:880px;margin:22px auto 0;padding:9px 16px 9px 10px;background:rgba(255,255,255,.07);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.14);border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.1)}
+.nav-pill{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:880px;margin:22px auto 0;padding:9px 14px 9px 10px;background:rgba(255,255,255,.07);backdrop-filter:blur(22px) saturate(170%);-webkit-backdrop-filter:blur(22px) saturate(170%);border:1px solid rgba(255,255,255,.14);border-radius:999px;box-shadow:0 8px 32px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.12)}
 .brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;font-weight:700;font-size:14px}
 .brand img{height:26px;filter:brightness(0) invert(1)}
 .ver{font-size:10px;font-weight:600;padding:3px 8px;border-radius:999px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.65);border:1px solid rgba(255,255,255,.1)}
 .nav-links{display:flex;gap:18px;font-size:13px;font-weight:500}
 .nav-links a{color:rgba(255,255,255,.7);text-decoration:none}
 .nav-links a:hover{color:#fff}
-.btn-gh{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;background:rgba(255,255,255,.1);color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.14)}
-.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;max-width:1120px;margin:0 auto;padding:56px 28px 40px;align-items:center}
-.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600;background:linear-gradient(90deg,rgba(91,175,216,.25),rgba(196,165,116,.2));border:1px solid rgba(91,175,216,.35);color:rgba(255,255,255,.9);margin-bottom:18px;box-shadow:0 0 20px rgba(91,175,216,.2)}
-.hero h1{font-size:clamp(30px,4.6vw,52px);font-weight:800;letter-spacing:-.035em;line-height:1.15;margin-bottom:16px}
-.hero h1 .grad{background:linear-gradient(100deg,var(--sky) 0%,#8ec8e8 40%,var(--champ) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .sub{font-size:15px;color:rgba(255,255,255,.72);margin-bottom:28px;max-width:440px;line-height:1.6}
-.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:24px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none;cursor:pointer;border:none;font-family:inherit;transition:transform .12s,box-shadow .2s}
+.btn-gh{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;font-size:13px;font-weight:600;background:rgba(255,255,255,.1);color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(8px)}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;max-width:1120px;margin:0 auto;padding:52px 28px 40px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600;background:linear-gradient(90deg,rgba(91,175,216,.28),rgba(196,165,116,.2));border:1px solid rgba(91,175,216,.35);color:rgba(255,255,255,.92);margin-bottom:18px;box-shadow:0 0 24px rgba(91,175,216,.22)}
+.hero h1{font-size:clamp(28px,4.4vw,50px);font-weight:800;letter-spacing:-.035em;line-height:1.14;margin-bottom:16px}
+.hero h1 .grad{background:linear-gradient(105deg,var(--sky) 0%,#8ec8e8 38%,var(--champ) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{font-size:15px;color:rgba(255,255,255,.72);margin-bottom:26px;max-width:440px;line-height:1.6}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;font-size:14px;text-decoration:none;cursor:pointer;border:none;font-family:inherit;transition:transform .12s cubic-bezier(.23,1,.32,1),box-shadow .2s}
 .btn:active{transform:scale(.97)}
-.btn-glow{background:linear-gradient(100deg,var(--sky),#3d8fba);color:#fff;box-shadow:0 0 32px rgba(91,175,216,.5),0 4px 16px rgba(0,0,0,.3)}
-.btn-glow:hover{box-shadow:0 0 40px rgba(91,175,216,.65)}
-.btn-outline{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(8px)}
+.btn-glow{background:linear-gradient(105deg,var(--sky) 0%,#3d8fba 55%,#4a9ec4 100%);color:#fff;box-shadow:0 0 36px rgba(91,175,216,.55),0 4px 16px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.2)}
+.btn-glow:hover{box-shadow:0 0 44px rgba(91,175,216,.7)}
+.btn-outline{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(10px)}
 .btn svg{width:17px;height:17px}
 .stats{display:flex;flex-wrap:wrap;gap:8px}
 .stat{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;font-size:11px;font-weight:600;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.75);backdrop-filter:blur(8px)}
-.glass{background:rgba(12,24,40,.55);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.14);border-radius:18px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.12);position:relative}
-.glass::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08) 0%,transparent 40%,transparent 60%,rgba(91,175,216,.06) 100%);pointer-events:none}
-.gc-chrome{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.1);position:relative;direction:ltr}
+.stat.accent{color:var(--sky);border-color:rgba(91,175,216,.35);background:rgba(91,175,216,.1)}
+.glass{background:rgba(12,24,40,.52);backdrop-filter:blur(26px) saturate(170%);-webkit-backdrop-filter:blur(26px) saturate(170%);border:1px solid rgba(255,255,255,.14);border-radius:18px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.14);position:relative}
+.glass::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.09) 0%,transparent 40%,transparent 60%,rgba(91,175,216,.07) 100%);pointer-events:none;z-index:1}
+.gc-chrome{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.1);position:relative;direction:ltr;z-index:2}
 .dots{display:flex;gap:6px}
-.dot{width:9px;height:9px;border-radius:50%}.dot.r{background:#FF5F57}.dot.y{background:#FEBC2E}.dot.g{background:#28C840}
-.use-client{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:var(--sky)}
-.code{padding:18px 16px 12px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px;line-height:1.7;direction:ltr;text-align:left;overflow-x:auto;position:relative}
-.code .k{color:#c4a5e8}.code .c{color:var(--sky)}.code .s{color:#9dcea0}.code .cm{color:rgba(255,255,255,.35)}
-.code-foot{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,0,0,.25);border-top:1px solid rgba(255,255,255,.08);font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:rgba(255,255,255,.55);direction:ltr}
-.dep{position:absolute;bottom:-12px;left:16px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:999px;background:rgba(14,60,92,.85);border:1px solid rgba(91,175,216,.35);color:var(--sky);backdrop-filter:blur(8px)}
+.dot{width:10px;height:10px;border-radius:50%;box-shadow:inset 0 -1px 1px rgba(0,0,0,.2)}.dot.r{background:#FF5F57}.dot.y{background:#FEBC2E}.dot.g{background:#28C840}
+.use-client{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:var(--sky);background:rgba(91,175,216,.12);padding:3px 8px;border-radius:6px;border:1px solid rgba(91,175,216,.25)}
+.code{padding:18px 16px 12px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px;line-height:1.75;direction:ltr;text-align:left;overflow-x:auto;position:relative;z-index:2}
+.code .k{color:#c4a5e8}.code .c{color:var(--sky)}.code .s{color:#9dcea0}.code .cm{color:rgba(255,255,255,.35)}.code .n{color:var(--champ)}
+.code-foot{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(0,0,0,.28);border-top:1px solid rgba(255,255,255,.08);font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:rgba(255,255,255,.55);direction:ltr;z-index:2;position:relative}
+.dep{position:absolute;bottom:-12px;left:16px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:999px;background:rgba(14,60,92,.9);border:1px solid rgba(91,175,216,.4);color:var(--sky);backdrop-filter:blur(8px);z-index:3}
 .glass-wrap{position:relative;padding-bottom:16px}
 .section{max-width:1000px;margin:0 auto;padding:48px 24px 24px}
 .section h2{font-size:22px;font-weight:800;text-align:center;margin-bottom:22px}
@@ -84,13 +89,38 @@ body{font-family:Heebo,system-ui,sans-serif;color:#fff;background:var(--bg);line
   .nav-links{display:none}
   .nav-pill{margin:14px 12px 0;border-radius:18px}
   .pain-grid{grid-template-columns:1fr}
+  .bg-waves{filter:none}
 }
-@media(prefers-reduced-motion:reduce){.bg::before,.liquid-blob{animation:none!important}}
+@media(prefers-reduced-motion:reduce){
+  .bg-waves .wave,.liquid-blob{animation:none!important}
+  .bg-waves{filter:none}
+}
 </style>
 </head>
 <body>
+<svg class="filters" aria-hidden="true">
+  <defs>
+    <filter id="liquid" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="3" seed="7" result="noise">
+        <animate attributeName="baseFrequency" dur="28s" values="0.012 0.018;0.016 0.014;0.012 0.018" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="28" xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="0.6"/>
+    </filter>
+  </defs>
+</svg>
 <div class="preview-strip">תצוגת Preview · Liquid Glass exact · noindex · לא לייב · מניפה פיננסית · תמיר גרמה</div>
-<div class="bg" aria-hidden="true"><div class="liquid-blob blob1"></div><div class="liquid-blob blob2"></div><div class="liquid-blob blob3"></div></div>
+<div class="bg" aria-hidden="true">
+  <div class="bg-waves">
+    <div class="wave w1"></div>
+    <div class="wave w2"></div>
+    <div class="wave w3"></div>
+    <div class="wave w4"></div>
+  </div>
+  <div class="liquid-blob blob1"></div>
+  <div class="liquid-blob blob2"></div>
+  <div class="liquid-blob blob3"></div>
+</div>
 <div class="shell">
   <header class="nav-pill">
     <a class="brand" href="#"><img src="assets/menifa-logo.png" alt=""><span>מניפה פיננסית</span><span class="ver">v1</span></a>
@@ -109,28 +139,29 @@ body{font-family:Heebo,system-ui,sans-serif;color:#fff;background:var(--bg);line
       <div class="stats">
         <span class="stat">תמונה מלאה</span>
         <span class="stat">בלי לחץ לסגור</span>
-        <span class="stat">שפה ברורה</span>
+        <span class="stat accent">שפה ברורה</span>
       </div>
     </div>
     <div class="glass-wrap">
       <div class="glass">
         <div class="gc-chrome">
           <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
-          <span class="use-client">menifa · full picture ✓</span>
+          <span class="use-client">use client · menifa ✓</span>
         </div>
         <div class="code">
           <div><span class="cm">// מניפה — לפני שחותמים</span></div>
-          <div><span class="k">const</span> picture = <span class="c">fullPicture</span>({</div>
+          <div><span class="k">import</span> { <span class="c">fullPicture</span> } <span class="k">from</span> <span class="s">'@menifa/mortgage'</span></div>
+          <div style="margin-top:6px"><span class="k">const</span> picture = <span class="c">fullPicture</span>({</div>
           <div>  mortgage: <span class="s">"מסלולים מול תזרים"</span>,</div>
           <div>  sideLoans: <span class="s">"רכב · כרטיסים · עוד קצת"</span>,</div>
           <div>  insurance: <span class="s">"חיים ומבנה מול הבנק"</span>,</div>
-          <div>  promise: <span class="s">false</span> <span class="cm">// אין הבטחת ריבית</span></div>
-          <div>});</div>
-          <div style="margin-top:8px"><span class="c">submit</span>(picture) <span class="cm">// רק אחרי שהמספרים מסתדרים</span></div>
+          <div>  ratePromise: <span class="n">false</span> <span class="cm">// אין הבטחת ריבית</span></div>
+          <div>})</div>
+          <div style="margin-top:8px"><span class="c">await</span> <span class="c">submit</span>(picture) <span class="cm">// רק כשהמספרים מסתדרים</span></div>
         </div>
-        <div class="code-foot"><span>מניפה פיננסית · תמיר גרמה</span><span>תיאום שיחה</span></div>
+        <div class="code-foot"><span>npm i @menifa/mortgage</span><span>תיאום שיחה</span></div>
       </div>
-      <span class="dep">בלי לחץ בשיחה הראשונה</span>
+      <span class="dep">0 לחץ בשיחה הראשונה</span>
     </div>
   </section>
   <section class="section" id="pain">
