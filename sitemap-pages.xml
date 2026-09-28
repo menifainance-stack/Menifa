@@ -81,6 +81,13 @@
     <priority>0.88</priority>
   </url>
   <url>
+    <loc>https://menifa.org/lp/ihud/</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/lp/ihud/"/>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://menifa.org/mihzur-mashkanta.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/mihzur-mashkanta.html"/>
     <lastmod>2026-09-20</lastmod>
