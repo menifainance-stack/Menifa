@@ -1,4 +1,4 @@
-/** מחזור · שאלות תמיר נעולות 2026-09-28 · טון איחוד · בלי יאללה · בלי הבטחות */
+/** מחזור · שאלות תמיר נעולות 2026-09-28 + המשכנתא על שמכם · טון איחוד · בלי יאללה · בלי הבטחות */
 window.MENIFA_AIC = {
   product: "mihzur",
   lockProduct: true,
@@ -20,6 +20,9 @@ window.MENIFA_AIC = {
       { label: "כן" }, { label: "לא" }
     ]},
     { id: "extra_loans", title: "האם יש הלוואות בנוסף למשכנתא?", chips: [
+      { label: "כן" }, { label: "לא" }
+    ]},
+    { id: "on_name", title: "המשכנתא על שמכם?", chips: [
       { label: "כן" }, { label: "לא" }
     ]},
     { id: "name", title: "רגע, איך קוראים לך?", input: "text", placeholder: "השם שלך" }
