@@ -1,11 +1,13 @@
-/* AIC-like chat · Menifa · RTL · fixed dock (no overlap) */
+/* AIC chat · Menifa · RTL · Mercury shell (continuous bg + glass, PR #49) */
 :root {
-  --aic-blue: #2F55A4;
-  --aic-blue-user: #4B6FB8;
-  --aic-ink: #30354F;
+  --aic-blue: #5BAFD8;
+  --aic-blue-user: #5BAFD8;
+  --aic-ink: #0E3C5C;
   --aic-white: #fff;
   --menifa-ink: #0E3C5C;
   --menifa-accent: #5BAFD8;
+  --menifa-champ: #C4A574;
+  --mercury-night: #081420;
   --ease: cubic-bezier(.22, 1, .36, 1);
   --dock-h: auto;
 }
@@ -18,35 +20,38 @@ html { scroll-behavior: smooth; }
 }
 body.aic-shell {
   font-family: "Heebo", system-ui, -apple-system, sans-serif;
-  color: var(--aic-ink);
-  background: #e8f4fa;
+  color: #fff;
+  background: var(--mercury-night);
   min-height: 100%;
   height: 100%;
   direction: rtl;
   overflow: hidden;
 }
-/* Full-bleed — Direction A (chosen): soft bright champagne home + light sky wash (Tamir 2026-09-23) */
+/* Continuous Mercury atmosphere — fixed full-viewport, no mid-page slabs */
 .aic-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background:
-    radial-gradient(ellipse 90% 70% at 50% 38%, transparent 45%, rgba(14, 60, 92, .14) 100%),
-    linear-gradient(
-      165deg,
-      rgba(255, 252, 248, .28) 0%,
-      rgba(232, 244, 250, .22) 40%,
-      rgba(91, 175, 216, .14) 72%,
-      rgba(14, 60, 92, .18) 100%
-    ),
-    url("../bg/bg-champagne-soft.jpg") center / cover no-repeat;
+  overflow: hidden;
   pointer-events: none;
+  background-color: var(--mercury-night);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 20% 20%, rgba(91, 175, 216, .18) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 85% 70%, rgba(196, 165, 116, .12) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 55% at 50% 40%, rgba(6, 16, 28, .25) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(6, 16, 28, .55) 0%, rgba(6, 16, 28, .42) 35%, rgba(8, 20, 32, .72) 70%, rgba(6, 14, 22, .88) 100%),
+    url("../bg/mercury-hero.jpg");
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
 }
 .aic-bg::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, .18) 0%, transparent 40%, rgba(14, 60, 92, .12) 100%);
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, transparent 0%, rgba(6, 14, 22, .35) 100%),
+    linear-gradient(180deg, transparent 0%, rgba(6, 14, 22, .15) 40%, rgba(6, 14, 22, .55) 100%);
   pointer-events: none;
 }
 .aic-frame {
@@ -60,6 +65,7 @@ body.aic-shell {
   padding: 12px 14px 0;
   display: flex;
   flex-direction: column;
+  background: transparent;
 }
 .aic-top {
   flex-shrink: 0;
@@ -74,33 +80,35 @@ body.aic-shell {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #0E3C5C;
+  color: #fff;
   font-weight: 700;
   font-size: 14px;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .45);
 }
 .aic-brand img {
   width: 36px;
   height: 36px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, .35);
-  background: #fff;
+  border: 1px solid rgba(255, 255, 255, .28);
+  background: transparent;
 }
 .aic-back {
   appearance: none;
-  border: 0;
-  background: rgba(255, 255, 255, .94);
-  color: var(--aic-ink);
+  border: 1px solid rgba(255, 255, 255, .2);
+  background: rgba(255, 255, 255, .12);
+  color: #fff;
   font: inherit;
   font-size: 13px;
   font-weight: 700;
   padding: 8px 14px;
   border-radius: 999px;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, .25);
+  box-shadow: none;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
-.aic-back:hover { filter: brightness(1.03); }
+.aic-back:hover { background: rgba(255, 255, 255, .2); }
 .aic-back[hidden] { display: none !important; }
 
 /* Scrollable chat history — never under dock */
@@ -115,12 +123,17 @@ body.aic-shell {
   padding: 4px 2px 16px;
   -webkit-overflow-scrolling: touch;
   scroll-padding-bottom: 24px;
+  background: transparent;
 }
 .aic-card {
-  background: var(--aic-white);
-  border-radius: 14px;
+  background: rgba(8, 20, 32, .48);
+  color: #fff;
+  border-radius: 18px;
   padding: 14px 14px 12px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, .28);
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .08);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
   position: relative;
   z-index: 1;
   max-width: 92%;
@@ -134,7 +147,7 @@ body.aic-shell {
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 2px solid #e8eef8;
+  border: 1px solid rgba(255, 255, 255, .22);
 }
 .aic-badge {
   width: 44px;
@@ -148,19 +161,22 @@ body.aic-shell {
   font-weight: 800;
   flex-shrink: 0;
 }
-.aic-card p { margin: 0 0 8px; line-height: 1.45; font-size: 15px; }
+.aic-card p { margin: 0 0 8px; line-height: 1.45; font-size: 15px; color: rgba(255, 255, 255, .94); }
 .aic-card p:last-child { margin-bottom: 0; }
-.aic-card strong { font-weight: 700; }
+.aic-card strong { font-weight: 700; color: #fff; }
 .aic-user {
   align-self: flex-end;
-  background: var(--aic-blue-user);
+  background: rgba(91, 175, 216, .28);
   color: #fff;
+  border: 1px solid rgba(91, 175, 216, .45);
   border-radius: 14px 14px 4px 14px;
   padding: 10px 14px;
   max-width: 78%;
   font-size: 14px;
   font-weight: 600;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
   position: relative;
   z-index: 1;
   flex-shrink: 0;
@@ -173,20 +189,20 @@ body.aic-shell {
   flex-shrink: 0;
 }
 
-/* Fixed dock — opaque so chips never cover bubbles */
+/* Dock stays frosted so the photo continues behind the chips */
 .aic-dock {
   flex-shrink: 0;
   position: relative;
   z-index: 5;
   margin: 0 -14px 0;
   padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
-  background: linear-gradient(180deg, rgba(255, 252, 248, 0) 0%, rgba(255, 252, 248, .72) 22%, rgba(232, 244, 250, .92) 100%);
-  border-top: 1px solid rgba(14, 60, 92, .1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: linear-gradient(180deg, rgba(8, 20, 32, 0) 0%, rgba(8, 20, 32, .55) 28%, rgba(8, 20, 32, .72) 100%);
+  border-top: 1px solid rgba(255, 255, 255, .1);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
 .aic-hint {
-  color: rgba(14, 60, 92, .78);
+  color: rgba(255, 255, 255, .78);
   font-size: 13px;
   margin: 0 2px 8px;
   min-height: 1.2em;
@@ -200,33 +216,37 @@ body.aic-shell {
 }
 .aic-chip {
   appearance: none;
-  border: 0;
-  background: var(--aic-blue);
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .1);
   color: #fff;
   font: inherit;
   font-size: 15px;
   font-weight: 700;
   padding: 12px 18px;
-  border-radius: 8px;
+  border-radius: 999px;
   cursor: pointer;
-  box-shadow: 0 8px 18px rgba(47, 85, 164, .35);
-  transition: transform .12s var(--ease), filter .12s var(--ease);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  transition: transform .12s var(--ease), background .12s var(--ease);
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.aic-chip:hover { filter: brightness(1.06); }
+.aic-chip:hover { background: rgba(91, 175, 216, .32); border-color: rgba(91, 175, 216, .5); }
 .aic-chip:active { transform: scale(.98); }
 .aic-input-row {
   display: flex;
   gap: 8px;
   width: 100%;
-  background: #fff;
-  border: 2px solid var(--aic-blue);
-  border-radius: 10px;
+  background: rgba(255, 255, 255, .08);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 14px;
   padding: 6px;
   align-items: center;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
 .aic-input-row input {
   flex: 1;
@@ -238,27 +258,28 @@ body.aic-shell {
   direction: ltr;
   text-align: right;
   background: transparent;
-  color: var(--aic-ink);
+  color: #fff;
 }
-.aic-input-row input::placeholder { color: #9aa3b8; }
+.aic-input-row input::placeholder { color: rgba(255, 255, 255, .5); }
 .aic-send {
   appearance: none;
   border: 0;
-  background: var(--aic-blue);
+  background: var(--menifa-accent);
   color: #fff;
   width: 42px;
   height: 42px;
-  border-radius: 8px;
+  border-radius: 999px;
   cursor: pointer;
   display: grid;
   place-items: center;
   flex-shrink: 0;
+  box-shadow: 0 4px 18px rgba(91, 175, 216, .38);
 }
 .aic-send svg { width: 20px; height: 20px; }
 .aic-foot {
   margin-top: 8px;
   text-align: center;
-  color: rgba(14, 60, 92, .45);
+  color: rgba(255, 255, 255, .5);
   font-size: 11px;
 }
 @media (max-width: 480px) {
