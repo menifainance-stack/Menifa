@@ -1029,7 +1029,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
       <div class="drawer-header">
         <a href="${pathPrefix}index.html" class="drawer-brand">
-          <img src="${pathPrefix}assets/images/menifa-logo-full.png" alt="מניפה פיננסית">
+          <img src="${pathPrefix}assets/images/menifa-logo-transparent.png" alt="מניפה פיננסית">
           <div class="drawer-brand-text">
             <div class="name">מניפה פיננסית</div>
             <div class="tag">תמיר גרמה</div>

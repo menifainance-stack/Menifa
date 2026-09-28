@@ -421,8 +421,7 @@ section[style*="background:"] .btn-ghost,
   aspect-ratio: 1774 / 887;
   object-fit: contain;
   display: block;
-  background: #fff;
-  border-radius: 6px;
+  background: transparent;
 }
 .footer-brand .logo-img,
 img.footer-logo {
@@ -430,8 +429,7 @@ img.footer-logo {
   height: auto;
   aspect-ratio: 1774 / 887;
   object-fit: contain;
-  background: #fff;
-  border-radius: 8px;
+  background: transparent;
 }
 .logo-tagline-only {
   display: none;
@@ -3517,8 +3515,7 @@ body.drawer-open .side-drawer { transform: translateX(0); }
   height: auto;
   aspect-ratio: 1774 / 887;
   object-fit: contain;
-  background: #fff;
-  border-radius: 6px;
+  background: transparent;
 }
 .drawer-header .drawer-brand-text { line-height: 1.15; }
 .drawer-header .drawer-brand .name {
