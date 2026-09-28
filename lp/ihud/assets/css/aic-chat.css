@@ -70,7 +70,7 @@ body.aic-shell {
 .aic-top {
   flex-shrink: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 8px;
@@ -78,20 +78,24 @@ body.aic-shell {
 }
 .aic-brand {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 0;
   color: #fff;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
   text-shadow: 0 2px 16px rgba(0, 0, 0, .45);
 }
-.aic-brand img {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, .28);
-  background: transparent;
+.aic-brand img.aic-logo {
+  width: min(210px, 58vw);
+  height: auto;
+  aspect-ratio: 1774 / 887;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 0;
+  background: #fff;
+  flex-shrink: 0;
 }
 .aic-back {
   appearance: none;
