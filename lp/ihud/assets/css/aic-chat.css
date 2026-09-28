@@ -92,9 +92,8 @@ body.aic-shell {
   height: auto;
   aspect-ratio: 1774 / 887;
   object-fit: contain;
-  border-radius: 8px;
   border: 0;
-  background: #fff;
+  background: transparent;
   flex-shrink: 0;
 }
 .aic-back {
