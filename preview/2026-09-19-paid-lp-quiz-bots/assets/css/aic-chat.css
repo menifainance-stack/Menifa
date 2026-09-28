@@ -93,6 +93,18 @@ body.aic-shell {
   border: 1px solid rgba(255, 255, 255, .28);
   background: transparent;
 }
+/* Locked transparent wordmark — no circular plate */
+.aic-brand img.aic-brand__logo {
+  width: auto;
+  height: 44px;
+  max-width: 46vw;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  object-fit: contain;
+}
 .aic-back {
   appearance: none;
   border: 1px solid rgba(255, 255, 255, .2);
