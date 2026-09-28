@@ -88,13 +88,13 @@ body.aic-shell {
   text-shadow: 0 2px 16px rgba(0, 0, 0, .45);
 }
 .aic-brand img.aic-logo {
-  width: min(210px, 58vw);
-  height: auto;
+  height: 42px;
+  width: auto;
   aspect-ratio: 1774 / 887;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: 0;
   border: 0;
-  background: #fff;
+  background: transparent;
   flex-shrink: 0;
 }
 .aic-back {
