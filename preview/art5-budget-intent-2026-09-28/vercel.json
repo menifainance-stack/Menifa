@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/preview/art5-budget-intent-2026-09-28/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    }
+  ]
+}
