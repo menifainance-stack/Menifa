@@ -414,9 +414,10 @@ document.querySelectorAll('.calc-tab').forEach(tab => {
   tab.addEventListener('click', () => activateCalcTab(tab.dataset.target));
 });
 
-// On page load: if URL contains #calc-XXX hash, activate that tab
-if (window.location.hash && window.location.hash.startsWith('#calc-')) {
-  const targetId = window.location.hash.slice(1);
+// On page load: if URL contains #calc-XXX hash, activate that tab.
+// #fq-3 sits inside the DTI panel, so that anchor opens the same tab.
+if (window.location.hash && (window.location.hash.startsWith('#calc-') || window.location.hash === '#fq-3')) {
+  const targetId = window.location.hash === '#fq-3' ? 'calc-dti' : window.location.hash.slice(1);
   // Wait briefly for layout, then activate
   setTimeout(() => activateCalcTab(targetId), 150);
 }
