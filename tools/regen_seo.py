@@ -42,6 +42,8 @@ PAGES = [
     ("/lifnei-shehotmim-mashkanta.html", "0.88", "weekly"),
     ("/hashvaat-hatzaot-mashkanta.html", "0.88", "weekly"),
     ("/ihud-halvaot-lemashkanta.html", "0.88", "weekly"),
+    ("/lp/ihud/", "0.80", "weekly"),
+    ("/lp/mihzur/", "0.80", "weekly"),
     ("/mihzur-mashkanta.html", "0.88", "weekly"),
     ("/masurvei-bankim.html", "0.86", "weekly"),
     ("/ishur-ekroni.html", "0.86", "weekly"),
