@@ -20,8 +20,13 @@ import sys
 import urllib.error
 import urllib.request
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-HOST = "menifa.org"
+_TOOLS = os.path.dirname(os.path.abspath(__file__))
+if _TOOLS not in sys.path:
+    sys.path.insert(0, _TOOLS)
+from site_url import SITE
+
+ROOT = os.path.dirname(_TOOLS)
+HOST = SITE.removeprefix("https://")
 KEY = "menifa-indexnow-2026070100"
 KEY_LOCATION = f"https://{HOST}/{KEY}.txt"
 

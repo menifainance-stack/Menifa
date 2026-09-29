@@ -1,0 +1,26 @@
+name: Public URL guard
+
+# Fails the job when a published page uses github.io in canonical, hreflang,
+# og:url, or BreadcrumbList item URLs, or when a blog article is missing
+# from sitemap.xml. The fixture job must pass even when the published tree
+# is red (art-77 on current main).
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  fixture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fixture must fail with both errors
+        run: python3 tools/test_public_url_guard.py
+
+  published:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Published pages and sitemap
+        run: python3 tools/check_public_urls.py
