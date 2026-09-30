@@ -247,6 +247,38 @@ def sync_llms(arts, top=20):
     return True
 
 
+# Homepage Blog schema only. Article <title> / meta description stay as published.
+# Soft A2 (Tamir YES, 2026-09-30): these two homepage JSON-LD fields must not
+# carry the «עד 40%» savings hook. RSS, llms.txt, and the articles themselves
+# are unchanged.
+HOME_BLOGPOST_OVERRIDE = {
+    "art-33.html": {
+        "title": "חותמים על המשכנתא — והביטוח נסגר בלי בדיקה",
+        "desc": (
+            "אחרי הריבית וההחזר נשארת שורה חודשית: ביטוח חיים וביטוח מבנה. "
+            "מה בודקים לפני שחותמים על פוליסת הבנק — בלי הבטחת אחוז חיסכון."
+        ),
+    },
+    "art-7.html": {
+        "title": "ביטוח חיים ומבנה במשכנתא — מה חובה ומה בודקים מול הבנק",
+        "desc": (
+            "הבנק דורש ביטוח חיים וביטוח מבנה. אפשר להשוות מחוץ לבנק על אותו "
+            "סכום ואותה תקופה — בלי הבטחה שתמיד יוצא זול יותר, ובלי מספר אישי."
+        ),
+    },
+}
+
+
+def _for_home_blogpost(a):
+    over = HOME_BLOGPOST_OVERRIDE.get(a["slug"])
+    if not over:
+        return a
+    copied = dict(a)
+    copied["title"] = over["title"]
+    copied["desc"] = over["desc"]
+    return copied
+
+
 def _blogpost_json(a, indent=8):
     """בונה אובייקט BlogPosting יחיד ל-schema של דף הבית."""
     pad = " " * indent
@@ -296,7 +328,7 @@ def sync_index(arts):
         print("  ! מערך blogPost פגום ב-index.html", file=sys.stderr)
         return False
 
-    body = ",\n".join(_blogpost_json(a) for a in arts)
+    body = ",\n".join(_blogpost_json(_for_home_blogpost(a)) for a in arts)
     html = html[:open_idx] + "[\n" + body + "\n      " + html[end:]
 
     # מסנכרנים את ספירת המאמרים בשם ובתיאור של הבלוג
