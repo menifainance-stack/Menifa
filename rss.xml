@@ -12,7 +12,7 @@
     <copyright>© מניפה פיננסית — תמיר גרמה</copyright>
     <managingEditor>menifainance@gmail.com (תמיר גרמה)</managingEditor>
     <webMaster>menifainance@gmail.com (תמיר גרמה)</webMaster>
-    <lastBuildDate>Tue, 29 Sep 2026 12:00:00 +0300</lastBuildDate>
+    <lastBuildDate>Thu, 01 Oct 2026 12:00:00 +0300</lastBuildDate>
     <generator>Menifa Editorial</generator>
     <image>
       <url>https://menifa.org/assets/images/tamir-og.jpg</url>
@@ -20,6 +20,15 @@
       <link>https://menifa.org/</link>
     </image>
 
+    <item>
+      <title>שלוש הורדות ריבית ב-2026 — מי חסך אוטומטית ומי עדיין צריך לפעול?</title>
+      <link>https://menifa.org/blog/art-81.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/art-81.html</guid>
+      <description>בנק ישראל הוריד ריבית שלוש פעמים ב-2026 עד ל-3.25%. מי שיש לו פריים נהנה אוטומטית. מי שיש לו ריבית קבועה — אולי פספס מאות שקלים בחודש. כל החישובים.</description>
+      <pubDate>Thu, 01 Oct 2026 12:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>ריבית</category>
+    </item>
     <item>
       <title>המשכנתא הממוצעת קפצה ל-723 אלף שקל — מה המספר הזה אומר לכם?</title>
       <link>https://menifa.org/blog/art-80.html</link>
@@ -280,15 +289,6 @@
       <pubDate>Sun, 26 Jul 2026 12:00:00 +0300</pubDate>
       <dc:creator>תמיר גרמה</dc:creator>
       <category>משכנתא</category>
-    </item>
-    <item>
-      <title>בנק ישראל הוריד ריבית שוב: מה זה שווה לכם על המשכנתא?</title>
-      <link>https://menifa.org/blog/art-52.html</link>
-      <guid isPermaLink="true">https://menifa.org/blog/art-52.html</guid>
-      <description>בנק ישראל הוריד ריבית ל-3.5% בפעם השנייה ברציפות — ריבית פריים 5%. מה המשמעות הכספית הממשית על לווי פריים, על מחזור משכנתא ועל קניית דירה חדשה ב-2026.</description>
-      <pubDate>Thu, 23 Jul 2026 12:00:00 +0300</pubDate>
-      <dc:creator>תמיר גרמה</dc:creator>
-      <category>ריבית</category>
     </item>
   </channel>
 </rss>
