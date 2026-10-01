@@ -1,0 +1,10 @@
+# Preview subtree — never index (Menifa internal previews)
+# Crawlers that honor this file when fetched at /preview/robots.txt
+User-agent: *
+Disallow: /
+
+User-agent: Googlebot
+Disallow: /
+
+User-agent: Bingbot
+Disallow: /
