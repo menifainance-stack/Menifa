@@ -20,9 +20,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 RAW = "https://raw.githubusercontent.com/menifainance-stack/Menifa/main/"
 # Israel-time posting hour per weekday (Mon=0 .. Sun=6). Saturday slot is after Shabbat.
-SLOTS = {6: 20, 0: 19, 1: 19, 2: 12, 3: 8, 4: 13, 5: 20}
+SLOTS = {6: 19, 0: 19, 1: 19, 2: 19, 3: 19, 4: 9, 5: 20}  # data 02.10.2026, see social/research/posting-times.md
 # Second daily carousel: at least ~6h away from SLOTS on the same day.
-SLOTS2 = {6: 12, 0: 12, 1: 12, 2: 20, 3: 20, 4: 9, 5: 22}
+SLOTS2 = {6: 9, 0: 9, 1: 9, 2: 9, 3: 9, 4: 14, 5: 22}
 NAMES = ["שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת", "ראשון"]
 
 def main(mod, batch, start, mode="main"):
