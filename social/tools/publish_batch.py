@@ -42,13 +42,19 @@ def main(mod, batch, start):
         mp4 = f"{rdir}/{day}.mp4"
         if not os.path.exists(mp4):
             make_reel.build(f"{cdir}/{day}", mp4, -1)
+        sdir = os.path.join(ROOT, "social/stories", batch); os.makedirs(sdir, exist_ok=True)
+        story = f"{sdir}/{day}.jpg"
+        if not os.path.exists(story):
+            subprocess.run([sys.executable, os.path.join(HERE, "make_story.py"), mod, str(i - 1), story, str((i - 1) % 3)], check=True)
+        poll = d.get("poll") or ("מה דעתכם?", "כן", "לא")
         cq = os.path.join(ROOT, "social/carousels/queue", f"{date.isoformat()}-{hour:02d}.json")
         rq = os.path.join(ROOT, "social/reels/queue", f"{date.isoformat()}.json")
         for path, payload in (
             (cq, {"day": i, "batch": batch, "n": len(imgs), "caption": cap,
                   "urls": [RAW + os.path.relpath(p, ROOT) for p in imgs]}),
             (rq, {"day": i, "batch": batch, "title": title, "caption": cap,
-                  "video": RAW + os.path.relpath(mp4, ROOT)})):
+                  "video": RAW + os.path.relpath(mp4, ROOT), "story": RAW + os.path.relpath(story, ROOT),
+                  "poll_q": poll[0], "poll_a": poll[1], "poll_b": poll[2]})):
             if os.path.exists(path):
                 print("SKIP existing", path); continue
             os.makedirs(os.path.dirname(path), exist_ok=True)
