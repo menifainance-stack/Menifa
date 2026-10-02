@@ -3,6 +3,8 @@
 usage (from repo root):
   python3 social/tools/publish_batch.py <content_module> <batch_id> <start_date YYYY-MM-DD>
   e.g. python3 social/tools/publish_batch.py content_2026_11 2026-11 2026-10-31
+  second daily carousel (carousel only, SLOTS2 hours, no reel/story):
+  python3 social/tools/publish_batch.py content_2026_10b 2026-10b 2026-10-03 second
 
 Writes:
   social/carousels/<batch>/dayNN/NN.jpg + caption.txt      (images Instagram downloads)
@@ -19,9 +21,12 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 RAW = "https://raw.githubusercontent.com/menifainance-stack/Menifa/main/"
 # Israel-time posting hour per weekday (Mon=0 .. Sun=6). Saturday slot is after Shabbat.
 SLOTS = {6: 20, 0: 19, 1: 19, 2: 12, 3: 8, 4: 13, 5: 20}
+# Second daily carousel: at least ~6h away from SLOTS on the same day.
+SLOTS2 = {6: 12, 0: 12, 1: 12, 2: 20, 3: 20, 4: 9, 5: 22}
 NAMES = ["שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת", "ראשון"]
 
-def main(mod, batch, start):
+def main(mod, batch, start, mode="main"):
+    second = mode == "second"
     sys.path.insert(0, HERE)
     C = importlib.import_module(mod).C
     start = datetime.date.fromisoformat(start)
@@ -37,7 +42,16 @@ def main(mod, batch, start):
         imgs = sorted(glob.glob(f"{cdir}/{day}/*.jpg"))
         cap = open(f"{cdir}/{day}/caption.txt").read()
         date = start + datetime.timedelta(days=i - 1)
-        hour = SLOTS[date.weekday()]
+        hour = (SLOTS2 if second else SLOTS)[date.weekday()]
+        cq = os.path.join(ROOT, "social/carousels/queue", f"{date.isoformat()}-{hour:02d}.json")
+        if second:
+            assert hour != SLOTS[date.weekday()]
+            if os.path.exists(cq): print("SKIP existing", cq)
+            else:
+                json.dump({"day": i, "batch": batch, "n": len(imgs), "caption": cap,
+                           "urls": [RAW + os.path.relpath(p, ROOT) for p in imgs]}, open(cq, "w"), ensure_ascii=False, indent=1)
+            rows.append([i, date.isoformat(), NAMES[date.weekday()], f"{hour:02d}:xx", day, len(imgs), d["t"].replace("*", "")])
+            continue
         title = d["t"].replace("*", "")
         mp4 = f"{rdir}/{day}.mp4"
         if not os.path.exists(mp4):
@@ -65,4 +79,4 @@ def main(mod, batch, start):
     print("batch ready:", batch, rows[0][1], "→", rows[-1][1])
 
 if __name__ == "__main__":
-    main(*sys.argv[1:4])
+    main(*sys.argv[1:5])
