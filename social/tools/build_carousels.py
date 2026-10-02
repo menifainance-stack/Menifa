@@ -5,7 +5,9 @@ sys.path.insert(0, HERE)
 import importlib
 # usage: python3 build_carousels.py <content_module> <out_dir> [day numbers...]
 CONTENT = sys.argv[1] if len(sys.argv) > 1 else "content_2026_10"
-C = importlib.import_module(CONTENT).C
+MOD = importlib.import_module(CONTENT); C = MOD.C
+STYLE = getattr(MOD, "STYLE", "themes")  # "templates" → rotate the 20 skins in templates.py
+import templates as TPL
 
 FONT = os.environ.get("FONTSOURCE_DIR", os.path.join(HERE, "node_modules/@fontsource"))  # npm i @fontsource/heebo @fontsource/secular-one
 OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(HERE, "out")
@@ -149,9 +151,14 @@ if __name__ == "__main__":
         b = p.chromium.launch(); pg = b.new_page(viewport={"width": 1080, "height": 1350})
         for day, d in enumerate(C, 1):
             if only and day not in only: continue
-            th = THEMES[(day - 1) % 3]; n = len(d["s"]) + 2
+            skin = ""
+            if STYLE == "templates" or "tpl" in d:
+                t = TPL.pick(d.get("tpl"), day); th, skin = t["vars"], t["css"]
+            else:
+                th = THEMES[(day - 1) % 3]
+            n = len(d["s"]) + 2
             slides = [hook(d, n)] + [content(s, i + 1, n) for i, s in enumerate(d["s"])] + [cta(d, n)]
-            doc = f'<html><head><meta charset="utf-8"><style>:root{{{";".join(f"--{k}:{v}" for k,v in th.items())}}}{CSS}</style></head><body>{"".join(slides)}</body></html>'
+            doc = f'<html><head><meta charset="utf-8"><style>:root{{{";".join(f"--{k}:{v}" for k,v in th.items())}}}{CSS}{skin}</style></head><body>{"".join(slides)}</body></html>'
             open(os.path.join(OUT, "_tmp.html"), "w").write(doc)
             pg.goto("file://" + os.path.join(OUT, "_tmp.html")); pg.evaluate("document.fonts.ready"); pg.wait_for_timeout(120)
             folder = f"{OUT}/day{day:02d}"; os.makedirs(folder, exist_ok=True)
