@@ -11,6 +11,12 @@
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
       ]
+    },
+    {
+      "source": "/preview/soft-art81-blog-card-closer-2026-10-04/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+      ]
     }
   ]
 }
