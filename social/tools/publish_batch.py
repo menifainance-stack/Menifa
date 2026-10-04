@@ -23,6 +23,8 @@ RAW = "https://raw.githubusercontent.com/menifainance-stack/Menifa/main/"
 SLOTS = {6: 19, 0: 19, 1: 19, 2: 19, 3: 19, 4: 9, 5: 20}  # data 02.10.2026, see social/research/posting-times.md
 # Second daily carousel: at least ~6h away from SLOTS on the same day.
 SLOTS2 = {6: 9, 0: 9, 1: 9, 2: 9, 3: 9, 4: 14, 5: 22}
+# Recommended manual reel upload time (main reel, second reel) — off the carousel hours; Fri before Shabbat, Sat after.
+REEL_SLOTS = {6: ("12:30", "20:45"), 0: ("12:30", "20:45"), 1: ("12:30", "20:45"), 2: ("12:30", "20:45"), 3: ("12:30", "20:45"), 4: ("11:00", "15:30"), 5: ("21:15", "23:00")}
 NAMES = ["שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת", "ראשון"]
 
 def gallery(urls, title, when):
@@ -69,6 +71,7 @@ def main(mod, batch, start, mode="main"):
                 urls = [RAW + os.path.relpath(p, ROOT) for p in imgs]
                 json.dump({"day": i, "batch": batch, "title": d["t"].replace("*", ""), "caption": cap,
                            "video": RAW + os.path.relpath(mp4, ROOT), "slot": f"{hour:02d}:27",
+                           "reel_time": REEL_SLOTS[date.weekday()][1], "date_he": f"{date:%d.%m} · יום {NAMES[date.weekday()]}",
                            "gallery": gallery(urls, d["t"].replace("*", ""), f"קרוסלה שנייה · עולה אוטומטית ב-{hour:02d}:27")},
                           open(rq2, "w"), ensure_ascii=False, indent=1)
             rows.append([i, date.isoformat(), NAMES[date.weekday()], f"{hour:02d}:xx", day, len(imgs), d["t"].replace("*", "")])
@@ -90,6 +93,7 @@ def main(mod, batch, start, mode="main"):
             (rq, {"day": i, "batch": batch, "title": title, "caption": cap,
                   "video": RAW + os.path.relpath(mp4, ROOT), "story": RAW + os.path.relpath(story, ROOT),
                   "poll_q": poll[0], "poll_a": poll[1], "poll_b": poll[2], "slot": f"{hour:02d}:27",
+                  "reel_time": REEL_SLOTS[date.weekday()][0], "date_he": f"{date:%d.%m} · יום {NAMES[date.weekday()]}",
                   "gallery": gallery([RAW + os.path.relpath(p, ROOT) for p in imgs], title, f"קרוסלה ראשית · עולה אוטומטית ב-{hour:02d}:27")})):
             if os.path.exists(path):
                 print("SKIP existing", path); continue
