@@ -180,6 +180,13 @@
     <priority>0.92</priority>
   </url>
   <url>
+    <loc>https://menifa.org/blog/art-81.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-81.html"/>
+    <lastmod>2026-10-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  <url>
     <loc>https://menifa.org/blog/art-80.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-80.html"/>
     <lastmod>2026-09-29</lastmod>
@@ -205,7 +212,7 @@
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-77.html"/>
     <lastmod>2026-09-22</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.92</priority>
+    <priority>0.88</priority>
   </url>
   <url>
     <loc>https://menifa.org/blog/art-76.html</loc>
@@ -266,7 +273,7 @@
   <url>
     <loc>https://menifa.org/blog/art-69.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-69.html"/>
-    <lastmod>2026-09-03</lastmod>
+    <lastmod>2026-09-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.88</priority>
   </url>
@@ -275,7 +282,7 @@
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-68.html"/>
     <lastmod>2026-09-01</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.88</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://menifa.org/blog/art-67.html</loc>
@@ -380,7 +387,7 @@
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/blog/art-53.html"/>
     <lastmod>2026-07-26</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
+    <priority>0.80</priority>
   </url>
   <url>
     <loc>https://menifa.org/blog/art-52.html</loc>

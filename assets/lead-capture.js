@@ -8,7 +8,11 @@
    הלידים נשלחים ל-webhook הקיים "מניפה — לידים מדפי הנחיתה",
    שמזרים אותם לטלגרם ולגיליון Google Sheets.
 
-   דורש: assets/script.js (עבור monthlyPayment ו-fmt) ו-lead-capture.css
+   דורש: assets/script.js (עבור monthlyPayment ו-fmt), lead-capture.css,
+   ו-assets/js/menifa-first-touch.js לפני הסקריפט הזה.
+   שליחה אמיתית (אחרי דבש וזמן מילוי) מוסיפה ייחוס UTM ל-JSON של Make.
+   בלי הסקריפט, או בלי UTM מאומת, מקור ההפניה הוא לא מיוחס.
+   הייחוס נשאר בגוף הבקשה בלבד.
    ═══════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -56,6 +60,49 @@
    * @param {Function} cfg.snapshot  מחזיר {amount, note} — המספרים של המשתמש
    * @returns {HTMLFormElement}
    */
+
+  var UNATTRIBUTED = 'לא מיוחס';
+
+  function currentMakor() {
+    var api = window.MenifaFirstTouch;
+    if (api && typeof api.getMakorHafnia === 'function') return api.getMakorHafnia();
+    return UNATTRIBUTED;
+  }
+
+  function attributionFields() {
+    var api = window.MenifaFirstTouch;
+    var ft = api && typeof api.getFirstTouch === 'function' ? api.getFirstTouch() : {};
+    var makor = currentMakor();
+    function str(v) { return v == null ? '' : String(v); }
+    return {
+      utm_source: str(ft.utm_source),
+      utm_medium: str(ft.utm_medium),
+      utm_campaign: str(ft.utm_campaign),
+      utm_content: str(ft.utm_content),
+      utm_term: str(ft.utm_term),
+      landing_page_path: str(ft.landing_page_path) || location.pathname,
+      page_path: location.pathname,
+      gclid: str(ft.gclid),
+      fbclid: str(ft.fbclid),
+      'מקור_הפניה': makor,
+      makor_hafnia: makor
+    };
+  }
+
+  function buildSubmitBody(base) {
+    var body = {
+      page: base.page,
+      name: base.name,
+      phone: base.phone,
+      amount: base.amount,
+      note: base.note,
+      ts: base.ts
+    };
+    var extra = attributionFields();
+    Object.keys(extra).forEach(function (key) { body[key] = extra[key]; });
+    return body;
+  }
+
   function buildForm(cfg) {
     var uid = 'lf' + (++seq);
     var form = el('form', 'lead-form');
@@ -190,6 +237,14 @@
       }
 
       var snap = cfg.snapshot ? cfg.snapshot() : { amount: '', note: '' };
+      var payload = buildSubmitBody({
+        page: cfg.page,
+        name: name,
+        phone: phone,
+        amount: snap.amount,
+        note: snap.note,
+        ts: new Date().toISOString()
+      });
 
       submit.disabled = true;
       submit.textContent = 'שולח…';
@@ -197,14 +252,7 @@
       fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          page: cfg.page,
-          name: name,
-          phone: phone,
-          amount: snap.amount,
-          note: snap.note,
-          ts: new Date().toISOString()
-        })
+        body: JSON.stringify(payload)
       }).then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         showDone(form, cfg);
