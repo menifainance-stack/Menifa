@@ -25,6 +25,14 @@ SLOTS = {6: 19, 0: 19, 1: 19, 2: 19, 3: 19, 4: 9, 5: 20}  # data 02.10.2026, see
 SLOTS2 = {6: 9, 0: 9, 1: 9, 2: 9, 3: 9, 4: 14, 5: 22}
 NAMES = ["שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת", "ראשון"]
 
+def gallery(urls, title, when):
+    """HTML thumbnails of a carousel for the morning email (images load from raw GitHub)."""
+    imgs = "".join(f'<a href="{u}"><img src="{u}" width="31%" style="width:31%;max-width:170px;border-radius:8px;margin:1%;vertical-align:top" alt="שקף {i}"></a>' for i, u in enumerate(urls, 1))
+    return (f'<div style="background:#ffffff;border-radius:14px;padding:14px 12px;margin-top:16px;color:#122523">'
+            f'<div style="font-size:13px;font-weight:bold;color:#0e5e57">🖼 {when}</div><div style="font-size:17px;font-weight:900;margin:4px 0 8px">{title}</div>'
+            f'<div style="text-align:center;direction:rtl">{imgs}</div>'
+            f'<div style="font-size:12px;color:#5b6b68;margin-top:6px">לחיצה על שקף פותחת אותו בגודל מלא ← לחיצה ארוכה ← שמירה</div></div>')
+
 def main(mod, batch, start, mode="main"):
     second = mode == "second"
     sys.path.insert(0, HERE)
@@ -58,8 +66,11 @@ def main(mod, batch, start, mode="main"):
             if os.path.exists(rq2): print("SKIP existing", rq2)
             else:
                 os.makedirs(os.path.dirname(rq2), exist_ok=True)
+                urls = [RAW + os.path.relpath(p, ROOT) for p in imgs]
                 json.dump({"day": i, "batch": batch, "title": d["t"].replace("*", ""), "caption": cap,
-                           "video": RAW + os.path.relpath(mp4, ROOT)}, open(rq2, "w"), ensure_ascii=False, indent=1)
+                           "video": RAW + os.path.relpath(mp4, ROOT), "slot": f"{hour:02d}:27",
+                           "gallery": gallery(urls, d["t"].replace("*", ""), f"קרוסלה שנייה · עולה אוטומטית ב-{hour:02d}:27")},
+                          open(rq2, "w"), ensure_ascii=False, indent=1)
             rows.append([i, date.isoformat(), NAMES[date.weekday()], f"{hour:02d}:xx", day, len(imgs), d["t"].replace("*", "")])
             continue
         title = d["t"].replace("*", "")
@@ -78,7 +89,8 @@ def main(mod, batch, start, mode="main"):
                   "urls": [RAW + os.path.relpath(p, ROOT) for p in imgs]}),
             (rq, {"day": i, "batch": batch, "title": title, "caption": cap,
                   "video": RAW + os.path.relpath(mp4, ROOT), "story": RAW + os.path.relpath(story, ROOT),
-                  "poll_q": poll[0], "poll_a": poll[1], "poll_b": poll[2]})):
+                  "poll_q": poll[0], "poll_a": poll[1], "poll_b": poll[2], "slot": f"{hour:02d}:27",
+                  "gallery": gallery([RAW + os.path.relpath(p, ROOT) for p in imgs], title, f"קרוסלה ראשית · עולה אוטומטית ב-{hour:02d}:27")})):
             if os.path.exists(path):
                 print("SKIP existing", path); continue
             os.makedirs(os.path.dirname(path), exist_ok=True)
