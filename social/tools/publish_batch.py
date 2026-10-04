@@ -3,7 +3,7 @@
 usage (from repo root):
   python3 social/tools/publish_batch.py <content_module> <batch_id> <start_date YYYY-MM-DD>
   e.g. python3 social/tools/publish_batch.py content_2026_11 2026-11 2026-10-31
-  second daily carousel (carousel only, SLOTS2 hours, no reel/story):
+  second daily carousel (SLOTS2 hours; silent reel -> social/reels/queue2, no story):
   python3 social/tools/publish_batch.py content_2026_10b 2026-10b 2026-10-03 second
 
 Writes:
@@ -43,6 +43,7 @@ def main(mod, batch, start, mode="main"):
         cap = open(f"{cdir}/{day}/caption.txt").read()
         date = start + datetime.timedelta(days=i - 1)
         hour = (SLOTS2 if second else SLOTS)[date.weekday()]
+        mp4 = f"{rdir}/{day}.mp4"
         cq = os.path.join(ROOT, "social/carousels/queue", f"{date.isoformat()}-{hour:02d}.json")
         if second:
             assert hour != SLOTS[date.weekday()]
@@ -50,6 +51,15 @@ def main(mod, batch, start, mode="main"):
             else:
                 json.dump({"day": i, "batch": batch, "n": len(imgs), "caption": cap,
                            "urls": [RAW + os.path.relpath(p, ROOT) for p in imgs]}, open(cq, "w"), ensure_ascii=False, indent=1)
+            # second series also gets a silent reel, emailed with the main one (social/reels/queue2)
+            if not os.path.exists(mp4):
+                make_reel.build(f"{cdir}/{day}", mp4, -1)
+            rq2 = os.path.join(ROOT, "social/reels/queue2", f"{date.isoformat()}.json")
+            if os.path.exists(rq2): print("SKIP existing", rq2)
+            else:
+                os.makedirs(os.path.dirname(rq2), exist_ok=True)
+                json.dump({"day": i, "batch": batch, "title": d["t"].replace("*", ""), "caption": cap,
+                           "video": RAW + os.path.relpath(mp4, ROOT)}, open(rq2, "w"), ensure_ascii=False, indent=1)
             rows.append([i, date.isoformat(), NAMES[date.weekday()], f"{hour:02d}:xx", day, len(imgs), d["t"].replace("*", "")])
             continue
         title = d["t"].replace("*", "")
