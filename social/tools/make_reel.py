@@ -3,15 +3,21 @@ import glob, subprocess, sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import music
 
-def build(folder, out_mp4, style_idx):
+def build(folder, out_mp4, style_idx, audio=None, audio_start=0.0):
+    """style_idx < 0 -> silent. audio = path to a user-supplied music file (mp3/m4a/wav):
+    trimmed from audio_start to the reel length, 0.4s fade-in, 1.2s fade-out, loudness-normalised."""
     imgs = sorted(glob.glob(f"{folder}/*.jpg"))
     n = len(imgs)
     first, each, xf = 3.2, 2.6, 0.35
     durs = [first] + [each] * (n - 1)
     total = sum(durs) - xf * (n - 1)
     wav = out_mp4.replace(".mp4", ".wav")
-    silent = style_idx < 0
-    if not silent: music.make(music.STYLES[style_idx % len(music.STYLES)], total, wav)
+    silent = style_idx < 0 and not audio
+    if audio:
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{audio_start}", "-t", f"{total:.3f}", "-i", audio,
+                        "-af", f"afade=t=in:d=0.4,afade=t=out:st={max(total-1.2,0):.3f}:d=1.2,loudnorm=I=-14:TP=-1.5:LRA=11",
+                        "-ar", "48000", "-ac", "2", wav], check=True)
+    elif not silent: music.make(music.STYLES[style_idx % len(music.STYLES)], total, wav)
     args = ["ffmpeg", "-y", "-loglevel", "error"]
     for img, d in zip(imgs, durs):
         args += ["-loop", "1", "-framerate", "30", "-t", f"{d}", "-i", img]
@@ -37,4 +43,5 @@ def build(folder, out_mp4, style_idx):
     return total
 
 if __name__ == "__main__":
-    print(build(sys.argv[1], sys.argv[2], int(sys.argv[3])))
+    a = sys.argv[4] if len(sys.argv) > 4 else None
+    print(build(sys.argv[1], sys.argv[2], int(sys.argv[3]), a, float(sys.argv[5]) if len(sys.argv) > 5 else 0.0))
