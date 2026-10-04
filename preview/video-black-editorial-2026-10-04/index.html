@@ -438,12 +438,65 @@
     }
     .unease-pay, .unease-mix { padding: 0.9rem 1rem; }
     .peak-sticky {
-      grid-template-rows: minmax(4.6rem, 0.7fr) minmax(3rem, calc(3rem + var(--sc-p, 0) * 42svh)) minmax(4.6rem, 0.7fr);
+      grid-template-rows: auto minmax(0, 1fr) auto;
       grid-template-columns: minmax(0, 1fr);
     }
-    .peak-side { padding: 0.7rem 1rem; }
-    .peak-side p { font-size: 1.25rem; }
-    .tracks { width: auto; }
+    .peak-side {
+      padding: 0.7rem 1rem 0.3rem;
+      overflow: hidden;
+    }
+    .peak-sticky .col-mix.peak-side { padding: 0.3rem 1rem 0.75rem; }
+    .peak-side p { font-size: 1.15rem; max-width: 22ch; }
+    .center {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: stretch;
+      min-height: 0;
+      padding: 0.35rem 0.85rem 0.45rem;
+      overflow: hidden;
+      background: var(--sc-accent);
+    }
+    .fused {
+      position: absolute;
+      inset: 0.45rem 0.85rem;
+      height: auto;
+      width: auto;
+      top: 0.45rem;
+      margin: 0;
+      z-index: 2;
+      overflow: hidden;
+      font-size: clamp(2.4rem, 12vw, 3.4rem);
+      opacity: clamp(0, (0.312 - var(--sc-p, 0)) * 200, 1);
+    }
+    .tracks {
+      position: absolute;
+      inset: 0;
+      width: auto;
+      max-width: none;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      gap: 0;
+      margin: 0;
+      padding: 0.35rem 1rem 0.5rem;
+      background: var(--ink);
+      opacity: clamp(0, (var(--sc-p, 0) - 0.318) * 200, 1);
+    }
+    .tracks li {
+      flex: 0 0 auto;
+      display: block;
+      background: transparent;
+      padding: 0.15rem 0.1rem 0.35rem;
+      border-top: 1px solid var(--gold);
+    }
+    .tracks .track {
+      clip-path: none !important;
+      width: 100%;
+      border-top: 0;
+      padding: 0;
+    }
     .checks-head, .check { grid-template-columns: minmax(0, 1fr); }
     .close-grid {
       grid-template-rows: calc((1 - var(--sc-p, 0)) * 34%) calc((1 - var(--sc-p, 0)) * 0.55rem) minmax(0, 1fr);
@@ -478,8 +531,11 @@
     }
     .peak-sticky {
       grid-template-columns: minmax(0, 1fr) !important;
-      grid-template-rows: auto auto auto !important;
+      grid-template-rows: auto minmax(0, 1fr) auto !important;
     }
+    .fused { display: none !important; }
+    .tracks, .tracks li { opacity: 1 !important; }
+    .tracks .track { clip-path: none !important; }
     .close-grid {
       grid-template-rows: 0 0 minmax(0, 1fr) !important;
       grid-template-columns: minmax(0, 1fr) !important;
