@@ -60,3 +60,9 @@
 - קרוסלות מס ומשפט: בכיתוב "מידע כללי בלבד, לא ייעוץ משפטי או ייעוץ מס."
 - הקרוסלה הראשית (עם הריל) עוסקת במשכנתאות לפחות ב-24 מתוך 30 ימים.
 - גמל נט: WebFetch ו-curl נכשלים (צופן TLS ישן), data.gov.il חסום. עובד: `apify/website-content-crawler` עם `playwright:firefox` ו-Apify proxy (נבדק 02.10.2026, 200).
+
+## 🎬 שני רילים במייל הבוקר (מ-04.10.2026)
+- גם הסדרה השנייה מקבלת ריל שקט: `social/reels/<batch>b/dayNN.mp4` + תור `social/reels/queue2/YYYY-MM-DD.json` (day, batch, title, caption, video).
+- `publish_batch.py ... second` מייצר אותם אוטומטית.
+- תרחיש Make 6474643 (09:00) מצרף: reel1-main, reel2-second, story. אם אין קובץ queue2 ליום — המייל יוצא עם הריל הראשי בלבד.
+- המלצת העלאה במייל: ריל 1 ב-12:30, ריל 2 ב-20:45 (לא מתנגשים עם הקרוסלות 09:27 / 19:27).
