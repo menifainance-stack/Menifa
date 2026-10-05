@@ -1,0 +1,44 @@
+name: SEO — אינדוקס יומי (Search Console + IndexNow)
+
+# רץ כל בוקר, גם כשלא היה push:
+# 1. מגיש את sitemap-index.xml ל-Google Search Console דרך ה-API
+#    (דורש את הסוד GSC_SERVICE_ACCOUNT_JSON; בלעדיו השלב מדלג).
+# 2. דוחף את כל כתובות ה-sitemap ל-IndexNow (Bing, Yandex, Seznam, Naver).
+#
+# הערה: "Request Indexing" לכתובת בודדת קיים בגוגל רק בממשק הידני.
+# הגשת sitemap טרי היא הדרך האוטומטית שגוגל מאפשרת.
+
+on:
+  schedule:
+    # 06:17 שעון ישראל (קיץ) / 05:17 (חורף)
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: seo-daily-index
+  cancel-in-progress: false
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: הגשת sitemap ל-Google Search Console
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -n "$GSC_SERVICE_ACCOUNT_JSON" ]; then
+            pip install --quiet google-auth requests
+          fi
+          python3 tools/gsc_submit_sitemap.py
+
+      - name: דחיפת כל הכתובות ל-IndexNow
+        run: python3 tools/push_indexnow.py

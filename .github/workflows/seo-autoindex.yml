@@ -69,8 +69,10 @@ jobs:
             echo "$path -> HTTP $code"
           done
 
-          newest=$(ls blog/art-*.html | sed 's|blog/||' \
-                   | sort -t- -k2 -n | tail -1)
+          # המאמר החדש ביותר הוא הפריט הראשון ב-rss.xml שנבנה כאן,
+          # בכתובת מקודדת (slug עברי), בדיוק כפי שהיא מופיעה ב-sitemap.
+          newest=$(grep -o -m1 '<link>[^<]*/blog/[^<]*</link>' rss.xml \
+                   | sed 's|<link>||; s|</link>||')
           echo "המאמר החדש ביותר במאגר: $newest"
           if curl -s "https://menifa.org/sitemap.xml" | grep -q "$newest"; then
             echo "✓ $newest נמצא ב-sitemap החי"

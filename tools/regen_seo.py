@@ -8,7 +8,11 @@ regen_seo.py — מחולל SEO אוטומטי ל-menifa.org
 ומסנכרן את רשימת המאמרים ב-llms.txt.
 
 הרעיון: המקור היחיד לאמת הוא הקבצים בתיקייה. שום מאמר לא יכול
-"ליפול בין הכיסאות" יותר — כל art-*.html נכנס אוטומטית לכל הפידים.
+"ליפול בין הכיסאות" יותר — כל blog/*.html נכנס אוטומטית לכל הפידים.
+
+המאמרים יושבים בכתובות עבריות. art-N.html הישנים מופנים ב-301 דרך
+vercel.json, ו-redirects.csv ממפה ביניהם — קובץ שהוא מקור של הפניה
+לא נכנס לפידים.
 
 הרצה:  python3 tools/regen_seo.py
 """
@@ -20,11 +24,12 @@ import json
 import glob
 import os
 from datetime import datetime, timezone, timedelta
+from urllib.parse import quote
 
 _TOOLS = os.path.dirname(os.path.abspath(__file__))
 if _TOOLS not in sys.path:
     sys.path.insert(0, _TOOLS)
-from site_url import SITE
+from site_url import SITE, redirect_map
 
 ROOT = os.path.dirname(_TOOLS)
 IL_TZ = timezone(timedelta(hours=3))
@@ -47,12 +52,21 @@ PAGES = [
     ("/mihzur-mashkanta.html", "0.88", "weekly"),
     ("/masurvei-bankim.html", "0.86", "weekly"),
     ("/ishur-ekroni.html", "0.86", "weekly"),
+    ("/sirov-mashkanta-ma-osim.html", "0.86", "weekly"),
     ("/mashkanta-dira-rishona.html", "0.88", "weekly"),
     ("/mashkanta-yad-shniya.html", "0.88", "weekly"),
     ("/yoetz-mashkantaot.html", "0.86", "weekly"),
+    ("/yoetz-mashkantaot-online.html", "0.86", "weekly"),
+    ("/yoetz-mashkantaot-rosh-haayin.html", "0.86", "weekly"),
+    ("/kama-ole-yoetz-mashkantaot.html", "0.86", "weekly"),
     ("/mashkanta-bneiya-atzmit.html", "0.86", "weekly"),
     ("/mashkanta-kablan.html", "0.86", "weekly"),
+    ("/mashkanta-dchufa.html", "0.86", "weekly"),
+    ("/mashkanta-leatzmaim.html", "0.86", "weekly"),
+    ("/mashkanta-lemiluim.html", "0.86", "weekly"),
     ("/tamhil-mashkanta-prime-madad.html", "0.86", "weekly"),
+    ("/accessibility.html",     "0.30", "yearly"),
+    ("/cookies.html",           "0.30", "yearly"),
     ("/privacy.html",           "0.30", "yearly"),
     ("/terms.html",             "0.30", "yearly"),
 ]
@@ -71,7 +85,7 @@ def first(pattern, text, group=1, default=""):
     return m.group(group).strip() if m else default
 
 
-def read_article(path):
+def read_article(path, num=0):
     """שולף מטא-דאטה ממאמר בודד. מחזיר None אם חסרים שדות קריטיים."""
     with open(path, encoding="utf-8") as fh:
         html = fh.read()
@@ -79,7 +93,7 @@ def read_article(path):
     slug = os.path.basename(path)
     title = first(r"<title>(.*?)</title>", html)
     # מסירים את סיומת המותג מהכותרת לשימוש בפידים
-    title = re.sub(r"\s*\|\s*מניפה פיננסית\s*$", "", title).strip()
+    title = re.sub(r"\s*\|\s*מניפה(?: פיננסית)?\s*$", "", title).strip()
 
     desc = first(r'<meta\s+name="description"\s+content="(.*?)"', html)
     pub = first(r'"datePublished"\s*:\s*"(\d{4}-\d{2}-\d{2})', html)
@@ -99,16 +113,28 @@ def read_article(path):
             cat = name
             break
 
-    num_m = re.search(r"(\d+)", slug)
-    return {"slug": slug, "url": f"{SITE}/blog/{slug}", "title": title,
+    return {"slug": slug, "url": f"{SITE}/blog/{quote(slug)}", "title": title,
             "desc": desc, "pub": pub, "mod": mod, "cat": cat,
-            "num": int(num_m.group(1)) if num_m else 0}
+            "num": num}
 
 
 def load_articles():
-    paths = sorted(glob.glob(os.path.join(ROOT, "blog", "art-*.html")))
-    extra = sorted(glob.glob(os.path.join(ROOT, "blog", "ihud-halvaot-matei-ken-lo.html")))
-    arts = [a for a in (read_article(p) for p in paths + extra)
+    redirects = redirect_map(ROOT)
+    # מספר art-N המקורי של כל כתובת עברית — לשבירת שוויון במיון
+    art_num = {}
+    for old, new in redirects.items():
+        m = re.fullmatch(r"/blog/art-(\d+)\.html", old)
+        if m:
+            art_num[new.rsplit("/", 1)[-1]] = int(m.group(1))
+    paths = []
+    for p in sorted(glob.glob(os.path.join(ROOT, "blog", "*.html"))):
+        name = os.path.basename(p)
+        # blog/index.html הוא דף הפניה; קבצים שמופנים ב-301 אינם מפורסמים
+        if name == "index.html" or "/blog/" + name in redirects:
+            continue
+        paths.append(p)
+    arts = [a for a in (read_article(p, art_num.get(os.path.basename(p), 0))
+                        for p in paths)
             if a]
     # החדש ביותר ראשון — לפי תאריך פרסום, ואז לפי מספר המאמר
     arts.sort(key=lambda a: (a["pub"], a["num"]), reverse=True)
@@ -252,14 +278,14 @@ def sync_llms(arts, top=20):
 # carry the «עד 40%» savings hook. RSS, llms.txt, and the articles themselves
 # are unchanged.
 HOME_BLOGPOST_OVERRIDE = {
-    "art-33.html": {
+    "ביטוח-משכנתא-2026-מה-הבנק-לא-אומר.html": {  # art-33
         "title": "חותמים על המשכנתא — והביטוח נסגר בלי בדיקה",
         "desc": (
             "אחרי הריבית וההחזר נשארת שורה חודשית: ביטוח חיים וביטוח מבנה. "
             "מה בודקים לפני שחותמים על פוליסת הבנק — בלי הבטחת אחוז חיסכון."
         ),
     },
-    "art-7.html": {
+    "ביטוחי-משכנתא-2026-מה-חובה.html": {  # art-7
         "title": "ביטוח חיים ומבנה במשכנתא — מה חובה ומה בודקים מול הבנק",
         "desc": (
             "הבנק דורש ביטוח חיים וביטוח מבנה. אפשר להשוות מחוץ לבנק על אותו "
