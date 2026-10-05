@@ -125,10 +125,33 @@
     }
     flushEvents();
   }
-  /* ===== conversion events: one call -> GA4 + Meta Pixel (+ dataLayer), queued until consent ===== */
+  /* ===== conversion events: one call -> GA4 + Meta Pixel (+ dataLayer), queued until consent =====
+     Identity and financial detail stay on the CRM webhook. This gate is the only
+     path into dataLayer / gtag / fbq, and it drops those fields before they leave. */
   var evQ = [], PIXEL_STD = { generate_lead: 'Lead', contact_whatsapp: 'Contact', contact_phone: 'Contact', schedule_call: 'Schedule' };
+  var ANALYTICS_BLOCK = {
+    need: 1, link_text: 1,
+    name: 1, full_name: 1, first_name: 1, last_name: 1,
+    phone: 1, tel: 1, mobile: 1, email: 1, mail: 1,
+    note: 1, answers: 1, message: 1, comment: 1,
+    income: 1, salary: 1, debt: 1, debts: 1, loan: 1, loans: 1, loan_amount: 1, amount: 1, balance: 1,
+    health: 1, medical: 1,
+    id_number: 1, national_id: 1, teudat_zehut: 1, tz: 1, passport: 1, zehut: 1,
+    has_property: 1, loan_intent: 1, callback_window: 1
+  };
+  function analyticsParams(params) {
+    var safe = {};
+    if (!params) return safe;
+    Object.keys(params).forEach(function (k) {
+      if (ANALYTICS_BLOCK[String(k).toLowerCase()] || /^q\d+$/.test(String(k))) return;
+      var v = params[k];
+      if (v != null && typeof v === 'object') return;
+      safe[k] = v;
+    });
+    return safe;
+  }
   function sendEvent(name, params) {
-    params = params || {};
+    params = analyticsParams(params);
     (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params));
     if (window.gtag && window.__ga) gtag('event', name, params);
     if (window.fbq) {
@@ -138,6 +161,7 @@
   }
   function flushEvents() { if (!consent || (!consent.statistics && !consent.marketing)) return; while (evQ.length) { var e = evQ.shift(); sendEvent(e[0], e[1]); } }
   window.menifaTrack = function (name, params) {
+    params = analyticsParams(params);
     if (consent && (consent.statistics || consent.marketing)) sendEvent(name, params); else evQ.push([name, params]);
   };
   function cookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; }
@@ -151,7 +175,7 @@
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
     var h = a.getAttribute('href') || '';
-    if (/wa\.me\//.test(h) || a.hasAttribute('data-wa')) window.menifaTrack('contact_whatsapp', { page: location.pathname, link_text: (a.textContent || '').trim().slice(0, 60) });
+    if (/wa\.me\//.test(h) || a.hasAttribute('data-wa')) window.menifaTrack('contact_whatsapp', { page: location.pathname });
     else if (/^tel:/.test(h)) window.menifaTrack('contact_phone', { page: location.pathname });
   }, true);
   // first interaction with each calculator
@@ -285,7 +309,7 @@
       var ids = window.menifaIds ? window.menifaIds() : {}; data.event_id = ids.event_id; data.fbp = ids.fbp; data.fbc = ids.fbc;
       var att = {}; try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (er) {}
       Object.keys(att).forEach(function (k) { data[k] = att[k]; });
-      if (window.menifaTrack) window.menifaTrack('generate_lead', { form: data.source, page: data.page, need: data.need || '', event_id: data.event_id, currency: 'ILS', value: 1 });
+      if (window.menifaTrack) window.menifaTrack('generate_lead', { form: data.source, page: data.page, event_id: data.event_id, currency: 'ILS', value: 1 });
       var msg = 'שלום תמיר, השארתי פרטים באתר מניפה.\nשם: ' + data.name + '\nטלפון: ' + data.phone + (data.need ? '\nנושא: ' + data.need : '') + (data.when ? '\nמתי נוח: ' + data.when : '') + (extra.length ? '\n' + extra.join('\n') : '') + (data.note ? '\nהערה: ' + data.note : '');
       data.answers = extra;
       var finish = function (sent) {
