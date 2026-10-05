@@ -16,6 +16,88 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@700&family=Heebo:wght@400;500;600&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FinancialService",
+  "name": "מניפה פיננסית",
+  "alternateName": "Menifa Finance",
+  "url": "https://menifa.org/",
+  "telephone": "+972-52-450-2821",
+  "email": "menifainance@gmail.com",
+  "priceRange": "₪₪",
+  "inLanguage": "he-IL",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "IL"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "opens": "09:00",
+      "closes": "19:00"
+    }
+  ],
+  "areaServed": [
+    {
+      "@type": "Country",
+      "name": "ישראל"
+    },
+    {
+      "@type": "City",
+      "name": "ראש העין"
+    },
+    {
+      "@type": "City",
+      "name": "פתח תקווה"
+    },
+    {
+      "@type": "City",
+      "name": "שוהם"
+    },
+    {
+      "@type": "City",
+      "name": "אלעד"
+    }
+  ],
+  "knowsAbout": [
+    "משכנתאות",
+    "מחזור משכנתא",
+    "איחוד הלוואות",
+    "מסורבי בנקים",
+    "משכנתא לעצמאים",
+    "תמהיל משכנתא"
+  ],
+  "founder": {
+    "@type": "Person",
+    "name": "תמיר גרמה",
+    "jobTitle": "יועץ משכנתאות",
+    "memberOf": {
+      "@type": "Organization",
+      "name": "התאחדות יועצי המשכנתאות בישראל"
+    },
+    "url": "https://menifa.org/about.html",
+    "knowsLanguage": "he",
+    "image": "https://menifa.org/assets/images/tamir-large.jpg"
+  },
+  "sameAs": []
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "מניפה פיננסית",
+  "url": "https://menifa.org/"
+}
+</script>
 <style>
   :root {
     --paper: #F6F1E8;
@@ -94,6 +176,67 @@
     font-weight: 500;
     line-height: 1.35;
     text-align: center;
+  }
+
+  .desk-nav,
+  .foot-links {
+    background: transparent;
+    padding-inline: 1.15rem;
+  }
+
+  .desk-nav {
+    padding-top: 0.45rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid rgba(14, 60, 92, 0.22);
+  }
+
+  .desk-nav ul,
+  .foot-links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .desk-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.85rem;
+  }
+
+  .desk-nav a,
+  .foot-links a {
+    color: var(--ink);
+    text-underline-offset: 0.18em;
+  }
+
+  .desk-nav a {
+    font-size: 0.84rem;
+    font-weight: 500;
+    line-height: 1.45;
+    text-decoration: underline;
+  }
+
+  .colophon .foot-links {
+    margin-top: 0;
+    padding-inline: 0;
+  }
+
+  .foot-links {
+    margin-top: 2.4rem;
+  }
+
+  .foot-links a {
+    display: block;
+    max-width: 34ch;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid rgba(14, 60, 92, 0.28);
+    font-size: 18px;
+    line-height: 1.4;
+    text-decoration: none;
+  }
+
+  .foot-links li:first-child a {
+    border-top: 1px solid rgba(14, 60, 92, 0.28);
   }
 
   .sheet,
@@ -291,11 +434,18 @@
       align-self: start;
     }
 
+    .desk-nav,
+    .foot-links,
     .rest,
     .colophon {
       max-width: 1120px;
       margin-inline: auto;
       padding-inline: 7vw;
+    }
+
+    .desk-nav {
+      padding-top: 0.7rem;
+      padding-bottom: 0.45rem;
     }
 
     .rest {
@@ -339,6 +489,22 @@
     </figure>
   </header>
 
+  <nav class="desk-nav" aria-label="ניווט">
+    <ul>
+      <li><a href="/mashkanta-dira-rishona.html">רכישת דירה ראשונה</a></li>
+      <li><a href="/mihzur-mashkanta.html">מחזור משכנתא</a></li>
+      <li><a href="/ihud-halvaot-lemashkanta.html">איחוד הלוואות</a></li>
+      <li><a href="/masurvei-bankim.html">מסורבי בנקים</a></li>
+      <li><a href="/ishur-ekroni.html">אישור עקרוני</a></li>
+      <li><a href="/alut-mashkanta-kolel-bituach.html">עלות כוללת כולל ביטוח</a></li>
+      <li><a href="/yoetz-mashkantaot.html">יועץ משכנתאות</a></li>
+      <li><a href="/hashvaat-hatzaot-mashkanta.html">השוואת הצעות</a></li>
+      <li><a href="/blog.html">בלוג</a></li>
+      <li><a href="/about.html">אודות תמיר</a></li>
+      <li><a href="/contact.html">צור קשר</a></li>
+    </ul>
+  </nav>
+
   <section class="rest" aria-label="מה נפתח בשיחה">
     <div class="lines">
       <p>ההחזר החודשי, כמו שהוא יורד מהחשבון.</p>
@@ -354,6 +520,21 @@
 </main>
 
 <footer class="colophon">
+  <nav class="foot-links" aria-label="שירותים">
+    <ul>
+      <li><a href="/mashkanta-dira-rishona.html">רכישת דירה ראשונה</a></li>
+      <li><a href="/mihzur-mashkanta.html">מחזור משכנתא</a></li>
+      <li><a href="/ihud-halvaot-lemashkanta.html">איחוד הלוואות</a></li>
+      <li><a href="/masurvei-bankim.html">מסורבי בנקים</a></li>
+      <li><a href="/ishur-ekroni.html">אישור עקרוני</a></li>
+      <li><a href="/alut-mashkanta-kolel-bituach.html">עלות כוללת כולל ביטוח</a></li>
+      <li><a href="/yoetz-mashkantaot.html">יועץ משכנתאות</a></li>
+      <li><a href="/hashvaat-hatzaot-mashkanta.html">השוואת הצעות</a></li>
+      <li><a href="/blog.html">בלוג</a></li>
+      <li><a href="/about.html">אודות תמיר</a></li>
+      <li><a href="/contact.html">צור קשר</a></li>
+    </ul>
+  </nav>
   <p>מניפה פיננסית · תמיר גרמה</p>
 </footer>
 </body>
