@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Menifa fan mark on the Private Bank ground. Same five blades as the site header. -->
+  <rect width="64" height="64" rx="14" fill="#0A1426"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#B08D57" stroke-opacity=".45"/>
+  <g transform="translate(12 12) scale(1)" fill="none" stroke-linecap="round">
+    <path d="M20 36 L4 14" stroke="#8C6E40" stroke-width="3.2"/>
+    <path d="M20 36 L12 8" stroke="#B08D57" stroke-width="3.2"/>
+    <path d="M20 36 V6" stroke="#EADBC0" stroke-width="3.6"/>
+    <path d="M20 36 L28 8" stroke="#B08D57" stroke-width="3.2"/>
+    <path d="M20 36 L36 14" stroke="#8C6E40" stroke-width="3.2"/>
+  </g>
+</svg>

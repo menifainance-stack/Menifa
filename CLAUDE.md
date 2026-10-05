@@ -48,7 +48,7 @@ WebSearch על "תמיר גרמה" החזיר תמיר גל, תמיר בר, ומ
 1. menifa.org — מקום ראשון
 2. hfca.org.il — פרופיל בהתאחדות יועצי המשכנתאות
 3. Facebook — תמיר גרמה משכנתאות ופיננסים (1.2K עוקבים)
-4. menifa.org/blog/art-42
+4. menifa.org/blog/art-42 (היום מפנה ל-`/blog/תמיר-גרמה-יועץ-משכנתאות.html`)
 
 **הכלל:** WebSearch מחזיר תוצאות שונות מגוגל של המשתמש. אסור לבנות
 עליו אבחנה על דירוג, על נוכחות, או על קיום ישות.
@@ -58,13 +58,29 @@ WebSearch על "תמיר גרמה" החזיר תמיר גל, תמיר בר, ומ
 
 **מה שכן אמין:** צילומי מסך של תמיר · Google Search Console · אישור מפורש שלו.
 
-## סטטוס נוכחי (עודכן 06/09/2026)
+## סטטוס נוכחי (עודכן 05/10/2026)
 
-### ✅ שלם — קוד באוויר:
-- **79 כתובות ב-sitemap**: 9 דפים ראשיים + **70 מאמרי בלוג**
-- 13 סוגי Schema.org, robots.txt עם 14 בוטי AI search, hreflang he-IL מלא
-- RSS feed (30 items), llms.txt + llms-full.txt
-- Pillar page 4,500 מילים (`/madrich-mashkanta.html`) + FAQ עם 20 שאלות
+### 🎨 עיצוב חדש באוויר (05/10/2026, PR #93)
+העיצוב המחודש נפרס מהארטיפקט "מניפה פיננסית | תמיר גרמה" (claude.ai/artifact/1pRSiZsusKwWvkQFcj9dyb).
+האתר מתארח ב-**Vercel** (פרויקט `menifa`): כל push ל-main עולה לאוויר, וכל ענף אחר
+מקבל preview ב-`*.vercel.app` עם `X-Robots-Tag: noindex` (מוגדר ב-`vercel.json`, לא למחוק).
+
+- **82 המאמרים עברו לכתובות עבריות**, למשל `/blog/ריבית-משכנתא-היום.html`.
+  `art-N.html` הישנים מפנים ב-301 דרך `vercel.json`, והמיפוי המלא ב-`redirects.csv`.
+  קבצי `blog/art-*.html` עדיין בריפו, אבל הם **מתים**: ההפניה גוברת עליהם.
+  **לא לערוך אותם ולא לקשר אליהם.** כל תיקון תוכן נעשה בקובץ העברי.
+- `assets/site.css` + `assets/site.js` הם מערכת העיצוב היחידה. `style.css`, `v2.*`,
+  `premium.*` ו-`lead-capture.*` הם שאריות מהאתר הישן ואף דף לא טוען אותם.
+- דפים חדשים: `kama-ole-yoetz-mashkantaot`, `mashkanta-leatzmaim`, `sirov-mashkanta-ma-osim`,
+  `yoetz-mashkantaot-online`, `yoetz-mashkantaot-rosh-haayin`, `mashkanta-dchufa`,
+  `mashkanta-lemiluim`, `accessibility`, `cookies`.
+- **116 כתובות ב-sitemap**: 33 דפים + 83 מאמרים (82 + `ihud-halvaot-matei-ken-lo`).
+
+### 📌 עובדות עסקיות קבועות (אישור תמיר, 05/10/2026)
+- **אין לתמיר רישיון ספציפי.** אסור לכתוב "רישיון", "יועץ מורשה" או "רישיון משרד האוצר".
+  הוא חבר בהתאחדות יועצי המשכנתאות בישראל.
+- **מחיר ליווי מחזור משכנתא: 4,900 ש"ח.** מחירים לשירותים אחרים לא פורסמו, אסור להמציא.
+- **לא לצטט את kolzchut.org.il (כל זכות)** כמקור, לא באתר ולא בתוצרים.
 
 ### 🔧 תוקן ב-04/09/2026 — באג אינדוקס קריטי:
 art-61 עד art-69 (9 מאמרים, אוגוסט–ספטמבר) **לא היו ב-sitemap, ב-RSS,
@@ -72,15 +88,25 @@ art-61 עד art-69 (9 מאמרים, אוגוסט–ספטמבר) **לא היו �
 השורש: הפידים נבנו ידנית, כל מאמר חדש דרש עדכון ב-5 מקומות.
 
 **הפתרון — אוטומציה, לא תיקון חד-פעמי:**
-- `tools/regen_seo.py` — קורא את `blog/art-*.html` כמקור אמת יחיד ובונה
-  מחדש sitemap.xml, sitemap-pages.xml, sitemap-index.xml, rss.xml, llms.txt
-  ואת מערך `blogPost` ב-index.html.
+- `tools/regen_seo.py` — קורא את כל `blog/*.html` כמקור אמת יחיד (מדלג על
+  `blog/index.html` ועל כל קובץ שמופיע כמקור הפניה ב-`redirects.csv`), ובונה
+  מחדש sitemap.xml, sitemap-pages.xml, sitemap-index.xml, rss.xml ורשימת
+  המאמרים ב-llms.txt. כתובות עבריות נכתבות מקודדות (percent-encoded).
+  דף חדש ברמה העליונה צריך להיכנס ידנית לרשימת `PAGES` בסקריפט.
+- `tools/check_public_urls.py` — בדיקת CI: אין github.io בתגיות, וכל מאמר
+  נמצא ב-sitemap.
 - `tools/push_indexnow.py` — דוחף את כל כתובות ה-sitemap ל-IndexNow.
-- `.github/workflows/seo-autoindex.yml` — מריץ את שניהם אוטומטית בכל push
-  ל-main שנוגע ל-`blog/` או לדף HTML.
+- `tools/gsc_submit_sitemap.py` — מגיש את sitemap-index.xml ל-Google Search
+  Console דרך ה-API (צריך את הסוד `GSC_SERVICE_ACCOUNT_JSON`, בלעדיו מדלג).
+- `.github/workflows/seo-autoindex.yml` — regen + IndexNow בכל push ל-main
+  שנוגע ל-`blog/` או לדף HTML.
+- `.github/workflows/seo-daily-index.yml` — כל בוקר (03:17 UTC): הגשה ל-Search
+  Console + IndexNow, גם בלי push.
 
-**כלל עבודה מכאן והלאה:** אחרי הוספת מאמר, להריץ `python3 tools/regen_seo.py`
-ולקמט את הפלט. אם עובדים דרך main, ה-workflow עושה זאת לבד.
+**כלל עבודה מכאן והלאה:** מאמר חדש = קובץ `blog/<slug-עברי>.html` עם
+`datePublished` ב-JSON-LD. אחרי ההוספה להריץ `python3 tools/regen_seo.py`
+ו-`python3 tools/check_public_urls.py` ולקמט את הפלט. בדף הבית החדש אין
+Blog schema, ולכן ההודעה "לא נמצא Blog schema ב-index.html" צפויה.
 
 ### ⚠️ מגבלות סביבת ההרצה (מאומת 04/09/2026):
 הפרוקסי חוסם egress ל-menifa.org, boi.org.il, api.indexnow.org, facebook.com.
@@ -89,13 +115,16 @@ art-61 עד art-69 (9 מאמרים, אוגוסט–ספטמבר) **לא היו �
 מה שכן עובד מכאן: Apify MCP, WebSearch, גישה ל-GitHub.
 
 ### ⏳ ממתין לפעולה ידנית של תמיר (אני חסום מלבצע):
-1. **Google Search Console — Submit sitemap**: `https://menifa.org/sitemap-index.xml`
-2. **Request Indexing** על 10 המאמרים: art-61 עד art-70
+1. **הגדרת הגשה אוטומטית ל-Search Console (חד-פעמי):** Service Account ב-Google
+   Cloud עם Search Console API, הוספתו כ-Owner בנכס menifa.org, ושמירת ה-JSON
+   כסוד `GSC_SERVICE_ACCOUNT_JSON` בריפו. עד אז ההגשה לגוגל ב-workflow היומי מדלגת.
+2. **Request Indexing** לכתובת בודדת קיים רק בממשק הידני של Search Console.
+   אין לו API לאתר רגיל.
 3. **יצירת Google Business Profile** (קטגוריה: Mortgage Broker)
 4. **רישום ב-4 ספריות:** midrag.co.il, pro.co.il, bizreviews.co.il, moti.org.il
 5. **חוות דעת מלקוחות** ב-Google + מידרג
 
-### 💰 ריבית נוכחית: **3.25%**, פריים **4.75%** (אישור תמיר, 06/09/2026)
+### 💰 ריבית נוכחית: **3.25%**, פריים **4.75%** (אישור תמיר, 06/09/2026; ההחלטה הבאה 21.10.2026)
 מקורות חדשותיים עדיין מחזירים 3.50% מאוגוסט — הם מיושנים.
 `DATA_SOURCE_OF_TRUTH.md` הוא הקובע, לא תוצאת חיפוש.
 
@@ -109,7 +138,16 @@ art-61 עד art-69 (9 מאמרים, אוגוסט–ספטמבר) **לא היו �
   מול 23 תגובות על סרטון של 112K צפיות. פי 20 יחס מעורבות.
 - דוח מלא: `docs/hunter-reports/2026-09-06.md`
 
-### 🎯 לכידת לידים (נוסף 06/09/2026):
+### 🎯 לכידת לידים — האתר החדש (מ-05/10/2026):
+- כל הטפסים הם `form[data-lead]`, ו-`assets/site.js` שולח אותם (form-urlencoded,
+  no-cors) ל-webhook **"מניפה — לידים מהאתר החדש (menifa.org)"**
+  (`hook.us2.make.com/9pclkzy81...`, תרחיש **6507916** → גיליון + טלגרם + מייל).
+- השדות: `name, phone, consent, need, when, note, page, source, ts, event_id,
+  fbp, fbc, answers` ופרמטרי UTM. **אסור לשנות את השמות** בלי לעדכן את התרחיש.
+- אם ה-webhook לא עונה תוך 6 שניות, הגולש מקבל כפתור וואטסאפ עם הפרטים.
+- בטופס החדש **אין** שדה דבש ואין סף זמן, כמו שהיו בטופס הישן.
+
+### 🎯 לכידת לידים — האתר הישן (06/09/2026, היסטורי):
 עד לתאריך הזה **לא היה באתר שום טופס** — כל CTA הוביל ל-`tel:` או לוואטסאפ,
 כך שכל מי שלא היה מוכן להתקשר מיד פשוט נעלם.
 
