@@ -10,7 +10,10 @@ Checked tags:
   BreadcrumbList JSON-LD item URLs
 
 Articles that must appear in sitemap.xml:
-  every blog/art-*.html file, and every article href on blog.html.
+  every blog/*.html file, and every article href on blog.html. Skipped:
+  blog/index.html (a redirect stub) and any file listed as a redirect
+  source in redirects.csv (vercel.json 301s it to its new path). Paths are
+  compared percent-decoded, so Hebrew slugs match their encoded <loc>.
 
 tests/ is not part of the published tree. Point --root at a fixture to
 scan that tree instead.
@@ -25,12 +28,13 @@ import os
 import re
 import sys
 from html.parser import HTMLParser
+from urllib.parse import unquote
 
 _TOOLS = os.path.dirname(os.path.abspath(__file__))
 if _TOOLS not in sys.path:
     sys.path.insert(0, _TOOLS)
 
-from site_url import SITE  # noqa: E402
+from site_url import SITE, redirect_map  # noqa: E402
 
 GITHUB_IO = "github.io"
 SKIP_DIRS = {"tests", "node_modules", ".git"}
@@ -175,7 +179,7 @@ def _article_href(href):
     path = match.group("path") if match else href
     if not path.startswith("/"):
         path = "/" + path
-    path = re.sub(r"/{2,}", "/", path)
+    path = re.sub(r"/{2,}", "/", unquote(path))
     if re.fullmatch(r"/blog/(?!index\.html$).+\.html", path):
         return path
     return None
@@ -183,8 +187,12 @@ def _article_href(href):
 
 def required_articles(root):
     required = set()
-    for path in glob.glob(os.path.join(root, "blog", "art-*.html")):
-        required.add("/blog/" + os.path.basename(path))
+    redirects = redirect_map(root)
+    for path in glob.glob(os.path.join(root, "blog", "*.html")):
+        article = "/blog/" + os.path.basename(path)
+        if article == "/blog/index.html" or article in redirects:
+            continue
+        required.add(article)
     index = os.path.join(root, "blog.html")
     if os.path.isfile(index):
         with open(index, encoding="utf-8") as fh:
@@ -208,7 +216,7 @@ def sitemap_paths(root):
         url_path = match.group("path") if match else loc.strip()
         if not url_path.startswith("/"):
             url_path = "/" + url_path
-        found.add(re.sub(r"/{2,}", "/", url_path))
+        found.add(re.sub(r"/{2,}", "/", unquote(url_path)))
     return found
 
 
