@@ -112,6 +112,15 @@
 .tco-form-wrap > p { text-align: center; color: var(--gray); margin-bottom: 1.2rem; }
 .tco-mid-cta { margin: 1.8rem 0; text-align: center; }
 </style>
+<style>
+@media (max-width:768px){
+  .market-bar{display:block !important;}
+  .market-inner{flex-wrap:wrap !important;overflow-x:hidden !important;justify-content:center;}
+  .market-items{flex-wrap:wrap;justify-content:center;}
+  .market-update{display:block !important;}
+  table.data-table{display:block;max-width:100%;overflow-x:auto;}
+}
+</style>
 </head>
 <body class="has-ticker">
 <div class="af-preview-banner" role="status">Preview Iron Israeli P1 · noindex · אין merge ל־main</div>
@@ -265,6 +274,59 @@
 </div>
 
 <script src="/assets/script.js?v=2026-09-16-nav"></script>
+<script>
+(function () {
+  var PREVIEW = {
+    "ihud-halvaot-lemashkanta.html": 1,
+    "mihzur-mashkanta.html": 1,
+    "masurvei-bankim.html": 1,
+    "mashkanta-dira-rishona.html": 1,
+    "ishur-ekroni.html": 1
+  };
+  var WA = "https://wa.me/972524502821?text=" + encodeURIComponent("שלום, אשמח לתיאום שיחה");
+  var ART = {
+    "blog/art-14.html": "/blog/%D7%94%D7%95%D7%A8%D7%93%D7%AA-%D7%A8%D7%99%D7%91%D7%99%D7%AA-%D7%91%D7%93%D7%A8%D7%9A-%D7%9C-3-5-%D7%9E%D7%94-%D7%9C%D7%A2%D7%A9%D7%95%D7%AA-%D7%A2%D7%9D-%D7%94%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90.html",
+    "blog/art-15.html": "/blog/%D7%9E%D7%A9%D7%91%D7%A8-%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90%D7%95%D7%AA-2026-%D7%A4%D7%99%D7%92%D7%95%D7%A8%D7%99%D7%9D.html"
+  };
+  function fix() {
+    document.querySelectorAll("a[href*='wa.me/972524502821']").forEach(function (a) {
+      if (a.href.indexOf(encodeURIComponent("שלום, אשמח לתיאום שיחה")) === -1) a.href = WA;
+    });
+    var drawer = document.getElementById("sideDrawer");
+    document.querySelectorAll("a[href]").forEach(function (a) {
+      var href = a.getAttribute("href") || "";
+      if (!href || href.indexOf("wa.me") !== -1 || href.indexOf("tel:") === 0 || href.indexOf("mailto:") === 0 || href.indexOf("http") === 0 || href.charAt(0) === "/" || href.charAt(0) === "#") return;
+      var hash = "";
+      var path = href;
+      var hi = href.indexOf("#");
+      if (hi >= 0) { hash = href.slice(hi); path = href.slice(0, hi); }
+      var q = "";
+      var qi = path.indexOf("?");
+      if (qi >= 0) { q = path.slice(qi); path = path.slice(0, qi); }
+      if (PREVIEW[path] || path === "blog/art-3.html") return;
+      if (ART[path]) { a.setAttribute("href", ART[path] + hash); return; }
+      a.setAttribute("href", "/" + path.replace(/^\.\//, "") + q + hash);
+    });
+    if (!drawer) return;
+    drawer.querySelectorAll("img").forEach(function (img) {
+      var src = img.getAttribute("src") || "";
+      if (src.indexOf("logo") !== -1 && src.charAt(0) !== "/") {
+        img.src = "/lp/ihud/assets/img/menifa-financial-logo-locked-transparent.png";
+      }
+    });
+    drawer.querySelectorAll(".article-title").forEach(function (el) {
+      if (el.textContent.indexOf("3.5") !== -1) {
+        el.textContent = "ריבית בנק ישראל 3.25% ופריים 4.75% — מה לבדוק במשכנתא";
+      }
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", fix);
+  else fix();
+  setTimeout(fix, 50);
+  setTimeout(fix, 400);
+})();
+</script>
+
 
 </body>
 </html>
