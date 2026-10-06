@@ -2,7 +2,13 @@
 
 Checked 6 October 2026. This note compares two ways to retire old URLs that still 404 on the live site. Live `menifa.org` is GitHub Pages. Vercel builds previews and already applies `vercel.json`, but those rules do not run on the apex until DNS and hosting move.
 
-Option 2 is documentation only. Nothing in this change edits DNS, the repo `CNAME` file, GitHub Pages settings, or the Vercel project.
+## Decision (Tamir, 6 October 2026, 09:31 IDT)
+
+GitHub Pages stubs are the chosen fix. Hosting stays on GitHub Pages. The 82 `blog/art-N.html` duplicates are closed only by the Pages stubs already in this PR (`noindex, follow`, canonical, meta refresh, and `location.replace`). `vercel.json` stays as it is.
+
+The Vercel/DNS option below is **not relevant for now**. No further work on a hosting move, DNS, or the `CNAME` file.
+
+Nothing in this change edits DNS, the repo `CNAME` file, GitHub Pages settings, or the Vercel project.
 
 ## What is live today
 
@@ -37,7 +43,9 @@ These files are not added to the sitemap. The locked paid URLs stay where they a
 
 Trade-off: Google treats a meta refresh plus a canonical as a soft redirect. It is not an HTTP 301 or 308. The query string survives only in the script (`location.search` and `location.hash`). The meta refresh URL itself does not carry UTMs. Pages will keep returning 200 for the stub URL.
 
-## Option 2 — real 301s via Vercel (not done)
+## Option 2 — real 301s via Vercel (not relevant for now)
+
+Status: not relevant for now. No further work. The notes below are only a record of what a move would have involved.
 
 The existing `vercel.json` redirect rules already return 308 on Vercel previews. They apply to `menifa.org` only if the apex stops being served by GitHub Pages and is served by the Vercel project `menifa`. `permanent: true` is 308 (a permanent redirect that keeps the method), which is the Vercel equivalent of a 301 for these GET document URLs.
 
