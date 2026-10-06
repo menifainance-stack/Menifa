@@ -659,3 +659,36 @@ img.avatar{display:block;object-fit:cover;object-position:50% 22%;padding:0;back
 @media (max-width:620px){.portrait-about{float:none;width:min(280px,80%);margin:0 auto 24px}}
 
 /* v16: Private Bank = full dramatic effects (rays, sweep, gold dust, fan glow) + refined extras */
+
+/* Landing pages (/lp/ihud/, /lp/mihzur/): header phone stays one line.
+   Mobile consent card is shorter and the page can scroll clear of it.
+   Scoped to body.lp so other pages keep consent v2 as-is. */
+body.lp .head-phone{min-height:46px;padding:0 20px;flex:0 0 auto;min-width:max-content}
+body.lp .head-phone .num{white-space:nowrap;line-height:1.15}
+@media (max-width:720px){
+  body.lp .head-row{gap:8px;padding-block:14px}
+  body.lp .brand{gap:8px;min-width:0}
+  body.lp .brand-name{min-width:0}
+  body.lp .brand-name b{font-size:1.35rem}
+  body.lp .brand-name span{font-size:.62rem;letter-spacing:.14em;white-space:nowrap}
+  body.lp .head-phone{padding:0 12px;gap:6px}
+  body.lp .head-phone .num{font-size:1.05rem;letter-spacing:0}
+  body.lp .cookie{left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom,0px));padding:12px 14px;gap:8px}
+  body.lp .cookie p{flex:1 1 100%;font-size:.8rem;line-height:1.4;margin:0}
+  body.lp .cookie .acts{width:100%;display:flex;flex-wrap:wrap;gap:6px}
+  body.lp .cookie .btn{min-height:44px;padding:0 12px;font-size:.82rem;flex:1 1 auto;white-space:nowrap;min-width:max-content}
+  /* Hero stays continuous behind the card. End padding and scroll-padding
+     let the name field and submit button scroll fully above the banner. */
+  html:has(body.lp #cookie:not([hidden])),
+  body.lp:has(#cookie:not([hidden])){
+    scroll-padding-top:12px;
+    scroll-padding-bottom:calc(var(--lp-cookie-pad, 180px) + env(safe-area-inset-bottom, 0px));
+  }
+  body.lp:has(#cookie:not([hidden])) .page{
+    padding-bottom:calc(var(--lp-cookie-pad, 180px) + env(safe-area-inset-bottom, 0px));
+  }
+  body.lp .lead-form :is([name="name"],[name="phone"],button[type="submit"]){
+    scroll-margin-top:16px;
+    scroll-margin-bottom:16px;
+  }
+}
