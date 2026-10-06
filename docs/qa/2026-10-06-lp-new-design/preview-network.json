@@ -1,0 +1,10 @@
+{
+  "makeRequests": 0,
+  "blocked": "any host matching make.com, aborted in Playwright",
+  "hosts": {
+    "before": "https://menifa-git-preview-merkaz-o-cf9b39-menifainance-stacks-projects.vercel.app",
+    "after": "https://menifa-git-preview-lp-new-d-0fcf5f-menifainance-stacks-projects.vercel.app"
+  },
+  "capturedAt": "2026-10-06T08:48:49.394Z",
+  "urls": []
+}
