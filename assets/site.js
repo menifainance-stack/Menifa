@@ -9,7 +9,8 @@
     // Lead webhook (e.g. Make.com custom webhook -> Google Sheets CRM). Empty = WhatsApp hand-off only.
     leadWebhook: 'https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig',
     // Tracking IDs load ONLY after the visitor consents to that category.
-    // IDs are set in parts.py -> TRACKING and injected as window.MENIFA_TRACK
+    // The only fill-in is assets/tracking-ids.js (window.MENIFA_TRACK). gtag, not GTM.
+    // Empty strings keep GA4, Meta Pixel, and Clarity unloaded. Do not invent IDs.
     ga4: (window.MENIFA_TRACK || {}).ga4 || '',               // statistics
     metaPixel: (window.MENIFA_TRACK || {}).meta_pixel || '',  // marketing
     clarity: (window.MENIFA_TRACK || {}).clarity || '',       // statistics
@@ -108,26 +109,119 @@
     modal.hidden = false; $('#ck-stats').focus();
   }
   function loadScript(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
+  function safeTrackId(id) { return /^[A-Za-z0-9_-]+$/.test(id || '') ? id : ''; }
+  /* Six Soft paths until Tamir changes the list. The URL itself names the service.
+     Bank refusal: /masurvei-bankim.html, /sirov-mashkanta-ma-osim.html,
+     /blog/מסורבי-משכנתא-7-דרכים-לאישור.html.
+     Loan consolidation: /lp/ihud/, /ihud-halvaot-lemashkanta.html,
+     /blog/ihud-halvaot-matei-ken-lo.html. */
+  var SENSITIVE_EXACT = {
+    '/masurvei-bankim.html': 1,
+    '/sirov-mashkanta-ma-osim.html': 1,
+    '/ihud-halvaot-lemashkanta.html': 1,
+    '/blog/ihud-halvaot-matei-ken-lo.html': 1,
+    '/blog/מסורבי-משכנתא-7-דרכים-לאישור.html': 1
+  };
+  var SENSITIVE_TEXT = /masurvei-bankim|sirov-mashkanta|ihud-halvaot|\/lp\/ihud|מסורב|סירוב/i;
+  var OMIT_ON_SENSITIVE = { form: 1, page: 1, form_id: 1, page_path: 1, page_title: 1, page_location: 1, page_referrer: 1 };
+  var UTM_OMIT = { utm_campaign: 1, utm_term: 1, utm_content: 1, gclid: 1, fbclid: 1, campaign_name: 1, campaign_term: 1, campaign_content: 1, campaign_id: 1 };
+  var fromSensitiveHop = false;
+  var referrerWasSensitive = false;
+  var referrerTruncated = false;
+  var rawReferrer = '';
+  function pathOf(url) {
+    try {
+      if (!url) return '';
+      var raw = String(url).split('#')[0];
+      if (raw.charAt(0) === '/') return decodeURIComponent(raw.split('?')[0]);
+      return decodeURIComponent(new URL(raw, location.href).pathname);
+    } catch (e) { return ''; }
+  }
+  function isSensitivePath(url) {
+    var p = pathOf(url).replace(/\/index\.html$/, '/');
+    if (!p) return false;
+    if (p === '/lp/ihud' || p === '/lp/ihud/' || p.indexOf('/lp/ihud/') === 0) return true;
+    if (SENSITIVE_EXACT[p]) return true;
+    if (p.length > 1 && SENSITIVE_EXACT[p.replace(/\/$/, '')]) return true;
+    if (SENSITIVE_TEXT.test(p)) return true;
+    return false;
+  }
+  function isSensitivePage() {
+    try { return isSensitivePath(location.pathname); } catch (e) { return false; }
+  }
+  function domainOnlyReferrer(ref) {
+    try {
+      if (!ref) return location.origin + '/';
+      var u = new URL(ref, location.href);
+      if (SENSITIVE_TEXT.test(u.hostname)) return location.origin + '/';
+      return u.origin + '/';
+    } catch (e) { return location.origin + '/'; }
+  }
+  function readQuery() {
+    var q = { utm_source: '', utm_medium: '', utm_campaign: '', utm_term: '', utm_content: '', gclid: '', fbclid: '' };
+    try {
+      var params = new URLSearchParams(location.search);
+      Object.keys(q).forEach(function (k) { q[k] = params.get(k) || ''; });
+    } catch (e) {}
+    return q;
+  }
+  function ga4Config() {
+    var cfg = { anonymize_ip: true };
+    var ref = rawReferrer;
+    try { if (!ref) ref = document.referrer || ''; } catch (e) {}
+    if (isSensitivePage()) {
+      cfg.page_location = location.origin + '/site';
+      cfg.page_path = '/site';
+      cfg.page_title = 'site';
+      cfg.page_referrer = domainOnlyReferrer(ref);
+      var q = readQuery();
+      // Only source and medium. Campaign, term, content, gclid, and fbclid are omitted, not replaced.
+      if (q.utm_source && !SENSITIVE_TEXT.test(q.utm_source)) {
+        cfg.utm_source = q.utm_source;
+        cfg.campaign_source = q.utm_source;
+      }
+      if (q.utm_medium && !SENSITIVE_TEXT.test(q.utm_medium)) {
+        cfg.utm_medium = q.utm_medium;
+        cfg.campaign_medium = q.utm_medium;
+      }
+    } else if (fromSensitiveHop || referrerWasSensitive || isSensitivePath(ref)) {
+      cfg.page_referrer = domainOnlyReferrer(ref);
+    }
+    return cfg;
+  }
+  function thirdPartyReferrerUnsafe() {
+    if (isSensitivePage()) return true;
+    var ref = '';
+    try { ref = document.referrer || ''; } catch (e) { return true; }
+    if (ref && (isSensitivePath(ref) || SENSITIVE_TEXT.test(ref))) return true;
+    if ((fromSensitiveHop || referrerWasSensitive) && !referrerTruncated && rawReferrer && (isSensitivePath(rawReferrer) || SENSITIVE_TEXT.test(rawReferrer))) return true;
+    return false;
+  }
   function loadTrackers() {
     if (!consent) return;
-    if (consent.statistics && CONFIG.ga4 && !window.__ga) {
-      window.__ga = true; loadScript('https://www.googletagmanager.com/gtag/js?id=' + CONFIG.ga4);
+    if (!privacyGateIntact()) return;
+    var ga4Id = safeTrackId(CONFIG.ga4);
+    var pixelId = safeTrackId(CONFIG.metaPixel);
+    var clarityId = safeTrackId(CONFIG.clarity);
+    if (consent.statistics && ga4Id && !window.__ga) {
+      window.__ga = true; loadScript('https://www.googletagmanager.com/gtag/js?id=' + ga4Id);
       window.dataLayer = window.dataLayer || []; window.gtag = function () { dataLayer.push(arguments); };
       gtag('consent', 'default', { ad_storage: consent.marketing ? 'granted' : 'denied', ad_user_data: consent.marketing ? 'granted' : 'denied', ad_personalization: consent.marketing ? 'granted' : 'denied', analytics_storage: 'granted' });
-      gtag('js', new Date()); gtag('config', CONFIG.ga4, { anonymize_ip: true });
+      gtag('js', new Date()); gtag('config', ga4Id, ga4Config());
     }
-    if (consent.statistics && CONFIG.clarity && !window.clarity) {
-      (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', CONFIG.clarity);
+    if (!isSensitivePage() && !thirdPartyReferrerUnsafe() && consent.statistics && clarityId && !window.clarity) {
+      (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', clarityId);
     }
-    if (consent.marketing && CONFIG.metaPixel && !window.fbq) {
+    if (!isSensitivePage() && !thirdPartyReferrerUnsafe() && consent.marketing && pixelId && !window.fbq) {
       (function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', CONFIG.metaPixel); fbq('track', 'PageView');
+      fbq('init', pixelId); fbq('track', 'PageView');
     }
     flushEvents();
   }
   /* ===== conversion events: one call -> GA4 + Meta Pixel (+ dataLayer), queued until consent =====
      Identity and financial detail stay on the CRM webhook. This gate is the only
-     path into dataLayer / gtag / fbq, and it drops those fields before they leave. */
+     path into dataLayer / gtag / fbq, and it drops those fields before they leave.
+     Trackers do not load unless privacyGateIntact() still drops the blocked keys. */
   var evQ = [], PIXEL_STD = { generate_lead: 'Lead', contact_whatsapp: 'Contact', contact_phone: 'Contact', schedule_call: 'Schedule' };
   var ANALYTICS_BLOCK = {
     need: 1, link_text: 1,
@@ -141,20 +235,61 @@
   };
   function analyticsParams(params) {
     var safe = {};
+    var sensitive = isSensitivePage();
     if (!params) return safe;
     Object.keys(params).forEach(function (k) {
-      if (ANALYTICS_BLOCK[String(k).toLowerCase()] || /^q\d+$/.test(String(k))) return;
+      var lower = String(k).toLowerCase();
+      if (ANALYTICS_BLOCK[lower] || /^q\d+$/.test(String(k))) return;
+      if (sensitive && OMIT_ON_SENSITIVE[lower]) return;
       var v = params[k];
       if (v != null && typeof v === 'object') return;
+      if (sensitive && UTM_OMIT[lower]) return;
+      if (typeof v === 'string' && SENSITIVE_TEXT.test(v)) return;
       safe[k] = v;
     });
     return safe;
   }
+  function privacyGateIntact() {
+    var sensitive = isSensitivePage();
+    var probe = analyticsParams({
+      need: 'probe-need',
+      link_text: 'probe-link',
+      topic: 'מסורבי בנקים',
+      name: 'x',
+      phone: 'x',
+      page: sensitive ? location.pathname : '/contact.html',
+      form: sensitive ? 'service:masurvei-bankim' : 'contact',
+      form_id: 'service:masurvei-bankim',
+      utm_source: 'preview',
+      utm_medium: 'qa',
+      utm_campaign: 'probe-campaign',
+      utm_term: 'probe-term',
+      utm_content: 'probe-content',
+      gclid: 'probe-gclid',
+      fbclid: 'probe-fbclid',
+      currency: 'ILS',
+      value: 1
+    });
+    if (!probe || probe.currency !== 'ILS' || probe.value !== 1) return false;
+    if (probe.need || probe.link_text || probe.name || probe.phone) return false;
+    var blob = JSON.stringify(probe);
+    if (SENSITIVE_TEXT.test(blob)) return false;
+    if (sensitive && /probe-campaign|probe-term|probe-content|probe-gclid|probe-fbclid/.test(blob)) return false;
+    if (sensitive) {
+      var omitted = ['form', 'page', 'form_id', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_name', 'campaign_term', 'campaign_content'];
+      for (var oi = 0; oi < omitted.length; oi++) {
+        if (Object.prototype.hasOwnProperty.call(probe, omitted[oi])) return false;
+      }
+      if (probe.utm_source !== 'preview' || probe.utm_medium !== 'qa') return false;
+    } else if (probe.form !== 'contact' || probe.page !== '/contact.html') return false;
+    return true;
+  }
   function sendEvent(name, params) {
+    if (!privacyGateIntact()) return;
     params = analyticsParams(params);
     (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params));
     if (window.gtag && window.__ga) gtag('event', name, params);
-    if (window.fbq) {
+    if (window.fbq && !isSensitivePage() && !thirdPartyReferrerUnsafe()) {
       var opts = params.event_id ? { eventID: params.event_id } : undefined;
       if (PIXEL_STD[name]) fbq('track', PIXEL_STD[name], params, opts); else fbq('trackCustom', name, params, opts);
     }
@@ -186,6 +321,26 @@
     window.menifaTrack('calculator_use', { calculator: id, page: location.pathname });
   }, true);
   window.MenifaConsent = { get: function () { return consent; }, open: openPrefs };
+  try { rawReferrer = document.referrer || ''; } catch (e) {}
+  referrerWasSensitive = isSensitivePath(rawReferrer);
+  try {
+    if (isSensitivePage()) {
+      sessionStorage.setItem('menifa-sensitive-hop', '1');
+      $$('a[href], area[href]').forEach(function (a) { try { a.referrerPolicy = 'origin'; } catch (e2) {} });
+    } else if (sessionStorage.getItem('menifa-sensitive-hop') === '1') {
+      fromSensitiveHop = true;
+      sessionStorage.removeItem('menifa-sensitive-hop');
+    }
+  } catch (e3) {}
+  if (rawReferrer && (isSensitivePage() || fromSensitiveHop || referrerWasSensitive)) {
+    var trimmedRef = domainOnlyReferrer(rawReferrer);
+    if (trimmedRef && trimmedRef !== rawReferrer) {
+      try {
+        Object.defineProperty(document, 'referrer', { configurable: true, get: function () { return trimmedRef; } });
+        referrerTruncated = (document.referrer === trimmedRef);
+      } catch (e4) {}
+    } else referrerTruncated = true;
+  }
   if (banner) {
     if (!consent) banner.hidden = false; else loadTrackers();
     $('#ck-all').addEventListener('click', function () { saveConsent(true, true); });
