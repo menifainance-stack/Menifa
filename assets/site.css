@@ -666,3 +666,116 @@ img.avatar{display:block;object-fit:cover;object-position:50% 22%;padding:0;back
 @media (max-width:620px){.portrait-about{float:none;width:min(280px,80%);margin:0 auto 24px}}
 
 /* v16: Private Bank = full dramatic effects (rays, sweep, gold dust, fan glow) + refined extras */
+
+/* =========================================================
+   Paid LP stage — homepage paints, continuous, no ivory slab.
+   Scoped to body.lp-redesign / main.lp-flow. Tokens only.
+   Form heading rule matches the #form h3 { color: var(--ivory) } fix.
+   ========================================================= */
+body.lp-redesign{background:var(--em-950);color:var(--ivory)}
+main.lp-flow{
+  color:var(--ivory);
+  background:
+    radial-gradient(ellipse 55% 38% at 22% 8%, var(--em-500) 0%, rgb(var(--em-700-rgb) / 0) 68%),
+    radial-gradient(ellipse 70% 42% at 88% 30%, var(--em-650) 0%, rgb(var(--em-800-rgb) / 0) 70%),
+    repeating-radial-gradient(circle at 18% 46%, transparent 0 17px, rgb(var(--gold-hi-rgb) / .08) 17px 18px),
+    repeating-radial-gradient(circle at 82% 70%, transparent 0 17px, rgb(var(--gold-hi-rgb) / .06) 17px 18px),
+    repeating-linear-gradient(90deg, rgb(var(--gold-hi-rgb) / .055) 0 1px, transparent 1px 22px),
+    linear-gradient(rgb(var(--gold-hi-rgb) / .045) 1px, transparent 1px) 0 0 / 100% 120px,
+    linear-gradient(90deg, rgb(var(--gold-hi-rgb) / .045) 1px, transparent 1px) 0 0 / 120px 100%,
+    linear-gradient(180deg, var(--em-900) 0%, var(--em-850) 22%, var(--em-800) 48%, var(--em-900) 72%, var(--em-920) 100%);
+}
+main.lp-flow .prose{color:var(--ivory)}
+main.lp-flow .prose h2,
+main.lp-flow .prose h3,
+main.lp-flow .prose h4{
+  color:var(--ivory);
+  border-top-color:var(--line-soft);
+  font-weight:400;
+}
+main.lp-flow .prose h2{
+  font-size:clamp(1.85rem,3.1vw,2.85rem);
+  font-weight:300;
+  padding-bottom:.55em;
+  position:relative;
+}
+main.lp-flow .prose h2::after{
+  content:"";
+  position:absolute;
+  inset-inline-start:0;
+  bottom:0;
+  width:120px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+main.lp-flow .prose h3{font-size:clamp(1.35rem,2vw,1.7rem);color:var(--ivory)}
+main.lp-flow .prose strong{color:var(--gold-pale);font-weight:600}
+main.lp-flow .prose a{color:var(--gold-pale)}
+main.lp-flow .prose a:hover{color:var(--ivory)}
+main.lp-flow .prose li::marker{color:var(--gold)}
+main.lp-flow .prose hr{background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+main.lp-flow .table-wrap{
+  background:rgb(var(--em-900-rgb) / .72);
+  border:1px solid var(--line);
+}
+main.lp-flow .prose th{background:var(--em-700);color:var(--gold-pale)}
+main.lp-flow .prose td{color:var(--ivory);border-top-color:var(--line)}
+main.lp-flow .prose tr:nth-child(even) td{background:rgb(var(--gold-hi-rgb) / .06)}
+main.lp-flow .prose blockquote{border:1px solid rgb(var(--gold-hi-rgb) / .28)}
+main.lp-flow .card{
+  background:rgb(var(--em-900-rgb) / .72);
+  border-color:var(--line-soft);
+  box-shadow:0 24px 60px rgba(0,0,0,.28);
+}
+main.lp-flow .lp-form-card{
+  position:relative;
+  background:linear-gradient(160deg,var(--em-700),var(--em-900));
+  border:1px solid rgb(var(--gold-hi-rgb) / .35);
+  color:var(--ivory);
+}
+main.lp-flow .lp-form-card::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px solid rgb(var(--gold-hi-rgb) / .18);
+  pointer-events:none;
+}
+/* Lead form: every heading, label and control label stays on a token that
+   flips with the card (ivory is light on dark palettes, dark on light ones).
+   No :has(). Same paint as #form h3{color:var(--ivory)}, scoped so other
+   pages (including /lp/ihud/ and /lp/mihzur/) are unchanged. */
+body.lp-redesign #form h3{color:var(--ivory)}
+body.lp-redesign #form,
+body.lp-redesign #form .lead-form label,
+body.lp-redesign #form .form-ok,
+body.lp-redesign #form .form-ok b{color:var(--ivory)}
+body.lp-redesign #form .lead-form input,
+body.lp-redesign #form .lead-form select,
+body.lp-redesign #form .lead-form textarea{color:var(--ivory)}
+body.lp-redesign #form .btn-a,
+body.lp-redesign .btn-a{
+  background:var(--gold);
+  color:var(--on-gold);
+  box-shadow:0 8px 30px rgb(var(--gold-rgb) / .28);
+}
+body.lp-redesign #form .btn-a:hover,
+body.lp-redesign .btn-a:hover{color:var(--on-gold);filter:brightness(1.06)}
+body.lp-redesign .aside-links h4,
+body.lp-redesign .aside-links a{color:var(--ink)}
+body.lp-redesign .aside-links a:hover{color:var(--gold-ink)}
+/* Light palettes repaint --gold as dark ink. The closing band stays the
+   homepage champagne field, with the dark on-gold text token. */
+html.light body.lp-redesign .bg-cta{
+  --g-1:#B8955A;
+  --g-2:#D9BB78;
+  --gold:#C9A96E;
+  --gold-hi:#E6C980;
+  --gold-pale:#F4E2B0;
+  --gold-deep:#A8864A;
+  --gold-hi-rgb:230 201 128;
+  --gold-pale-rgb:244 226 176;
+  --gold-rgb:201 169 110;
+  --gold-deep-rgb:168 134 74;
+  --on-gold:#1A1408;
+  color:var(--on-gold);
+}

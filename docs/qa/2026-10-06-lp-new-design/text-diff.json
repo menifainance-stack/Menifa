@@ -1,0 +1,11 @@
+{
+  "empty": true,
+  "result": "no differences",
+  "pages": {
+    "yoetz-mashkantaot.html": {},
+    "mashkanta-kablan.html": {},
+    "yoetz-mashkantaot-merkaz.html": {},
+    "ishur-ekroni.html": {}
+  },
+  "note": "Compared HEAD (preview/merkaz-openings branch) to the working tree. Head tags, visible text, alt, data-wa, wa.me hrefs, and form field names."
+}

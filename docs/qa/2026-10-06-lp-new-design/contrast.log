@@ -1,0 +1,24 @@
+WCAG contrast, 4 landing pages x 6 palettes
+threshold 4.5
+
+overall min 4.52  fails 0  checked 384
+
+aside_h4         min 6.48  n 24
+aside_link       min 6.44  n 24
+body_h2          min 10.65  n 24
+body_h3          min 11.34  n 24
+body_p           min 10.68  n 24
+cta_h2           min 9.61  n 24
+form_button      min 4.52  n 24
+form_consent     min 12.06  n 24
+form_h3          min 11.43  n 24
+form_label       min 11.88  n 24
+form_sub         min 7.99  n 24
+hero_h1          min 12.18  n 24
+hero_lead        min 7.78  n 24
+prose_a          min 5.53  n 24
+strong           min 5.53  n 24
+tel_btn          min 12.07  n 24
+
+Palettes: default (no data-palette), privatebank, ivory, white, royal, sand.
+Form heading (#form h3) uses var(--ivory). Labels and consent use var(--ivory). Submit uses var(--gold) on var(--on-gold).

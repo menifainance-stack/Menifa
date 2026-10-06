@@ -1,0 +1,177 @@
+{
+  "tool": "Lighthouse 12.8.2",
+  "form_factor": "mobile",
+  "throttling": "simulated (default)",
+  "runs": 3,
+  "note": "Each run is a fresh headless Chrome navigation. Median is the middle value. Local before is a snapshot of the #100 branch; local after is this branch. Vercel was not used for Lighthouse.",
+  "before": {
+    "ishur-ekroni": {
+      "runs": [
+        {
+          "lcp_ms": 1801.2,
+          "cls": 0.0035
+        },
+        {
+          "lcp_ms": 1802.1,
+          "cls": 0.0035
+        },
+        {
+          "lcp_ms": 1805.3,
+          "cls": 0.0126
+        }
+      ],
+      "lcp_ms_median": 1802.1,
+      "cls_median": 0.0035
+    },
+    "mashkanta-kablan": {
+      "runs": [
+        {
+          "lcp_ms": 1950.6,
+          "cls": 0.0144
+        },
+        {
+          "lcp_ms": 1951.5,
+          "cls": 0.0142
+        },
+        {
+          "lcp_ms": 1950.8,
+          "cls": 0.0123
+        }
+      ],
+      "lcp_ms_median": 1950.8,
+      "cls_median": 0.0142
+    },
+    "yoetz-mashkantaot": {
+      "runs": [
+        {
+          "lcp_ms": 1951.8,
+          "cls": 0.0128
+        },
+        {
+          "lcp_ms": 1953.7,
+          "cls": 0.0144
+        },
+        {
+          "lcp_ms": 1951.7,
+          "cls": 0.0037
+        }
+      ],
+      "lcp_ms_median": 1951.8,
+      "cls_median": 0.0128
+    },
+    "yoetz-mashkantaot-merkaz": {
+      "runs": [
+        {
+          "lcp_ms": 1952.0,
+          "cls": 0.0688
+        },
+        {
+          "lcp_ms": 1953.3,
+          "cls": 0.0586
+        },
+        {
+          "lcp_ms": 1952.1,
+          "cls": 0.0591
+        }
+      ],
+      "lcp_ms_median": 1952.1,
+      "cls_median": 0.0591
+    }
+  },
+  "after": {
+    "ishur-ekroni": {
+      "runs": [
+        {
+          "lcp_ms": 3217.5,
+          "cls": 0.0128
+        },
+        {
+          "lcp_ms": 3222.2,
+          "cls": 0.0128
+        },
+        {
+          "lcp_ms": 3216.2,
+          "cls": 0.0128
+        }
+      ],
+      "lcp_ms_median": 3217.5,
+      "cls_median": 0.0128
+    },
+    "mashkanta-kablan": {
+      "runs": [
+        {
+          "lcp_ms": 1951.3,
+          "cls": 0.0056
+        },
+        {
+          "lcp_ms": 1951.9,
+          "cls": 0.0037
+        },
+        {
+          "lcp_ms": 1950.7,
+          "cls": 0.0144
+        }
+      ],
+      "lcp_ms_median": 1951.3,
+      "cls_median": 0.0056
+    },
+    "yoetz-mashkantaot": {
+      "runs": [
+        {
+          "lcp_ms": 1951.7,
+          "cls": 0.0124
+        },
+        {
+          "lcp_ms": 1951.6,
+          "cls": 0.0125
+        },
+        {
+          "lcp_ms": 1950.9,
+          "cls": 0.0056
+        }
+      ],
+      "lcp_ms_median": 1951.6,
+      "cls_median": 0.0124
+    },
+    "yoetz-mashkantaot-merkaz": {
+      "runs": [
+        {
+          "lcp_ms": 3365.8,
+          "cls": 0.0667
+        },
+        {
+          "lcp_ms": 3366.1,
+          "cls": 0.0667
+        },
+        {
+          "lcp_ms": 3364.9,
+          "cls": 0.0667
+        }
+      ],
+      "lcp_ms_median": 3365.8,
+      "cls_median": 0.0667
+    }
+  },
+  "delta_median": {
+    "ishur-ekroni": {
+      "lcp_ms": 1415.4,
+      "cls": 0.0093,
+      "cls_regressed": true
+    },
+    "mashkanta-kablan": {
+      "lcp_ms": 0.5,
+      "cls": -0.0086,
+      "cls_regressed": false
+    },
+    "yoetz-mashkantaot": {
+      "lcp_ms": -0.2,
+      "cls": -0.0004,
+      "cls_regressed": false
+    },
+    "yoetz-mashkantaot-merkaz": {
+      "lcp_ms": 1413.7,
+      "cls": 0.0076,
+      "cls_regressed": true
+    }
+  }
+}
