@@ -682,60 +682,193 @@ body.lp-redesign{background:var(--em-950);color:var(--ivory)}
    animations on the H1. The gold line uses --gold-pale so it stays
    ≥4.5:1 on ivory as well as on the dark stage. Size comes from
    the existing .h-hero rule.
-   The fallback faces are metric-matched to Frank Ruhl Libre 300
-   (upem 1000, typo ascender 957, descender -334) against the local
-   Noto Sans Hebrew that paints Hebrew before the webfont arrives.
-   size-adjust is tuned on the live H1, not on xAvgCharWidth: weight
-   300 (the headline) and weight 500 (the gold line) wrap differently.
+   Google's Frank Ruhl Libre face is a woff2 with no local(), so an
+   installed copy of that family is not used while it swaps. The next
+   family in the stack paints instead. Each local face below is its
+   own family, metric-matched to Frank Ruhl Libre (upem 1000, typo
+   ascender 957, descender -334): ascent-override = 95.7 / size-adjust,
+   descent-override = 33.4 / size-adjust. The first installed local()
+   wins. Raw "David Libre" is not in this stack.
+   Widths were measured on the live H1 (nowrap, 48px, letter-spacing
+   -.025em) against the webfont: weight 300 on the title, weight 500
+   on the gold line. Noto Sans Hebrew keeps the full-H1 line match
+   from the previous pass (86% / 86.8%). Arial is measured through
+   Arimo and Liberation Sans, which carry Hebrew and share Arial's
+   metrics. Segoe UI has no Hebrew (Selawik, its metric twin, is
+   Latin-only), so Hebrew falls through; its overrides reuse the
+   Arial measurement for any Latin run-in.
    The sweep override is in this block because the hero streak is
-   above the fold: animating left is a layout shift, translateX is not. ----- */
+   above the fold: animating left is a layout shift, translateX is not.
+   The band blend is here too: .rays stays put, and the next LP band
+   fades in across the hero's empty bottom padding so the mesh does
+   not meet the clipped rays on a hard edge. ----- */
 @font-face{
-  font-family:"Frank Ruhl Libre Fallback";
-  src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
-  font-weight:300;
-  font-style:normal;
-  size-adjust:86%;
-  ascent-override:111.28%;
-  descent-override:38.84%;
-  line-gap-override:0%;
+  font-family:"LP Hero FR";
+  src:local("Frank Ruhl Libre Light");
+  font-weight:300;font-style:normal;font-display:swap;
+  size-adjust:100%;ascent-override:95.7%;descent-override:33.4%;line-gap-override:0%;
 }
 @font-face{
-  font-family:"Frank Ruhl Libre Fallback";
-  src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
-  font-weight:400;
-  font-style:normal;
-  size-adjust:86%;
-  ascent-override:111.28%;
-  descent-override:38.84%;
-  line-gap-override:0%;
+  font-family:"LP Hero FR";
+  src:local("Frank Ruhl Libre Regular");
+  font-weight:400;font-style:normal;font-display:swap;
+  size-adjust:100%;ascent-override:95.7%;descent-override:33.4%;line-gap-override:0%;
 }
 @font-face{
-  font-family:"Frank Ruhl Libre Fallback";
-  src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
-  font-weight:500;
-  font-style:normal;
-  size-adjust:86.8%;
-  ascent-override:110.25%;
-  descent-override:38.48%;
-  line-gap-override:0%;
+  font-family:"LP Hero FR";
+  src:local("Frank Ruhl Libre Medium");
+  font-weight:500;font-style:normal;font-display:swap;
+  size-adjust:100%;ascent-override:95.7%;descent-override:33.4%;line-gap-override:0%;
 }
 @font-face{
-  font-family:"Frank Ruhl Libre Fallback";
+  font-family:"LP Hero FR";
+  src:local("Frank Ruhl Libre Bold");
+  font-weight:700;font-style:normal;font-display:swap;
+  size-adjust:100%;ascent-override:95.7%;descent-override:33.4%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero David";
+  src:local("David Libre Regular"),local("DavidLibre-Regular");
+  font-weight:300;font-style:normal;font-display:swap;
+  size-adjust:87.1%;ascent-override:109.87%;descent-override:38.35%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero David";
+  src:local("David Libre Regular"),local("DavidLibre-Regular");
+  font-weight:400;font-style:normal;font-display:swap;
+  size-adjust:87.1%;ascent-override:109.87%;descent-override:38.35%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero David";
+  src:local("David Libre Medium"),local("DavidLibre-Medium");
+  font-weight:500;font-style:normal;font-display:swap;
+  size-adjust:91.1%;ascent-override:105.05%;descent-override:36.66%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero David";
+  src:local("David Libre Bold"),local("DavidLibre-Bold");
+  font-weight:700;font-style:normal;font-display:swap;
+  size-adjust:88%;ascent-override:108.75%;descent-override:37.95%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Noto Sans";
   src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
-  font-weight:700;
-  font-style:normal;
-  size-adjust:86.8%;
-  ascent-override:110.25%;
-  descent-override:38.48%;
-  line-gap-override:0%;
+  font-weight:300;font-style:normal;font-display:swap;
+  size-adjust:86%;ascent-override:111.28%;descent-override:38.84%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Noto Sans";
+  src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
+  font-weight:400;font-style:normal;font-display:swap;
+  size-adjust:86%;ascent-override:111.28%;descent-override:38.84%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Noto Sans";
+  src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
+  font-weight:500;font-style:normal;font-display:swap;
+  size-adjust:86.8%;ascent-override:110.25%;descent-override:38.48%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Noto Sans";
+  src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
+  font-weight:700;font-style:normal;font-display:swap;
+  size-adjust:86.8%;ascent-override:110.25%;descent-override:38.48%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Noto Serif";
+  src:local("Noto Serif Hebrew"),local("Noto Serif Hebrew Regular");
+  font-weight:300;font-style:normal;font-display:swap;
+  size-adjust:89.1%;ascent-override:107.41%;descent-override:37.49%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Noto Serif";
+  src:local("Noto Serif Hebrew"),local("Noto Serif Hebrew Regular");
+  font-weight:400;font-style:normal;font-display:swap;
+  size-adjust:89.1%;ascent-override:107.41%;descent-override:37.49%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Noto Serif";
+  src:local("Noto Serif Hebrew"),local("Noto Serif Hebrew Regular");
+  font-weight:500;font-style:normal;font-display:swap;
+  size-adjust:91.1%;ascent-override:105.05%;descent-override:36.66%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Noto Serif";
+  src:local("Noto Serif Hebrew"),local("Noto Serif Hebrew Regular");
+  font-weight:700;font-style:normal;font-display:swap;
+  size-adjust:91.1%;ascent-override:105.05%;descent-override:36.66%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Arial";
+  src:local("Arial Hebrew"),local("Arial Hebrew Regular"),local("Arial");
+  font-weight:300;font-style:normal;font-display:swap;
+  size-adjust:85.8%;ascent-override:111.54%;descent-override:38.93%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Arial";
+  src:local("Arial Hebrew"),local("Arial Hebrew Regular"),local("Arial");
+  font-weight:400;font-style:normal;font-display:swap;
+  size-adjust:85.8%;ascent-override:111.54%;descent-override:38.93%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Arial";
+  src:local("Arial Hebrew"),local("Arial Hebrew Regular"),local("Arial");
+  font-weight:500;font-style:normal;font-display:swap;
+  size-adjust:88.4%;ascent-override:108.26%;descent-override:37.78%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Arial";
+  src:local("Arial Hebrew"),local("Arial Hebrew Regular"),local("Arial");
+  font-weight:700;font-style:normal;font-display:swap;
+  size-adjust:88.4%;ascent-override:108.26%;descent-override:37.78%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Segoe";
+  src:local("Segoe UI");
+  font-weight:300;font-style:normal;font-display:swap;
+  size-adjust:85.8%;ascent-override:111.54%;descent-override:38.93%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Segoe";
+  src:local("Segoe UI");
+  font-weight:400;font-style:normal;font-display:swap;
+  size-adjust:85.8%;ascent-override:111.54%;descent-override:38.93%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Segoe";
+  src:local("Segoe UI");
+  font-weight:500;font-style:normal;font-display:swap;
+  size-adjust:88.4%;ascent-override:108.26%;descent-override:37.78%;line-gap-override:0%;
+}
+@font-face{
+  font-family:"LP Hero Segoe";
+  src:local("Segoe UI Semibold"),local("Segoe UI");
+  font-weight:700;font-style:normal;font-display:swap;
+  size-adjust:88.4%;ascent-override:108.26%;descent-override:37.78%;line-gap-override:0%;
 }
 body.lp-redesign .h-hero{
   max-width:none;
-  font-family:"Frank Ruhl Libre","Frank Ruhl Libre Fallback","David Libre",Georgia,serif;
+  font-family:"Frank Ruhl Libre","LP Hero FR","LP Hero David","LP Hero Noto Sans","LP Hero Noto Serif","LP Hero Arial","LP Hero Segoe",Georgia,serif;
 }
 body.lp-redesign .h-hero .g{display:block;color:var(--gold-pale)}
+@media (max-width:400px){
+  body.lp-redesign .h-hero{min-height:5lh}
+}
+@media (min-width:1280px){
+  body.lp-redesign .h-hero{min-height:3lh}
+}
 body.lp-redesign .sweep{animation-name:lp-sweep}
 @keyframes lp-sweep{0%{transform:translateX(0)}55%,100%{transform:translateX(533.333%)}}
+/* The following band overlaps the empty padding and fades in.
+   .rays left/bottom/transform are untouched. */
+body.lp-redesign .sec + .sec,
+body.lp-redesign .bg-hero + main > .sec:first-child{
+  --lp-blend:64px;
+  margin-top:calc(var(--lp-blend) * -1);
+  padding-top:calc(clamp(72px, 10vw, 128px) + var(--lp-blend));
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 var(--lp-blend));
+  mask-image:linear-gradient(to bottom, transparent 0, #000 var(--lp-blend));
+}
 /* ----- LP-HERO-CRITICAL-END ----- */
 
 /* Below the fold, or not the LCP element. Leave these in site.css. */
