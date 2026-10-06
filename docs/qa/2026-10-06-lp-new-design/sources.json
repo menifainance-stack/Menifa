@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-10-06T09:11:30Z",
-  "round": 2,
-  "commit": "5f59ae2b2bf18085ac91e10da9670889fdb7069d",
+  "capturedAt": "2026-10-06T09:29:00Z",
+  "round": 3,
+  "commit": "b01be02d8e937417bee53f83970017667955c320",
   "before": "https://menifa-git-preview-merkaz-o-cf9b39-menifainance-stacks-projects.vercel.app",
   "after": "https://menifa-git-preview-lp-new-d-0fcf5f-menifainance-stacks-projects.vercel.app",
-  "note": "before/ is the Vercel Preview of PR #100. after/ full-page shots, compare/pos-* viewport shots, compare/*-vs-home-* side-by-sides, and compare/top-after-* 2400px crops were recaptured from the Vercel Preview of this branch after 5f59ae2. Responses carried X-Robots-Tag: noindex, nofollow. make.com requests during that capture: 0. Contrast and Lighthouse remain local measurements of the same commit."
+  "note": "before/ is the Vercel Preview of PR #100. after/ and compare/ were recaptured from the Vercel Preview of this branch after b01be02 (rows, step lists, contact pills). Responses carried X-Robots-Tag: noindex, nofollow. make.com requests during that capture: 0. Contrast and Lighthouse are local measurements of that commit."
 }
