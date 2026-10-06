@@ -4,7 +4,13 @@
     "boiPercent": 3.25,
     "primePercent": 4.75,
     "source": "https://www.boi.org.il/PublicApi/GetInterest",
-    "asOf": "2026-09-01"
+    "asOf": "2026-09-01",
+    "decisionDate": "2026-09-01",
+    "effectiveFrom": "2026-09-03",
+    "nextDecisionDate": "2026-10-21",
+    "tickerEffectiveHe": "3.9.2026",
+    "tickerNextDecisionHe": "21.10.2026",
+    "effectiveFromNote": "decisionDate is the BOI press-release date (https://www.boi.org.il/publications/pressreleases/01-09-26/), not the day the 3.25% rate takes effect. The previous window is valid through 2026-09-02 (BOI monetary tools: בתוקף עד 02/09/26). The new rate is effective 2026-09-03 (Bank Hapoalim: החל מ-3.9.2026). The live ticker must read בתוקף מ-3.9.2026 · החלטה הבאה 21.10.2026. Do not copy decisionDate or GetInterest lastPublishedDate into «בתוקף מ». A next business day after 2026-09-01 is 2026-09-02, which is the last day of the old window, not the start of the new rate. effectiveFrom is stored explicitly and must be checked against Hapoalim and https://www.boi.org.il/roles/markets/monetarytools/ before the weekly rate run rewrites the ticker."
   },
   "mortgageAverages": {
     "periodMonth": "2026-08",
