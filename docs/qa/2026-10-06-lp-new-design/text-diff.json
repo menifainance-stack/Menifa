@@ -7,5 +7,5 @@
     "yoetz-mashkantaot-merkaz.html": {},
     "ishur-ekroni.html": {}
   },
-  "note": "Compared HEAD (preview/merkaz-openings branch) to the working tree. Head tags, visible text, alt, data-wa, wa.me hrefs, and form field names."
+  "note": "Compared 7cef99c (PR #100) to this working tree. Head tags, visible text, alt, data-wa, wa.me hrefs, and form field names."
 }

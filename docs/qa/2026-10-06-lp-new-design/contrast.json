@@ -1,72 +1,72 @@
 {
-  "method": "Playwright clip of the text with color set to transparent; worst of a 3x3 sample of the background versus computed color. Threshold 4.5.",
-  "min": 4.52,
+  "method": "screenshot worst of 3x3 background pixels vs computed color. hero gold remeasured after --gold-pale.",
+  "min": 4.56,
   "fail_count": 0,
-  "checked": 384,
+  "checked": 372,
   "fails": [],
   "by_probe": {
     "aside_h4": {
-      "min": 6.48,
+      "min": 11.21,
       "n": 24
     },
     "aside_link": {
-      "min": 6.44,
+      "min": 11.21,
       "n": 24
     },
     "body_h2": {
-      "min": 10.65,
+      "min": 11.13,
       "n": 24
     },
     "body_h3": {
-      "min": 11.34,
-      "n": 24
+      "min": 10.26,
+      "n": 12
     },
     "body_p": {
-      "min": 10.68,
+      "min": 10.16,
       "n": 24
     },
     "cta_h2": {
-      "min": 9.61,
+      "min": 7.76,
       "n": 24
     },
     "form_button": {
-      "min": 4.52,
+      "min": 4.56,
       "n": 24
     },
     "form_consent": {
-      "min": 12.06,
+      "min": 12.73,
       "n": 24
     },
     "form_h3": {
-      "min": 11.43,
+      "min": 12.88,
       "n": 24
     },
     "form_label": {
-      "min": 11.88,
+      "min": 12.74,
       "n": 24
     },
     "form_sub": {
-      "min": 7.99,
+      "min": 8.98,
+      "n": 24
+    },
+    "hero_gold": {
+      "min": 6.11,
       "n": 24
     },
     "hero_h1": {
-      "min": 12.18,
-      "n": 24
-    },
-    "hero_lead": {
-      "min": 7.78,
+      "min": 12.5,
       "n": 24
     },
     "prose_a": {
-      "min": 5.53,
+      "min": 5.99,
       "n": 24
     },
     "strong": {
-      "min": 5.53,
+      "min": 6.17,
       "n": 24
     },
     "tel_btn": {
-      "min": 12.07,
+      "min": 6.24,
       "n": 24
     }
   },
@@ -74,6674 +74,2318 @@
     {
       "page": "yoetz-mashkantaot",
       "palette": "default",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.93,
-      "median": 13.07,
-      "bg_center": [
-        15,
-        44,
-        35
-      ]
+      "probe": "hero_h1",
+      "ratio": 14.43
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "default",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.54,
-      "median": 13.69,
-      "bg_center": [
-        13,
-        39,
-        31
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "default",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.99,
-      "median": 14.13,
-      "bg_center": [
-        12,
-        36,
-        29
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "default",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 7.44,
-      "median": 7.47,
-      "bg_center": [
-        201,
-        170,
-        111
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "default",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        207,
-        216,
-        204
-      ],
-      "worst": 10.32,
-      "median": 10.34,
-      "bg_center": [
-        14,
-        42,
-        34
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "default",
-      "probe": "body_p",
-      "text": "רוב האנשים נכנסים לבנק עם שאלה אחת, כמה ",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 11.77,
-      "median": 13.97,
-      "bg_center": [
-        10,
-        32,
-        25
-      ]
+      "probe": "hero_gold",
+      "ratio": 10.21
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "default",
       "probe": "body_h2",
-      "text": "מה תמיר באמת בודק בתיק",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.26,
-      "median": 13.42,
-      "bg_center": [
-        11,
-        35,
-        28
-      ]
+      "ratio": 13.07
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "default",
       "probe": "body_h3",
-      "text": "מתי בכלל שווה לשלם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.26,
-      "median": 14.84,
-      "bg_center": [
-        11,
-        32,
-        25
-      ]
+      "ratio": 12.99
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "default",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות: ההצעה מהבנק נראית סבירה. ",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.52,
-      "median": 13.83,
-      "bg_center": [
-        13,
-        38,
-        31
-      ]
+      "probe": "body_p",
+      "ratio": 13.12
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "default",
-      "probe": "hero_lead",
-      "text": "לפני שאתם נועלים החלטה לעשרים או שלושים ",
-      "fg": [
-        207,
-        216,
-        204
-      ],
-      "worst": 8.0,
-      "median": 8.45,
-      "bg_center": [
-        22,
-        59,
-        48
-      ]
+      "probe": "strong",
+      "ratio": 12.61
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "default",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 11.21,
-      "median": 11.57,
-      "bg_center": [
-        237,
-        214,
-        158
-      ]
+      "probe": "prose_a",
+      "ratio": 13.49
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "default",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 16.06,
-      "median": 16.06,
-      "bg_center": [
-        7,
-        22,
-        15
-      ]
+      "probe": "form_h3",
+      "ratio": 15.12
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "form_label",
+      "ratio": 14.97
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "form_sub",
+      "ratio": 11.95
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "form_consent",
+      "ratio": 14.68
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "form_button",
+      "ratio": 7.36
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "default",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.62,
-      "median": 6.76,
-      "bg_center": [
-        153,
-        171,
-        166
-      ]
+      "ratio": 13.54
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "default",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.57,
-      "median": 6.71,
-      "bg_center": [
-        153,
-        171,
-        166
-      ]
+      "ratio": 13.52
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "cta_h2",
+      "ratio": 9.52
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "tel_btn",
+      "ratio": 6.3
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "privatebank",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.74,
-      "median": 13.78,
-      "bg_center": [
-        19,
-        34,
-        59
-      ]
+      "probe": "hero_h1",
+      "ratio": 15.06
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "privatebank",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.25,
-      "median": 14.43,
-      "bg_center": [
-        16,
-        30,
-        53
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "privatebank",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.72,
-      "median": 14.76,
-      "bg_center": [
-        15,
-        28,
-        50
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "privatebank",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 5.41,
-      "median": 5.41,
-      "bg_center": [
-        177,
-        142,
-        88
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "privatebank",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        203,
-        211,
-        223
-      ],
-      "worst": 10.57,
-      "median": 10.67,
-      "bg_center": [
-        18,
-        33,
-        58
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "privatebank",
-      "probe": "body_p",
-      "text": "רוב האנשים נכנסים לבנק עם שאלה אחת, כמה ",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.92,
-      "median": 14.56,
-      "bg_center": [
-        13,
-        25,
-        45
-      ]
+      "probe": "hero_gold",
+      "ratio": 10.16
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "privatebank",
       "probe": "body_h2",
-      "text": "מה תמיר באמת בודק בתיק",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.09,
-      "median": 14.27,
-      "bg_center": [
-        14,
-        27,
-        48
-      ]
+      "ratio": 13.81
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "privatebank",
       "probe": "body_h3",
-      "text": "מתי בכלל שווה לשלם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.19,
-      "median": 15.34,
-      "bg_center": [
-        13,
-        24,
-        44
-      ]
+      "ratio": 14.13
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "privatebank",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות: ההצעה מהבנק נראית סבירה. ",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.11,
-      "median": 14.4,
-      "bg_center": [
-        17,
-        30,
-        54
-      ]
+      "probe": "body_p",
+      "ratio": 14.13
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "privatebank",
-      "probe": "hero_lead",
-      "text": "לפני שאתם נועלים החלטה לעשרים או שלושים ",
-      "fg": [
-        203,
-        211,
-        223
-      ],
-      "worst": 8.28,
-      "median": 8.66,
-      "bg_center": [
-        29,
-        50,
-        82
-      ]
+      "probe": "strong",
+      "ratio": 12.62
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "privatebank",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 9.71,
-      "median": 10.28,
-      "bg_center": [
-        221,
-        202,
-        166
-      ]
+      "probe": "prose_a",
+      "ratio": 13.14
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "privatebank",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 16.48,
-      "median": 16.48,
-      "bg_center": [
-        8,
-        16,
-        28
-      ]
+      "probe": "form_h3",
+      "ratio": 15.64
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "form_label",
+      "ratio": 15.48
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "form_sub",
+      "ratio": 12.01
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "form_consent",
+      "ratio": 15.21
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "form_button",
+      "ratio": 5.37
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "privatebank",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.49,
-      "median": 6.7,
-      "bg_center": [
-        157,
-        168,
-        183
-      ]
+      "ratio": 14.27
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "privatebank",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.5,
-      "median": 6.62,
-      "bg_center": [
-        156,
-        167,
-        184
-      ]
+      "ratio": 14.27
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "cta_h2",
+      "ratio": 7.76
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "tel_btn",
+      "ratio": 7.41
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "ivory",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.57,
-      "median": 13.7,
-      "bg_center": [
-        240,
-        233,
-        218
-      ]
+      "probe": "hero_h1",
+      "ratio": 14.94
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "ivory",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.2,
-      "median": 14.32,
-      "bg_center": [
-        243,
-        237,
-        225
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "ivory",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.43,
-      "median": 14.56,
-      "bg_center": [
-        244,
-        239,
-        228
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "ivory",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 5.33,
-      "median": 5.33,
-      "bg_center": [
-        169,
-        133,
-        64
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "ivory",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        51,
-        66,
-        90
-      ],
-      "worst": 8.33,
-      "median": 8.41,
-      "bg_center": [
-        240,
-        233,
-        219
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "ivory",
-      "probe": "body_p",
-      "text": "רוב האנשים נכנסים לבנק עם שאלה אחת, כמה ",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.23,
-      "median": 14.97,
-      "bg_center": [
-        248,
-        243,
-        235
-      ]
+      "probe": "hero_gold",
+      "ratio": 6.11
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "ivory",
       "probe": "body_h2",
-      "text": "מה תמיר באמת בודק בתיק",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.94,
-      "median": 14.45,
-      "bg_center": [
-        245,
-        240,
-        229
-      ]
+      "ratio": 13.35
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "ivory",
       "probe": "body_h3",
-      "text": "מתי בכלל שווה לשלם",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.93,
-      "median": 15.22,
-      "bg_center": [
-        248,
-        244,
-        236
-      ]
+      "ratio": 12.94
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "ivory",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות: ההצעה מהבנק נראית סבירה. ",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.43,
-      "median": 14.56,
-      "bg_center": [
-        245,
-        239,
-        228
-      ]
+      "probe": "body_p",
+      "ratio": 12.83
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "ivory",
-      "probe": "hero_lead",
-      "text": "לפני שאתם נועלים החלטה לעשרים או שלושים ",
-      "fg": [
-        51,
-        66,
-        90
-      ],
-      "worst": 8.05,
-      "median": 8.18,
-      "bg_center": [
-        239,
-        230,
-        213
-      ]
+      "probe": "strong",
+      "ratio": 6.17
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "ivory",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.42,
-      "median": 12.82,
-      "bg_center": [
-        237,
-        214,
-        158
-      ]
+      "probe": "prose_a",
+      "ratio": 6.79
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "ivory",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 15.08,
-      "median": 15.08,
-      "bg_center": [
-        247,
-        243,
-        234
-      ]
+      "probe": "form_h3",
+      "ratio": 15.47
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "form_label",
+      "ratio": 15.37
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "form_sub",
+      "ratio": 9.43
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "form_consent",
+      "ratio": 15.33
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "form_button",
+      "ratio": 5.3
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "ivory",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.21,
-      "median": 14.31,
-      "bg_center": [
-        245,
-        241,
-        231
-      ]
+      "ratio": 13.57
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "ivory",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.21,
-      "median": 14.34,
-      "bg_center": [
-        246,
-        241,
-        231
-      ]
+      "ratio": 13.57
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "tel_btn",
+      "ratio": 9.13
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "white",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.84,
-      "median": 16.99,
-      "bg_center": [
-        244,
-        244,
-        240
-      ]
+      "probe": "hero_h1",
+      "ratio": 17.92
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "white",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.45,
-      "median": 17.59,
-      "bg_center": [
-        247,
-        247,
-        244
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "white",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.6,
-      "median": 17.76,
-      "bg_center": [
-        248,
-        248,
-        246
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "white",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 5.5,
-      "median": 5.5,
-      "bg_center": [
-        169,
-        133,
-        64
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "white",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        47,
-        47,
-        47
-      ],
-      "worst": 12.04,
-      "median": 12.15,
-      "bg_center": [
-        244,
-        244,
-        241
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "white",
-      "probe": "body_p",
-      "text": "רוב האנשים נכנסים לבנק עם שאלה אחת, כמה ",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 15.84,
-      "median": 18.24,
-      "bg_center": [
-        252,
-        252,
-        252
-      ]
+      "probe": "hero_gold",
+      "ratio": 7.98
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "white",
       "probe": "body_h2",
-      "text": "מה תמיר באמת בודק בתיק",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.86,
-      "median": 17.91,
-      "bg_center": [
-        249,
-        249,
-        248
-      ]
+      "ratio": 16.84
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "white",
       "probe": "body_h3",
-      "text": "מתי בכלל שווה לשלם",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.75,
-      "median": 18.24,
-      "bg_center": [
-        252,
-        252,
-        251
-      ]
+      "ratio": 16.16
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "white",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות: ההצעה מהבנק נראית סבירה. ",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.62,
-      "median": 17.76,
-      "bg_center": [
-        249,
-        249,
-        247
-      ]
+      "probe": "body_p",
+      "ratio": 16.16
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "white",
-      "probe": "hero_lead",
-      "text": "לפני שאתם נועלים החלטה לעשרים או שלושים ",
-      "fg": [
-        47,
-        47,
-        47
-      ],
-      "worst": 12.04,
-      "median": 12.15,
-      "bg_center": [
-        245,
-        245,
-        241
-      ]
+      "probe": "strong",
+      "ratio": 8.13
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "white",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.42,
-      "median": 12.82,
-      "bg_center": [
-        237,
-        214,
-        158
-      ]
+      "probe": "prose_a",
+      "ratio": 8.65
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "white",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 18.88,
-      "median": 18.88,
-      "bg_center": [
-        255,
-        255,
-        255
-      ]
+      "probe": "form_h3",
+      "ratio": 18.71
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "form_label",
+      "ratio": 18.44
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "form_sub",
+      "ratio": 13.27
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "form_consent",
+      "ratio": 18.41
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "form_button",
+      "ratio": 5.47
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "white",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 15.18,
-      "median": 15.18,
-      "bg_center": [
-        248,
-        248,
-        246
-      ]
+      "ratio": 16.99
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "white",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 15.18,
-      "median": 15.3,
-      "bg_center": [
-        249,
-        249,
-        246
-      ]
+      "ratio": 16.99
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "tel_btn",
+      "ratio": 11.7
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "royal",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 14.64,
-      "median": 14.79,
-      "bg_center": [
-        235,
-        240,
-        251
-      ]
+      "probe": "hero_h1",
+      "ratio": 15.78
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "royal",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.32,
-      "median": 15.36,
-      "bg_center": [
-        241,
-        244,
-        252
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "royal",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.48,
-      "median": 15.61,
-      "bg_center": [
-        243,
-        246,
-        252
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "royal",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        255,
-        255,
-        255
-      ],
-      "worst": 6.52,
-      "median": 6.59,
-      "bg_center": [
-        44,
-        80,
-        209
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "royal",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        38,
-        55,
-        92
-      ],
-      "worst": 10.3,
-      "median": 10.4,
-      "bg_center": [
-        235,
-        241,
-        250
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "royal",
-      "probe": "body_p",
-      "text": "רוב האנשים נכנסים לבנק עם שאלה אחת, כמה ",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 13.39,
-      "median": 16.17,
-      "bg_center": [
-        250,
-        250,
-        253
-      ]
+      "probe": "hero_gold",
+      "ratio": 11.18
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "royal",
       "probe": "body_h2",
-      "text": "מה תמיר באמת בודק בתיק",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 14.58,
-      "median": 15.59,
-      "bg_center": [
-        244,
-        247,
-        252
-      ]
+      "ratio": 14.36
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "royal",
       "probe": "body_h3",
-      "text": "מתי בכלל שווה לשלם",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 14.31,
-      "median": 16.17,
-      "bg_center": [
-        248,
-        250,
-        254
-      ]
+      "ratio": 13.06
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "royal",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות: ההצעה מהבנק נראית סבירה. ",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.45,
-      "median": 15.58,
-      "bg_center": [
-        243,
-        246,
-        252
-      ]
+      "probe": "body_p",
+      "ratio": 12.95
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "royal",
-      "probe": "hero_lead",
-      "text": "לפני שאתם נועלים החלטה לעשרים או שלושים ",
-      "fg": [
-        38,
-        55,
-        92
-      ],
-      "worst": 10.12,
-      "median": 10.22,
-      "bg_center": [
-        234,
-        240,
-        251
-      ]
+      "probe": "strong",
+      "ratio": 11.17
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "royal",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.42,
-      "median": 12.82,
-      "bg_center": [
-        237,
-        214,
-        158
-      ]
+      "probe": "prose_a",
+      "ratio": 12.37
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "royal",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.75,
-      "median": 15.75,
-      "bg_center": [
-        244,
-        247,
-        253
-      ]
+      "probe": "form_h3",
+      "ratio": 16.59
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "form_label",
+      "ratio": 16.43
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "form_sub",
+      "ratio": 11.56
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "form_consent",
+      "ratio": 16.43
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "form_button",
+      "ratio": 6.55
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "royal",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.76,
-      "median": 14.89,
-      "bg_center": [
-        242,
-        245,
-        252
-      ]
+      "ratio": 14.51
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "royal",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.76,
-      "median": 14.89,
-      "bg_center": [
-        242,
-        246,
-        252
-      ]
+      "ratio": 14.51
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "tel_btn",
+      "ratio": 9.92
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "sand",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.43,
-      "median": 11.54,
-      "bg_center": [
-        235,
-        226,
-        212
-      ]
+      "probe": "hero_h1",
+      "ratio": 12.5
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "sand",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.88,
-      "median": 11.95,
-      "bg_center": [
-        238,
-        230,
-        217
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "sand",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.06,
-      "median": 12.15,
-      "bg_center": [
-        239,
-        232,
-        219
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "sand",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        255,
-        255,
-        255
-      ],
-      "worst": 4.52,
-      "median": 4.62,
-      "bg_center": [
-        166,
-        101,
-        59
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "sand",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        69,
-        64,
-        58
-      ],
-      "worst": 7.99,
-      "median": 8.07,
-      "bg_center": [
-        235,
-        226,
-        213
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "sand",
-      "probe": "body_p",
-      "text": "רוב האנשים נכנסים לבנק עם שאלה אחת, כמה ",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 10.71,
-      "median": 12.49,
-      "bg_center": [
-        242,
-        235,
-        225
-      ]
+      "probe": "hero_gold",
+      "ratio": 7.3
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "sand",
       "probe": "body_h2",
-      "text": "מה תמיר באמת בודק בתיק",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.43,
-      "median": 11.95,
-      "bg_center": [
-        239,
-        231,
-        219
-      ]
+      "ratio": 11.13
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "sand",
       "probe": "body_h3",
-      "text": "מתי בכלל שווה לשלם",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.57,
-      "median": 12.73,
-      "bg_center": [
-        244,
-        237,
-        226
-      ]
+      "ratio": 10.26
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "sand",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות: ההצעה מהבנק נראית סבירה. ",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.18,
-      "median": 12.22,
-      "bg_center": [
-        241,
-        233,
-        221
-      ]
+      "probe": "body_p",
+      "ratio": 10.19
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "sand",
-      "probe": "hero_lead",
-      "text": "לפני שאתם נועלים החלטה לעשרים או שלושים ",
-      "fg": [
-        69,
-        64,
-        58
-      ],
-      "worst": 7.78,
-      "median": 7.91,
-      "bg_center": [
-        235,
-        225,
-        210
-      ]
+      "probe": "strong",
+      "ratio": 7.06
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "sand",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.42,
-      "median": 12.82,
-      "bg_center": [
-        237,
-        214,
-        158
-      ]
+      "probe": "prose_a",
+      "ratio": 7.87
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "sand",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.07,
-      "median": 12.07,
-      "bg_center": [
-        239,
-        231,
-        219
-      ]
+      "probe": "form_h3",
+      "ratio": 12.88
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "form_label",
+      "ratio": 12.74
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "form_sub",
+      "ratio": 8.98
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "form_consent",
+      "ratio": 12.73
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "form_button",
+      "ratio": 4.56
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "sand",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 13.98,
-      "median": 14.08,
-      "bg_center": [
-        243,
-        238,
-        231
-      ]
+      "ratio": 11.21
     },
     {
       "page": "yoetz-mashkantaot",
       "palette": "sand",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 13.98,
-      "median": 14.1,
-      "bg_center": [
-        244,
-        239,
-        231
-      ]
+      "ratio": 11.21
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "tel_btn",
+      "ratio": 7.3
     },
     {
       "page": "mashkanta-kablan",
       "palette": "default",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.93,
-      "median": 13.07,
-      "bg_center": [
-        15,
-        44,
-        35
-      ]
+      "probe": "hero_h1",
+      "ratio": 14.43
     },
     {
       "page": "mashkanta-kablan",
       "palette": "default",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.54,
-      "median": 13.69,
-      "bg_center": [
-        13,
-        39,
-        31
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "default",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.99,
-      "median": 14.13,
-      "bg_center": [
-        12,
-        36,
-        29
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "default",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 7.44,
-      "median": 7.47,
-      "bg_center": [
-        201,
-        170,
-        111
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "default",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        207,
-        216,
-        204
-      ],
-      "worst": 10.32,
-      "median": 10.34,
-      "bg_center": [
-        14,
-        42,
-        34
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "default",
-      "probe": "body_p",
-      "text": "בדירה מקבלן החתימה מגיעה מהר. יש מחיר ''",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 11.77,
-      "median": 13.7,
-      "bg_center": [
-        11,
-        33,
-        26
-      ]
+      "probe": "hero_gold",
+      "ratio": 10.21
     },
     {
       "page": "mashkanta-kablan",
       "palette": "default",
       "probe": "body_h2",
-      "text": "מה באמת שונה מיד שנייה",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.21,
-      "median": 13.17,
-      "bg_center": [
-        12,
-        36,
-        28
-      ]
+      "ratio": 13.23
     },
     {
       "page": "mashkanta-kablan",
       "palette": "default",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.92,
-      "median": 12.93,
-      "bg_center": [
-        15,
-        44,
-        35
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "mashkanta-kablan",
       "palette": "default",
-      "probe": "hero_h1",
-      "text": "משכנתא לדירה מקבלן: הקבלן לוחץ לחתום, ול",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.52,
-      "median": 13.83,
-      "bg_center": [
-        13,
-        38,
-        31
-      ]
+      "probe": "body_p",
+      "ratio": 12.99
     },
     {
       "page": "mashkanta-kablan",
       "palette": "default",
-      "probe": "hero_lead",
-      "text": "לפני החתימה בודקים אם המימון והתזרים שלכ",
-      "fg": [
-        207,
-        216,
-        204
-      ],
-      "worst": 8.0,
-      "median": 8.45,
-      "bg_center": [
-        22,
-        59,
-        48
-      ]
+      "probe": "strong",
+      "ratio": 12.05
     },
     {
       "page": "mashkanta-kablan",
       "palette": "default",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 11.12,
-      "median": 11.65,
-      "bg_center": [
-        237,
-        215,
-        159
-      ]
+      "probe": "prose_a",
+      "ratio": 12.73
     },
     {
       "page": "mashkanta-kablan",
       "palette": "default",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 16.06,
-      "median": 16.06,
-      "bg_center": [
-        7,
-        22,
-        15
-      ]
+      "probe": "form_h3",
+      "ratio": 15.14
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "form_label",
+      "ratio": 14.85
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "form_sub",
+      "ratio": 11.95
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "form_consent",
+      "ratio": 14.7
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "form_button",
+      "ratio": 7.36
     },
     {
       "page": "mashkanta-kablan",
       "palette": "default",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.61,
-      "median": 6.69,
-      "bg_center": [
-        151,
-        170,
-        165
-      ]
+      "ratio": 13.54
     },
     {
       "page": "mashkanta-kablan",
       "palette": "default",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.54,
-      "median": 6.63,
-      "bg_center": [
-        152,
-        170,
-        165
-      ]
+      "ratio": 13.52
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "cta_h2",
+      "ratio": 9.52
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "tel_btn",
+      "ratio": 6.3
     },
     {
       "page": "mashkanta-kablan",
       "palette": "privatebank",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.74,
-      "median": 13.78,
-      "bg_center": [
-        19,
-        34,
-        59
-      ]
+      "probe": "hero_h1",
+      "ratio": 15.06
     },
     {
       "page": "mashkanta-kablan",
       "palette": "privatebank",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.25,
-      "median": 14.43,
-      "bg_center": [
-        16,
-        30,
-        53
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "privatebank",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.72,
-      "median": 14.76,
-      "bg_center": [
-        15,
-        28,
-        50
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "privatebank",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 5.41,
-      "median": 5.41,
-      "bg_center": [
-        177,
-        142,
-        88
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "privatebank",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        203,
-        211,
-        223
-      ],
-      "worst": 10.57,
-      "median": 10.67,
-      "bg_center": [
-        18,
-        33,
-        58
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "privatebank",
-      "probe": "body_p",
-      "text": "בדירה מקבלן החתימה מגיעה מהר. יש מחיר ''",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.92,
-      "median": 14.4,
-      "bg_center": [
-        13,
-        25,
-        45
-      ]
+      "probe": "hero_gold",
+      "ratio": 10.0
     },
     {
       "page": "mashkanta-kablan",
       "palette": "privatebank",
       "probe": "body_h2",
-      "text": "מה באמת שונה מיד שנייה",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.12,
-      "median": 13.97,
-      "bg_center": [
-        15,
-        27,
-        50
-      ]
+      "ratio": 13.93
     },
     {
       "page": "mashkanta-kablan",
       "palette": "privatebank",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.58,
-      "median": 13.76,
-      "bg_center": [
-        19,
-        34,
-        59
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "mashkanta-kablan",
       "palette": "privatebank",
-      "probe": "hero_h1",
-      "text": "משכנתא לדירה מקבלן: הקבלן לוחץ לחתום, ול",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.11,
-      "median": 14.4,
-      "bg_center": [
-        17,
-        30,
-        54
-      ]
+      "probe": "body_p",
+      "ratio": 14.13
     },
     {
       "page": "mashkanta-kablan",
       "palette": "privatebank",
-      "probe": "hero_lead",
-      "text": "לפני החתימה בודקים אם המימון והתזרים שלכ",
-      "fg": [
-        203,
-        211,
-        223
-      ],
-      "worst": 8.28,
-      "median": 8.66,
-      "bg_center": [
-        29,
-        50,
-        82
-      ]
+      "probe": "strong",
+      "ratio": 12.07
     },
     {
       "page": "mashkanta-kablan",
       "palette": "privatebank",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 9.61,
-      "median": 10.29,
-      "bg_center": [
-        221,
-        202,
-        167
-      ]
+      "probe": "prose_a",
+      "ratio": 12.67
     },
     {
       "page": "mashkanta-kablan",
       "palette": "privatebank",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 16.48,
-      "median": 16.48,
-      "bg_center": [
-        8,
-        16,
-        28
-      ]
+      "probe": "form_h3",
+      "ratio": 15.66
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "form_label",
+      "ratio": 15.36
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "form_sub",
+      "ratio": 11.99
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "form_consent",
+      "ratio": 15.21
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "form_button",
+      "ratio": 5.37
     },
     {
       "page": "mashkanta-kablan",
       "palette": "privatebank",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.48,
-      "median": 6.57,
-      "bg_center": [
-        155,
-        166,
-        181
-      ]
+      "ratio": 14.27
     },
     {
       "page": "mashkanta-kablan",
       "palette": "privatebank",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.44,
-      "median": 6.54,
-      "bg_center": [
-        155,
-        166,
-        182
-      ]
+      "ratio": 14.27
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "cta_h2",
+      "ratio": 7.77
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "tel_btn",
+      "ratio": 7.41
     },
     {
       "page": "mashkanta-kablan",
       "palette": "ivory",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.57,
-      "median": 13.7,
-      "bg_center": [
-        240,
-        233,
-        218
-      ]
+      "probe": "hero_h1",
+      "ratio": 14.94
     },
     {
       "page": "mashkanta-kablan",
       "palette": "ivory",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.2,
-      "median": 14.32,
-      "bg_center": [
-        243,
-        237,
-        225
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "ivory",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.43,
-      "median": 14.56,
-      "bg_center": [
-        244,
-        239,
-        228
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "ivory",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 5.33,
-      "median": 5.33,
-      "bg_center": [
-        169,
-        133,
-        64
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "ivory",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        51,
-        66,
-        90
-      ],
-      "worst": 8.33,
-      "median": 8.41,
-      "bg_center": [
-        240,
-        233,
-        219
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "ivory",
-      "probe": "body_p",
-      "text": "בדירה מקבלן החתימה מגיעה מהר. יש מחיר ''",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.11,
-      "median": 14.7,
-      "bg_center": [
-        247,
-        243,
-        234
-      ]
+      "probe": "hero_gold",
+      "ratio": 6.16
     },
     {
       "page": "mashkanta-kablan",
       "palette": "ivory",
       "probe": "body_h2",
-      "text": "מה באמת שונה מיד שנייה",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.34,
-      "median": 13.77,
-      "bg_center": [
-        242,
-        236,
-        225
-      ]
+      "ratio": 13.44
     },
     {
       "page": "mashkanta-kablan",
       "palette": "ivory",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.47,
-      "median": 13.57,
-      "bg_center": [
-        240,
-        233,
-        218
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "mashkanta-kablan",
       "palette": "ivory",
-      "probe": "hero_h1",
-      "text": "משכנתא לדירה מקבלן: הקבלן לוחץ לחתום, ול",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.43,
-      "median": 14.56,
-      "bg_center": [
-        245,
-        239,
-        228
-      ]
+      "probe": "body_p",
+      "ratio": 12.82
     },
     {
       "page": "mashkanta-kablan",
       "palette": "ivory",
-      "probe": "hero_lead",
-      "text": "לפני החתימה בודקים אם המימון והתזרים שלכ",
-      "fg": [
-        51,
-        66,
-        90
-      ],
-      "worst": 8.05,
-      "median": 8.18,
-      "bg_center": [
-        239,
-        230,
-        213
-      ]
+      "probe": "strong",
+      "ratio": 6.28
     },
     {
       "page": "mashkanta-kablan",
       "palette": "ivory",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.32,
-      "median": 12.91,
-      "bg_center": [
-        237,
-        215,
-        159
-      ]
+      "probe": "prose_a",
+      "ratio": 6.11
     },
     {
       "page": "mashkanta-kablan",
       "palette": "ivory",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 15.08,
-      "median": 15.08,
-      "bg_center": [
-        247,
-        243,
-        234
-      ]
+      "probe": "form_h3",
+      "ratio": 15.61
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "form_label",
+      "ratio": 15.37
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "form_sub",
+      "ratio": 9.43
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "form_consent",
+      "ratio": 15.36
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "form_button",
+      "ratio": 5.3
     },
     {
       "page": "mashkanta-kablan",
       "palette": "ivory",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.31,
-      "median": 14.35,
-      "bg_center": [
-        246,
-        241,
-        232
-      ]
+      "ratio": 13.57
     },
     {
       "page": "mashkanta-kablan",
       "palette": "ivory",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.31,
-      "median": 14.35,
-      "bg_center": [
-        246,
-        241,
-        232
-      ]
+      "ratio": 13.57
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "tel_btn",
+      "ratio": 9.13
     },
     {
       "page": "mashkanta-kablan",
       "palette": "white",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.84,
-      "median": 16.99,
-      "bg_center": [
-        244,
-        244,
-        240
-      ]
+      "probe": "hero_h1",
+      "ratio": 17.92
     },
     {
       "page": "mashkanta-kablan",
       "palette": "white",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.45,
-      "median": 17.59,
-      "bg_center": [
-        247,
-        247,
-        244
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "white",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.6,
-      "median": 17.76,
-      "bg_center": [
-        248,
-        248,
-        246
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "white",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 5.5,
-      "median": 5.5,
-      "bg_center": [
-        169,
-        133,
-        64
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "white",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        47,
-        47,
-        47
-      ],
-      "worst": 12.04,
-      "median": 12.15,
-      "bg_center": [
-        244,
-        244,
-        241
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "white",
-      "probe": "body_p",
-      "text": "בדירה מקבלן החתימה מגיעה מהר. יש מחיר ''",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 15.83,
-      "median": 18.08,
-      "bg_center": [
-        251,
-        251,
-        250
-      ]
+      "probe": "hero_gold",
+      "ratio": 8.05
     },
     {
       "page": "mashkanta-kablan",
       "palette": "white",
       "probe": "body_h2",
-      "text": "מה באמת שונה מיד שנייה",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.59,
-      "median": 16.88,
-      "bg_center": [
-        247,
-        247,
-        246
-      ]
+      "ratio": 16.84
     },
     {
       "page": "mashkanta-kablan",
       "palette": "white",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.82,
-      "median": 16.84,
-      "bg_center": [
-        244,
-        244,
-        240
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "mashkanta-kablan",
       "palette": "white",
-      "probe": "hero_h1",
-      "text": "משכנתא לדירה מקבלן: הקבלן לוחץ לחתום, ול",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.62,
-      "median": 17.76,
-      "bg_center": [
-        249,
-        249,
-        247
-      ]
+      "probe": "body_p",
+      "ratio": 16.16
     },
     {
       "page": "mashkanta-kablan",
       "palette": "white",
-      "probe": "hero_lead",
-      "text": "לפני החתימה בודקים אם המימון והתזרים שלכ",
-      "fg": [
-        47,
-        47,
-        47
-      ],
-      "worst": 12.04,
-      "median": 12.15,
-      "bg_center": [
-        245,
-        245,
-        241
-      ]
+      "probe": "strong",
+      "ratio": 7.98
     },
     {
       "page": "mashkanta-kablan",
       "palette": "white",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.32,
-      "median": 12.91,
-      "bg_center": [
-        237,
-        215,
-        159
-      ]
+      "probe": "prose_a",
+      "ratio": 8.13
     },
     {
       "page": "mashkanta-kablan",
       "palette": "white",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 18.88,
-      "median": 18.88,
-      "bg_center": [
-        255,
-        255,
-        255
-      ]
+      "probe": "form_h3",
+      "ratio": 18.71
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "form_label",
+      "ratio": 18.56
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "form_sub",
+      "ratio": 13.27
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "form_consent",
+      "ratio": 18.55
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "form_button",
+      "ratio": 5.47
     },
     {
       "page": "mashkanta-kablan",
       "palette": "white",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 15.18,
-      "median": 15.31,
-      "bg_center": [
-        249,
-        249,
-        247
-      ]
+      "ratio": 16.99
     },
     {
       "page": "mashkanta-kablan",
       "palette": "white",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 15.18,
-      "median": 15.31,
-      "bg_center": [
-        249,
-        249,
-        247
-      ]
+      "ratio": 16.99
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "tel_btn",
+      "ratio": 11.7
     },
     {
       "page": "mashkanta-kablan",
       "palette": "royal",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 14.64,
-      "median": 14.79,
-      "bg_center": [
-        235,
-        240,
-        251
-      ]
+      "probe": "hero_h1",
+      "ratio": 15.78
     },
     {
       "page": "mashkanta-kablan",
       "palette": "royal",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.32,
-      "median": 15.36,
-      "bg_center": [
-        241,
-        244,
-        252
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "royal",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.48,
-      "median": 15.61,
-      "bg_center": [
-        243,
-        246,
-        252
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "royal",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        255,
-        255,
-        255
-      ],
-      "worst": 6.52,
-      "median": 6.59,
-      "bg_center": [
-        44,
-        80,
-        209
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "royal",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        38,
-        55,
-        92
-      ],
-      "worst": 10.3,
-      "median": 10.4,
-      "bg_center": [
-        235,
-        241,
-        250
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "royal",
-      "probe": "body_p",
-      "text": "בדירה מקבלן החתימה מגיעה מהר. יש מחיר ''",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 13.3,
-      "median": 15.89,
-      "bg_center": [
-        249,
-        250,
-        253
-      ]
+      "probe": "hero_gold",
+      "ratio": 11.18
     },
     {
       "page": "mashkanta-kablan",
       "palette": "royal",
       "probe": "body_h2",
-      "text": "מה באמת שונה מיד שנייה",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 14.06,
-      "median": 14.41,
-      "bg_center": [
-        240,
-        244,
-        251
-      ]
+      "ratio": 14.39
     },
     {
       "page": "mashkanta-kablan",
       "palette": "royal",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 14.51,
-      "median": 14.64,
-      "bg_center": [
-        235,
-        240,
-        251
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "mashkanta-kablan",
       "palette": "royal",
-      "probe": "hero_h1",
-      "text": "משכנתא לדירה מקבלן: הקבלן לוחץ לחתום, ול",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.45,
-      "median": 15.58,
-      "bg_center": [
-        243,
-        246,
-        252
-      ]
+      "probe": "body_p",
+      "ratio": 12.95
     },
     {
       "page": "mashkanta-kablan",
       "palette": "royal",
-      "probe": "hero_lead",
-      "text": "לפני החתימה בודקים אם המימון והתזרים שלכ",
-      "fg": [
-        38,
-        55,
-        92
-      ],
-      "worst": 10.12,
-      "median": 10.22,
-      "bg_center": [
-        234,
-        240,
-        251
-      ]
+      "probe": "strong",
+      "ratio": 11.27
     },
     {
       "page": "mashkanta-kablan",
       "palette": "royal",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.32,
-      "median": 12.91,
-      "bg_center": [
-        237,
-        215,
-        159
-      ]
+      "probe": "prose_a",
+      "ratio": 11.07
     },
     {
       "page": "mashkanta-kablan",
       "palette": "royal",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.75,
-      "median": 15.75,
-      "bg_center": [
-        244,
-        247,
-        253
-      ]
+      "probe": "form_h3",
+      "ratio": 16.6
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "form_label",
+      "ratio": 16.46
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "form_sub",
+      "ratio": 11.57
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "form_consent",
+      "ratio": 16.46
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "form_button",
+      "ratio": 6.55
     },
     {
       "page": "mashkanta-kablan",
       "palette": "royal",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.79,
-      "median": 14.91,
-      "bg_center": [
-        243,
-        246,
-        252
-      ]
+      "ratio": 14.51
     },
     {
       "page": "mashkanta-kablan",
       "palette": "royal",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.89,
-      "median": 14.91,
-      "bg_center": [
-        243,
-        246,
-        252
-      ]
+      "ratio": 14.51
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "tel_btn",
+      "ratio": 9.92
     },
     {
       "page": "mashkanta-kablan",
       "palette": "sand",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.43,
-      "median": 11.54,
-      "bg_center": [
-        235,
-        226,
-        212
-      ]
+      "probe": "hero_h1",
+      "ratio": 12.5
     },
     {
       "page": "mashkanta-kablan",
       "palette": "sand",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.88,
-      "median": 11.95,
-      "bg_center": [
-        238,
-        230,
-        217
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "sand",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.06,
-      "median": 12.15,
-      "bg_center": [
-        239,
-        232,
-        219
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "sand",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        255,
-        255,
-        255
-      ],
-      "worst": 4.52,
-      "median": 4.62,
-      "bg_center": [
-        166,
-        101,
-        59
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "sand",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        69,
-        64,
-        58
-      ],
-      "worst": 7.99,
-      "median": 8.07,
-      "bg_center": [
-        235,
-        226,
-        213
-      ]
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "sand",
-      "probe": "body_p",
-      "text": "בדירה מקבלן החתימה מגיעה מהר. יש מחיר ''",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 10.68,
-      "median": 12.27,
-      "bg_center": [
-        242,
-        235,
-        224
-      ]
+      "probe": "hero_gold",
+      "ratio": 7.18
     },
     {
       "page": "mashkanta-kablan",
       "palette": "sand",
       "probe": "body_h2",
-      "text": "מה באמת שונה מיד שנייה",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.0,
-      "median": 11.16,
-      "bg_center": [
-        236,
-        228,
-        214
-      ]
+      "ratio": 11.13
     },
     {
       "page": "mashkanta-kablan",
       "palette": "sand",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.34,
-      "median": 11.43,
-      "bg_center": [
-        235,
-        226,
-        212
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "mashkanta-kablan",
       "palette": "sand",
-      "probe": "hero_h1",
-      "text": "משכנתא לדירה מקבלן: הקבלן לוחץ לחתום, ול",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.18,
-      "median": 12.22,
-      "bg_center": [
-        241,
-        233,
-        221
-      ]
+      "probe": "body_p",
+      "ratio": 10.16
     },
     {
       "page": "mashkanta-kablan",
       "palette": "sand",
-      "probe": "hero_lead",
-      "text": "לפני החתימה בודקים אם המימון והתזרים שלכ",
-      "fg": [
-        69,
-        64,
-        58
-      ],
-      "worst": 7.78,
-      "median": 7.91,
-      "bg_center": [
-        235,
-        225,
-        210
-      ]
+      "probe": "strong",
+      "ratio": 7.39
     },
     {
       "page": "mashkanta-kablan",
       "palette": "sand",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.32,
-      "median": 12.91,
-      "bg_center": [
-        237,
-        215,
-        159
-      ]
+      "probe": "prose_a",
+      "ratio": 6.93
     },
     {
       "page": "mashkanta-kablan",
       "palette": "sand",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.07,
-      "median": 12.07,
-      "bg_center": [
-        239,
-        231,
-        219
-      ]
+      "probe": "form_h3",
+      "ratio": 12.97
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "form_label",
+      "ratio": 12.76
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "form_sub",
+      "ratio": 8.98
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "form_consent",
+      "ratio": 12.76
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "form_button",
+      "ratio": 4.56
     },
     {
       "page": "mashkanta-kablan",
       "palette": "sand",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 13.99,
-      "median": 14.1,
-      "bg_center": [
-        244,
-        239,
-        231
-      ]
+      "ratio": 11.21
     },
     {
       "page": "mashkanta-kablan",
       "palette": "sand",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 13.99,
-      "median": 14.1,
-      "bg_center": [
-        244,
-        239,
-        231
-      ]
+      "ratio": 11.21
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "tel_btn",
+      "ratio": 7.3
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "default",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.93,
-      "median": 13.07,
-      "bg_center": [
-        15,
-        44,
-        35
-      ]
+      "probe": "hero_h1",
+      "ratio": 14.43
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "default",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.54,
-      "median": 13.69,
-      "bg_center": [
-        13,
-        39,
-        31
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "default",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.99,
-      "median": 14.13,
-      "bg_center": [
-        12,
-        36,
-        29
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "default",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 7.44,
-      "median": 7.47,
-      "bg_center": [
-        201,
-        170,
-        111
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "default",
-      "probe": "form_sub",
-      "text": "נחזור אליכם בהקדם לתיאום.",
-      "fg": [
-        207,
-        216,
-        204
-      ],
-      "worst": 10.32,
-      "median": 10.34,
-      "bg_center": [
-        14,
-        42,
-        34
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "default",
-      "probe": "body_p",
-      "text": "מצאתם דירה בפרויקט בראש העין, בפתח תקווה",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.83,
-      "median": 14.57,
-      "bg_center": [
-        11,
-        33,
-        26
-      ]
+      "probe": "hero_gold",
+      "ratio": 11.36
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "default",
       "probe": "body_h2",
-      "text": "למה דווקא במרכז הלחץ לסגור גדול יותר",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.51,
-      "median": 14.27,
-      "bg_center": [
-        12,
-        35,
-        27
-      ]
+      "ratio": 13.21
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "default",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.78,
-      "median": 12.94,
-      "bg_center": [
-        15,
-        44,
-        35
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "default",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות במרכז, לפני שהקבלן והבנק ה",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.98,
-      "median": 14.26,
-      "bg_center": [
-        12,
-        35,
-        29
-      ]
+      "probe": "body_p",
+      "ratio": 13.12
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "default",
-      "probe": "hero_lead",
-      "text": "ההחזר שהציגו לכם נראה סביר. זה בדיוק הרג",
-      "fg": [
-        207,
-        216,
-        204
-      ],
-      "worst": 8.57,
-      "median": 9.0,
-      "bg_center": [
-        20,
-        55,
-        45
-      ]
+      "probe": "strong",
+      "ratio": 12.45
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "default",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 11.13,
-      "median": 11.55,
-      "bg_center": [
-        237,
-        215,
-        159
-      ]
+      "probe": "prose_a",
+      "ratio": 12.32
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "default",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 16.06,
-      "median": 16.06,
-      "bg_center": [
-        7,
-        22,
-        15
-      ]
+      "probe": "form_h3",
+      "ratio": 15.12
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "form_label",
+      "ratio": 14.99
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "form_sub",
+      "ratio": 11.95
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "form_consent",
+      "ratio": 14.57
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "form_button",
+      "ratio": 7.36
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "default",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.61,
-      "median": 6.75,
-      "bg_center": [
-        152,
-        170,
-        165
-      ]
+      "ratio": 13.54
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "default",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.59,
-      "median": 6.66,
-      "bg_center": [
-        152,
-        170,
-        165
-      ]
+      "ratio": 13.52
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "cta_h2",
+      "ratio": 9.52
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "tel_btn",
+      "ratio": 6.24
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "privatebank",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.74,
-      "median": 13.78,
-      "bg_center": [
-        19,
-        34,
-        59
-      ]
+      "probe": "hero_h1",
+      "ratio": 15.04
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "privatebank",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.25,
-      "median": 14.43,
-      "bg_center": [
-        16,
-        30,
-        53
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "privatebank",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.72,
-      "median": 14.76,
-      "bg_center": [
-        15,
-        28,
-        50
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "privatebank",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 5.41,
-      "median": 5.41,
-      "bg_center": [
-        177,
-        142,
-        88
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "privatebank",
-      "probe": "form_sub",
-      "text": "נחזור אליכם בהקדם לתיאום.",
-      "fg": [
-        203,
-        211,
-        223
-      ],
-      "worst": 10.57,
-      "median": 10.67,
-      "bg_center": [
-        18,
-        33,
-        58
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "privatebank",
-      "probe": "body_p",
-      "text": "מצאתם דירה בפרויקט בראש העין, בפתח תקווה",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.38,
-      "median": 15.17,
-      "bg_center": [
-        14,
-        25,
-        46
-      ]
+      "probe": "hero_gold",
+      "ratio": 11.25
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "privatebank",
       "probe": "body_h2",
-      "text": "למה דווקא במרכז הלחץ לסגור גדול יותר",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.11,
-      "median": 14.87,
-      "bg_center": [
-        15,
-        27,
-        47
-      ]
+      "ratio": 13.95
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "privatebank",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.6,
-      "median": 13.76,
-      "bg_center": [
-        19,
-        34,
-        59
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "privatebank",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות במרכז, לפני שהקבלן והבנק ה",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.58,
-      "median": 14.83,
-      "bg_center": [
-        16,
-        27,
-        50
-      ]
+      "probe": "body_p",
+      "ratio": 14.13
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "privatebank",
-      "probe": "hero_lead",
-      "text": "ההחזר שהציגו לכם נראה סביר. זה בדיוק הרג",
-      "fg": [
-        203,
-        211,
-        223
-      ],
-      "worst": 8.83,
-      "median": 9.23,
-      "bg_center": [
-        27,
-        46,
-        76
-      ]
+      "probe": "strong",
+      "ratio": 12.26
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "privatebank",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 9.61,
-      "median": 10.28,
-      "bg_center": [
-        222,
-        202,
-        167
-      ]
+      "probe": "prose_a",
+      "ratio": 12.37
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "privatebank",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 16.48,
-      "median": 16.48,
-      "bg_center": [
-        8,
-        16,
-        28
-      ]
+      "probe": "form_h3",
+      "ratio": 15.64
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "form_label",
+      "ratio": 15.5
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "form_sub",
+      "ratio": 11.99
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "form_consent",
+      "ratio": 15.19
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "form_button",
+      "ratio": 5.37
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "privatebank",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.49,
-      "median": 6.63,
-      "bg_center": [
-        156,
-        167,
-        182
-      ]
+      "ratio": 14.27
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "privatebank",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.44,
-      "median": 6.56,
-      "bg_center": [
-        155,
-        166,
-        183
-      ]
+      "ratio": 14.27
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "cta_h2",
+      "ratio": 7.77
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "tel_btn",
+      "ratio": 7.35
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "ivory",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.57,
-      "median": 13.7,
-      "bg_center": [
-        240,
-        233,
-        218
-      ]
+      "probe": "hero_h1",
+      "ratio": 14.84
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "ivory",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.2,
-      "median": 14.32,
-      "bg_center": [
-        243,
-        237,
-        225
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "ivory",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.43,
-      "median": 14.56,
-      "bg_center": [
-        244,
-        239,
-        228
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "ivory",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 5.33,
-      "median": 5.33,
-      "bg_center": [
-        169,
-        133,
-        64
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "ivory",
-      "probe": "form_sub",
-      "text": "נחזור אליכם בהקדם לתיאום.",
-      "fg": [
-        51,
-        66,
-        90
-      ],
-      "worst": 8.33,
-      "median": 8.41,
-      "bg_center": [
-        240,
-        233,
-        219
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "ivory",
-      "probe": "body_p",
-      "text": "מצאתם דירה בפרויקט בראש העין, בפתח תקווה",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.84,
-      "median": 15.12,
-      "bg_center": [
-        248,
-        243,
-        235
-      ]
+      "probe": "hero_gold",
+      "ratio": 6.33
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "ivory",
       "probe": "body_h2",
-      "text": "למה דווקא במרכז הלחץ לסגור גדול יותר",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.43,
-      "median": 14.7,
-      "bg_center": [
-        245,
-        240,
-        230
-      ]
+      "ratio": 13.43
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "ivory",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.56,
-      "median": 13.57,
-      "bg_center": [
-        240,
-        233,
-        218
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "ivory",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות במרכז, לפני שהקבלן והבנק ה",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.61,
-      "median": 14.8,
-      "bg_center": [
-        245,
-        241,
-        231
-      ]
+      "probe": "body_p",
+      "ratio": 12.94
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "ivory",
-      "probe": "hero_lead",
-      "text": "ההחזר שהציגו לכם נראה סביר. זה בדיוק הרג",
-      "fg": [
-        51,
-        66,
-        90
-      ],
-      "worst": 8.26,
-      "median": 8.34,
-      "bg_center": [
-        240,
-        233,
-        217
-      ]
+      "probe": "strong",
+      "ratio": 6.45
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "ivory",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.33,
-      "median": 12.79,
-      "bg_center": [
-        237,
-        215,
-        159
-      ]
+      "probe": "prose_a",
+      "ratio": 5.99
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "ivory",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 15.08,
-      "median": 15.08,
-      "bg_center": [
-        247,
-        243,
-        234
-      ]
+      "probe": "form_h3",
+      "ratio": 15.47
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "form_label",
+      "ratio": 15.47
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "form_sub",
+      "ratio": 9.43
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "form_consent",
+      "ratio": 15.36
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "form_button",
+      "ratio": 5.3
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "ivory",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.3,
-      "median": 14.31,
-      "bg_center": [
-        245,
-        241,
-        231
-      ]
+      "ratio": 13.57
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "ivory",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.22,
-      "median": 14.34,
-      "bg_center": [
-        246,
-        241,
-        231
-      ]
+      "ratio": 13.57
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "tel_btn",
+      "ratio": 9.2
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "white",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.84,
-      "median": 16.99,
-      "bg_center": [
-        244,
-        244,
-        240
-      ]
+      "probe": "hero_h1",
+      "ratio": 17.92
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "white",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.45,
-      "median": 17.59,
-      "bg_center": [
-        247,
-        247,
-        244
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "white",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.6,
-      "median": 17.76,
-      "bg_center": [
-        248,
-        248,
-        246
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "white",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 5.5,
-      "median": 5.5,
-      "bg_center": [
-        169,
-        133,
-        64
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "white",
-      "probe": "form_sub",
-      "text": "נחזור אליכם בהקדם לתיאום.",
-      "fg": [
-        47,
-        47,
-        47
-      ],
-      "worst": 12.04,
-      "median": 12.15,
-      "bg_center": [
-        244,
-        244,
-        241
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "white",
-      "probe": "body_p",
-      "text": "מצאתם דירה בפרויקט בראש העין, בפתח תקווה",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 18.23,
-      "median": 18.39,
-      "bg_center": [
-        252,
-        252,
-        251
-      ]
+      "probe": "hero_gold",
+      "ratio": 8.2
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "white",
       "probe": "body_h2",
-      "text": "למה דווקא במרכז הלחץ לסגור גדול יותר",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.79,
-      "median": 18.07,
-      "bg_center": [
-        250,
-        250,
-        248
-      ]
+      "ratio": 16.84
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "white",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.82,
-      "median": 16.84,
-      "bg_center": [
-        244,
-        244,
-        240
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "white",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות במרכז, לפני שהקבלן והבנק ה",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.76,
-      "median": 17.77,
-      "bg_center": [
-        249,
-        249,
-        247
-      ]
+      "probe": "body_p",
+      "ratio": 16.16
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "white",
-      "probe": "hero_lead",
-      "text": "ההחזר שהציגו לכם נראה סביר. זה בדיוק הרג",
-      "fg": [
-        47,
-        47,
-        47
-      ],
-      "worst": 12.15,
-      "median": 12.26,
-      "bg_center": [
-        246,
-        246,
-        243
-      ]
+      "probe": "strong",
+      "ratio": 8.14
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "white",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.33,
-      "median": 12.79,
-      "bg_center": [
-        237,
-        215,
-        159
-      ]
+      "probe": "prose_a",
+      "ratio": 7.98
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "white",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 18.88,
-      "median": 18.88,
-      "bg_center": [
-        255,
-        255,
-        255
-      ]
+      "probe": "form_h3",
+      "ratio": 18.56
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "form_label",
+      "ratio": 18.56
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "form_sub",
+      "ratio": 13.27
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "form_consent",
+      "ratio": 18.55
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "form_button",
+      "ratio": 5.47
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "white",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 15.18,
-      "median": 15.18,
-      "bg_center": [
-        248,
-        248,
-        246
-      ]
+      "ratio": 16.99
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "white",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 15.18,
-      "median": 15.18,
-      "bg_center": [
-        248,
-        248,
-        246
-      ]
+      "ratio": 16.99
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "tel_btn",
+      "ratio": 11.78
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "royal",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 14.64,
-      "median": 14.79,
-      "bg_center": [
-        235,
-        240,
-        251
-      ]
+      "probe": "hero_h1",
+      "ratio": 15.74
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "royal",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.32,
-      "median": 15.36,
-      "bg_center": [
-        241,
-        244,
-        252
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "royal",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.48,
-      "median": 15.61,
-      "bg_center": [
-        243,
-        246,
-        252
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "royal",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        255,
-        255,
-        255
-      ],
-      "worst": 6.52,
-      "median": 6.59,
-      "bg_center": [
-        44,
-        80,
-        209
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "royal",
-      "probe": "form_sub",
-      "text": "נחזור אליכם בהקדם לתיאום.",
-      "fg": [
-        38,
-        55,
-        92
-      ],
-      "worst": 10.3,
-      "median": 10.4,
-      "bg_center": [
-        235,
-        241,
-        250
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "royal",
-      "probe": "body_p",
-      "text": "מצאתם דירה בפרויקט בראש העין, בפתח תקווה",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 16.03,
-      "median": 16.32,
-      "bg_center": [
-        250,
-        251,
-        253
-      ]
+      "probe": "hero_gold",
+      "ratio": 11.6
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "royal",
       "probe": "body_h2",
-      "text": "למה דווקא במרכז הלחץ לסגור גדול יותר",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.48,
-      "median": 15.87,
-      "bg_center": [
-        246,
-        248,
-        252
-      ]
+      "ratio": 14.39
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "royal",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 14.51,
-      "median": 14.64,
-      "bg_center": [
-        235,
-        240,
-        251
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "royal",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות במרכז, לפני שהקבלן והבנק ה",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.51,
-      "median": 15.65,
-      "bg_center": [
-        244,
-        247,
-        253
-      ]
+      "probe": "body_p",
+      "ratio": 13.06
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "royal",
-      "probe": "hero_lead",
-      "text": "ההחזר שהציגו לכם נראה סביר. זה בדיוק הרג",
-      "fg": [
-        38,
-        55,
-        92
-      ],
-      "worst": 10.3,
-      "median": 10.4,
-      "bg_center": [
-        237,
-        242,
-        251
-      ]
+      "probe": "strong",
+      "ratio": 11.58
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "royal",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.33,
-      "median": 12.79,
-      "bg_center": [
-        237,
-        215,
-        159
-      ]
+      "probe": "prose_a",
+      "ratio": 10.89
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "royal",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.75,
-      "median": 15.75,
-      "bg_center": [
-        244,
-        247,
-        253
-      ]
+      "probe": "form_h3",
+      "ratio": 16.59
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "form_label",
+      "ratio": 16.49
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "form_sub",
+      "ratio": 11.56
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "form_consent",
+      "ratio": 16.46
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "form_button",
+      "ratio": 6.55
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "royal",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.76,
-      "median": 14.79,
-      "bg_center": [
-        242,
-        245,
-        252
-      ]
+      "ratio": 14.51
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "royal",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.76,
-      "median": 14.89,
-      "bg_center": [
-        242,
-        246,
-        252
-      ]
+      "ratio": 14.51
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "tel_btn",
+      "ratio": 10.0
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "sand",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.43,
-      "median": 11.54,
-      "bg_center": [
-        235,
-        226,
-        212
-      ]
+      "probe": "hero_h1",
+      "ratio": 12.5
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "sand",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.88,
-      "median": 11.95,
-      "bg_center": [
-        238,
-        230,
-        217
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "sand",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.06,
-      "median": 12.15,
-      "bg_center": [
-        239,
-        232,
-        219
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "sand",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        255,
-        255,
-        255
-      ],
-      "worst": 4.52,
-      "median": 4.62,
-      "bg_center": [
-        166,
-        101,
-        59
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "sand",
-      "probe": "form_sub",
-      "text": "נחזור אליכם בהקדם לתיאום.",
-      "fg": [
-        69,
-        64,
-        58
-      ],
-      "worst": 7.99,
-      "median": 8.07,
-      "bg_center": [
-        235,
-        226,
-        213
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "sand",
-      "probe": "body_p",
-      "text": "מצאתם דירה בפרויקט בראש העין, בפתח תקווה",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.38,
-      "median": 12.54,
-      "bg_center": [
-        242,
-        236,
-        224
-      ]
+      "probe": "hero_gold",
+      "ratio": 7.46
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "sand",
       "probe": "body_h2",
-      "text": "למה דווקא במרכז הלחץ לסגור גדול יותר",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.96,
-      "median": 12.16,
-      "bg_center": [
-        239,
-        232,
-        220
-      ]
+      "ratio": 11.13
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "sand",
       "probe": "body_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.42,
-      "median": 11.43,
-      "bg_center": [
-        235,
-        226,
-        212
-      ]
+      "skip": "missing",
+      "ratio": null
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "sand",
-      "probe": "hero_h1",
-      "text": "יועץ משכנתאות במרכז, לפני שהקבלן והבנק ה",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.28,
-      "median": 12.39,
-      "bg_center": [
-        242,
-        234,
-        223
-      ]
+      "probe": "body_p",
+      "ratio": 10.19
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "sand",
-      "probe": "hero_lead",
-      "text": "ההחזר שהציגו לכם נראה סביר. זה בדיוק הרג",
-      "fg": [
-        69,
-        64,
-        58
-      ],
-      "worst": 7.92,
-      "median": 8.06,
-      "bg_center": [
-        236,
-        227,
-        212
-      ]
+      "probe": "strong",
+      "ratio": 7.6
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "sand",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.33,
-      "median": 12.79,
-      "bg_center": [
-        237,
-        215,
-        159
-      ]
+      "probe": "prose_a",
+      "ratio": 6.81
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "sand",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.07,
-      "median": 12.07,
-      "bg_center": [
-        239,
-        231,
-        219
-      ]
+      "probe": "form_h3",
+      "ratio": 12.88
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "form_label",
+      "ratio": 12.85
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "form_sub",
+      "ratio": 8.98
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "form_consent",
+      "ratio": 12.73
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "form_button",
+      "ratio": 4.56
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "sand",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 13.98,
-      "median": 13.99,
-      "bg_center": [
-        243,
-        238,
-        231
-      ]
+      "ratio": 11.21
     },
     {
       "page": "yoetz-mashkantaot-merkaz",
       "palette": "sand",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 13.98,
-      "median": 14.08,
-      "bg_center": [
-        243,
-        239,
-        231
-      ]
+      "ratio": 11.21
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "tel_btn",
+      "ratio": 7.36
     },
     {
       "page": "ishur-ekroni",
       "palette": "default",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.79,
-      "median": 13.07,
-      "bg_center": [
-        15,
-        44,
-        34
-      ]
+      "probe": "hero_h1",
+      "ratio": 14.43
     },
     {
       "page": "ishur-ekroni",
       "palette": "default",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.68,
-      "median": 13.69,
-      "bg_center": [
-        13,
-        38,
-        31
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "default",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.98,
-      "median": 14.0,
-      "bg_center": [
-        12,
-        37,
-        29
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "default",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 7.44,
-      "median": 7.47,
-      "bg_center": [
-        201,
-        170,
-        111
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "default",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        207,
-        216,
-        204
-      ],
-      "worst": 10.32,
-      "median": 10.45,
-      "bg_center": [
-        15,
-        43,
-        34
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "default",
-      "probe": "body_p",
-      "text": "יש לכם אישור עקרוני ואתם מרגישים שסגרתם?",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 11.36,
-      "median": 13.83,
-      "bg_center": [
-        11,
-        33,
-        26
-      ]
+      "probe": "hero_gold",
+      "ratio": 10.21
     },
     {
       "page": "ishur-ekroni",
       "palette": "default",
       "probe": "body_h2",
-      "text": "מה אישור עקרוני אומר ומה לא",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 11.43,
-      "median": 13.13,
-      "bg_center": [
-        13,
-        37,
-        30
-      ]
+      "ratio": 13.24
     },
     {
       "page": "ishur-ekroni",
       "palette": "default",
       "probe": "body_h3",
-      "text": "מסמכים אופייניים בישראל (כיוון",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.47,
-      "median": 14.13,
-      "bg_center": [
-        13,
-        37,
-        30
-      ]
+      "ratio": 14.13
     },
     {
       "page": "ishur-ekroni",
       "palette": "default",
-      "probe": "hero_h1",
-      "text": "אישור עקרוני למשכנתא: מה הוא אומר ומה עד",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.52,
-      "median": 13.83,
-      "bg_center": [
-        13,
-        38,
-        31
-      ]
+      "probe": "body_p",
+      "ratio": 13.12
     },
     {
       "page": "ishur-ekroni",
       "palette": "default",
-      "probe": "hero_lead",
-      "text": "אישור עקרוני למשכנתא: מה הוא כן ולא אומר",
-      "fg": [
-        207,
-        216,
-        204
-      ],
-      "worst": 8.0,
-      "median": 8.45,
-      "bg_center": [
-        22,
-        59,
-        48
-      ]
+      "probe": "strong",
+      "ratio": 13.12
     },
     {
       "page": "ishur-ekroni",
       "palette": "default",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 11.13,
-      "median": 11.58,
-      "bg_center": [
-        236,
-        214,
-        158
-      ]
+      "probe": "prose_a",
+      "ratio": 13.62
     },
     {
       "page": "ishur-ekroni",
       "palette": "default",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 16.06,
-      "median": 16.06,
-      "bg_center": [
-        7,
-        22,
-        15
-      ]
+      "probe": "form_h3",
+      "ratio": 15.12
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "form_label",
+      "ratio": 14.99
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "form_sub",
+      "ratio": 11.95
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "form_consent",
+      "ratio": 14.57
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "form_button",
+      "ratio": 7.36
     },
     {
       "page": "ishur-ekroni",
       "palette": "default",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.61,
-      "median": 6.71,
-      "bg_center": [
-        153,
-        171,
-        166
-      ]
+      "ratio": 13.54
     },
     {
       "page": "ishur-ekroni",
       "palette": "default",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.57,
-      "median": 6.66,
-      "bg_center": [
-        152,
-        170,
-        165
-      ]
+      "ratio": 13.52
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "cta_h2",
+      "ratio": 9.52
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "tel_btn",
+      "ratio": 6.3
     },
     {
       "page": "ishur-ekroni",
       "palette": "privatebank",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.72,
-      "median": 13.78,
-      "bg_center": [
-        19,
-        34,
-        58
-      ]
+      "probe": "hero_h1",
+      "ratio": 15.06
     },
     {
       "page": "ishur-ekroni",
       "palette": "privatebank",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.27,
-      "median": 14.43,
-      "bg_center": [
-        16,
-        30,
-        53
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "privatebank",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.6,
-      "median": 14.72,
-      "bg_center": [
-        15,
-        28,
-        51
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "privatebank",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 5.41,
-      "median": 5.41,
-      "bg_center": [
-        177,
-        142,
-        88
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "privatebank",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        203,
-        211,
-        223
-      ],
-      "worst": 10.57,
-      "median": 10.67,
-      "bg_center": [
-        18,
-        33,
-        58
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "privatebank",
-      "probe": "body_p",
-      "text": "יש לכם אישור עקרוני ואתם מרגישים שסגרתם?",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.57,
-      "median": 14.43,
-      "bg_center": [
-        13,
-        25,
-        45
-      ]
+      "probe": "hero_gold",
+      "ratio": 10.0
     },
     {
       "page": "ishur-ekroni",
       "palette": "privatebank",
       "probe": "body_h2",
-      "text": "מה אישור עקרוני אומר ומה לא",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 12.52,
-      "median": 14.0,
-      "bg_center": [
-        15,
-        29,
-        51
-      ]
+      "ratio": 14.09
     },
     {
       "page": "ishur-ekroni",
       "palette": "privatebank",
       "probe": "body_h3",
-      "text": "מסמכים אופייניים בישראל (כיוון",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 13.36,
-      "median": 14.74,
-      "bg_center": [
-        16,
-        29,
-        52
-      ]
+      "ratio": 14.74
     },
     {
       "page": "ishur-ekroni",
       "palette": "privatebank",
-      "probe": "hero_h1",
-      "text": "אישור עקרוני למשכנתא: מה הוא אומר ומה עד",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 14.11,
-      "median": 14.4,
-      "bg_center": [
-        17,
-        30,
-        54
-      ]
+      "probe": "body_p",
+      "ratio": 14.16
     },
     {
       "page": "ishur-ekroni",
       "palette": "privatebank",
-      "probe": "hero_lead",
-      "text": "אישור עקרוני למשכנתא: מה הוא כן ולא אומר",
-      "fg": [
-        203,
-        211,
-        223
-      ],
-      "worst": 8.28,
-      "median": 8.66,
-      "bg_center": [
-        29,
-        50,
-        82
-      ]
+      "probe": "strong",
+      "ratio": 12.89
     },
     {
       "page": "ishur-ekroni",
       "palette": "privatebank",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        11,
-        35,
-        28
-      ],
-      "worst": 9.64,
-      "median": 10.28,
-      "bg_center": [
-        221,
-        202,
-        166
-      ]
+      "probe": "prose_a",
+      "ratio": 13.26
     },
     {
       "page": "ishur-ekroni",
       "palette": "privatebank",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        244,
-        238,
-        225
-      ],
-      "worst": 16.48,
-      "median": 16.48,
-      "bg_center": [
-        8,
-        16,
-        28
-      ]
+      "probe": "form_h3",
+      "ratio": 15.64
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "form_label",
+      "ratio": 15.5
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "form_sub",
+      "ratio": 11.99
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "form_consent",
+      "ratio": 15.19
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "form_button",
+      "ratio": 5.37
     },
     {
       "page": "ishur-ekroni",
       "palette": "privatebank",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.49,
-      "median": 6.62,
-      "bg_center": [
-        157,
-        167,
-        182
-      ]
+      "ratio": 14.27
     },
     {
       "page": "ishur-ekroni",
       "palette": "privatebank",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 6.44,
-      "median": 6.55,
-      "bg_center": [
-        155,
-        166,
-        182
-      ]
+      "ratio": 14.27
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "cta_h2",
+      "ratio": 7.77
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "tel_btn",
+      "ratio": 7.41
     },
     {
       "page": "ishur-ekroni",
       "palette": "ivory",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.57,
-      "median": 13.7,
-      "bg_center": [
-        240,
-        233,
-        218
-      ]
+      "probe": "hero_h1",
+      "ratio": 14.94
     },
     {
       "page": "ishur-ekroni",
       "palette": "ivory",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.2,
-      "median": 14.32,
-      "bg_center": [
-        242,
-        236,
-        224
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "ivory",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.46,
-      "median": 14.56,
-      "bg_center": [
-        244,
-        239,
-        228
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "ivory",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 5.33,
-      "median": 5.33,
-      "bg_center": [
-        169,
-        133,
-        64
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "ivory",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        51,
-        66,
-        90
-      ],
-      "worst": 8.33,
-      "median": 8.41,
-      "bg_center": [
-        240,
-        234,
-        219
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "ivory",
-      "probe": "body_p",
-      "text": "יש לכם אישור עקרוני ואתם מרגישים שסגרתם?",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.23,
-      "median": 14.7,
-      "bg_center": [
-        247,
-        243,
-        234
-      ]
+      "probe": "hero_gold",
+      "ratio": 6.16
     },
     {
       "page": "ishur-ekroni",
       "palette": "ivory",
       "probe": "body_h2",
-      "text": "מה אישור עקרוני אומר ומה לא",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.0,
-      "median": 13.34,
-      "bg_center": [
-        240,
-        233,
-        220
-      ]
+      "ratio": 13.45
     },
     {
       "page": "ishur-ekroni",
       "palette": "ivory",
       "probe": "body_h3",
-      "text": "מסמכים אופייניים בישראל (כיוון",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 13.57,
-      "median": 14.56,
-      "bg_center": [
-        243,
-        238,
-        227
-      ]
+      "ratio": 14.43
     },
     {
       "page": "ishur-ekroni",
       "palette": "ivory",
-      "probe": "hero_h1",
-      "text": "אישור עקרוני למשכנתא: מה הוא אומר ומה עד",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 14.43,
-      "median": 14.56,
-      "bg_center": [
-        245,
-        239,
-        228
-      ]
+      "probe": "body_p",
+      "ratio": 12.83
     },
     {
       "page": "ishur-ekroni",
       "palette": "ivory",
-      "probe": "hero_lead",
-      "text": "אישור עקרוני למשכנתא: מה הוא כן ולא אומר",
-      "fg": [
-        51,
-        66,
-        90
-      ],
-      "worst": 8.05,
-      "median": 8.18,
-      "bg_center": [
-        239,
-        230,
-        213
-      ]
+      "probe": "strong",
+      "ratio": 6.27
     },
     {
       "page": "ishur-ekroni",
       "palette": "ivory",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.33,
-      "median": 12.83,
-      "bg_center": [
-        236,
-        214,
-        158
-      ]
+      "probe": "prose_a",
+      "ratio": 6.85
     },
     {
       "page": "ishur-ekroni",
       "palette": "ivory",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        15,
-        30,
-        53
-      ],
-      "worst": 15.08,
-      "median": 15.08,
-      "bg_center": [
-        247,
-        243,
-        234
-      ]
+      "probe": "form_h3",
+      "ratio": 15.47
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "form_label",
+      "ratio": 15.47
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "form_sub",
+      "ratio": 9.43
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "form_consent",
+      "ratio": 15.36
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "form_button",
+      "ratio": 5.3
     },
     {
       "page": "ishur-ekroni",
       "palette": "ivory",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.21,
-      "median": 14.34,
-      "bg_center": [
-        245,
-        241,
-        231
-      ]
+      "ratio": 13.57
     },
     {
       "page": "ishur-ekroni",
       "palette": "ivory",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.31,
-      "median": 14.35,
-      "bg_center": [
-        246,
-        241,
-        232
-      ]
+      "ratio": 13.57
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "tel_btn",
+      "ratio": 9.13
     },
     {
       "page": "ishur-ekroni",
       "palette": "white",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.84,
-      "median": 16.99,
-      "bg_center": [
-        244,
-        244,
-        240
-      ]
+      "probe": "hero_h1",
+      "ratio": 17.92
     },
     {
       "page": "ishur-ekroni",
       "palette": "white",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.45,
-      "median": 17.59,
-      "bg_center": [
-        246,
-        246,
-        244
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "white",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.76,
-      "median": 17.77,
-      "bg_center": [
-        248,
-        248,
-        247
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "white",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 5.5,
-      "median": 5.5,
-      "bg_center": [
-        169,
-        133,
-        64
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "white",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        47,
-        47,
-        47
-      ],
-      "worst": 12.04,
-      "median": 12.15,
-      "bg_center": [
-        244,
-        244,
-        241
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "white",
-      "probe": "body_p",
-      "text": "יש לכם אישור עקרוני ואתם מרגישים שסגרתם?",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 15.91,
-      "median": 18.08,
-      "bg_center": [
-        251,
-        251,
-        251
-      ]
+      "probe": "hero_gold",
+      "ratio": 8.05
     },
     {
       "page": "ishur-ekroni",
       "palette": "white",
       "probe": "body_h2",
-      "text": "מה אישור עקרוני אומר ומה לא",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.13,
-      "median": 16.58,
-      "bg_center": [
-        245,
-        245,
-        243
-      ]
+      "ratio": 16.99
     },
     {
       "page": "ishur-ekroni",
       "palette": "white",
       "probe": "body_h3",
-      "text": "מסמכים אופייניים בישראל (כיוון",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 16.42,
-      "median": 17.6,
-      "bg_center": [
-        246,
-        246,
-        244
-      ]
+      "ratio": 17.45
     },
     {
       "page": "ishur-ekroni",
       "palette": "white",
-      "probe": "hero_h1",
-      "text": "אישור עקרוני למשכנתא: מה הוא אומר ומה עד",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 17.62,
-      "median": 17.76,
-      "bg_center": [
-        249,
-        249,
-        247
-      ]
+      "probe": "body_p",
+      "ratio": 16.16
     },
     {
       "page": "ishur-ekroni",
       "palette": "white",
-      "probe": "hero_lead",
-      "text": "אישור עקרוני למשכנתא: מה הוא כן ולא אומר",
-      "fg": [
-        47,
-        47,
-        47
-      ],
-      "worst": 12.04,
-      "median": 12.15,
-      "bg_center": [
-        245,
-        245,
-        241
-      ]
+      "probe": "strong",
+      "ratio": 8.28
     },
     {
       "page": "ishur-ekroni",
       "palette": "white",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.33,
-      "median": 12.83,
-      "bg_center": [
-        236,
-        214,
-        158
-      ]
+      "probe": "prose_a",
+      "ratio": 8.65
     },
     {
       "page": "ishur-ekroni",
       "palette": "white",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        17,
-        17,
-        17
-      ],
-      "worst": 18.88,
-      "median": 18.88,
-      "bg_center": [
-        255,
-        255,
-        255
-      ]
+      "probe": "form_h3",
+      "ratio": 18.56
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "form_label",
+      "ratio": 18.56
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "form_sub",
+      "ratio": 13.27
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "form_consent",
+      "ratio": 18.55
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "form_button",
+      "ratio": 5.47
     },
     {
       "page": "ishur-ekroni",
       "palette": "white",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 15.08,
-      "median": 15.18,
-      "bg_center": [
-        248,
-        248,
-        246
-      ]
+      "ratio": 16.99
     },
     {
       "page": "ishur-ekroni",
       "palette": "white",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 15.18,
-      "median": 15.31,
-      "bg_center": [
-        249,
-        249,
-        247
-      ]
+      "ratio": 16.99
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "tel_btn",
+      "ratio": 11.7
     },
     {
       "page": "ishur-ekroni",
       "palette": "royal",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 14.64,
-      "median": 14.79,
-      "bg_center": [
-        235,
-        240,
-        251
-      ]
+      "probe": "hero_h1",
+      "ratio": 15.78
     },
     {
       "page": "ishur-ekroni",
       "palette": "royal",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.32,
-      "median": 15.33,
-      "bg_center": [
-        240,
-        244,
-        251
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "royal",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.58,
-      "median": 15.71,
-      "bg_center": [
-        243,
-        247,
-        252
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "royal",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        255,
-        255,
-        255
-      ],
-      "worst": 6.52,
-      "median": 6.59,
-      "bg_center": [
-        44,
-        80,
-        209
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "royal",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        38,
-        55,
-        92
-      ],
-      "worst": 10.3,
-      "median": 10.38,
-      "bg_center": [
-        236,
-        241,
-        251
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "royal",
-      "probe": "body_p",
-      "text": "יש לכם אישור עקרוני ואתם מרגישים שסגרתם?",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 13.46,
-      "median": 15.89,
-      "bg_center": [
-        249,
-        250,
-        253
-      ]
+      "probe": "hero_gold",
+      "ratio": 11.18
     },
     {
       "page": "ishur-ekroni",
       "palette": "royal",
       "probe": "body_h2",
-      "text": "מה אישור עקרוני אומר ומה לא",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 13.65,
-      "median": 14.05,
-      "bg_center": [
-        236,
-        241,
-        250
-      ]
+      "ratio": 14.39
     },
     {
       "page": "ishur-ekroni",
       "palette": "royal",
       "probe": "body_h3",
-      "text": "מסמכים אופייניים בישראל (כיוון",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 13.92,
-      "median": 15.33,
-      "bg_center": [
-        240,
-        244,
-        252
-      ]
+      "ratio": 15.19
     },
     {
       "page": "ishur-ekroni",
       "palette": "royal",
-      "probe": "hero_h1",
-      "text": "אישור עקרוני למשכנתא: מה הוא אומר ומה עד",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.45,
-      "median": 15.58,
-      "bg_center": [
-        243,
-        246,
-        252
-      ]
+      "probe": "body_p",
+      "ratio": 12.95
     },
     {
       "page": "ishur-ekroni",
       "palette": "royal",
-      "probe": "hero_lead",
-      "text": "אישור עקרוני למשכנתא: מה הוא כן ולא אומר",
-      "fg": [
-        38,
-        55,
-        92
-      ],
-      "worst": 10.12,
-      "median": 10.22,
-      "bg_center": [
-        234,
-        240,
-        251
-      ]
+      "probe": "strong",
+      "ratio": 11.3
     },
     {
       "page": "ishur-ekroni",
       "palette": "royal",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.33,
-      "median": 12.83,
-      "bg_center": [
-        236,
-        214,
-        158
-      ]
+      "probe": "prose_a",
+      "ratio": 12.44
     },
     {
       "page": "ishur-ekroni",
       "palette": "royal",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        11,
-        27,
-        63
-      ],
-      "worst": 15.75,
-      "median": 15.75,
-      "bg_center": [
-        244,
-        247,
-        253
-      ]
+      "probe": "form_h3",
+      "ratio": 16.59
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "form_label",
+      "ratio": 16.49
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "form_sub",
+      "ratio": 11.56
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "form_consent",
+      "ratio": 16.46
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "form_button",
+      "ratio": 6.55
     },
     {
       "page": "ishur-ekroni",
       "palette": "royal",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.66,
-      "median": 14.89,
-      "bg_center": [
-        241,
-        245,
-        252
-      ]
+      "ratio": 14.51
     },
     {
       "page": "ishur-ekroni",
       "palette": "royal",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 14.76,
-      "median": 14.91,
-      "bg_center": [
-        243,
-        246,
-        252
-      ]
+      "ratio": 14.51
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "cta_h2",
+      "ratio": 10.55
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "tel_btn",
+      "ratio": 9.92
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
-      "probe": "form_h3",
-      "text": "השאירו פרטים ותמיר יחזור אליכם",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.43,
-      "median": 11.54,
-      "bg_center": [
-        235,
-        226,
-        212
-      ]
+      "probe": "hero_h1",
+      "ratio": 12.5
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
-      "probe": "form_label",
-      "text": "שם מלא",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.88,
-      "median": 11.95,
-      "bg_center": [
-        238,
-        230,
-        217
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "sand",
-      "probe": "form_consent",
-      "text": "אני מאשר/ת שמניפה פיננסית תחזור אליי בטל",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.07,
-      "median": 12.18,
-      "bg_center": [
-        240,
-        232,
-        220
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "sand",
-      "probe": "form_button",
-      "text": "שליחת הפרטים לתמיר",
-      "fg": [
-        255,
-        255,
-        255
-      ],
-      "worst": 4.52,
-      "median": 4.62,
-      "bg_center": [
-        166,
-        101,
-        59
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "sand",
-      "probe": "form_sub",
-      "text": "שיחת היכרות של 30 דקות, ללא עלות וללא הת",
-      "fg": [
-        69,
-        64,
-        58
-      ],
-      "worst": 7.99,
-      "median": 8.0,
-      "bg_center": [
-        236,
-        227,
-        213
-      ]
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "sand",
-      "probe": "body_p",
-      "text": "יש לכם אישור עקרוני ואתם מרגישים שסגרתם?",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 10.79,
-      "median": 12.27,
-      "bg_center": [
-        242,
-        235,
-        224
-      ]
+      "probe": "hero_gold",
+      "ratio": 7.18
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
       "probe": "body_h2",
-      "text": "מה אישור עקרוני אומר ומה לא",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 10.65,
-      "median": 10.87,
-      "bg_center": [
-        234,
-        225,
-        210
-      ]
+      "ratio": 11.21
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
       "probe": "body_h3",
-      "text": "מסמכים אופייניים בישראל (כיוון",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 11.38,
-      "median": 12.3,
-      "bg_center": [
-        240,
-        232,
-        220
-      ]
+      "ratio": 12.18
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
-      "probe": "hero_h1",
-      "text": "אישור עקרוני למשכנתא: מה הוא אומר ומה עד",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.18,
-      "median": 12.22,
-      "bg_center": [
-        241,
-        233,
-        221
-      ]
+      "probe": "body_p",
+      "ratio": 10.24
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
-      "probe": "hero_lead",
-      "text": "אישור עקרוני למשכנתא: מה הוא כן ולא אומר",
-      "fg": [
-        69,
-        64,
-        58
-      ],
-      "worst": 7.78,
-      "median": 7.91,
-      "bg_center": [
-        235,
-        225,
-        210
-      ]
+      "probe": "strong",
+      "ratio": 7.13
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
-      "probe": "cta_h2",
-      "text": "שיחת היכרות של 30 דקות,\nבלי עלות ובלי הת",
-      "fg": [
-        26,
-        20,
-        8
-      ],
-      "worst": 12.33,
-      "median": 12.83,
-      "bg_center": [
-        236,
-        214,
-        158
-      ]
+      "probe": "prose_a",
+      "ratio": 7.87
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
-      "probe": "tel_btn",
-      "text": "052-4502821",
-      "fg": [
-        43,
-        39,
-        36
-      ],
-      "worst": 12.07,
-      "median": 12.07,
-      "bg_center": [
-        239,
-        231,
-        219
-      ]
+      "probe": "form_h3",
+      "ratio": 12.88
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "form_label",
+      "ratio": 12.85
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "form_sub",
+      "ratio": 8.98
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "form_consent",
+      "ratio": 12.73
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "form_button",
+      "ratio": 4.56
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
       "probe": "aside_h4",
-      "text": "שירותים נוספים",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 13.98,
-      "median": 14.08,
-      "bg_center": [
-        243,
-        238,
-        230
-      ]
+      "ratio": 11.21
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
       "probe": "aside_link",
-      "text": "רכישת דירה ראשונה",
-      "fg": [
-        20,
-        36,
-        30
-      ],
-      "worst": 13.98,
-      "median": 14.1,
-      "bg_center": [
-        244,
-        239,
-        231
-      ]
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "default",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        244,
-        226,
-        176
-      ],
-      "worst": 12.31,
-      "median": 13.75
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "privatebank",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        234,
-        219,
-        192
-      ],
-      "worst": 12.23,
-      "median": 13.38
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "ivory",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        107,
-        80,
-        32
-      ],
-      "worst": 6.58,
-      "median": 7.04
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "white",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        94,
-        70,
-        25
-      ],
-      "worst": 8.23,
-      "median": 8.88
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "royal",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        20,
-        41,
-        122
-      ],
-      "worst": 11.63,
-      "median": 12.8
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "sand",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        106,
-        59,
-        30
-      ],
-      "worst": 7.53,
-      "median": 8.13
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "default",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        244,
-        226,
-        176
-      ],
-      "worst": 11.7,
-      "median": 13.87
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "privatebank",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        234,
-        219,
-        192
-      ],
-      "worst": 11.85,
-      "median": 13.49
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "ivory",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        107,
-        80,
-        32
-      ],
-      "worst": 6.35,
-      "median": 6.97
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "white",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        94,
-        70,
-        25
-      ],
-      "worst": 8.0,
-      "median": 8.8
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "royal",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        20,
-        41,
-        122
-      ],
-      "worst": 11.16,
-      "median": 12.67
+      "ratio": 11.21
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        106,
-        59,
-        30
-      ],
-      "worst": 7.27,
-      "median": 8.01
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "default",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        244,
-        226,
-        176
-      ],
-      "worst": 11.26,
-      "median": 12.72
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "privatebank",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        234,
-        219,
-        192
-      ],
-      "worst": 11.46,
-      "median": 12.62
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "ivory",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        107,
-        80,
-        32
-      ],
-      "worst": 6.05,
-      "median": 6.5
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "white",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        94,
-        70,
-        25
-      ],
-      "worst": 7.77,
-      "median": 8.35
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "royal",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        20,
-        41,
-        122
-      ],
-      "worst": 10.72,
-      "median": 11.89
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "sand",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        106,
-        59,
-        30
-      ],
-      "worst": 6.88,
-      "median": 7.51
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "default",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        244,
-        226,
-        176
-      ],
-      "worst": 10.74,
-      "median": 12.31
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "privatebank",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        234,
-        219,
-        192
-      ],
-      "worst": 11.05,
-      "median": 12.21
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "ivory",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        107,
-        80,
-        32
-      ],
-      "worst": 5.53,
-      "median": 6.02
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "white",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        94,
-        70,
-        25
-      ],
-      "worst": 7.19,
-      "median": 7.98
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "royal",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        20,
-        41,
-        122
-      ],
-      "worst": 9.74,
-      "median": 11.01
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "sand",
-      "probe": "prose_a",
-      "text": "",
-      "fg": [
-        106,
-        59,
-        30
-      ],
-      "worst": 6.25,
-      "median": 6.92
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "default",
-      "probe": "strong",
-      "text": "כושר החזר ותזרים אמיתי.",
-      "fg": [
-        244,
-        226,
-        176
-      ],
-      "worst": 11.25,
-      "median": 12.59
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "privatebank",
-      "probe": "strong",
-      "text": "כושר החזר ותזרים אמיתי.",
-      "fg": [
-        234,
-        219,
-        192
-      ],
-      "worst": 11.43,
-      "median": 12.39
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "ivory",
-      "probe": "strong",
-      "text": "כושר החזר ותזרים אמיתי.",
-      "fg": [
-        107,
-        80,
-        32
-      ],
-      "worst": 5.88,
-      "median": 6.34
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "white",
-      "probe": "strong",
-      "text": "כושר החזר ותזרים אמיתי.",
-      "fg": [
-        94,
-        70,
-        25
-      ],
-      "worst": 7.53,
-      "median": 8.2
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "royal",
-      "probe": "strong",
-      "text": "כושר החזר ותזרים אמיתי.",
-      "fg": [
-        20,
-        41,
-        122
-      ],
-      "worst": 10.42,
-      "median": 11.6
-    },
-    {
-      "page": "yoetz-mashkantaot",
-      "palette": "sand",
-      "probe": "strong",
-      "text": "כושר החזר ותזרים אמיתי.",
-      "fg": [
-        106,
-        59,
-        30
-      ],
-      "worst": 6.69,
-      "median": 7.3
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "default",
-      "probe": "strong",
-      "text": "מה הוא אומר:",
-      "fg": [
-        244,
-        226,
-        176
-      ],
-      "worst": 9.88,
-      "median": 11.76
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "privatebank",
-      "probe": "strong",
-      "text": "מה הוא אומר:",
-      "fg": [
-        234,
-        219,
-        192
-      ],
-      "worst": 10.31,
-      "median": 11.8
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "ivory",
-      "probe": "strong",
-      "text": "מה הוא אומר:",
-      "fg": [
-        107,
-        80,
-        32
-      ],
-      "worst": 5.53,
-      "median": 5.95
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "white",
-      "probe": "strong",
-      "text": "מה הוא אומר:",
-      "fg": [
-        94,
-        70,
-        25
-      ],
-      "worst": 7.23,
-      "median": 7.84
-    },
-    {
-      "page": "ishur-ekroni",
-      "palette": "royal",
-      "probe": "strong",
-      "text": "מה הוא אומר:",
-      "fg": [
-        20,
-        41,
-        122
-      ],
-      "worst": 9.83,
-      "median": 10.9
+      "probe": "cta_h2",
+      "ratio": 10.55
     },
     {
       "page": "ishur-ekroni",
       "palette": "sand",
-      "probe": "strong",
-      "text": "מה הוא אומר:",
-      "fg": [
-        106,
-        59,
-        30
-      ],
-      "worst": 6.32,
-      "median": 6.86
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "default",
-      "probe": "strong",
-      "text": "לוח התשלומים בחוזה.",
-      "fg": [
-        244,
-        226,
-        176
-      ],
-      "worst": 10.65,
-      "median": 10.81
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "privatebank",
-      "probe": "strong",
-      "text": "לוח התשלומים בחוזה.",
-      "fg": [
-        234,
-        219,
-        192
-      ],
-      "worst": 10.85,
-      "median": 11.11
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "ivory",
-      "probe": "strong",
-      "text": "לוח התשלומים בחוזה.",
-      "fg": [
-        107,
-        80,
-        32
-      ],
-      "worst": 5.58,
-      "median": 5.68
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "white",
-      "probe": "strong",
-      "text": "לוח התשלומים בחוזה.",
-      "fg": [
-        94,
-        70,
-        25
-      ],
-      "worst": 7.42,
-      "median": 7.49
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "royal",
-      "probe": "strong",
-      "text": "לוח התשלומים בחוזה.",
-      "fg": [
-        20,
-        41,
-        122
-      ],
-      "worst": 10.19,
-      "median": 10.4
-    },
-    {
-      "page": "mashkanta-kablan",
-      "palette": "sand",
-      "probe": "strong",
-      "text": "לוח התשלומים בחוזה.",
-      "fg": [
-        106,
-        59,
-        30
-      ],
-      "worst": 6.43,
-      "median": 6.54
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "default",
-      "probe": "strong",
-      "text": "מתי יוצא כל תשלום, וממה?",
-      "fg": [
-        244,
-        226,
-        176
-      ],
-      "worst": 10.94,
-      "median": 11.49
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "privatebank",
-      "probe": "strong",
-      "text": "מתי יוצא כל תשלום, וממה?",
-      "fg": [
-        234,
-        219,
-        192
-      ],
-      "worst": 11.18,
-      "median": 11.56
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "ivory",
-      "probe": "strong",
-      "text": "מתי יוצא כל תשלום, וממה?",
-      "fg": [
-        107,
-        80,
-        32
-      ],
-      "worst": 5.73,
-      "median": 5.89
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "white",
-      "probe": "strong",
-      "text": "מתי יוצא כל תשלום, וממה?",
-      "fg": [
-        94,
-        70,
-        25
-      ],
-      "worst": 7.57,
-      "median": 7.7
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "royal",
-      "probe": "strong",
-      "text": "מתי יוצא כל תשלום, וממה?",
-      "fg": [
-        20,
-        41,
-        122
-      ],
-      "worst": 10.48,
-      "median": 10.78
-    },
-    {
-      "page": "yoetz-mashkantaot-merkaz",
-      "palette": "sand",
-      "probe": "strong",
-      "text": "מתי יוצא כל תשלום, וממה?",
-      "fg": [
-        106,
-        59,
-        30
-      ],
-      "worst": 6.56,
-      "median": 6.74
+      "probe": "tel_btn",
+      "ratio": 7.3
     }
   ]
 }

@@ -3,175 +3,192 @@
   "form_factor": "mobile",
   "throttling": "simulated (default)",
   "runs": 3,
-  "note": "Each run is a fresh headless Chrome navigation. Median is the middle value. Local before is a snapshot of the #100 branch; local after is this branch. Vercel was not used for Lighthouse.",
   "before": {
     "ishur-ekroni": {
       "runs": [
         {
-          "lcp_ms": 1801.2,
-          "cls": 0.0035
+          "lcp_ms": 1802.8,
+          "cls": 0.0049
         },
         {
-          "lcp_ms": 1802.1,
-          "cls": 0.0035
+          "lcp_ms": 1802.0,
+          "cls": 0.0053
         },
         {
-          "lcp_ms": 1805.3,
-          "cls": 0.0126
+          "lcp_ms": 1801.7,
+          "cls": 0.0035
         }
       ],
-      "lcp_ms_median": 1802.1,
-      "cls_median": 0.0035
+      "lcp_ms_median": 1802.0,
+      "cls_median": 0.0049,
+      "lcp_selector": "div.wrap > div.article-grid > article.prose > p",
+      "render_delay_ms": 1351.4
     },
     "mashkanta-kablan": {
       "runs": [
         {
-          "lcp_ms": 1950.6,
-          "cls": 0.0144
-        },
-        {
           "lcp_ms": 1951.5,
-          "cls": 0.0142
+          "cls": 0.0143
         },
         {
-          "lcp_ms": 1950.8,
-          "cls": 0.0123
+          "lcp_ms": 1952.3,
+          "cls": 0.0037
+        },
+        {
+          "lcp_ms": 1953.1,
+          "cls": 0.0142
         }
       ],
-      "lcp_ms_median": 1950.8,
-      "cls_median": 0.0142
+      "lcp_ms_median": 1952.3,
+      "cls_median": 0.0142,
+      "lcp_selector": "div.wrap > div.article-grid > article.prose > p",
+      "render_delay_ms": 1500.8
     },
     "yoetz-mashkantaot": {
       "runs": [
         {
-          "lcp_ms": 1951.8,
-          "cls": 0.0128
+          "lcp_ms": 1952.1,
+          "cls": 0.0043
         },
         {
-          "lcp_ms": 1953.7,
-          "cls": 0.0144
+          "lcp_ms": 1951.0,
+          "cls": 0.0052
         },
         {
-          "lcp_ms": 1951.7,
-          "cls": 0.0037
+          "lcp_ms": 1952.1,
+          "cls": 0.0053
         }
       ],
-      "lcp_ms_median": 1951.8,
-      "cls_median": 0.0128
+      "lcp_ms_median": 1952.1,
+      "cls_median": 0.0052,
+      "lcp_selector": "div.wrap > div.article-grid > article.prose > p",
+      "render_delay_ms": 1501.1
     },
     "yoetz-mashkantaot-merkaz": {
       "runs": [
         {
+          "lcp_ms": 1951.3,
+          "cls": 0.0577
+        },
+        {
+          "lcp_ms": 1951.8,
+          "cls": 0.0576
+        },
+        {
           "lcp_ms": 1952.0,
-          "cls": 0.0688
-        },
-        {
-          "lcp_ms": 1953.3,
-          "cls": 0.0586
-        },
-        {
-          "lcp_ms": 1952.1,
-          "cls": 0.0591
+          "cls": 0.0593
         }
       ],
-      "lcp_ms_median": 1952.1,
-      "cls_median": 0.0591
+      "lcp_ms_median": 1951.8,
+      "cls_median": 0.0577,
+      "lcp_selector": "div.page > section.sec > div.wrap > h1",
+      "render_delay_ms": 1500.6
     }
   },
   "after": {
     "ishur-ekroni": {
       "runs": [
         {
-          "lcp_ms": 3217.5,
-          "cls": 0.0128
+          "lcp_ms": 1802.0,
+          "cls": 0.013
         },
         {
-          "lcp_ms": 3222.2,
-          "cls": 0.0128
+          "lcp_ms": 1802.7,
+          "cls": 0.0113
         },
         {
-          "lcp_ms": 3216.2,
-          "cls": 0.0128
+          "lcp_ms": 1802.2,
+          "cls": 0.0129
         }
       ],
-      "lcp_ms_median": 3217.5,
-      "cls_median": 0.0128
+      "lcp_ms_median": 1802.2,
+      "cls_median": 0.0129,
+      "lcp_selector": "section.sec > div.wrap > div.stack > h1.h-hero",
+      "render_delay_ms": 1351.0
     },
     "mashkanta-kablan": {
       "runs": [
         {
-          "lcp_ms": 1951.3,
-          "cls": 0.0056
+          "lcp_ms": 1951.7,
+          "cls": 0.0672
         },
         {
-          "lcp_ms": 1951.9,
-          "cls": 0.0037
+          "lcp_ms": 1950.8,
+          "cls": 0.0703
         },
         {
-          "lcp_ms": 1950.7,
-          "cls": 0.0144
+          "lcp_ms": 1952.0,
+          "cls": 0.0669
         }
       ],
-      "lcp_ms_median": 1951.3,
-      "cls_median": 0.0056
+      "lcp_ms_median": 1951.7,
+      "cls_median": 0.0672,
+      "lcp_selector": "section.sec > div.wrap > div.stack > h1.h-hero",
+      "render_delay_ms": 1500.8
     },
     "yoetz-mashkantaot": {
       "runs": [
         {
-          "lcp_ms": 1951.7,
-          "cls": 0.0124
-        },
-        {
           "lcp_ms": 1951.6,
-          "cls": 0.0125
+          "cls": 0.0129
         },
         {
-          "lcp_ms": 1950.9,
-          "cls": 0.0056
+          "lcp_ms": 1952.5,
+          "cls": 0.0053
+        },
+        {
+          "lcp_ms": 1951.3,
+          "cls": 0.0136
         }
       ],
       "lcp_ms_median": 1951.6,
-      "cls_median": 0.0124
+      "cls_median": 0.0129,
+      "lcp_selector": "section.sec > div.wrap > div.stack > h1.h-hero",
+      "render_delay_ms": 1500.8
     },
     "yoetz-mashkantaot-merkaz": {
       "runs": [
         {
-          "lcp_ms": 3365.8,
-          "cls": 0.0667
+          "lcp_ms": 1951.4,
+          "cls": 0.0661
         },
         {
-          "lcp_ms": 3366.1,
-          "cls": 0.0667
+          "lcp_ms": 1951.4,
+          "cls": 0.0716
         },
         {
-          "lcp_ms": 3364.9,
-          "cls": 0.0667
+          "lcp_ms": 1951.6,
+          "cls": 0.0656
         }
       ],
-      "lcp_ms_median": 3365.8,
-      "cls_median": 0.0667
+      "lcp_ms_median": 1951.4,
+      "cls_median": 0.0661,
+      "lcp_selector": "div.wrap > div.stack > h1.h-hero > span.g",
+      "render_delay_ms": 1500.7
     }
   },
   "delta_median": {
     "ishur-ekroni": {
-      "lcp_ms": 1415.4,
-      "cls": 0.0093,
-      "cls_regressed": true
+      "lcp_ms": 0.2,
+      "cls": 0.008
     },
     "mashkanta-kablan": {
-      "lcp_ms": 0.5,
-      "cls": -0.0086,
-      "cls_regressed": false
+      "lcp_ms": -0.6,
+      "cls": 0.053
     },
     "yoetz-mashkantaot": {
-      "lcp_ms": -0.2,
-      "cls": -0.0004,
-      "cls_regressed": false
+      "lcp_ms": -0.5,
+      "cls": 0.0077
     },
     "yoetz-mashkantaot-merkaz": {
-      "lcp_ms": 1413.7,
-      "cls": 0.0076,
-      "cls_regressed": true
+      "lcp_ms": -0.4,
+      "cls": 0.0084
     }
+  },
+  "note": "Median of 3 cold mobile runs, simulated throttling, local servers. Before is the #100 snapshot (no LP redesign). After is this branch. Round 1 of this PR added a full-page main.lp-flow paint: several repeating radial and linear gradients plus a second animated 1800px .rays layer over the whole article. That was this PR's own cost: Lighthouse render delay rose about 1.4s on ishur-ekroni and yoetz-mashkantaot-merkaz while the LCP node and its box did not move. That layer is removed. These medians are back to the template floor (within 1ms). The remaining ~1.35–1.50s render delay is the shared template: the render-blocking Google Fonts stylesheet, render-blocking site.css, and site.js. PR #106 (branch preview/template-lcp-fonts-css-2026-10-06, head a4b5524) already fixes that with self-hosted fonts, preload, inlined critical CSS, and deferred site.js. Those files are not copied here. The new hero does not hide the H1: no opacity or rise animation. The gold line is color only, in the LP HERO block at the end of site.css so it can move into #106's critical CSS. CLS stays under 0.1. mashkanta-kablan median rose because the LCP element is now the large display H1 and the template still swaps Frank Ruhl Libre. That shift is the shared font load, which #106 preloads.",
+  "cause": {
+    "from_this_pr_round1": "Full-page animated rays plus repeating gradients on main.lp-flow. Removed.",
+    "from_shared_template": "Render-blocking Google Fonts, site.css, and site.js. About 1.35–1.50s of render delay on every page before and after. Fixed in PR #106, not here.",
+    "cls": "All medians under 0.1. Kablan 0.014 to 0.067 is the webfont swap on the larger H1."
   }
 }
