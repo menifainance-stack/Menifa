@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-10-06T09:10:00Z",
+  "capturedAt": "2026-10-06T09:11:30Z",
   "round": 2,
+  "commit": "5f59ae2b2bf18085ac91e10da9670889fdb7069d",
   "before": "https://menifa-git-preview-merkaz-o-cf9b39-menifainance-stacks-projects.vercel.app",
-  "afterLocal": "http://127.0.0.1:8765",
-  "afterPreviewPending": "https://menifa-git-preview-lp-new-d-0fcf5f-menifainance-stacks-projects.vercel.app",
-  "note": "before/ is still the Vercel Preview of PR #100 from the first capture. after/ full-page shots, compare/pos-* viewport shots, compare/*-vs-home-* side-by-sides, and compare/top-after-* 2400px crops are the round-2 redesign, captured locally from this working tree. make.com requests during that capture: 0. A Vercel recapture of this commit follows the push. Contrast and Lighthouse are local measurements of the same tree."
+  "after": "https://menifa-git-preview-lp-new-d-0fcf5f-menifainance-stacks-projects.vercel.app",
+  "note": "before/ is the Vercel Preview of PR #100. after/ full-page shots, compare/pos-* viewport shots, compare/*-vs-home-* side-by-sides, and compare/top-after-* 2400px crops were recaptured from the Vercel Preview of this branch after 5f59ae2. Responses carried X-Robots-Tag: noindex, nofollow. make.com requests during that capture: 0. Contrast and Lighthouse remain local measurements of the same commit."
 }
