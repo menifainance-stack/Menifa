@@ -27,6 +27,107 @@
   var fmt = function (n) { return Math.round(n).toLocaleString('he-IL'); };
   var waLink = function (text) { return 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text); };
 
+  /* Tier S is the only path list. #99 calls window.MenifaTierS and must not keep a second copy.
+     Assigned before cookie consent, trackers, and any Ads call. */
+  var TIER_S_EXACT = {
+    '/masurvei-bankim.html': 1,
+    '/sirov-mashkanta-ma-osim.html': 1,
+    '/blog/מסורבי-משכנתא-7-דרכים-לאישור.html': 1,
+    '/ihud-halvaot-lemashkanta.html': 1,
+    '/blog/ihud-halvaot-matei-ken-lo.html': 1
+  };
+  var SENSITIVE_TEXT = /masurvei-bankim|sirov-mashkanta|ihud-halvaot|\/lp\/ihud|מסורב|סירוב/i;
+  var GA4_OMIT = {
+    utm_campaign: 1, utm_term: 1, utm_content: 1, gclid: 1, fbclid: 1,
+    campaign_name: 1, campaign_term: 1, campaign_content: 1, campaign_id: 1,
+    form: 1, page: 1, form_id: 1,
+    page_path: 1, page_title: 1, page_location: 1, page_referrer: 1
+  };
+  function pathOf(url) {
+    try {
+      if (!url) return '';
+      var raw = String(url).split('#')[0];
+      if (raw.charAt(0) === '/') return decodeURIComponent(raw.split('?')[0]);
+      return decodeURIComponent(new URL(raw, location.href).pathname);
+    } catch (e) { return ''; }
+  }
+  function domainOnlyReferrer(ref) {
+    try {
+      if (!ref) return location.origin + '/';
+      var u = new URL(ref, location.href);
+      if (SENSITIVE_TEXT.test(u.hostname)) return location.origin + '/';
+      return u.origin + '/';
+    } catch (e) { return location.origin + '/'; }
+  }
+  function originOnly(ref) {
+    try {
+      if (!ref) return location.origin;
+      var u = new URL(ref, location.href);
+      if (SENSITIVE_TEXT.test(u.hostname)) return location.origin;
+      return u.origin;
+    } catch (e) { return location.origin; }
+  }
+  /* True for this page when the current URL is one of the six, or this page
+     was opened from one of them. The follow flag is one hop only. */
+  var tierSFollow = false;
+  function tierSPath(pathname) {
+    var p = pathOf(pathname).replace(/\/index\.html$/, '/');
+    if (!p) return false;
+    if (p === '/lp/ihud' || p === '/lp/ihud/' || p.indexOf('/lp/ihud/') === 0) return true;
+    if (TIER_S_EXACT[p]) return true;
+    if (p.length > 1 && TIER_S_EXACT[p.replace(/\/$/, '')]) return true;
+    return false;
+  }
+  function readQuery() {
+    var q = { utm_source: '', utm_medium: '', utm_campaign: '', utm_term: '', utm_content: '', gclid: '', fbclid: '' };
+    try {
+      var params = new URLSearchParams(location.search);
+      Object.keys(q).forEach(function (k) { q[k] = params.get(k) || ''; });
+    } catch (e) {}
+    return q;
+  }
+  window.MenifaTierS = {
+    isTierS: function () {
+      var here = false;
+      try { here = tierSPath(location.pathname); } catch (e) {}
+      return here || tierSFollow;
+    },
+    allowsAds: function () { return !window.MenifaTierS.isTierS(); },
+    allowsPixel: function () { return !window.MenifaTierS.isTierS(); },
+    filterGa4Params: function (params) {
+      var src = params || {};
+      var out = {};
+      if (!window.MenifaTierS.isTierS()) {
+        Object.keys(src).forEach(function (k) { out[k] = src[k]; });
+        return out;
+      }
+      Object.keys(src).forEach(function (k) {
+        var lower = String(k).toLowerCase();
+        if (GA4_OMIT[lower]) return;
+        if (lower === 'utm_source' || lower === 'utm_medium') return;
+        var v = src[k];
+        if (v != null && typeof v === 'object') return;
+        if (typeof v === 'string' && SENSITIVE_TEXT.test(v)) return;
+        out[k] = v;
+      });
+      var q = readQuery();
+      var source = src.utm_source || q.utm_source;
+      var medium = src.utm_medium || q.utm_medium;
+      if (source && !SENSITIVE_TEXT.test(String(source))) out.utm_source = String(source);
+      if (medium && !SENSITIVE_TEXT.test(String(medium))) out.utm_medium = String(medium);
+      var refIn = typeof src.page_referrer === 'string' ? src.page_referrer : '';
+      if (!refIn) refIn = rawReferrer || '';
+      if (!refIn) { try { refIn = document.referrer || ''; } catch (e) {} }
+      out.form_id = 'service_page';
+      out.page_path = '/service-page';
+      out.landing_page_path = '/service-page';
+      out.page_location = location.origin + '/service-page';
+      out.page_title = 'service';
+      out.page_referrer = originOnly(refIn);
+      return out;
+    }
+  };
+
   /* ===== mobile nav + dropdown ===== */
   var burger = $('.burger'), mnav = $('.mnav');
   if (burger && mnav) {
@@ -110,82 +211,27 @@
   }
   function loadScript(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
   function safeTrackId(id) { return /^[A-Za-z0-9_-]+$/.test(id || '') ? id : ''; }
-  /* Six Soft paths until Tamir changes the list. The URL itself names the service.
-     Bank refusal: /masurvei-bankim.html, /sirov-mashkanta-ma-osim.html,
-     /blog/מסורבי-משכנתא-7-דרכים-לאישור.html.
-     Loan consolidation: /lp/ihud/, /ihud-halvaot-lemashkanta.html,
-     /blog/ihud-halvaot-matei-ken-lo.html. */
-  var SENSITIVE_EXACT = {
-    '/masurvei-bankim.html': 1,
-    '/sirov-mashkanta-ma-osim.html': 1,
-    '/ihud-halvaot-lemashkanta.html': 1,
-    '/blog/ihud-halvaot-matei-ken-lo.html': 1,
-    '/blog/מסורבי-משכנתא-7-דרכים-לאישור.html': 1
-  };
-  var SENSITIVE_TEXT = /masurvei-bankim|sirov-mashkanta|ihud-halvaot|\/lp\/ihud|מסורב|סירוב/i;
-  var OMIT_ON_SENSITIVE = { form: 1, page: 1, form_id: 1, page_path: 1, page_title: 1, page_location: 1, page_referrer: 1 };
-  var UTM_OMIT = { utm_campaign: 1, utm_term: 1, utm_content: 1, gclid: 1, fbclid: 1, campaign_name: 1, campaign_term: 1, campaign_content: 1, campaign_id: 1 };
+  /* Path checks go through window.MenifaTierS. There is no second list. */
+  function isSensitivePath(url) { return tierSPath(url || ''); }
+  function isSensitivePage() {
+    try { return tierSPath(location.pathname); } catch (e) { return false; }
+  }
   var fromSensitiveHop = false;
   var referrerWasSensitive = false;
   var referrerTruncated = false;
   var rawReferrer = '';
-  function pathOf(url) {
-    try {
-      if (!url) return '';
-      var raw = String(url).split('#')[0];
-      if (raw.charAt(0) === '/') return decodeURIComponent(raw.split('?')[0]);
-      return decodeURIComponent(new URL(raw, location.href).pathname);
-    } catch (e) { return ''; }
-  }
-  function isSensitivePath(url) {
-    var p = pathOf(url).replace(/\/index\.html$/, '/');
-    if (!p) return false;
-    if (p === '/lp/ihud' || p === '/lp/ihud/' || p.indexOf('/lp/ihud/') === 0) return true;
-    if (SENSITIVE_EXACT[p]) return true;
-    if (p.length > 1 && SENSITIVE_EXACT[p.replace(/\/$/, '')]) return true;
-    if (SENSITIVE_TEXT.test(p)) return true;
-    return false;
-  }
-  function isSensitivePage() {
-    try { return isSensitivePath(location.pathname); } catch (e) { return false; }
-  }
-  function domainOnlyReferrer(ref) {
-    try {
-      if (!ref) return location.origin + '/';
-      var u = new URL(ref, location.href);
-      if (SENSITIVE_TEXT.test(u.hostname)) return location.origin + '/';
-      return u.origin + '/';
-    } catch (e) { return location.origin + '/'; }
-  }
-  function readQuery() {
-    var q = { utm_source: '', utm_medium: '', utm_campaign: '', utm_term: '', utm_content: '', gclid: '', fbclid: '' };
-    try {
-      var params = new URLSearchParams(location.search);
-      Object.keys(q).forEach(function (k) { q[k] = params.get(k) || ''; });
-    } catch (e) {}
-    return q;
-  }
   function ga4Config() {
     var cfg = { anonymize_ip: true };
     var ref = rawReferrer;
     try { if (!ref) ref = document.referrer || ''; } catch (e) {}
-    if (isSensitivePage()) {
-      cfg.page_location = location.origin + '/site';
-      cfg.page_path = '/site';
-      cfg.page_title = 'site';
-      cfg.page_referrer = domainOnlyReferrer(ref);
+    if (window.MenifaTierS.isTierS()) {
       var q = readQuery();
-      // Only source and medium. Campaign, term, content, gclid, and fbclid are omitted, not replaced.
-      if (q.utm_source && !SENSITIVE_TEXT.test(q.utm_source)) {
-        cfg.utm_source = q.utm_source;
-        cfg.campaign_source = q.utm_source;
-      }
-      if (q.utm_medium && !SENSITIVE_TEXT.test(q.utm_medium)) {
-        cfg.utm_medium = q.utm_medium;
-        cfg.campaign_medium = q.utm_medium;
-      }
-    } else if (fromSensitiveHop || referrerWasSensitive || isSensitivePath(ref)) {
-      cfg.page_referrer = domainOnlyReferrer(ref);
+      if (q.utm_source && !SENSITIVE_TEXT.test(q.utm_source)) cfg.utm_source = q.utm_source;
+      if (q.utm_medium && !SENSITIVE_TEXT.test(q.utm_medium)) cfg.utm_medium = q.utm_medium;
+      if (ref) cfg.page_referrer = ref;
+      return window.MenifaTierS.filterGa4Params(cfg);
+    } else if (fromSensitiveHop || referrerWasSensitive) {
+      cfg.page_referrer = originOnly(ref);
     }
     return cfg;
   }
@@ -209,10 +255,10 @@
       gtag('consent', 'default', { ad_storage: consent.marketing ? 'granted' : 'denied', ad_user_data: consent.marketing ? 'granted' : 'denied', ad_personalization: consent.marketing ? 'granted' : 'denied', analytics_storage: 'granted' });
       gtag('js', new Date()); gtag('config', ga4Id, ga4Config());
     }
-    if (!isSensitivePage() && !thirdPartyReferrerUnsafe() && consent.statistics && clarityId && !window.clarity) {
+    if (!window.MenifaTierS.isTierS() && !thirdPartyReferrerUnsafe() && consent.statistics && clarityId && !window.clarity) {
       (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', clarityId);
     }
-    if (!isSensitivePage() && !thirdPartyReferrerUnsafe() && consent.marketing && pixelId && !window.fbq) {
+    if (window.MenifaTierS.allowsPixel() && !thirdPartyReferrerUnsafe() && consent.marketing && pixelId && !window.fbq) {
       (function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', pixelId); fbq('track', 'PageView');
     }
@@ -235,22 +281,20 @@
   };
   function analyticsParams(params) {
     var safe = {};
-    var sensitive = isSensitivePage();
-    if (!params) return safe;
-    Object.keys(params).forEach(function (k) {
-      var lower = String(k).toLowerCase();
-      if (ANALYTICS_BLOCK[lower] || /^q\d+$/.test(String(k))) return;
-      if (sensitive && OMIT_ON_SENSITIVE[lower]) return;
-      var v = params[k];
-      if (v != null && typeof v === 'object') return;
-      if (sensitive && UTM_OMIT[lower]) return;
-      if (typeof v === 'string' && SENSITIVE_TEXT.test(v)) return;
-      safe[k] = v;
-    });
-    return safe;
+    if (params) {
+      Object.keys(params).forEach(function (k) {
+        var lower = String(k).toLowerCase();
+        if (ANALYTICS_BLOCK[lower] || /^q\d+$/.test(String(k))) return;
+        var v = params[k];
+        if (v != null && typeof v === 'object') return;
+        if (typeof v === 'string' && SENSITIVE_TEXT.test(v)) return;
+        safe[k] = v;
+      });
+    }
+    return window.MenifaTierS.filterGa4Params(safe);
   }
   function privacyGateIntact() {
-    var sensitive = isSensitivePage();
+    var sensitive = window.MenifaTierS.isTierS();
     var probe = analyticsParams({
       need: 'probe-need',
       link_text: 'probe-link',
@@ -276,11 +320,14 @@
     if (SENSITIVE_TEXT.test(blob)) return false;
     if (sensitive && /probe-campaign|probe-term|probe-content|probe-gclid|probe-fbclid/.test(blob)) return false;
     if (sensitive) {
-      var omitted = ['form', 'page', 'form_id', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_name', 'campaign_term', 'campaign_content'];
+      var omitted = ['form', 'page', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_name', 'campaign_term', 'campaign_content'];
       for (var oi = 0; oi < omitted.length; oi++) {
         if (Object.prototype.hasOwnProperty.call(probe, omitted[oi])) return false;
       }
+      if (probe.form_id !== 'service_page') return false;
+      if (probe.page_path !== '/service-page' || probe.landing_page_path !== '/service-page') return false;
       if (probe.utm_source !== 'preview' || probe.utm_medium !== 'qa') return false;
+      if (typeof probe.page_referrer !== 'string' || /[?#]/.test(probe.page_referrer) || probe.page_referrer.charAt(probe.page_referrer.length - 1) === '/') return false;
     } else if (probe.form !== 'contact' || probe.page !== '/contact.html') return false;
     return true;
   }
@@ -289,7 +336,7 @@
     params = analyticsParams(params);
     (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params));
     if (window.gtag && window.__ga) gtag('event', name, params);
-    if (window.fbq && !isSensitivePage() && !thirdPartyReferrerUnsafe()) {
+    if (window.fbq && window.MenifaTierS.allowsPixel() && !thirdPartyReferrerUnsafe()) {
       var opts = params.event_id ? { eventID: params.event_id } : undefined;
       if (PIXEL_STD[name]) fbq('track', PIXEL_STD[name], params, opts); else fbq('trackCustom', name, params, opts);
     }
@@ -323,11 +370,14 @@
   window.MenifaConsent = { get: function () { return consent; }, open: openPrefs };
   try { rawReferrer = document.referrer || ''; } catch (e) {}
   referrerWasSensitive = isSensitivePath(rawReferrer);
+  var hopSet = false;
+  try { hopSet = sessionStorage.getItem('menifa-sensitive-hop') === '1'; } catch (e) {}
+  tierSFollow = isSensitivePage() || referrerWasSensitive || hopSet;
   try {
     if (isSensitivePage()) {
       sessionStorage.setItem('menifa-sensitive-hop', '1');
       $$('a[href], area[href]').forEach(function (a) { try { a.referrerPolicy = 'origin'; } catch (e2) {} });
-    } else if (sessionStorage.getItem('menifa-sensitive-hop') === '1') {
+    } else if (hopSet) {
       fromSensitiveHop = true;
       sessionStorage.removeItem('menifa-sensitive-hop');
     }

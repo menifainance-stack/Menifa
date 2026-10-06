@@ -24,7 +24,7 @@ const NEED = 'מסורבי בנקים';
 const SENSITIVE = /מסורב|סירוב|050-1234567|חוב 500000|123456782|test@example\.com/;
 const FAKE_TRACK = { ga4: 'G-FAKE000000', meta_pixel: '000000000000000', clarity: 'fakclarity0' };
 const SECRETS = /camp-secret-99|term-secret-99|content-secret-99|gclid-secret-99|fbclid-secret-99|masurvei-bankim|sirov-mashkanta|ihud-halvaot|\/lp\/ihud|מסורב/;
-const OMIT_KEYS = ['utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_name', 'campaign_term', 'campaign_content', 'campaign_id', 'form', 'page', 'form_id', 'need', 'link_text'];
+const OMIT_KEYS = ['utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_name', 'campaign_term', 'campaign_content', 'campaign_id', 'campaign_source', 'campaign_medium', 'form', 'page', 'need', 'link_text'];
 const SENS_QUERY = '?utm_source=facebook&utm_medium=cpc&utm_campaign=camp-secret-99&utm_term=term-secret-99&utm_content=content-secret-99&gclid=gclid-secret-99&fbclid=fbclid-secret-99';
 const SENSITIVE_PAGES = [
   ['masurvei-bankim.html', 'https://menifa.org/masurvei-bankim.html'],
@@ -252,6 +252,10 @@ function assertDomainOnly(url, label) {
   assert(/^https:\/\/[^/?#]+\/$/.test(url), label + ' is not domain-only');
   assert(!SECRETS.test(url), label + ' still identifies a sensitive page');
 }
+function assertOriginOnly(url, label) {
+  assert(/^https:\/\/[^/?#]+$/.test(url), label + ' is not origin-only');
+  assert(!SECRETS.test(url), label + ' still identifies a sensitive page');
+}
 function assertNoForbidden(value, label) {
   const blob = JSON.stringify(value);
   assert(blob && !SECRETS.test(blob), label + ' contains a sensitive or campaign value');
@@ -341,17 +345,19 @@ function runSensitive(file, url) {
   assert(!trackerSrc(srcs, 'fbevents'), file + ' loaded the Meta Pixel');
   assert(!trackerSrc(srcs, 'clarity.ms'), file + ' loaded Clarity');
   assert(!win.fbq, file + ' defined fbq');
+  assert(win.MenifaTierS.isTierS() === true, file + ' isTierS');
+  assert(win.MenifaTierS.allowsAds() === false && win.MenifaTierS.allowsPixel() === false, file + ' allowsAds or allowsPixel');
   assertDomainOnly(win.document.referrer, file + ' document.referrer');
   assert(win.document.referrer === 'https://www.google.com/', file + ' external referrer was not truncated to the domain');
   const cfg = ga4ConfigOf(win);
   assert(cfg, file + ' missing GA4 config');
-  assert(cfg.page_location === 'https://menifa.org/site', file + ' page_location was not overridden');
+  assert(cfg.page_location === 'https://menifa.org/service-page', file + ' page_location was not overridden');
   assert(!/[?]/.test(cfg.page_location), file + ' page_location still has a query');
-  assert(cfg.page_path === '/site' && cfg.page_title === 'site', file + ' page_path or page_title was not overridden');
-  assertDomainOnly(cfg.page_referrer, file + ' page_referrer');
-  assert(cfg.page_referrer === 'https://www.google.com/', file + ' page_referrer domain');
+  assert(cfg.page_path === '/service-page' && cfg.landing_page_path === '/service-page', file + ' page paths');
+  assert(cfg.page_title === 'service' && cfg.form_id === 'service_page', file + ' generic title or form_id');
+  assertOriginOnly(cfg.page_referrer, file + ' page_referrer');
+  assert(cfg.page_referrer === 'https://www.google.com', file + ' page_referrer origin');
   assert(cfg.utm_source === 'facebook' && cfg.utm_medium === 'cpc', file + ' dropped allowed utm_source or utm_medium');
-  assert(cfg.campaign_source === 'facebook' && cfg.campaign_medium === 'cpc', file + ' dropped GA4 source or medium');
   assertNoForbidden(cfg, file + ' GA4 config');
   assertNoForbidden(flatDL(win), file + ' dataLayer');
   const anchors = win.document.querySelectorAll('a[href]');
@@ -382,6 +388,7 @@ function runSensitive(file, url) {
   assert(ev.length === 1, file + ' generate_lead missing');
   assert(ev[0].event === 'generate_lead', file + ' renamed generate_lead');
   assert(ev[0].utm_source === 'facebook' && ev[0].utm_medium === 'cpc', file + ' event lost source or medium');
+  assert(ev[0].form_id === 'service_page' && ev[0].page_path === '/service-page' && ev[0].landing_page_path === '/service-page', file + ' event page was not generalized');
   assertNoForbidden(ev[0], file + ' generate_lead');
   const names = (win.dataLayer || []).map(function (e) { return e && e.event; }).filter(Boolean);
   assert(names.indexOf('contact_whatsapp') !== -1, file + ' renamed contact_whatsapp');
@@ -414,6 +421,7 @@ assert(sensCrm.utm_campaign === 'camp-secret-99', 'CRM lost utm_campaign');
 assert(sensCrm.utm_term === 'term-secret-99' && sensCrm.utm_content === 'content-secret-99', 'CRM lost term or content');
 assert(sensCrm.gclid === 'gclid-secret-99' && sensCrm.fbclid === 'fbclid-secret-99', 'CRM lost click ids');
 assert(sensCrm.page === '/masurvei-bankim.html' && sensCrm.source === 'service:masurvei-bankim', 'CRM lost the real page');
+assert(sensCrm.form_id !== 'service_page' && sensCrm.page !== '/service-page', 'CRM was passed through filterGa4Params');
 assert(sensCrm.landing === '/masurvei-bankim.html', 'CRM lost landing');
 assert(sensCrm.referrer === 'www.google.com', 'CRM referrer hostname changed');
 leadEvents(sens.window).forEach(function (ev) { assertNoForbidden(ev, 'submitted generate_lead'); });
@@ -456,12 +464,14 @@ const next = boot({
 });
 assertDomainOnly(next.window.document.referrer, 'referrer after leaving a sensitive page');
 assert(next.window.document.referrer === 'https://menifa.org/', 'internal sensitive referrer was not truncated to the domain');
+assert(next.window.MenifaTierS.isTierS() === true, 'the page after Tier S must stay Tier S');
+assert(next.window.MenifaTierS.allowsAds() === false && next.window.MenifaTierS.allowsPixel() === false, 'Ads and Pixel must stay off on the following page');
 const nextCfg = ga4ConfigOf(next.window);
-assert(nextCfg && nextCfg.page_referrer === 'https://menifa.org/', 'next page page_referrer');
-assert(!nextCfg.page_location, 'next page should keep its own page_location');
+assert(nextCfg && nextCfg.page_referrer === 'https://menifa.org', 'next page page_referrer');
+assert(nextCfg.page_path === '/service-page' && nextCfg.form_id === 'service_page', 'next page GA4 was not generalized');
 assertNoForbidden(nextCfg, 'next page GA4 config');
 assert(next.window.sessionStorage.getItem('menifa-sensitive-hop') == null, 'sensitive hop flag was not consumed');
-assert(next.window.fbq, 'Pixel should load on the next page after the referrer is domain-only');
+assert(!next.window.fbq && !trackerSrc(scriptSrcs(next.window), 'clarity.ms'), 'Pixel or Clarity loaded on the page after Tier S');
 
 const ordinary = boot({
   consent: true,
@@ -471,6 +481,7 @@ const ordinary = boot({
   track: FAKE_TRACK,
   stubAfter: false
 });
+assert(ordinary.window.MenifaTierS.isTierS() === false && ordinary.window.MenifaTierS.allowsAds() === true && ordinary.window.MenifaTierS.allowsPixel() === true, 'ordinary page was treated as Tier S');
 assert(ordinary.window.document.referrer === 'https://www.google.com/search?q=mortgage', 'non-sensitive external referrer was rewritten');
 const ordinaryCfg = ga4ConfigOf(ordinary.window);
 assert(ordinaryCfg && !ordinaryCfg.page_referrer, 'non-sensitive page should not override page_referrer');
