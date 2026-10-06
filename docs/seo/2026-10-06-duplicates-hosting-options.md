@@ -28,11 +28,12 @@ Covered here:
 
 - `lp/ihud-halvaot/index.html` → `https://menifa.org/lp/ihud/`
 - `lp/mihzur-mashkanta/index.html` → `https://menifa.org/lp/mihzur/`
+- `lp/pikdonot-300k/index.html` → `https://menifa.org/`
 - `blog/art-1.html` … `blog/art-82.html` → the Hebrew article URLs already listed in `vercel.json`
 
 These files are not added to the sitemap. The locked paid URLs stay where they are: `/lp/mihzur/`, `/lp/ihud/`, `yoetz-mashkantaot.html`, `mashkanta-dira-rishona.html`, `mashkanta-yad-shniya.html`, `masurvei-bankim.html`, `alut-mashkanta-kolel-bituach.html`.
 
-`lp/pikdonot-300k/` is not stubbed. `vercel.json` and `redirects.csv` have no rule for it. The last published file (`lp/pikdonot-300k.html` in `d6c980e`) canonicalized to itself. Later preview copies were a separate noindex quiz, not a redirect onto `/lp/ihud/` or `/lp/mihzur/`. No successor was found, so no target was invented.
+`lp/pikdonot-300k/` had no product successor in `vercel.json` or `redirects.csv` (the old file canonicalized to itself). The stub now goes to `https://menifa.org/`, the homepage, which is the target that was decided for it. It is not in the sitemap.
 
 Trade-off: Google treats a meta refresh plus a canonical as a soft redirect. It is not an HTTP 301 or 308. The query string survives only in the script (`location.search` and `location.hash`). The meta refresh URL itself does not carry UTMs. Pages will keep returning 200 for the stub URL.
 
@@ -54,7 +55,7 @@ A move would have to change all of the following. None of it is part of this PR.
    - Production must be the branch that should be live (`main` today).
    - Confirm the production host does not receive `X-Robots-Tag: noindex`. The current rule is already limited to `*.vercel.app`.
 
-`lp/ihud-halvaot/` and `lp/mihzur-mashkanta/` are not in `vercel.json`. After a move they would still be the HTML stubs (soft redirect) until explicit redirect rules are added. The art-1…art-82 rules would become real 308s without new config.
+`lp/ihud-halvaot/`, `lp/mihzur-mashkanta/`, and `lp/pikdonot-300k/` are not in `vercel.json`. After a move they would still be the HTML stubs (soft redirect) until explicit redirect rules are added. The art-1…art-82 rules would become real 308s without new config.
 
 ### Risks
 
