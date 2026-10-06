@@ -1131,15 +1131,15 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
       <div class="drawer-articles">
         <div class="drawer-section-label">מאמרים מומלצים</div>
-        <a href="${pathPrefix}blog/art-15.html" class="drawer-article-card">
+        <a href="${pathPrefix}blog/משבר-משכנתאות-2026-פיגורים.html" class="drawer-article-card">
           <span class="article-tag">ניתוח שוק</span>
           <div class="article-title">משבר המשכנתאות 2026 — 4.28 מיליארד ₪ בפיגורים</div>
         </a>
-        <a href="${pathPrefix}blog/art-14.html" class="drawer-article-card">
+        <a href="${pathPrefix}blog/הורדת-ריבית-בדרך-ל-3-5-מה-לעשות-עם-המשכנתא.html" class="drawer-article-card">
           <span class="article-tag">ריבית</span>
           <div class="article-title">הורדת ריבית נוספת בדרך ל-3.5% — מה לעשות?</div>
         </a>
-        <a href="${pathPrefix}blog/art-3.html" class="drawer-article-card">
+        <a href="${pathPrefix}blog/מתי-כדאי-למחזר-משכנתא.html" class="drawer-article-card">
           <span class="article-tag">מחזור</span>
           <div class="article-title">מתי באמת כדאי למחזר משכנתא? המדריך המקצועי</div>
         </a>
