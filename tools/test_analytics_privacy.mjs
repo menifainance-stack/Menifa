@@ -17,6 +17,18 @@ import { fileURLToPath } from 'url';
 const jsdomPkg = process.env.JSDOM_PACKAGE || '/tmp/privacy-harness/node_modules/jsdom/package.json';
 const { JSDOM } = createRequire(jsdomPkg)('jsdom');
 
+const makeHits = [];
+const nativeFetch = globalThis.fetch;
+globalThis.fetch = function (url, opts) {
+  const href = String(url && url.url ? url.url : url);
+  if (href.includes('make.com')) {
+    makeHits.push(href);
+    return Promise.reject(new Error('blocked make.com'));
+  }
+  if (typeof nativeFetch === 'function') return nativeFetch.call(globalThis, url, opts);
+  return Promise.reject(new Error('network disabled'));
+};
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const html = fs.readFileSync(path.join(root, 'contact.html'), 'utf8');
 const siteJs = fs.readFileSync(path.join(root, 'assets/site.js'), 'utf8');
@@ -67,7 +79,7 @@ function boot(consentOrOpts) {
       mode: opts2 && opts2.mode,
       body: opts2 && opts2.body ? String(opts2.body) : ''
     });
-    return Promise.resolve({ ok: true, status: 0, type: 'opaque' });
+    return Promise.resolve({ ok: false, status: 0, type: 'opaque' });
   };
   window.eval(opts.siteSource || siteJs);
   window.document.addEventListener('click', function (e) {
@@ -138,6 +150,7 @@ fsEl.appendChild(radio);
 form.appendChild(fsEl);
 
 form.dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true }));
+await new Promise(function (resolve) { setTimeout(resolve, 0); });
 
 const dl = leadEvents(window);
 assert(dl.length === 1, 'expected one generate_lead on the dataLayer, got ' + dl.length);
@@ -145,9 +158,12 @@ const analyticsEvent = dl[0];
 noSensitive(analyticsEvent, 'dataLayer generate_lead');
 assert(analyticsEvent.value === 1, 'value must stay 1');
 assert(analyticsEvent.currency === 'ILS', 'currency must stay ILS');
-assert(analyticsEvent.form === 'contact', 'form id should remain the public form id');
-assert(analyticsEvent.page === '/contact.html', 'page should remain the public path');
-assert(typeof analyticsEvent.event_id === 'string' && analyticsEvent.event_id.indexOf('lead_') === 0, 'event_id kept for dedup');
+assert(analyticsEvent.form_id === 'contact', 'form_id should remain the public form id');
+assert(analyticsEvent.page_path === '/contact.html', 'page_path should remain the public path');
+assert(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(analyticsEvent.lead_uuid), 'lead_uuid should be a UUID v4');
+assert(!Object.prototype.hasOwnProperty.call(analyticsEvent, 'form'), 'old form param should be gone');
+assert(!Object.prototype.hasOwnProperty.call(analyticsEvent, 'utm_content'), 'generate_lead must not carry utm_content');
+assert(!Object.prototype.hasOwnProperty.call(analyticsEvent, 'utm_term'), 'generate_lead must not carry utm_term');
 
 const gtagLead = gtagCalls.filter(function (c) { return c[0] === 'event' && c[1] === 'generate_lead'; });
 assert(gtagLead.length === 1, 'expected one gtag generate_lead');
@@ -158,13 +174,16 @@ const fbqLead = fbqCalls.filter(function (c) { return c[0] === 'track' && c[1] =
 assert(fbqLead.length === 1, 'expected one fbq Lead');
 noSensitive(fbqLead[0][2], 'fbq Lead');
 assert(fbqLead[0][2].value === 1, 'fbq value must stay 1');
-assert(fbqLead[0][3] && fbqLead[0][3].eventID === analyticsEvent.event_id, 'fbq eventID should match event_id');
+assert(fbqLead[0][3] && fbqLead[0][3].eventID === analyticsEvent.lead_uuid, 'fbq eventID should match lead_uuid');
+assert(fbqCalls.every(function (c) { return c[0] !== 'trackCustom'; }), 'fbq trackCustom should be gone');
+assert(!gtagCalls.some(function (c) { return c[1] === 'conversion'; }), 'empty Ads placeholders must not fire a conversion');
 
 assert(crm.length === 1, 'expected exactly one stubbed CRM post, got ' + crm.length);
 assert(crm[0].url === window.MENIFA_CONFIG.leadWebhook, 'CRM url changed');
+assert(crm[0].url === 'https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig', 'CRM url changed');
 assert(crm[0].url.endsWith('bdig'), 'CRM webhook endpoint changed');
 assert(!crm[0].url.endsWith('7942'), 'CRM webhook must stay the live endpoint');
-assert(crm[0].mode === 'no-cors', 'CRM mode changed');
+assert(crm[0].mode === 'no-cors', 'CRM mode should stay no-cors until Make sends CORS headers');
 const crmFields = Object.fromEntries(new URLSearchParams(crm[0].body));
 assert(crmFields.need === NEED, 'CRM lost need: ' + crmFields.need);
 assert(crmFields.name === 'בדיקת פרטיות', 'CRM lost name');
@@ -175,11 +194,23 @@ assert(crmFields.utm_source === 'preview', 'CRM lost utm_source');
 assert(crmFields.utm_medium === 'qa', 'CRM lost utm_medium');
 assert(crmFields.utm_campaign === 'privacy-test', 'CRM lost utm_campaign');
 assert(crmFields.utm_content === 'need-gate', 'CRM lost utm_content');
-assert(crmFields.source === 'contact', 'CRM lost source');
+assert(crmFields.form_id === 'contact', 'CRM lost form_id');
+assert(crmFields.page_path === '/contact.html', 'CRM lost page_path');
+assert(crmFields.landing_page_path === '/contact.html', 'CRM lost landing_page_path');
+assert(crmFields.referrer_host === 'direct', 'CRM referrer_host');
+assert(!Object.prototype.hasOwnProperty.call(crmFields, 'source'), 'old source key should be gone');
 assert(crmFields.when === 'השבוע', 'CRM lost when');
 assert(crmFields.consent === 'כן', 'CRM lost consent');
 assert(crmFields.fbp === 'fb.1.privacytest', 'CRM lost fbp');
 assert(crmFields.fbc === 'fb.1.privacyclick', 'CRM lost fbc');
+assert(crmFields['מקור_הפניה'] === 'לא מיוחס', 'CRM makor should follow the A24 dictionary: ' + crmFields['מקור_הפניה']);
+assert(crmFields.makor_hafnia === 'לא מיוחס', 'CRM makor_hafnia mismatch');
+assert(crmFields.lt_utm_source === 'preview', 'CRM lost lt_utm_source');
+assert(crmFields.lead_uuid === analyticsEvent.lead_uuid, 'CRM lead_uuid must match generate_lead');
+assert(crmFields.consent_analytics === 'true', 'consent_analytics');
+assert(crmFields['יידוע_פרטיות_הוצג'] === 'true', 'privacy notice flag');
+assert(!Object.prototype.hasOwnProperty.call(analyticsEvent, 'makor_hafnia'), 'analytics received makor_hafnia');
+assert(!Object.prototype.hasOwnProperty.call(analyticsEvent, 'מקור_הפניה'), 'analytics received מקור_הפניה');
 
 const wa = Array.prototype.find.call(document.querySelectorAll('.wa-topics a'), function (a) {
   return a.textContent.trim() === NEED;
@@ -189,7 +220,8 @@ wa.dispatchEvent(new window.MouseEvent('click', { bubbles: true, cancelable: tru
 const waEvents = (window.dataLayer || []).filter(function (e) { return e && e.event === 'contact_whatsapp'; });
 assert(waEvents.length === 1, 'expected one contact_whatsapp');
 noSensitive(waEvents[0], 'contact_whatsapp');
-assert(waEvents[0].page === '/contact.html', 'whatsapp page missing');
+assert(waEvents[0].page_path === '/contact.html', 'whatsapp page missing');
+assert(waEvents[0].cta_location === 'topic', 'whatsapp topic location');
 const fbqContact = fbqCalls.filter(function (c) { return c[0] === 'track' && c[1] === 'Contact'; });
 assert(fbqContact.length === 1, 'expected fbq Contact');
 noSensitive(fbqContact[0][2], 'fbq Contact');
@@ -420,10 +452,10 @@ assert(sensCrm.utm_source === 'facebook' && sensCrm.utm_medium === 'cpc', 'CRM l
 assert(sensCrm.utm_campaign === 'camp-secret-99', 'CRM lost utm_campaign');
 assert(sensCrm.utm_term === 'term-secret-99' && sensCrm.utm_content === 'content-secret-99', 'CRM lost term or content');
 assert(sensCrm.gclid === 'gclid-secret-99' && sensCrm.fbclid === 'fbclid-secret-99', 'CRM lost click ids');
-assert(sensCrm.page === '/masurvei-bankim.html' && sensCrm.source === 'service:masurvei-bankim', 'CRM lost the real page');
-assert(sensCrm.form_id !== 'service_page' && sensCrm.page !== '/service-page', 'CRM was passed through filterGa4Params');
-assert(sensCrm.landing === '/masurvei-bankim.html', 'CRM lost landing');
-assert(sensCrm.referrer === 'www.google.com', 'CRM referrer hostname changed');
+assert(sensCrm.page_path === '/masurvei-bankim.html' && sensCrm.form_id === 'service_masurvei_bankim', 'CRM lost the real page');
+assert(sensCrm.form_id !== 'service_page' && decodeURIComponent(sensCrm.page_path) !== '/service-page', 'CRM was passed through filterGa4Params');
+assert(sensCrm.landing_page_path === '/masurvei-bankim.html', 'CRM lost landing');
+assert(sensCrm.referrer_host === 'www.google.com', 'CRM referrer hostname changed');
 leadEvents(sens.window).forEach(function (ev) { assertNoForbidden(ev, 'submitted generate_lead'); });
 const sensWa = Array.prototype.find.call(sens.window.document.querySelectorAll('.wa-topics a'), function (a) {
   return a.textContent.trim() === NEED;
@@ -511,6 +543,9 @@ const proof = {
     decoded: crmFields
   }
 };
+
+assert(makeHits.length === 0, 'a real fetch reached make.com: ' + makeHits.join(', '));
+proof.make_com_network_hits = makeHits.length;
 
 console.log(JSON.stringify(proof, null, 2));
 if (!process.exitCode) console.log('\nPASS');

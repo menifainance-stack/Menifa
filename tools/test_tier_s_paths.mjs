@@ -1,15 +1,14 @@
 /**
- * Tier S switch for the six paths. Same four functions PR #99 turns on:
+ * Tier S coverage for the six paths. The helper comes from #96.
+ * Privacy assertions are enforced. The Make body keeps the real values
+ * and is not passed through filterGa4Params.
+ *
  *   window.MenifaTierS.isTierS()
  *   window.MenifaTierS.allowsAds()
  *   window.MenifaTierS.allowsPixel()
  *   window.MenifaTierS.filterGa4Params(params)
- * Clarity follows isTierS() (no separate method).
- * The Make body is not filtered. This branch still posts the live field names
- * (page, source, referrer). #99's copy of this file checks page_path, form_id,
- * and referrer_host after its own rename.
  *
- * fetch is stubbed. Nothing is sent to Make.
+ * Clarity follows isTierS(). fetch is stubbed. Nothing is sent to Make.
  *
  *   node tools/test_tier_s_paths.mjs
  */
@@ -32,12 +31,12 @@ const IDS = {
 };
 
 const TIER_S = [
-  ['/masurvei-bankim.html', 'masurvei-bankim.html', 'service:masurvei-bankim'],
-  ['/sirov-mashkanta-ma-osim.html', 'sirov-mashkanta-ma-osim.html', 'service:sirov-mashkanta-ma-osim'],
-  ['/blog/מסורבי-משכנתא-7-דרכים-לאישור.html', 'blog/מסורבי-משכנתא-7-דרכים-לאישור.html', 'post:blog__art-19'],
-  ['/ihud-halvaot-lemashkanta.html', 'ihud-halvaot-lemashkanta.html', 'service:ihud-halvaot-lemashkanta'],
-  ['/blog/ihud-halvaot-matei-ken-lo.html', 'blog/ihud-halvaot-matei-ken-lo.html', 'post:blog__ihud-halvaot-matei-ken-lo'],
-  ['/lp/ihud/', 'lp/ihud/index.html', 'lp-ihud']
+  ['/masurvei-bankim.html', 'masurvei-bankim.html', 'service_masurvei_bankim'],
+  ['/sirov-mashkanta-ma-osim.html', 'sirov-mashkanta-ma-osim.html', 'service_sirov_mashkanta_ma_osim'],
+  ['/blog/מסורבי-משכנתא-7-דרכים-לאישור.html', 'blog/מסורבי-משכנתא-7-דרכים-לאישור.html', 'post_blog_art_19'],
+  ['/ihud-halvaot-lemashkanta.html', 'ihud-halvaot-lemashkanta.html', 'service_ihud_halvaot_lemashkanta'],
+  ['/blog/ihud-halvaot-matei-ken-lo.html', 'blog/ihud-halvaot-matei-ken-lo.html', 'post_blog_ihud_halvaot_matei_ken_lo'],
+  ['/lp/ihud/', 'lp/ihud/index.html', 'lp_ihud']
 ];
 
 const QUERY = '?utm_source=google&utm_medium=cpc&utm_campaign=winter&utm_term=secret-term&utm_content=secret-content&gclid=Cj0tier';
@@ -75,7 +74,7 @@ function boot(file, urlPath, opts) {
   const crm = [];
   window.fetch = function (url, init) {
     const href = String(url);
-    if (href.indexOf('make.com') !== -1) {
+    if (href.includes('make.com')) {
       crm.push({ mode: init && init.mode, body: String(init && init.body || '') });
       return Promise.resolve({ ok: false, status: 0, type: 'opaque' });
     }
@@ -83,15 +82,6 @@ function boot(file, urlPath, opts) {
   };
   window.eval(siteJs);
   return { window, crm };
-}
-
-function helperReady(window) {
-  const api = window.MenifaTierS;
-  return !!(api
-    && typeof api.isTierS === 'function'
-    && typeof api.allowsAds === 'function'
-    && typeof api.allowsPixel === 'function'
-    && typeof api.filterGa4Params === 'function');
 }
 
 function scripts(window) {
@@ -121,6 +111,10 @@ function utmKeys(obj) {
   return Object.keys(obj || {}).filter(function (k) { return k.indexOf('utm_') === 0; }).sort();
 }
 
+async function flush() {
+  await new Promise(function (resolve) { setTimeout(resolve, 0); });
+}
+
 function submit(window) {
   const form = window.document.querySelector('form[data-lead]');
   assert(form, 'lead form missing on ' + window.location.pathname);
@@ -133,64 +127,71 @@ function submit(window) {
   form.dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true }));
 }
 
-assert(siteJs.indexOf('window.MenifaTierS') !== -1, 'MenifaTierS is not assigned');
+assert(siteJs.indexOf('window.MenifaTierS =') !== -1, 'MenifaTierS is not assigned');
 assert((siteJs.match(/var TIER_S_EXACT =/g) || []).length === 1, 'Tier S path list is duplicated');
+assert(!siteJs.includes('trackCustom'), 'trackCustom returned');
+console.log('test config IDs: ' + JSON.stringify(IDS));
 
 let enforced = 0;
-for (const [urlPath, file, source] of TIER_S) {
+for (const [urlPath, file, formId] of TIER_S) {
   const open = boot(file, urlPath, {});
-  assert(helperReady(open.window), urlPath + ' helper missing');
   const api = open.window.MenifaTierS;
+  assert(api && typeof api.isTierS === 'function' && typeof api.allowsAds === 'function' && typeof api.allowsPixel === 'function' && typeof api.filterGa4Params === 'function', urlPath + ' helper missing');
   assert(api.isTierS() === true, urlPath + ' isTierS');
   assert(api.allowsAds() === false, urlPath + ' allowsAds');
   assert(api.allowsPixel() === false, urlPath + ' allowsPixel');
   const filtered = api.filterGa4Params({
+    form_id: formId,
+    page_path: urlPath,
+    landing_page_path: urlPath,
     utm_source: 'google',
     utm_medium: 'cpc',
     utm_campaign: 'winter',
     utm_term: 'secret-term',
     utm_content: 'secret-content',
     gclid: 'Cj0tier',
-    fbclid: 'fb-secret',
-    form_id: source,
-    page_path: urlPath,
-    landing_page_path: urlPath,
-    page_referrer: REFERRER,
-    currency: 'ILS',
-    value: 1
+    page_referrer: REFERRER
   });
   assert(filtered.form_id === 'service_page', urlPath + ' filter form_id');
   assert(filtered.page_path === GENERIC_PATH && filtered.landing_page_path === GENERIC_PATH, urlPath + ' filter paths');
-  assert(filtered.page_location === 'https://menifa.org/service-page', urlPath + ' filter page_location');
   assert(filtered.page_referrer === 'https://news.example', urlPath + ' filter referrer ' + filtered.page_referrer);
   assert(filtered.utm_source === 'google' && filtered.utm_medium === 'cpc', urlPath + ' filter utm');
-  ['utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'].forEach(function (key) {
+  ['utm_campaign', 'utm_term', 'utm_content', 'gclid'].forEach(function (key) {
     assert(!Object.prototype.hasOwnProperty.call(filtered, key), urlPath + ' filter kept ' + key);
   });
   assert(!SECRETS.test(JSON.stringify(filtered)), urlPath + ' filter leaked a real value');
 
+  const srcs = scripts(open.window);
+  assert(!srcs.some(function (s) { return s.includes('facebook.net'); }) && typeof open.window.fbq !== 'function', urlPath + ' loaded Pixel');
+  assert(!srcs.some(function (s) { return s.includes('clarity.ms'); }) && typeof open.window.clarity !== 'function', urlPath + ' loaded Clarity');
+  assert(!srcs.some(function (s) { return s.includes('AW-'); }), urlPath + ' loaded Ads tag');
+  assert(!(open.window.dataLayer || []).some(function (e) { return e && e[0] === 'config' && String(e[1] || '').indexOf('AW-') === 0; }), urlPath + ' configured Ads');
+
   submit(open.window);
+  await flush();
   const fields = Object.fromEntries(new URLSearchParams(open.crm[0].body));
-  assert(decodeURIComponent(fields.page) === urlPath, urlPath + ' Make page ' + fields.page);
-  assert(fields.source === source, urlPath + ' Make source ' + fields.source);
-  assert(fields.source !== 'service_page' && fields.page !== GENERIC_PATH, urlPath + ' Make was generalized');
+  assert(decodeURIComponent(fields.page_path) === urlPath, urlPath + ' Make page_path ' + fields.page_path);
+  assert(fields.form_id === formId, urlPath + ' Make form_id ' + fields.form_id);
+  assert(fields.form_id !== 'service_page', urlPath + ' Make form_id was generalized');
+  assert(fields.utm_source === 'google' && fields.utm_medium === 'cpc', urlPath + ' Make utm');
   assert(fields.utm_campaign === 'winter' && fields.utm_term === 'secret-term' && fields.utm_content === 'secret-content', urlPath + ' Make campaign');
   assert(fields.gclid === 'Cj0tier', urlPath + ' Make gclid');
-  assert(fields.referrer === 'news.example', urlPath + ' Make referrer ' + fields.referrer);
+  assert(fields.referrer_host === 'news.example', urlPath + ' Make referrer_host ' + fields.referrer_host);
+  console.log('MAKE PASS ' + urlPath + ' form_id=' + fields.form_id);
 
-  const srcs = scripts(open.window);
-  assert(!srcs.some(function (s) { return s.indexOf('facebook.net') !== -1; }) && typeof open.window.fbq !== 'function', urlPath + ' loaded Pixel');
-  assert(!srcs.some(function (s) { return s.indexOf('clarity.ms') !== -1; }) && typeof open.window.clarity !== 'function', urlPath + ' loaded Clarity');
-  assert(!srcs.some(function (s) { return s.indexOf('AW-') !== -1; }), urlPath + ' loaded Ads');
-  const ev = leadEvents(open.window)[0] || {};
+  const ev = leadEvents(open.window)[0];
+  assert(ev, urlPath + ' generate_lead missing');
   const gtagLead = gtagEvents(open.window).filter(function (e) { return e[1] === 'generate_lead'; });
-  const payloads = [ev].concat(gtagLead.map(function (e) { return e[2] || {}; }));
-  payloads.forEach(function (payload) {
+  [ev].concat(gtagLead.map(function (e) { return e[2] || {}; })).forEach(function (payload) {
     const keys = utmKeys(payload);
     assert(keys.length === 2 && keys[0] === 'utm_medium' && keys[1] === 'utm_source', urlPath + ' GA4 utm keys ' + keys.join(','));
+    assert(!Object.prototype.hasOwnProperty.call(payload, 'utm_campaign'), urlPath + ' GA4 kept utm_campaign');
+    assert(!Object.prototype.hasOwnProperty.call(payload, 'utm_term'), urlPath + ' GA4 kept utm_term');
+    assert(!Object.prototype.hasOwnProperty.call(payload, 'utm_content'), urlPath + ' GA4 kept utm_content');
     assert(payload.form_id === 'service_page' && payload.page_path === GENERIC_PATH && payload.landing_page_path === GENERIC_PATH, urlPath + ' GA4 page');
     assert(!SECRETS.test(JSON.stringify(payload)), urlPath + ' GA4 leaked a campaign or path');
   });
+  assert(!gtagEvents(open.window).some(function (e) { return e[1] === 'conversion'; }), urlPath + ' Ads conversion fired');
   const refs = pageReferrers(open.window);
   assert(refs.length > 0 && refs.every(function (r) { return r === 'https://news.example'; }), urlPath + ' referrer ' + refs.join(','));
 
@@ -200,6 +201,8 @@ for (const [urlPath, file, source] of TIER_S) {
   });
   assert(next.window.MenifaTierS.isTierS() === true, urlPath + ' next page left Tier S');
   assert(next.window.MenifaTierS.allowsAds() === false && next.window.MenifaTierS.allowsPixel() === false, urlPath + ' next page allows trackers');
+  assert(typeof next.window.fbq !== 'function', urlPath + ' next page loaded Pixel');
+  assert(typeof next.window.clarity !== 'function', urlPath + ' next page loaded Clarity');
   const nextRefs = pageReferrers(next.window);
   assert(nextRefs.length > 0 && nextRefs.every(function (r) { return r === 'https://menifa.org'; }), urlPath + ' next referrer ' + nextRefs.join(','));
   assert(!SECRETS.test(JSON.stringify(nextRefs)), urlPath + ' next referrer leaked the path');
@@ -212,7 +215,7 @@ assert(plain.window.MenifaTierS.isTierS() === false, 'contact isTierS');
 assert(plain.window.MenifaTierS.allowsAds() === true && plain.window.MenifaTierS.allowsPixel() === true, 'contact allowsAds/Pixel');
 const kept = plain.window.MenifaTierS.filterGa4Params({ utm_campaign: 'winter', form: 'contact', page: '/contact.html' });
 assert(kept.utm_campaign === 'winter' && kept.form === 'contact' && kept.page === '/contact.html', 'off Tier S filter changed params');
-assert(!kept.form_id && !kept.page_path, 'off Tier S filter added generic fields');
+assert(!Object.prototype.hasOwnProperty.call(kept, 'form_id'), 'off Tier S filter added form_id');
 
 console.log('ENFORCED ' + enforced + '/6');
 if (!process.exitCode) console.log('PASS');

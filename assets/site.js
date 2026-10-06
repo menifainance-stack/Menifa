@@ -2,18 +2,33 @@
 (function () {
   'use strict';
 
-  /* ===== configuration: the developer fills these in production ===== */
+  /* ===== configuration: the developer fills these in production =====
+     Measurement IDs live once, here. window.MENIFA_TRACK (assets/tracking-ids.js,
+     or a preview override) applies only when the value is non-empty. An empty
+     override must not blank these defaults. Do not invent IDs. */
+  var TRACK_DEFAULTS = {
+    ga4: '',
+    meta_pixel: '',
+    clarity: '',
+    google_ads: '',
+    google_ads_lead_label: ''
+  };
+  function pickTrack(key) {
+    var over = window.MENIFA_TRACK && window.MENIFA_TRACK[key];
+    if (over == null || String(over).trim() === '') return TRACK_DEFAULTS[key];
+    return String(over);
+  }
   var CONFIG = {
     whatsapp: '972524502821',
     phone: '052-4502821',
     // Lead webhook (e.g. Make.com custom webhook -> Google Sheets CRM). Empty = WhatsApp hand-off only.
     leadWebhook: 'https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig',
-    // Tracking IDs load ONLY after the visitor consents to that category.
-    // The only fill-in is assets/tracking-ids.js (window.MENIFA_TRACK). gtag, not GTM.
-    // Empty strings keep GA4, Meta Pixel, and Clarity unloaded. Do not invent IDs.
-    ga4: (window.MENIFA_TRACK || {}).ga4 || '',               // statistics
-    metaPixel: (window.MENIFA_TRACK || {}).meta_pixel || '',  // marketing
-    clarity: (window.MENIFA_TRACK || {}).clarity || '',       // statistics
+    // Tracking IDs load ONLY after the visitor consents to that category. gtag, not GTM.
+    ga4: pickTrack('ga4'),
+    metaPixel: pickTrack('meta_pixel'),
+    clarity: pickTrack('clarity'),
+    googleAds: pickTrack('google_ads'),
+    googleAdsLeadLabel: pickTrack('google_ads_lead_label'),
     consentVersion: 2
   };
   window.MENIFA_CONFIG = CONFIG;
@@ -262,7 +277,28 @@
       (function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', pixelId); fbq('track', 'PageView');
     }
+    var adsId = safeTrackId(CONFIG.googleAds);
+    var adsLabel = safeTrackId(CONFIG.googleAdsLeadLabel);
+    if (window.MenifaTierS.allowsAds() && consent.marketing && adsId && adsLabel && !window.__gads) {
+      window.__gads = true;
+      if (!window.gtag) {
+        loadScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(adsId));
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag('js', new Date());
+      }
+      gtag('config', adsId);
+    }
     flushEvents();
+  }
+  function fireAdsConversion(leadUuid) {
+    if (!CONFIG.googleAds || !CONFIG.googleAdsLeadLabel || !leadUuid) return;
+    if (!window.MenifaTierS.allowsAds()) return;
+    if (typeof window.gtag !== 'function') return;
+    window.gtag('event', 'conversion', {
+      send_to: CONFIG.googleAds + '/' + CONFIG.googleAdsLeadLabel,
+      transaction_id: leadUuid
+    });
   }
   /* ===== conversion events: one call -> GA4 + Meta Pixel (+ dataLayer), queued until consent =====
      Identity and financial detail stay on the CRM webhook. This gate is the only
@@ -337,8 +373,9 @@
     (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params));
     if (window.gtag && window.__ga) gtag('event', name, params);
     if (window.fbq && window.MenifaTierS.allowsPixel() && !thirdPartyReferrerUnsafe()) {
-      var opts = params.event_id ? { eventID: params.event_id } : undefined;
-      if (PIXEL_STD[name]) fbq('track', PIXEL_STD[name], params, opts); else fbq('trackCustom', name, params, opts);
+      var dedupe = params.lead_uuid || params.event_id;
+      var opts = dedupe ? { eventID: dedupe } : undefined;
+      if (PIXEL_STD[name]) fbq('track', PIXEL_STD[name], params, opts);
     }
   }
   function flushEvents() { if (!consent || (!consent.statistics && !consent.marketing)) return; while (evQ.length) { var e = evQ.shift(); sendEvent(e[0], e[1]); } }
@@ -347,25 +384,105 @@
     if (consent && (consent.statistics || consent.marketing)) sendEvent(name, params); else evQ.push([name, params]);
   };
   function cookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; }
-  // remember campaign attribution for the whole visit (first landing page)
-  try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
-    if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
-    if (got) sessionStorage.setItem('menifa-att', JSON.stringify(att0)); } catch (er) {}
-  window.menifaIds = function () { return { event_id: 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
-  // clicks: WhatsApp / phone
+  /* CRM attribution. First-touch utm_*, gclid, fbclid, landing_page_path and
+     referrer_host lock once per session. A later campaign is only lt_utm_source,
+     lt_utm_medium and lt_utm_campaign. This object is the Make body. It is not
+     passed through MenifaTierS.filterGa4Params. */
+  var ATT_KEY = 'menifa-att';
+  var FT_UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  var FT_CLICK = ['gclid', 'fbclid'];
+  var MAKOR_UNATTRIBUTED = 'לא מיוחס';
+  function readAtt() {
+    try {
+      var raw = sessionStorage.getItem(ATT_KEY);
+      var parsed = raw ? JSON.parse(raw) : null;
+      return (parsed && typeof parsed === 'object') ? parsed : {};
+    } catch (e) { return {}; }
+  }
+  function qpParam(qp, key) {
+    var value = qp.get(key);
+    return value == null ? '' : String(value).trim();
+  }
+  function captureAtt() {
+    var qp = new URLSearchParams(location.search || '');
+    var att = readAtt();
+    var locked = typeof att.landing_page_path === 'string' && att.landing_page_path !== '';
+    if (!locked && typeof att.landing === 'string' && att.landing !== '') {
+      att.landing_page_path = att.landing;
+      if (!att.referrer_host) att.referrer_host = att.referrer || 'direct';
+      locked = true;
+    }
+    if (!locked) {
+      FT_UTM.concat(FT_CLICK).forEach(function (k) { att[k] = qpParam(qp, k); });
+      att.landing_page_path = location.pathname || '/';
+      var host = '';
+      try { host = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) { host = ''; }
+      att.referrer_host = host || 'direct';
+    }
+    var hasLast = FT_UTM.some(function (k) { return qpParam(qp, k) !== ''; });
+    if (hasLast) {
+      att.lt_utm_source = qpParam(qp, 'utm_source');
+      att.lt_utm_medium = qpParam(qp, 'utm_medium');
+      att.lt_utm_campaign = qpParam(qp, 'utm_campaign');
+    } else if (!locked) {
+      att.lt_utm_source = att.utm_source || '';
+      att.lt_utm_medium = att.utm_medium || '';
+      att.lt_utm_campaign = att.utm_campaign || '';
+    }
+    try { sessionStorage.setItem(ATT_KEY, JSON.stringify(att)); } catch (e) {}
+    return att;
+  }
+  function normAtt(value) { return String(value == null ? '' : value).trim().toLowerCase(); }
+  function isOneOf(value, list) { return list.indexOf(value) !== -1; }
+  function mapMakor(touch) {
+    var source = normAtt(touch && touch.utm_source);
+    var medium = normAtt(touch && touch.utm_medium);
+    if (source === 'google' && medium === 'organic') return 'seo';
+    if (source === 'google' && isOneOf(medium, ['cpc', 'paid', 'ppc'])) return 'google';
+    if (isOneOf(source, ['facebook', 'fb', 'ig', 'instagram', 'meta']) &&
+        isOneOf(medium, ['paid', 'cpc', 'social', 'paid_social'])) return 'meta';
+    if (medium === 'referral' || source === 'referral') return 'referral';
+    if (isOneOf(source, ['partner', 'b2b', 'affiliate'])) return 'b2b';
+    return MAKOR_UNATTRIBUTED;
+  }
+  captureAtt();
+  function newLeadUuid() {
+    var c = window.crypto;
+    if (c && typeof c.randomUUID === 'function') return c.randomUUID();
+    var bytes = new Uint8Array(16);
+    if (c && typeof c.getRandomValues === 'function') c.getRandomValues(bytes);
+    else for (var i = 0; i < 16; i++) bytes[i] = Math.floor(Math.random() * 256);
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    var hex = [];
+    for (var j = 0; j < 16; j++) hex.push((bytes[j] + 0x100).toString(16).slice(1));
+    return hex.slice(0, 4).join('') + '-' + hex.slice(4, 6).join('') + '-' + hex.slice(6, 8).join('') + '-' + hex.slice(8, 10).join('') + '-' + hex.slice(10, 16).join('');
+  }
+  function stableFormId(raw) {
+    var value = String(raw || '').trim();
+    if (value === 'calculators') return 'calculators_lead';
+    return value.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  }
+  function ctaLocation(el) {
+    if (!el || !el.closest) return 'inline';
+    if (el.closest('.wa-topics')) return 'topic';
+    if (el.closest('.wa-pop')) return 'panel';
+    if (el.closest('.fab')) return 'fab';
+    return 'inline';
+  }
+  window.menifaIds = function () { return { lead_uuid: newLeadUuid(), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
     var h = a.getAttribute('href') || '';
-    if (/wa\.me\//.test(h) || a.hasAttribute('data-wa')) window.menifaTrack('contact_whatsapp', { page: location.pathname });
-    else if (/^tel:/.test(h)) window.menifaTrack('contact_phone', { page: location.pathname });
+    var where = { page_path: location.pathname, cta_location: ctaLocation(a) };
+    if (/wa\.me\//.test(h) || a.hasAttribute('data-wa')) window.menifaTrack('contact_whatsapp', where);
+    else if (/^tel:/.test(h)) window.menifaTrack('contact_phone', where);
   }, true);
-  // first interaction with each calculator
   var usedCalc = {};
   document.addEventListener('input', function (e) {
     var box = e.target.closest && e.target.closest('[data-calc], #calc-ptax'); if (!box) return;
     var id = box.id || box.getAttribute('data-calc'); if (usedCalc[id]) return; usedCalc[id] = 1;
-    window.menifaTrack('calculator_use', { calculator: id, page: location.pathname });
+    window.menifaTrack('calculator_use', { calculator_id: id, page_path: location.pathname });
   }, true);
   window.MenifaConsent = { get: function () { return consent; }, open: openPrefs };
   try { rawReferrer = document.referrer || ''; } catch (e) {}
@@ -510,11 +627,35 @@
       if (!/^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test((data.phone || '').replace(/\s/g, '')) && !/^\+?972/.test(data.phone || '')) { err.textContent = 'נא למלא מספר נייד תקין, לדוגמה 050-1234567.'; $('[name=phone]', form).focus(); return; }
       if (!data.consent) { err.textContent = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.'; $('[name=consent]', form).focus(); return; }
       err.textContent = '';
-      data.page = location.pathname; data.source = form.getAttribute('data-lead'); data.ts = new Date().toISOString();
-      var ids = window.menifaIds ? window.menifaIds() : {}; data.event_id = ids.event_id; data.fbp = ids.fbp; data.fbc = ids.fbc;
-      var att = {}; try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (er) {}
-      Object.keys(att).forEach(function (k) { data[k] = att[k]; });
-      if (window.menifaTrack) window.menifaTrack('generate_lead', { form: data.source, page: data.page, event_id: data.event_id, currency: 'ILS', value: 1 });
+      data.page_path = location.pathname;
+      data.form_id = stableFormId(form.getAttribute('data-lead'));
+      data.ts = new Date().toISOString();
+      var ids = window.menifaIds ? window.menifaIds() : {};
+      data.lead_uuid = ids.lead_uuid; data.fbp = ids.fbp; data.fbc = ids.fbc;
+      var att = readAtt();
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'].forEach(function (k) {
+        if (att[k]) data[k] = att[k];
+      });
+      data.landing_page_path = att.landing_page_path || location.pathname || '/';
+      data.referrer_host = att.referrer_host || 'direct';
+      ['lt_utm_source', 'lt_utm_medium', 'lt_utm_campaign'].forEach(function (k) {
+        if (att[k]) data[k] = att[k];
+      });
+      var makor = mapMakor(att);
+      data['מקור_הפניה'] = makor;
+      data.makor_hafnia = makor;
+      data.consent_analytics = (consent && consent.statistics) ? 'true' : 'false';
+      data.consent_marketing = (consent && consent.marketing) ? 'true' : 'false';
+      data['יידוע_פרטיות_הוצג'] = (form.querySelector('a[href*="privacy"]') && !form.hidden) ? 'true' : 'false';
+      var leadEvent = {
+        form_id: data.form_id,
+        page_path: data.page_path,
+        landing_page_path: data.landing_page_path,
+        lead_uuid: data.lead_uuid,
+        currency: 'ILS',
+        value: 1
+      };
+      ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) { if (att[k]) leadEvent[k] = att[k]; });
       var msg = 'שלום תמיר, השארתי פרטים באתר מניפה.\nשם: ' + data.name + '\nטלפון: ' + data.phone + (data.need ? '\nנושא: ' + data.need : '') + (data.when ? '\nמתי נוח: ' + data.when : '') + (extra.length ? '\n' + extra.join('\n') : '') + (data.note ? '\nהערה: ' + data.note : '');
       data.answers = extra;
       var finish = function (sent) {
@@ -527,12 +668,22 @@
         }
       };
       if (CONFIG.leadWebhook) {
-        // form-urlencoded + no-cors = simple request (no CORS preflight); Make parses the fields. keepalive survives page navigation.
+        // Interim: Make does not send CORS headers, so a resolved fetch means
+        // the request was sent, not that Make confirmed it. Thank-you,
+        // generate_lead and the Ads conversion run only after that resolve.
+        // menifaTrack sends the event through filterGa4Params. The body below
+        // is the real CRM payload and is not filtered.
         var body = new URLSearchParams();
         Object.keys(data).forEach(function (k) { var v = data[k]; body.append(k, Array.isArray(v) ? v.join(' | ') : (v === true ? 'כן' : v === false ? 'לא' : String(v == null ? '' : v))); });
-        var done = false, t = setTimeout(function () { if (!done) { done = true; finish(false); } }, 6000);
+        var done = false, t = setTimeout(function () { if (!done) { done = true; finish(false); } }, 10000);
         fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'no-cors', keepalive: true, body: body })
-          .then(function () { if (!done) { done = true; clearTimeout(t); finish(true); } }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
+          .then(function () {
+            if (done) return;
+            done = true; clearTimeout(t);
+            finish(true);
+            if (window.menifaTrack) window.menifaTrack('generate_lead', leadEvent);
+            fireAdsConversion(data.lead_uuid);
+          }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
       } else finish(false);
     });
   });
