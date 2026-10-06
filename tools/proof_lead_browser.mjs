@@ -168,14 +168,15 @@ function check(cond, msg) {
   if (!cond) throw new Error(msg);
 }
 check(ihudBody.utm_source === 'first_src', 'lp utm_source');
-check(ihudBody.last_utm_source === 'second_src', 'lp last');
-check(ihudBody.landing === '/', 'lp landing');
+check(ihudBody.lt_utm_source === 'second_src', 'lp last');
+check(ihudBody.landing_page_path === '/', 'lp landing');
+check(ihudBody.referrer_host === 'direct', 'lp referrer host');
 check(ihudBody['מקור_הפניה'] === 'לא מיוחס' && ihudBody.makor_hafnia === 'לא מיוחס', 'lp makor');
-check(lpEvents.length === 1 && lpEvents[0].event_id === ihudBody.event_id, 'lp event_id');
+check(lpEvents.length === 1 && lpEvents[0].lead_uuid === ihudBody.lead_uuid, 'lp lead_uuid');
 check(!Object.prototype.hasOwnProperty.call(lpEvents[0], 'need'), 'lp need leaked');
-check(contact.body.utm_source === 'first_src' && contact.body.last_utm_source === 'second_src', 'contact attribution');
-check(calculators.body.source === 'calculators' && calculators.body.landing === '/', 'calculators attribution');
-check(contact.events.length === 1 && contact.events[0].event_id === contact.body.event_id, 'contact event');
+check(contact.body.utm_source === 'first_src' && contact.body.lt_utm_source === 'second_src', 'contact attribution');
+check(calculators.body.form_id === 'calculators_lead' && calculators.body.landing_page_path === '/', 'calculators attribution');
+check(contact.events.length === 1 && contact.events[0].lead_uuid === contact.body.lead_uuid, 'contact event');
 check(calculators.events.length === 1 && !Object.prototype.hasOwnProperty.call(calculators.events[0], 'need'), 'calculators analytics');
 check(failEvents.length === 0, 'generate_lead on abort');
 check(failSeen.length === 1, 'failure must be a single attempt');

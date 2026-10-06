@@ -140,7 +140,7 @@ for (const [url, expected] of MAKOR) {
   const fields = decoded(session.crm[0]);
   assert(fields['מקור_הפניה'] === expected, url + ' מקור_הפניה ' + fields['מקור_הפניה']);
   assert(fields.makor_hafnia === expected, url + ' makor_hafnia ' + fields.makor_hafnia);
-  assert(session.crm[0].mode === 'cors', 'mode for ' + url);
+  assert(session.crm[0].mode === 'no-cors', 'mode for ' + url);
   const ev = leadEvents(session.window);
   assert(ev.length === 1, 'generate_lead missing for success ' + url);
   assert(!Object.prototype.hasOwnProperty.call(ev[0], 'need'), 'need leaked');
@@ -148,7 +148,8 @@ for (const [url, expected] of MAKOR) {
   assert(!Object.prototype.hasOwnProperty.call(ev[0], 'מקור_הפניה'), 'hebrew makor leaked');
   assert(!Object.prototype.hasOwnProperty.call(ev[0], 'name'), 'name leaked');
   assert(!Object.prototype.hasOwnProperty.call(ev[0], 'phone'), 'phone leaked');
-  assert(ev[0].event_id === fields.event_id, 'event_id diverged');
+  assert(ev[0].lead_uuid === fields.lead_uuid, 'lead_uuid diverged');
+  assert(ev[0].form_id === 'contact', 'form_id');
   assert(fields.need === 'מסורבי בנקים', 'CRM lost need');
 }
 
@@ -164,28 +165,28 @@ const home = boot('index.html', 'https://menifa.org/?utm_source=first_src', { re
 bag = dumpStorage(home.window);
 const homeAtt = JSON.parse(bag['menifa-att']);
 assert(homeAtt.utm_source === 'first_src', 'first touch not stored');
-assert(homeAtt.landing === '/', 'landing should be /');
-assert(homeAtt.referrer === 'www.google.com', 'referrer host not stored: ' + homeAtt.referrer);
-assert(homeAtt.last_utm_source === 'first_src', 'last touch should start as the first campaign');
+assert(homeAtt.landing_page_path === '/', 'landing should be /');
+assert(homeAtt.referrer_host === 'www.google.com', 'referrer host not stored: ' + homeAtt.referrer_host);
+assert(homeAtt.lt_utm_source === 'first_src', 'last touch should start as the first campaign');
 
 const contactPass = boot('contact.html', 'https://menifa.org/contact.html', { storage: bag });
 bag = dumpStorage(contactPass.window);
 assert(JSON.parse(bag['menifa-att']).utm_source === 'first_src', 'contact navigation overwrote first touch');
-assert(JSON.parse(bag['menifa-att']).landing === '/', 'landing changed on contact');
+assert(JSON.parse(bag['menifa-att']).landing_page_path === '/', 'landing changed on contact');
 
 const ihud = boot('lp/ihud/index.html', 'https://menifa.org/lp/ihud/?utm_source=second_src', { storage: bag });
 bag = dumpStorage(ihud.window);
 const locked = JSON.parse(bag['menifa-att']);
 assert(locked.utm_source === 'first_src', 'second utm overwrote first touch');
-assert(locked.last_utm_source === 'second_src', 'last touch missing');
-assert(locked.landing === '/', 'landing changed on second touch');
+assert(locked.lt_utm_source === 'second_src', 'last touch missing');
+assert(locked.landing_page_path === '/', 'landing changed on second touch');
 assert(locked.utm_medium === '', 'first medium should stay empty');
-assert(locked.last_utm_medium === '', 'partial last touch should replace the set');
+assert(locked.lt_utm_medium === '', 'partial last touch should replace the set');
 
 const pages = [
-  ['lp/ihud/index.html', 'https://menifa.org/lp/ihud/?utm_source=second_src', 'lp-ihud', '/lp/ihud/'],
+  ['lp/ihud/index.html', 'https://menifa.org/lp/ihud/?utm_source=second_src', 'lp_ihud', '/lp/ihud/'],
   ['contact.html', 'https://menifa.org/contact.html', 'contact', '/contact.html'],
-  ['calculators.html', 'https://menifa.org/calculators.html', 'calculators', '/calculators.html']
+  ['calculators.html', 'https://menifa.org/calculators.html', 'calculators_lead', '/calculators.html']
 ];
 const bodies = {};
 for (const [file, url, source, page] of pages) {
@@ -196,17 +197,18 @@ for (const [file, url, source, page] of pages) {
   assert(session.crm.length === 1, 'posts for ' + page + ': ' + session.crm.length);
   const fields = decoded(session.crm[0]);
   assert(fields.utm_source === 'first_src', page + ' utm_source ' + fields.utm_source);
-  assert(fields.last_utm_source === 'second_src', page + ' last_utm_source ' + fields.last_utm_source);
-  assert(fields.landing === '/', page + ' landing ' + fields.landing);
+  assert(fields.lt_utm_source === 'second_src', page + ' lt_utm_source ' + fields.lt_utm_source);
+  assert(fields.landing_page_path === '/', page + ' landing ' + fields.landing_page_path);
   assert(fields['מקור_הפניה'] === 'לא מיוחס', page + ' makor');
   assert(fields.makor_hafnia === 'לא מיוחס', page + ' makor_hafnia');
-  assert(fields.source === source, page + ' source ' + fields.source);
-  assert(fields.page === page, page + ' page ' + fields.page);
-  assert(fields.referrer === 'www.google.com', page + ' referrer');
+  assert(fields.form_id === source, page + ' form_id ' + fields.form_id);
+  assert(fields.page_path === page, page + ' page ' + fields.page_path);
+  assert(fields.referrer_host === 'www.google.com', page + ' referrer');
+  assert(!Object.prototype.hasOwnProperty.call(fields, 'last_utm_source'), page + ' old last_utm key');
   const ev = leadEvents(session.window);
   assert(ev.length === 1, page + ' generate_lead');
-  assert(ev[0].event_id === fields.event_id, page + ' event_id');
-  assert(ev[0].form === source && ev[0].page === page, page + ' analytics ids');
+  assert(ev[0].lead_uuid === fields.lead_uuid, page + ' lead_uuid');
+  assert(ev[0].form_id === source && ev[0].page_path === page, page + ' analytics ids');
   assert(ev[0].value === 1 && ev[0].currency === 'ILS', page + ' value');
   assert(!Object.prototype.hasOwnProperty.call(ev[0], 'need'), page + ' need leaked');
   const msg = session.window.document.querySelector('[data-f=okmsg]');
@@ -221,17 +223,17 @@ fill(second.window).dispatchEvent(new second.window.Event('submit', { bubbles: t
 await flush();
 const mixed = decoded(second.crm[0]);
 assert(mixed.utm_source === 'google' && mixed.utm_medium === 'organic', 'first touch lost on paid follow-up');
-assert(mixed.last_utm_source === 'facebook' && mixed.last_utm_medium === 'paid_social', 'last touch');
+assert(mixed.lt_utm_source === 'facebook' && mixed.lt_utm_medium === 'paid_social', 'last touch');
 assert(mixed['מקור_הפניה'] === 'seo' && mixed.makor_hafnia === 'seo', 'makor must stay first-touch seo');
-assert(mixed.landing === '/', 'seo landing');
+assert(mixed.landing_page_path === '/', 'seo landing');
 bodies.makor_stays_first_touch = {
   utm_source: mixed.utm_source,
   utm_medium: mixed.utm_medium,
-  last_utm_source: mixed.last_utm_source,
-  last_utm_medium: mixed.last_utm_medium,
+  lt_utm_source: mixed.lt_utm_source,
+  lt_utm_medium: mixed.lt_utm_medium,
   'מקור_הפניה': mixed['מקור_הפניה'],
   makor_hafnia: mixed.makor_hafnia,
-  landing: mixed.landing
+  landing_page_path: mixed.landing_page_path
 };
 
 const failed = boot('contact.html', 'https://menifa.org/contact.html?utm_source=google&utm_medium=cpc', {
@@ -240,20 +242,34 @@ const failed = boot('contact.html', 'https://menifa.org/contact.html?utm_source=
 fill(failed.window).dispatchEvent(new failed.window.Event('submit', { bubbles: true, cancelable: true }));
 await flush();
 assert(failed.crm.length === 1, 'failure must not retry the post');
-assert(failed.crm[0].mode === 'cors', 'failure retry must not switch to no-cors');
+assert(failed.crm[0].mode === 'no-cors', 'failure must stay no-cors and must not retry');
 assert(leadEvents(failed.window).length === 0, 'generate_lead fired after a network error');
 const failMsg = failed.window.document.querySelector('[data-f=okmsg]');
 assert(failMsg && failMsg.textContent.indexOf('עוד צעד אחד') === 0, 'network failure should show the WhatsApp handoff');
 
-const httpFail = boot('contact.html', 'https://menifa.org/contact.html?utm_source=google&utm_medium=cpc', {
-  fetchImpl: function () { return Promise.resolve({ ok: false, status: 500, type: 'basic' }); }
+const opaque = boot('contact.html', 'https://menifa.org/contact.html?utm_source=google&utm_medium=cpc', {
+  fetchImpl: function () { return Promise.resolve({ ok: false, status: 0, type: 'opaque' }); }
 });
-fill(httpFail.window).dispatchEvent(new httpFail.window.Event('submit', { bubbles: true, cancelable: true }));
+fill(opaque.window).dispatchEvent(new opaque.window.Event('submit', { bubbles: true, cancelable: true }));
 await flush();
-assert(httpFail.crm.length === 1, 'HTTP failure must not retry');
-assert(leadEvents(httpFail.window).length === 0, 'generate_lead fired when res.ok is false');
-const httpMsg = httpFail.window.document.querySelector('[data-f=okmsg]');
-assert(httpMsg && httpMsg.textContent.indexOf('עוד צעד אחד') === 0, 'HTTP failure should show the WhatsApp handoff');
+assert(opaque.crm.length === 1, 'opaque response must not retry');
+assert(leadEvents(opaque.window).length === 1, 'a resolved no-cors fetch is sent, even when status is unreadable');
+const opaqueMsg = opaque.window.document.querySelector('[data-f=okmsg]');
+assert(opaqueMsg && opaqueMsg.textContent.indexOf('הפרטים התקבלו') === 0, 'opaque success should thank the visitor');
+
+let releaseFetch;
+const pending = boot('contact.html', 'https://menifa.org/contact.html?utm_source=google&utm_medium=cpc', {
+  fetchImpl: function () { return new Promise(function (resolve) { releaseFetch = resolve; }); }
+});
+fill(pending.window).dispatchEvent(new pending.window.Event('submit', { bubbles: true, cancelable: true }));
+await flush();
+assert(leadEvents(pending.window).length === 0, 'generate_lead fired before the send resolved');
+releaseFetch({ ok: false, status: 0, type: 'opaque' });
+await flush();
+assert(leadEvents(pending.window).length === 1, 'generate_lead missing after the send resolved');
+assert(siteJs.includes('10000'), 'timeout should be 10 seconds');
+assert(!siteJs.includes("mode: 'cors'"), 'cors mode string should be absent');
+assert(!siteJs.includes('trackCustom'), 'trackCustom should be absent');
 
 const blogDir = path.join(root, 'blog');
 const names = fs.readdirSync(blogDir).filter(function (name) { return name.endsWith('.html'); });
@@ -271,7 +287,8 @@ art.concat(['index.html']).forEach(function (name) {
   const html = fs.readFileSync(path.join(blogDir, name), 'utf8');
   if (html.includes('MENIFA_TRACK')) artPolluted += 1;
 });
-assert(canon.length === withTrack && withTrack === withSite && withTrack > 0, 'blog injection ' + withTrack + '/' + canon.length + ' site ' + withSite);
+assert(withTrack === 0, 'canonical articles should not carry MENIFA_TRACK, got ' + withTrack);
+assert(withSite === canon.length && canon.length > 0, 'site.js missing on canonical articles ' + withSite + '/' + canon.length);
 assert(artPolluted === 0, 'art stubs received MENIFA_TRACK');
 
 const calc = fs.readFileSync(path.join(root, 'calculators.html'), 'utf8');
@@ -282,6 +299,26 @@ assert(!slice.includes('<<') && !slice.includes('>>'), 'calculators form has gui
 assert(slice.includes('privacy.html'), 'privacy link missing');
 assert(slice.includes('name="consent"'), 'consent missing');
 assert(calc.includes('מדיניות הפרטיות'), 'privacy copy missing');
+const calcBody = bodies['/calculators.html'];
+assert(!/monthly|payment|ratio|החזר|יתרה|ריבית/.test(JSON.stringify(calcBody)), 'calculator numbers leaked to Make');
+
+const blanked = siteJs.replace("ga4: ''", "ga4: 'G-DEFAULT'");
+const blankDom = new JSDOM('<!doctype html><html><body></body></html>', {
+  url: 'https://menifa.org/contact.html',
+  pretendToBeVisual: true,
+  runScripts: 'outside-only'
+});
+blankDom.window.MENIFA_TRACK = { ga4: '', meta_pixel: '', clarity: '', google_ads: '', google_ads_lead_label: '' };
+blankDom.window.eval(blanked);
+assert(blankDom.window.MENIFA_CONFIG.ga4 === 'G-DEFAULT', 'empty MENIFA_TRACK blanked the site.js default');
+const previewDom = new JSDOM('<!doctype html><html><body></body></html>', {
+  url: 'https://menifa.org/contact.html',
+  pretendToBeVisual: true,
+  runScripts: 'outside-only'
+});
+previewDom.window.MENIFA_TRACK = { ga4: 'G-PREVIEW' };
+previewDom.window.eval(siteJs);
+assert(previewDom.window.MENIFA_CONFIG.ga4 === 'G-PREVIEW', 'preview override should win when it has a value');
 
 assert(makeHits.length === 0, 'make.com network hits: ' + makeHits.join(', '));
 
@@ -299,7 +336,8 @@ const proof = {
     art_or_index_with_track: artPolluted
   },
   generate_lead_on_network_error: leadEvents(failed.window).length,
-  generate_lead_on_http_500: leadEvents(httpFail.window).length
+  generate_lead_on_opaque_response: leadEvents(opaque.window).length,
+  generate_lead_before_resolve: 0
 };
 console.log(JSON.stringify(proof, null, 2));
 if (!process.exitCode) console.log('\nPASS');

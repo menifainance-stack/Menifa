@@ -2,17 +2,32 @@
 (function () {
   'use strict';
 
-  /* ===== configuration: the developer fills these in production ===== */
+  /* ===== configuration: the developer fills these in production =====
+     Measurement IDs live once, here. window.MENIFA_TRACK is only an optional
+     preview override: an empty or missing value must not blank these defaults. */
+  var TRACK_DEFAULTS = {
+    ga4: '',
+    meta_pixel: '',
+    clarity: '',
+    google_ads: '',
+    google_ads_lead_label: ''
+  };
+  function pickTrack(key) {
+    var over = window.MENIFA_TRACK && window.MENIFA_TRACK[key];
+    if (over == null || String(over).trim() === '') return TRACK_DEFAULTS[key];
+    return String(over);
+  }
   var CONFIG = {
     whatsapp: '972524502821',
     phone: '052-4502821',
     // Lead webhook (e.g. Make.com custom webhook -> Google Sheets CRM). Empty = WhatsApp hand-off only.
     leadWebhook: 'https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig',
     // Tracking IDs load ONLY after the visitor consents to that category.
-    // IDs are set in parts.py -> TRACKING and injected as window.MENIFA_TRACK
-    ga4: (window.MENIFA_TRACK || {}).ga4 || '',               // statistics
-    metaPixel: (window.MENIFA_TRACK || {}).meta_pixel || '',  // marketing
-    clarity: (window.MENIFA_TRACK || {}).clarity || '',       // statistics
+    ga4: pickTrack('ga4'),                                 // statistics
+    metaPixel: pickTrack('meta_pixel'),                    // marketing
+    clarity: pickTrack('clarity'),                         // statistics
+    googleAds: pickTrack('google_ads'),                    // marketing; empty = do not load
+    googleAdsLeadLabel: pickTrack('google_ads_lead_label'),
     consentVersion: 2
   };
   window.MENIFA_CONFIG = CONFIG;
@@ -108,6 +123,29 @@
     modal.hidden = false; $('#ck-stats').focus();
   }
   function loadScript(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
+  /* TODO(#96): PR #96 owns Tier S for all six paths (masurvei-bankim,
+     sirov-mashkanta-ma-osim, blog/מסורבי-משכנתא-7-דרכים-לאישור,
+     ihud-halvaot-lemashkanta, blog/ihud-halvaot-matei-ken-lo, /lp/ihud/).
+     On those paths #96 must skip Pixel and Clarity, omit utm_campaign /
+     utm_term / utm_content from GA4 with no replacement value, and truncate
+     the referrer to origin on that page and the next one. This file does not
+     keep a second copy of that path list.
+     Google Ads (new in this change) asks the same helper when #96 exposes it:
+     window.MenifaTierS.allowsAds() === false means do not load or fire. */
+  function tierSBlocksAds() {
+    var api = window.MenifaTierS;
+    if (api && typeof api.allowsAds === 'function') return api.allowsAds() === false;
+    return false;
+  }
+  function fireAdsConversion(leadUuid) {
+    if (!CONFIG.googleAds || !CONFIG.googleAdsLeadLabel || !leadUuid) return;
+    if (tierSBlocksAds()) return;
+    if (typeof window.gtag !== 'function') return;
+    window.gtag('event', 'conversion', {
+      send_to: CONFIG.googleAds + '/' + CONFIG.googleAdsLeadLabel,
+      transaction_id: leadUuid
+    });
+  }
   function loadTrackers() {
     if (!consent) return;
     if (consent.statistics && CONFIG.ga4 && !window.__ga) {
@@ -122,6 +160,16 @@
     if (consent.marketing && CONFIG.metaPixel && !window.fbq) {
       (function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', CONFIG.metaPixel); fbq('track', 'PageView');
+    }
+    if (consent.marketing && CONFIG.googleAds && CONFIG.googleAdsLeadLabel && !tierSBlocksAds() && !window.__gads) {
+      window.__gads = true;
+      if (!window.gtag) {
+        loadScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(CONFIG.googleAds));
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag('js', new Date());
+      }
+      gtag('config', CONFIG.googleAds);
     }
     flushEvents();
   }
@@ -154,9 +202,10 @@
     params = analyticsParams(params);
     (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params));
     if (window.gtag && window.__ga) gtag('event', name, params);
-    if (window.fbq) {
-      var opts = params.event_id ? { eventID: params.event_id } : undefined;
-      if (PIXEL_STD[name]) fbq('track', PIXEL_STD[name], params, opts); else fbq('trackCustom', name, params, opts);
+    if (window.fbq && PIXEL_STD[name]) {
+      var dedupe = params.lead_uuid || params.event_id;
+      var opts = dedupe ? { eventID: dedupe } : undefined;
+      fbq('track', PIXEL_STD[name], params, opts);
     }
   }
   function flushEvents() { if (!consent || (!consent.statistics && !consent.marketing)) return; while (evQ.length) { var e = evQ.shift(); sendEvent(e[0], e[1]); } }
@@ -170,9 +219,9 @@
      That script locked the first landing for the browser session and did not
      use a 90-day localStorage window, so this does the same. Key stays
      menifa-att because the lead payload already reads it.
-     Written once and never overwritten: utm_*, gclid, fbclid, landing, referrer.
-     A later campaign in the same session is stored only as last_utm_*.
-     The payload's utm_* keys stay first-touch so the Make field mapping holds.
+     Written once and never overwritten: utm_*, gclid, fbclid, landing_page_path, referrer_host.
+     A later campaign in the same session is stored only as lt_utm_source,
+     lt_utm_medium and lt_utm_campaign. The payload's utm_* keys stay first-touch.
      מקור_הפניה / makor_hafnia use the A24 dictionary from menifa-first-touch.js
      mapMakor (utm_source + utm_medium only). gclid, fbclid and referrer are
      stored and sent, and they do not change the channel: the old mapper
@@ -196,17 +245,29 @@
   function captureAtt() {
     var qp = new URLSearchParams(location.search || '');
     var att = readAtt();
-    var locked = typeof att.landing === 'string' && att.landing !== '';
+    var locked = typeof att.landing_page_path === 'string' && att.landing_page_path !== '';
+    if (!locked && typeof att.landing === 'string' && att.landing !== '') {
+      att.landing_page_path = att.landing;
+      if (!att.referrer_host) att.referrer_host = att.referrer || 'direct';
+      locked = true;
+    }
     if (!locked) {
       FT_UTM.concat(FT_CLICK).forEach(function (k) { att[k] = qpParam(qp, k); });
-      att.landing = location.pathname || '/';
+      att.landing_page_path = location.pathname || '/';
       var host = '';
       try { host = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) { host = ''; }
-      att.referrer = host || 'direct';
+      att.referrer_host = host || 'direct';
     }
     var hasLast = FT_UTM.some(function (k) { return qpParam(qp, k) !== ''; });
-    if (hasLast) FT_UTM.forEach(function (k) { att['last_' + k] = qpParam(qp, k); });
-    else if (!locked) FT_UTM.forEach(function (k) { att['last_' + k] = att[k] || ''; });
+    if (hasLast) {
+      att.lt_utm_source = qpParam(qp, 'utm_source');
+      att.lt_utm_medium = qpParam(qp, 'utm_medium');
+      att.lt_utm_campaign = qpParam(qp, 'utm_campaign');
+    } else if (!locked) {
+      att.lt_utm_source = att.utm_source || '';
+      att.lt_utm_medium = att.utm_medium || '';
+      att.lt_utm_campaign = att.utm_campaign || '';
+    }
     try { sessionStorage.setItem(ATT_KEY, JSON.stringify(att)); } catch (e) {}
     return att;
   }
@@ -224,20 +285,45 @@
     return MAKOR_UNATTRIBUTED;
   }
   captureAtt();
-  window.menifaIds = function () { return { event_id: 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
+  function newLeadUuid() {
+    var c = window.crypto;
+    if (c && typeof c.randomUUID === 'function') return c.randomUUID();
+    var bytes = new Uint8Array(16);
+    if (c && typeof c.getRandomValues === 'function') c.getRandomValues(bytes);
+    else for (var i = 0; i < 16; i++) bytes[i] = Math.floor(Math.random() * 256);
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    var hex = [];
+    for (var j = 0; j < 16; j++) hex.push((bytes[j] + 0x100).toString(16).slice(1));
+    return hex.slice(0, 4).join('') + '-' + hex.slice(4, 6).join('') + '-' + hex.slice(6, 8).join('') + '-' + hex.slice(8, 10).join('') + '-' + hex.slice(10, 16).join('');
+  }
+  function stableFormId(raw) {
+    var value = String(raw || '').trim();
+    if (value === 'calculators') return 'calculators_lead';
+    return value.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+  }
+  function ctaLocation(el) {
+    if (!el || !el.closest) return 'inline';
+    if (el.closest('.wa-topics')) return 'topic';
+    if (el.closest('.wa-pop')) return 'panel';
+    if (el.closest('.fab')) return 'fab';
+    return 'inline';
+  }
+  window.menifaIds = function () { return { lead_uuid: newLeadUuid(), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
   // clicks: WhatsApp / phone
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
     var h = a.getAttribute('href') || '';
-    if (/wa\.me\//.test(h) || a.hasAttribute('data-wa')) window.menifaTrack('contact_whatsapp', { page: location.pathname });
-    else if (/^tel:/.test(h)) window.menifaTrack('contact_phone', { page: location.pathname });
+    var where = { page_path: location.pathname, cta_location: ctaLocation(a) };
+    if (/wa\.me\//.test(h) || a.hasAttribute('data-wa')) window.menifaTrack('contact_whatsapp', where);
+    else if (/^tel:/.test(h)) window.menifaTrack('contact_phone', where);
   }, true);
   // first interaction with each calculator
   var usedCalc = {};
   document.addEventListener('input', function (e) {
     var box = e.target.closest && e.target.closest('[data-calc], #calc-ptax'); if (!box) return;
     var id = box.id || box.getAttribute('data-calc'); if (usedCalc[id]) return; usedCalc[id] = 1;
-    window.menifaTrack('calculator_use', { calculator: id, page: location.pathname });
+    window.menifaTrack('calculator_use', { calculator_id: id, page_path: location.pathname });
   }, true);
   window.MenifaConsent = { get: function () { return consent; }, open: openPrefs };
   if (banner) {
@@ -359,14 +445,39 @@
       if (!/^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test((data.phone || '').replace(/\s/g, '')) && !/^\+?972/.test(data.phone || '')) { err.textContent = 'נא למלא מספר נייד תקין, לדוגמה 050-1234567.'; $('[name=phone]', form).focus(); return; }
       if (!data.consent) { err.textContent = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.'; $('[name=consent]', form).focus(); return; }
       err.textContent = '';
-      data.page = location.pathname; data.source = form.getAttribute('data-lead'); data.ts = new Date().toISOString();
-      var ids = window.menifaIds ? window.menifaIds() : {}; data.event_id = ids.event_id; data.fbp = ids.fbp; data.fbc = ids.fbc;
+      // Only inputs inside this form are read. Calculator results sit outside it and are not copied.
+      data.page_path = location.pathname;
+      data.form_id = stableFormId(form.getAttribute('data-lead'));
+      data.ts = new Date().toISOString();
+      var ids = window.menifaIds ? window.menifaIds() : {};
+      data.lead_uuid = ids.lead_uuid; data.fbp = ids.fbp; data.fbc = ids.fbc;
       var att = readAtt();
-      Object.keys(att).forEach(function (k) { data[k] = att[k]; });
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'].forEach(function (k) {
+        if (att[k]) data[k] = att[k];
+      });
+      data.landing_page_path = att.landing_page_path || location.pathname || '/';
+      data.referrer_host = att.referrer_host || 'direct';
+      ['lt_utm_source', 'lt_utm_medium', 'lt_utm_campaign'].forEach(function (k) {
+        if (att[k]) data[k] = att[k];
+      });
       var makor = mapMakor(att);
       data['מקור_הפניה'] = makor;
       data.makor_hafnia = makor;
-      var leadEvent = { form: data.source, page: data.page, event_id: data.event_id, currency: 'ILS', value: 1 };
+      data.consent_analytics = (consent && consent.statistics) ? 'true' : 'false';
+      data.consent_marketing = (consent && consent.marketing) ? 'true' : 'false';
+      data['יידוע_פרטיות_הוצג'] = (form.querySelector('a[href*="privacy"]') && !form.hidden) ? 'true' : 'false';
+      var leadEvent = {
+        form_id: data.form_id,
+        page_path: data.page_path,
+        landing_page_path: data.landing_page_path,
+        lead_uuid: data.lead_uuid,
+        currency: 'ILS',
+        value: 1
+      };
+      ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) { if (att[k]) leadEvent[k] = att[k]; });
+      // TODO(#96): on Tier S, analyticsParams must drop utm_campaign (no stand-in
+      // value) and rewrite form_id / page_path / landing_page_path. Make keeps
+      // the real values assigned above. Do not duplicate the six paths here.
       var msg = 'שלום תמיר, השארתי פרטים באתר מניפה.\nשם: ' + data.name + '\nטלפון: ' + data.phone + (data.need ? '\nנושא: ' + data.need : '') + (data.when ? '\nמתי נוח: ' + data.when : '') + (extra.length ? '\n' + extra.join('\n') : '') + (data.note ? '\nהערה: ' + data.note : '');
       data.answers = extra;
       var finish = function (sent) {
@@ -379,24 +490,26 @@
         }
       };
       if (CONFIG.leadWebhook) {
-        // Simple form-urlencoded POST (no custom headers, so no CORS preflight).
-        // Make Gateway returns Access-Control-Allow-Origin: * on the webhook
-        // response (community.make.com/t/how-to-get-custom-headers-in-webhook-response/35367,
-        // Chrome response headers, X-Powered-By: Make Gateway/production). CORS mode
-        // can therefore read res.ok. generate_lead fires only then, with the same
-        // event_id already placed on the CRM body. A failed or unreadable response
-        // falls back to WhatsApp and is not retried in no-cors (that would duplicate the lead).
+        // Interim, PM 2026-10-06 09:35, measurement card decision 2.
+        // Make does not send CORS headers for this webhook yet, so the browser
+        // cannot read the status. A resolved fetch means the request was sent,
+        // not that Make confirmed it. An HTTP 4xx or 5xx still looks like success.
+        // The thank-you state, generate_lead, and a Google Ads conversion (when
+        // the two Ads placeholders are filled) run only after this promise
+        // resolves, never before the send. A network error or the 10s timeout
+        // shows the WhatsApp handoff, fires nothing, and does not try again.
+        // TODO(when Tamir opens Make CORS): switch this fetch to CORS mode and
+        // gate the thank-you state and generate_lead on res.ok.
         var body = new URLSearchParams();
         Object.keys(data).forEach(function (k) { var v = data[k]; body.append(k, Array.isArray(v) ? v.join(' | ') : (v === true ? 'כן' : v === false ? 'לא' : String(v == null ? '' : v))); });
-        var done = false, t = setTimeout(function () { if (!done) { done = true; finish(false); } }, 6000);
-        fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'cors', keepalive: true, body: body })
-          .then(function (res) {
+        var done = false, t = setTimeout(function () { if (!done) { done = true; finish(false); } }, 10000);
+        fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'no-cors', keepalive: true, body: body })
+          .then(function () {
             if (done) return;
             done = true; clearTimeout(t);
-            if (res && res.ok) {
-              if (window.menifaTrack) window.menifaTrack('generate_lead', leadEvent);
-              finish(true);
-            } else finish(false);
+            finish(true);
+            if (window.menifaTrack) window.menifaTrack('generate_lead', leadEvent);
+            fireAdsConversion(data.lead_uuid);
           }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
       } else finish(false);
     });
