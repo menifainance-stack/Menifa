@@ -1,0 +1,196 @@
+make.com requests: 0
+Captured 2026-10-06T09:06:25.813Z
+before = local main worktree (Google Fonts). after = this branch (self-hosted woff2).
+
+## before-home-390.png
+requested: http://127.0.0.1:8766/
+final: http://127.0.0.1:8766/
+dir: rtl
+h1 font: "Frank Ruhl Libre", "David Libre", Georgia, serif weight 300 size 48px
+font/css/js requests:
+  stylesheet https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap
+  stylesheet http://127.0.0.1:8766/assets/site.css
+  script http://127.0.0.1:8766/assets/site.js
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEUJ2E04jDs.woff2
+  font https://fonts.gstatic.com/s/frankruhllibre/v23/j8_w6_fAw7jrcalD7oKYNX0QfAnPW7Dl4Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa2qYENg9Kw1mpLpO0bGM5lfHAAZHhDXE2i-lg.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEV93k06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEVR2U06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2
+  font https://fonts.gstatic.com/s/frankruhllibre/v23/j8_w6_fAw7jrcalD7oKYNX0QfAnPW7Ll4ajn.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jD-iNM8.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEVR2U04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEUJ2E06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEV93k04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa2qYENg9Kw1mpLpO0bGM5lfHAAZHhDXE2g-lgHrQ.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYp3tKgS4.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEUJ2E04jDs.woff2
+  font https://fonts.gstatic.com/s/frankruhllibre/v23/j8_w6_fAw7jrcalD7oKYNX0QfAnPW7Dl4Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa2qYENg9Kw1mpLpO0bGM5lfHAAZHhDXE2i-lg.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEV93k06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEVR2U06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2
+  font https://fonts.gstatic.com/s/frankruhllibre/v23/j8_w6_fAw7jrcalD7oKYNX0QfAnPW7Ll4ajn.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jD-iNM8.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEVR2U04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEUJ2E06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEV93k04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa2qYENg9Kw1mpLpO0bGM5lfHAAZHhDXE2g-lgHrQ.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYp3tKgS4.woff2
+
+## before-home-1440.png
+requested: http://127.0.0.1:8766/
+final: http://127.0.0.1:8766/
+dir: rtl
+h1 font: "Frank Ruhl Libre", "David Libre", Georgia, serif weight 300 size 120.96px
+font/css/js requests:
+  stylesheet https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap
+  stylesheet http://127.0.0.1:8766/assets/site.css
+  script http://127.0.0.1:8766/assets/site.js
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEUJ2E04jDs.woff2
+  font https://fonts.gstatic.com/s/frankruhllibre/v23/j8_w6_fAw7jrcalD7oKYNX0QfAnPW7Dl4Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa2qYENg9Kw1mpLpO0bGM5lfHAAZHhDXE2i-lg.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEV93k06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEVR2U06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2
+  font https://fonts.gstatic.com/s/frankruhllibre/v23/j8_w6_fAw7jrcalD7oKYNX0QfAnPW7Ll4ajn.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3smX5slCNuHLi8bLeY9MK7whWMhyjYrGFEsdtdc62E6zd58jD-iNM8.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEVR2U04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEUJ2E06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEV93k04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa2qYENg9Kw1mpLpO0bGM5lfHAAZHhDXE2g-lgHrQ.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYp3tKgS4.woff2
+
+## before-ishur-390.png
+requested: http://127.0.0.1:8766/ishur-ekroni.html
+final: http://127.0.0.1:8766/ishur-ekroni.html
+dir: rtl
+h1 font: "Frank Ruhl Libre", "David Libre", Georgia, serif weight 300 size 35.2px
+font/css/js requests:
+  stylesheet https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap
+  stylesheet http://127.0.0.1:8766/assets/site.css
+  script http://127.0.0.1:8766/assets/site.js
+  font https://fonts.gstatic.com/s/frankruhllibre/v23/j8_w6_fAw7jrcalD7oKYNX0QfAnPW7Dl4Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEUJ2E04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa2qYENg9Kw1mpLpO0bGM5lfHAAZHhDXE2i-lg.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEV93k06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEVR2U06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2
+  font https://fonts.gstatic.com/s/frankruhllibre/v23/j8_w6_fAw7jrcalD7oKYNX0QfAnPW7Ll4ajn.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEVR2U04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEUJ2E06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEV93k04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa2qYENg9Kw1mpLpO0bGM5lfHAAZHhDXE2g-lgHrQ.woff2
+
+## before-ishur-1440.png
+requested: http://127.0.0.1:8766/ishur-ekroni.html
+final: http://127.0.0.1:8766/ishur-ekroni.html
+dir: rtl
+h1 font: "Frank Ruhl Libre", "David Libre", Georgia, serif weight 300 size 73.6px
+font/css/js requests:
+  stylesheet https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700&family=IBM+Plex+Sans+Hebrew:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap
+  stylesheet http://127.0.0.1:8766/assets/site.css
+  script http://127.0.0.1:8766/assets/site.js
+  font https://fonts.gstatic.com/s/frankruhllibre/v23/j8_w6_fAw7jrcalD7oKYNX0QfAnPW7Dl4Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEUJ2E04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa2qYENg9Kw1mpLpO0bGM5lfHAAZHhDXE2i-lg.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEV93k06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEVR2U06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/cormorantgaramond/v21/co3bmX5slCNuHLi8bLeY9MK7whWMhyjYqXtK.woff2
+  font https://fonts.gstatic.com/s/frankruhllibre/v23/j8_w6_fAw7jrcalD7oKYNX0QfAnPW7Ll4ajn.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEVR2U04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEUJ2E06jDu19Q.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa5qYENg9Kw1mpLpO0bGM5lfHAAZHhDXEV93k04jDs.woff2
+  font https://fonts.gstatic.com/s/ibmplexsanshebrew/v12/BCa2qYENg9Kw1mpLpO0bGM5lfHAAZHhDXE2g-lgHrQ.woff2
+
+## after-home-390.png
+requested: http://127.0.0.1:8765/
+final: http://127.0.0.1:8765/
+dir: rtl
+h1 font: "Frank Ruhl Libre", "Frank Ruhl Fallback", "David Libre", Georgia, serif weight 300 size 48px
+font/css/js requests:
+  font http://127.0.0.1:8765/assets/fonts/frank-ruhl-libre-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-300-hebrew.woff2
+  stylesheet http://127.0.0.1:8765/assets/site.css
+  script http://127.0.0.1:8765/assets/site.js
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-400-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-600-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-500-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/cormorant-garamond-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/frank-ruhl-libre-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-300-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/cormorant-garamond-italic-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-500-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-600-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-400-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-400-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-600-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-500-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/cormorant-garamond-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/frank-ruhl-libre-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-300-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/cormorant-garamond-italic-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-500-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-600-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-400-hebrew.woff2
+
+## after-home-1440.png
+requested: http://127.0.0.1:8765/
+final: http://127.0.0.1:8765/
+dir: rtl
+h1 font: "Frank Ruhl Libre", "Frank Ruhl Fallback", "David Libre", Georgia, serif weight 300 size 120.96px
+font/css/js requests:
+  font http://127.0.0.1:8765/assets/fonts/frank-ruhl-libre-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-300-hebrew.woff2
+  stylesheet http://127.0.0.1:8765/assets/site.css
+  script http://127.0.0.1:8765/assets/site.js
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-600-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-500-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/cormorant-garamond-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/frank-ruhl-libre-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-300-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/cormorant-garamond-italic-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-400-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-500-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-400-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-600-latin.woff2
+
+## after-ishur-390.png
+requested: http://127.0.0.1:8765/ishur-ekroni.html
+final: http://127.0.0.1:8765/ishur-ekroni.html
+dir: rtl
+h1 font: "Frank Ruhl Libre", "Frank Ruhl Fallback", "David Libre", Georgia, serif weight 300 size 35.2px
+font/css/js requests:
+  font http://127.0.0.1:8765/assets/fonts/frank-ruhl-libre-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-300-hebrew.woff2
+  stylesheet http://127.0.0.1:8765/assets/site.css
+  script http://127.0.0.1:8765/assets/site.js
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-600-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-500-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/cormorant-garamond-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-300-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-400-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-500-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/frank-ruhl-libre-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-600-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-400-hebrew.woff2
+
+## after-ishur-1440.png
+requested: http://127.0.0.1:8765/ishur-ekroni.html
+final: http://127.0.0.1:8765/ishur-ekroni.html
+dir: rtl
+h1 font: "Frank Ruhl Libre", "Frank Ruhl Fallback", "David Libre", Georgia, serif weight 300 size 73.6px
+font/css/js requests:
+  font http://127.0.0.1:8765/assets/fonts/frank-ruhl-libre-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-300-hebrew.woff2
+  stylesheet http://127.0.0.1:8765/assets/site.css
+  script http://127.0.0.1:8765/assets/site.js
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-600-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-500-hebrew.woff2
+  font http://127.0.0.1:8765/assets/fonts/cormorant-garamond-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-300-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-400-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-500-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/frank-ruhl-libre-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-600-latin.woff2
+  font http://127.0.0.1:8765/assets/fonts/ibm-plex-sans-hebrew-400-hebrew.woff2
