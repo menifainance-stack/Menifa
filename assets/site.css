@@ -936,6 +936,18 @@ body.lp-redesign{background:var(--em-950);color:var(--ivory)}
   font-weight:700;font-style:normal;font-display:swap;
   size-adjust:88.4%;ascent-override:108.26%;descent-override:37.78%;line-gap-override:0%;
 }
+/* #106's one-line crumbs, inlined so the async stylesheet cannot
+   collapse them after first paint. Same rules as .crumbs above. */
+body.lp-redesign .crumbs{display:flex;flex-wrap:wrap;gap:8px;font-size:.82rem;color:var(--muted-2);margin-bottom:28px;list-style:none;padding:0}
+body.lp-redesign .crumbs a{color:var(--muted-2);text-decoration:none}
+body.lp-redesign .crumbs li+li::before{content:"‹";margin-inline-end:8px;color:var(--gold)}
+body.lp-redesign .crumbs.crumbs-one{flex-wrap:nowrap;overflow:hidden}
+body.lp-redesign .crumbs.crumbs-one>li{flex:0 0 auto;white-space:nowrap}
+body.lp-redesign .crumbs.crumbs-one>li:last-child{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:480px){
+  body.lp-redesign .crumbs.crumbs-one{font-size:.72rem;gap:6px}
+  body.lp-redesign .crumbs.crumbs-one li+li::before{margin-inline-end:6px}
+}
 body.lp-redesign .h-hero{
   max-width:none;
   font-family:"Frank Ruhl Libre Web","Frank Local","Frank Ruhl Fallback","Frank Ruhl System","David Adjust","LP Hero FR","LP Hero David","LP Hero Noto Sans","LP Hero Noto Serif","LP Hero Arial","LP Hero Segoe",Georgia,serif;
