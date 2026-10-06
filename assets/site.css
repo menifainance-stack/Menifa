@@ -681,9 +681,61 @@ body.lp-redesign{background:var(--em-950);color:var(--ivory)}
    These paint the LCP headline. Do not add opacity or translate
    animations on the H1. The gold line uses --gold-pale so it stays
    ≥4.5:1 on ivory as well as on the dark stage. Size comes from
-   the existing .h-hero rule. ----- */
-body.lp-redesign .h-hero{max-width:none}
+   the existing .h-hero rule.
+   The fallback faces are metric-matched to Frank Ruhl Libre 300
+   (upem 1000, typo ascender 957, descender -334) against the local
+   Noto Sans Hebrew that paints Hebrew before the webfont arrives.
+   size-adjust is tuned on the live H1, not on xAvgCharWidth: weight
+   300 (the headline) and weight 500 (the gold line) wrap differently.
+   The sweep override is in this block because the hero streak is
+   above the fold: animating left is a layout shift, translateX is not. ----- */
+@font-face{
+  font-family:"Frank Ruhl Libre Fallback";
+  src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
+  font-weight:300;
+  font-style:normal;
+  size-adjust:86%;
+  ascent-override:111.28%;
+  descent-override:38.84%;
+  line-gap-override:0%;
+}
+@font-face{
+  font-family:"Frank Ruhl Libre Fallback";
+  src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
+  font-weight:400;
+  font-style:normal;
+  size-adjust:86%;
+  ascent-override:111.28%;
+  descent-override:38.84%;
+  line-gap-override:0%;
+}
+@font-face{
+  font-family:"Frank Ruhl Libre Fallback";
+  src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
+  font-weight:500;
+  font-style:normal;
+  size-adjust:86.8%;
+  ascent-override:110.25%;
+  descent-override:38.48%;
+  line-gap-override:0%;
+}
+@font-face{
+  font-family:"Frank Ruhl Libre Fallback";
+  src:local("Noto Sans Hebrew"),local("Noto Sans Hebrew Regular");
+  font-weight:700;
+  font-style:normal;
+  size-adjust:86.8%;
+  ascent-override:110.25%;
+  descent-override:38.48%;
+  line-gap-override:0%;
+}
+body.lp-redesign .h-hero{
+  max-width:none;
+  font-family:"Frank Ruhl Libre","Frank Ruhl Libre Fallback","David Libre",Georgia,serif;
+}
 body.lp-redesign .h-hero .g{display:block;color:var(--gold-pale)}
+body.lp-redesign .sweep{animation-name:lp-sweep}
+@keyframes lp-sweep{0%{transform:translateX(0)}55%,100%{transform:translateX(533.333%)}}
 /* ----- LP-HERO-CRITICAL-END ----- */
 
 /* Below the fold, or not the LCP element. Leave these in site.css. */
