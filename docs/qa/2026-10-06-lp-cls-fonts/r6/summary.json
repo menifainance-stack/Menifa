@@ -1,0 +1,143 @@
+{
+  "head": "c0493c2bdff5ea5e81245d611447fe071240a768",
+  "merged_106": "ff4110ce6a814bfec62b1aff2ca3089aa63b0547",
+  "method": "lighthouse 12 mobile, throttling-method=devtools (Slow 4G), fresh chrome, cookie banner visible, 3 cold runs",
+  "condition_A": "Hebrew families installed, including Noto Sans/Serif Hebrew, Frank Ruhl Libre, David Libre, IBM Plex Sans Hebrew",
+  "condition_B": "same, Noto rejected via fontconfig",
+  "live_lcp_ms": {
+    "yoetz-mashkantaot": 1772,
+    "mashkanta-kablan": 1760
+  },
+  "make_com_requests": 0,
+  "fingerprint_vs_7cef99c": "empty",
+  "pages": [
+    {
+      "page": "yoetz-mashkantaot",
+      "A": {
+        "cls_median": 0.000511,
+        "lcp_median_ms": 1034.602,
+        "cls_runs": [
+          0.000511,
+          0.000511,
+          0.000511
+        ],
+        "lcp_runs_ms": [
+          1026.81,
+          1034.602,
+          1038.564
+        ]
+      },
+      "hero_nodes": [],
+      "B": {
+        "cls_median": 0.000511,
+        "lcp_median_ms": 1022.78,
+        "cls_runs": [
+          0.000511,
+          0.000511,
+          0.000511
+        ],
+        "lcp_runs_ms": [
+          1016.298,
+          1028.659,
+          1022.78
+        ]
+      }
+    },
+    {
+      "page": "mashkanta-kablan",
+      "A": {
+        "cls_median": 0.000511,
+        "lcp_median_ms": 1031.292,
+        "cls_runs": [
+          0.000511,
+          0.000511,
+          0.000511
+        ],
+        "lcp_runs_ms": [
+          1031.292,
+          1033.21,
+          1024.594
+        ]
+      },
+      "hero_nodes": [],
+      "B": {
+        "cls_median": 0.000511,
+        "lcp_median_ms": 1024.968,
+        "cls_runs": [
+          0.000511,
+          0.000511,
+          0.000513
+        ],
+        "lcp_runs_ms": [
+          1023.617,
+          1024.968,
+          1029.673
+        ]
+      }
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "A": {
+        "cls_median": 0.00054,
+        "lcp_median_ms": 1021.444,
+        "cls_runs": [
+          0.00054,
+          0.00054,
+          0.00054
+        ],
+        "lcp_runs_ms": [
+          1025.641,
+          1021.444,
+          1021.052
+        ]
+      },
+      "hero_nodes": [],
+      "B": {
+        "cls_median": 0.00054,
+        "lcp_median_ms": 1019.429,
+        "cls_runs": [
+          0.00054,
+          0.00054,
+          0.00054
+        ],
+        "lcp_runs_ms": [
+          1016.472,
+          1019.429,
+          1043.354
+        ]
+      }
+    },
+    {
+      "page": "ishur-ekroni",
+      "A": {
+        "cls_median": 0.000511,
+        "lcp_median_ms": 1010.106,
+        "cls_runs": [
+          0.000511,
+          0.000511,
+          0.000511
+        ],
+        "lcp_runs_ms": [
+          1019.202,
+          1004.637,
+          1010.106
+        ]
+      },
+      "hero_nodes": [],
+      "B": {
+        "cls_median": 0.000511,
+        "lcp_median_ms": 1006.889,
+        "cls_runs": [
+          0.000513,
+          0.000511,
+          0.000511
+        ],
+        "lcp_runs_ms": [
+          1006.889,
+          998.917,
+          1010.723
+        ]
+      }
+    }
+  ]
+}

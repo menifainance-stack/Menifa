@@ -1,0 +1,3170 @@
+{
+  "method": "screenshot worst of 3x3 background pixels vs computed color, round 3 rows and contact pills included",
+  "min": 4.54,
+  "fail_count": 0,
+  "checked": 438,
+  "skips_note": "138 selector misses where a page has no such element (for example contact gold only on yoetz, step rows only on kablan and ishur)",
+  "fails": [],
+  "by_probe": {
+    "aside_h4": {
+      "min": 11.21,
+      "n": 24
+    },
+    "aside_link": {
+      "min": 11.21,
+      "n": 24
+    },
+    "body_h2": {
+      "min": 11.06,
+      "n": 24
+    },
+    "body_h3": {
+      "min": 10.16,
+      "n": 12
+    },
+    "body_p": {
+      "min": 10.19,
+      "n": 24
+    },
+    "contact_gold": {
+      "min": 6.6,
+      "n": 6
+    },
+    "cta_h2": {
+      "min": 7.83,
+      "n": 24
+    },
+    "form_button": {
+      "min": 4.54,
+      "n": 24
+    },
+    "form_consent": {
+      "min": 12.62,
+      "n": 24
+    },
+    "form_h3": {
+      "min": 12.85,
+      "n": 24
+    },
+    "form_label": {
+      "min": 12.64,
+      "n": 24
+    },
+    "hero_gold": {
+      "min": 6.28,
+      "n": 24
+    },
+    "hero_h1": {
+      "min": 12.07,
+      "n": 24
+    },
+    "linkrow": {
+      "min": 11.13,
+      "n": 12
+    },
+    "note": {
+      "min": 6.52,
+      "n": 12
+    },
+    "pill": {
+      "min": 12.85,
+      "n": 18
+    },
+    "row_desc": {
+      "min": 7.71,
+      "n": 24
+    },
+    "row_title": {
+      "min": 11.23,
+      "n": 24
+    },
+    "step_desc": {
+      "min": 7.71,
+      "n": 6
+    },
+    "step_line": {
+      "min": 11.43,
+      "n": 12
+    },
+    "step_title": {
+      "min": 10.35,
+      "n": 6
+    },
+    "strong": {
+      "min": 5.84,
+      "n": 18
+    },
+    "tel_btn": {
+      "min": 12.07,
+      "n": 24
+    }
+  },
+  "rows": [
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "hero_h1",
+      "ratio": 13.38,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "hero_gold",
+      "ratio": 10.8,
+      "color": "rgb(244, 226, 176)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "body_h2",
+      "ratio": 13.08,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "body_h3",
+      "ratio": 13.12,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "body_p",
+      "ratio": 12.99,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "strong",
+      "ratio": 13.76,
+      "color": "rgb(244, 226, 176)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "row_title",
+      "ratio": 13.69,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "row_desc",
+      "ratio": 10.46,
+      "color": "rgb(207, 216, 204)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "step_line",
+      "ratio": 15.67,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "pill",
+      "ratio": 14.85,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "linkrow",
+      "ratio": 12.92,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "note",
+      "ratio": 6.52,
+      "color": "rgb(207, 216, 204)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "contact_gold",
+      "ratio": 12.44,
+      "color": "rgb(244, 226, 176)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "form_h3",
+      "ratio": 14.86,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "form_label",
+      "ratio": 14.57,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "form_consent",
+      "ratio": 14.25,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "form_button",
+      "ratio": 7.45,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "aside_h4",
+      "ratio": 13.54,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "aside_link",
+      "ratio": 13.52,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "cta_h2",
+      "ratio": 9.71,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "default",
+      "probe": "tel_btn",
+      "ratio": 16.0,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "hero_h1",
+      "ratio": 14.42,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "hero_gold",
+      "ratio": 6.28,
+      "color": "rgb(107, 80, 32)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "body_h2",
+      "ratio": 13.34,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "body_h3",
+      "ratio": 12.85,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "body_p",
+      "ratio": 12.86,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "strong",
+      "ratio": 6.33,
+      "color": "rgb(107, 80, 32)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "row_title",
+      "ratio": 13.57,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "row_desc",
+      "ratio": 8.17,
+      "color": "rgb(51, 66, 90)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "step_line",
+      "ratio": 14.3,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "pill",
+      "ratio": 15.37,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "linkrow",
+      "ratio": 13.3,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "note",
+      "ratio": 7.49,
+      "color": "rgb(51, 66, 90)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "contact_gold",
+      "ratio": 6.6,
+      "color": "rgb(107, 80, 32)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "form_h3",
+      "ratio": 15.47,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "form_label",
+      "ratio": 15.12,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "form_consent",
+      "ratio": 15.22,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "form_button",
+      "ratio": 5.33,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "aside_h4",
+      "ratio": 13.57,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "aside_link",
+      "ratio": 13.56,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "ivory",
+      "probe": "tel_btn",
+      "ratio": 15.08,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "hero_h1",
+      "ratio": 17.6,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "hero_gold",
+      "ratio": 8.13,
+      "color": "rgb(94, 70, 25)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "body_h2",
+      "ratio": 16.82,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "body_h3",
+      "ratio": 16.16,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "body_p",
+      "ratio": 16.17,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "strong",
+      "ratio": 8.36,
+      "color": "rgb(94, 70, 25)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "row_title",
+      "ratio": 17.14,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "row_desc",
+      "ratio": 11.94,
+      "color": "rgb(47, 47, 47)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "step_line",
+      "ratio": 18.09,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "pill",
+      "ratio": 18.56,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "linkrow",
+      "ratio": 16.68,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "note",
+      "ratio": 11.12,
+      "color": "rgb(47, 47, 47)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "contact_gold",
+      "ratio": 8.41,
+      "color": "rgb(94, 70, 25)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "form_h3",
+      "ratio": 18.56,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "form_label",
+      "ratio": 18.39,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "form_consent",
+      "ratio": 18.41,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "form_button",
+      "ratio": 5.5,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "aside_h4",
+      "ratio": 16.99,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "aside_link",
+      "ratio": 16.99,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "white",
+      "probe": "tel_btn",
+      "ratio": 18.88,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "hero_h1",
+      "ratio": 15.36,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "hero_gold",
+      "ratio": 11.5,
+      "color": "rgb(20, 41, 122)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "body_h2",
+      "ratio": 14.36,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "body_h3",
+      "ratio": 13.03,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "body_p",
+      "ratio": 13.03,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "strong",
+      "ratio": 11.38,
+      "color": "rgb(20, 41, 122)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "row_title",
+      "ratio": 14.52,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "row_desc",
+      "ratio": 10.03,
+      "color": "rgb(38, 55, 92)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "step_line",
+      "ratio": 15.07,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "pill",
+      "ratio": 16.49,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "linkrow",
+      "ratio": 14.27,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "note",
+      "ratio": 9.15,
+      "color": "rgb(38, 55, 92)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "contact_gold",
+      "ratio": 11.92,
+      "color": "rgb(20, 41, 122)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "form_h3",
+      "ratio": 16.46,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "form_label",
+      "ratio": 16.33,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "form_consent",
+      "ratio": 16.3,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "form_button",
+      "ratio": 6.53,
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "aside_h4",
+      "ratio": 14.51,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "aside_link",
+      "ratio": 14.51,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "royal",
+      "probe": "tel_btn",
+      "ratio": 15.75,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "hero_h1",
+      "ratio": 12.07,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "hero_gold",
+      "ratio": 7.39,
+      "color": "rgb(106, 59, 30)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "body_h2",
+      "ratio": 11.13,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "body_h3",
+      "ratio": 10.16,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "body_p",
+      "ratio": 10.19,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "strong",
+      "ratio": 7.11,
+      "color": "rgb(106, 59, 30)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "row_title",
+      "ratio": 11.23,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "row_desc",
+      "ratio": 7.72,
+      "color": "rgb(69, 64, 58)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "step_line",
+      "ratio": 11.43,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "pill",
+      "ratio": 12.85,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "linkrow",
+      "ratio": 11.13,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "note",
+      "ratio": 7.2,
+      "color": "rgb(69, 64, 58)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "contact_gold",
+      "ratio": 7.73,
+      "color": "rgb(106, 59, 30)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "form_h3",
+      "ratio": 12.85,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "form_label",
+      "ratio": 12.73,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "form_consent",
+      "ratio": 12.62,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "form_button",
+      "ratio": 4.54,
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "aside_h4",
+      "ratio": 11.21,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "aside_link",
+      "ratio": 11.21,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "sand",
+      "probe": "tel_btn",
+      "ratio": 12.07,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "hero_h1",
+      "ratio": 13.95,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "hero_gold",
+      "ratio": 10.55,
+      "color": "rgb(234, 219, 192)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "body_h2",
+      "ratio": 13.93,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "body_h3",
+      "ratio": 14.13,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "body_p",
+      "ratio": 14.13,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "strong",
+      "ratio": 13.51,
+      "color": "rgb(234, 219, 192)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "row_title",
+      "ratio": 14.45,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "row_desc",
+      "ratio": 10.8,
+      "color": "rgb(203, 211, 223)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "step_line",
+      "ratio": 16.22,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "pill",
+      "ratio": 15.38,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "linkrow",
+      "ratio": 13.62,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "note",
+      "ratio": 6.94,
+      "color": "rgb(203, 211, 223)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "contact_gold",
+      "ratio": 12.22,
+      "color": "rgb(234, 219, 192)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "form_h3",
+      "ratio": 15.5,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "form_label",
+      "ratio": 15.02,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "form_consent",
+      "ratio": 14.91,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "form_button",
+      "ratio": 5.41,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "aside_h4",
+      "ratio": 14.27,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "aside_link",
+      "ratio": 14.27,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "cta_h2",
+      "ratio": 7.83,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "yoetz-mashkantaot",
+      "palette": "privatebank",
+      "probe": "tel_btn",
+      "ratio": 16.38,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "hero_h1",
+      "ratio": 13.38,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "hero_gold",
+      "ratio": 10.8,
+      "color": "rgb(244, 226, 176)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "body_h2",
+      "ratio": 13.38,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "body_p",
+      "ratio": 13.12,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "strong",
+      "ratio": 9.61,
+      "color": "rgb(244, 226, 176)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "row_title",
+      "ratio": 14.13,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "row_desc",
+      "ratio": 11.16,
+      "color": "rgb(207, 216, 204)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "step_title",
+      "ratio": 12.17,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "step_desc",
+      "ratio": 10.57,
+      "color": "rgb(207, 216, 204)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "pill",
+      "ratio": 14.99,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "form_h3",
+      "ratio": 14.99,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "form_label",
+      "ratio": 14.57,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "form_consent",
+      "ratio": 14.41,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "form_button",
+      "ratio": 7.44,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "aside_h4",
+      "ratio": 13.54,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "aside_link",
+      "ratio": 13.52,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "cta_h2",
+      "ratio": 9.71,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "default",
+      "probe": "tel_btn",
+      "ratio": 16.0,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "hero_h1",
+      "ratio": 14.42,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "hero_gold",
+      "ratio": 6.28,
+      "color": "rgb(107, 80, 32)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "body_h2",
+      "ratio": 13.44,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "body_p",
+      "ratio": 12.86,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "strong",
+      "ratio": 6.02,
+      "color": "rgb(107, 80, 32)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "row_title",
+      "ratio": 14.56,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "row_desc",
+      "ratio": 8.86,
+      "color": "rgb(51, 66, 90)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "step_title",
+      "ratio": 12.72,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "step_desc",
+      "ratio": 8.17,
+      "color": "rgb(51, 66, 90)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "pill",
+      "ratio": 15.47,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "form_h3",
+      "ratio": 15.47,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "form_label",
+      "ratio": 15.22,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "form_consent",
+      "ratio": 15.22,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "form_button",
+      "ratio": 5.31,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "aside_h4",
+      "ratio": 13.57,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "aside_link",
+      "ratio": 13.56,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "ivory",
+      "probe": "tel_btn",
+      "ratio": 15.08,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "hero_h1",
+      "ratio": 17.6,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "hero_gold",
+      "ratio": 8.13,
+      "color": "rgb(94, 70, 25)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "body_h2",
+      "ratio": 16.84,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "body_p",
+      "ratio": 16.17,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "strong",
+      "ratio": 8.05,
+      "color": "rgb(94, 70, 25)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "row_title",
+      "ratio": 17.6,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "row_desc",
+      "ratio": 12.48,
+      "color": "rgb(47, 47, 47)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "step_title",
+      "ratio": 15.95,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "step_desc",
+      "ratio": 11.94,
+      "color": "rgb(47, 47, 47)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "pill",
+      "ratio": 18.71,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "form_h3",
+      "ratio": 18.55,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "form_label",
+      "ratio": 18.41,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "form_consent",
+      "ratio": 18.41,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "form_button",
+      "ratio": 5.48,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "aside_h4",
+      "ratio": 16.99,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "aside_link",
+      "ratio": 16.99,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "white",
+      "probe": "tel_btn",
+      "ratio": 18.88,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "hero_h1",
+      "ratio": 15.36,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "hero_gold",
+      "ratio": 11.5,
+      "color": "rgb(20, 41, 122)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "body_h2",
+      "ratio": 14.39,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "body_p",
+      "ratio": 13.03,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "strong",
+      "ratio": 11.17,
+      "color": "rgb(20, 41, 122)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "row_title",
+      "ratio": 15.33,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "row_desc",
+      "ratio": 10.68,
+      "color": "rgb(38, 55, 92)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "step_title",
+      "ratio": 13.17,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "step_desc",
+      "ratio": 10.03,
+      "color": "rgb(38, 55, 92)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "pill",
+      "ratio": 16.59,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "form_h3",
+      "ratio": 16.49,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "form_label",
+      "ratio": 16.33,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "form_consent",
+      "ratio": 16.33,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "form_button",
+      "ratio": 6.56,
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "aside_h4",
+      "ratio": 14.51,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "aside_link",
+      "ratio": 14.51,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "royal",
+      "probe": "tel_btn",
+      "ratio": 15.75,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "hero_h1",
+      "ratio": 12.07,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "hero_gold",
+      "ratio": 7.39,
+      "color": "rgb(106, 59, 30)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "body_h2",
+      "ratio": 11.13,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "body_p",
+      "ratio": 10.19,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "strong",
+      "ratio": 7.11,
+      "color": "rgb(106, 59, 30)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "row_title",
+      "ratio": 12.3,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "row_desc",
+      "ratio": 8.52,
+      "color": "rgb(69, 64, 58)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "step_title",
+      "ratio": 10.35,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "step_desc",
+      "ratio": 7.71,
+      "color": "rgb(69, 64, 58)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "pill",
+      "ratio": 12.85,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "form_h3",
+      "ratio": 12.85,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "form_label",
+      "ratio": 12.73,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "form_consent",
+      "ratio": 12.72,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "form_button",
+      "ratio": 4.54,
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "aside_h4",
+      "ratio": 11.21,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "aside_link",
+      "ratio": 11.21,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "sand",
+      "probe": "tel_btn",
+      "ratio": 12.07,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "hero_h1",
+      "ratio": 13.95,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "hero_gold",
+      "ratio": 10.55,
+      "color": "rgb(234, 219, 192)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "body_h2",
+      "ratio": 14.11,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "body_p",
+      "ratio": 14.13,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "strong",
+      "ratio": 9.56,
+      "color": "rgb(234, 219, 192)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "row_title",
+      "ratio": 14.72,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "row_desc",
+      "ratio": 11.3,
+      "color": "rgb(203, 211, 223)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "step_title",
+      "ratio": 13.2,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "step_desc",
+      "ratio": 10.81,
+      "color": "rgb(203, 211, 223)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "pill",
+      "ratio": 15.5,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "form_h3",
+      "ratio": 15.48,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "form_label",
+      "ratio": 15.06,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "form_consent",
+      "ratio": 15.04,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "form_button",
+      "ratio": 5.39,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "aside_h4",
+      "ratio": 14.27,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "aside_link",
+      "ratio": 14.27,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "cta_h2",
+      "ratio": 7.83,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "mashkanta-kablan",
+      "palette": "privatebank",
+      "probe": "tel_btn",
+      "ratio": 16.38,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "hero_h1",
+      "ratio": 13.69,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "hero_gold",
+      "ratio": 11.63,
+      "color": "rgb(244, 226, 176)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "body_h2",
+      "ratio": 13.1,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "body_p",
+      "ratio": 15.67,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "row_title",
+      "ratio": 14.13,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "row_desc",
+      "ratio": 11.16,
+      "color": "rgb(207, 216, 204)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "pill",
+      "ratio": 14.99,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "form_h3",
+      "ratio": 14.99,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "form_label",
+      "ratio": 14.4,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "form_consent",
+      "ratio": 14.41,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "form_button",
+      "ratio": 7.44,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "aside_h4",
+      "ratio": 13.54,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "aside_link",
+      "ratio": 13.52,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "cta_h2",
+      "ratio": 9.71,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "default",
+      "probe": "tel_btn",
+      "ratio": 16.06,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "hero_h1",
+      "ratio": 14.47,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "hero_gold",
+      "ratio": 6.39,
+      "color": "rgb(107, 80, 32)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "body_h2",
+      "ratio": 13.36,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "body_p",
+      "ratio": 14.3,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "row_title",
+      "ratio": 14.56,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "row_desc",
+      "ratio": 8.86,
+      "color": "rgb(51, 66, 90)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "pill",
+      "ratio": 15.47,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "form_h3",
+      "ratio": 15.47,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "form_label",
+      "ratio": 15.12,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "form_consent",
+      "ratio": 15.22,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "form_button",
+      "ratio": 5.33,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "aside_h4",
+      "ratio": 13.57,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "aside_link",
+      "ratio": 13.57,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "ivory",
+      "probe": "tel_btn",
+      "ratio": 15.08,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "hero_h1",
+      "ratio": 17.6,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "hero_gold",
+      "ratio": 8.27,
+      "color": "rgb(94, 70, 25)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "body_h2",
+      "ratio": 16.73,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "body_p",
+      "ratio": 18.09,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "row_title",
+      "ratio": 17.6,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "row_desc",
+      "ratio": 12.48,
+      "color": "rgb(47, 47, 47)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "pill",
+      "ratio": 18.56,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "form_h3",
+      "ratio": 18.56,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "form_label",
+      "ratio": 18.39,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "form_consent",
+      "ratio": 18.41,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "form_button",
+      "ratio": 5.5,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "aside_h4",
+      "ratio": 16.99,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "aside_link",
+      "ratio": 16.99,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "white",
+      "probe": "tel_btn",
+      "ratio": 18.88,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "hero_h1",
+      "ratio": 15.44,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "hero_gold",
+      "ratio": 11.62,
+      "color": "rgb(20, 41, 122)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "body_h2",
+      "ratio": 14.29,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "body_p",
+      "ratio": 15.07,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "row_title",
+      "ratio": 15.33,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "row_desc",
+      "ratio": 10.68,
+      "color": "rgb(38, 55, 92)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "pill",
+      "ratio": 16.59,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "form_h3",
+      "ratio": 16.5,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "form_label",
+      "ratio": 16.2,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "form_consent",
+      "ratio": 16.33,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "form_button",
+      "ratio": 6.53,
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "aside_h4",
+      "ratio": 14.51,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "aside_link",
+      "ratio": 14.51,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "royal",
+      "probe": "tel_btn",
+      "ratio": 15.75,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "hero_h1",
+      "ratio": 12.18,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "hero_gold",
+      "ratio": 7.53,
+      "color": "rgb(106, 59, 30)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "body_h2",
+      "ratio": 11.06,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "body_p",
+      "ratio": 11.43,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "row_title",
+      "ratio": 12.3,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "row_desc",
+      "ratio": 8.52,
+      "color": "rgb(69, 64, 58)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "pill",
+      "ratio": 12.85,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "form_h3",
+      "ratio": 12.85,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "form_label",
+      "ratio": 12.64,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "form_consent",
+      "ratio": 12.64,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "form_button",
+      "ratio": 4.56,
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "aside_h4",
+      "ratio": 11.21,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "aside_link",
+      "ratio": 11.21,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "cta_h2",
+      "ratio": 10.76,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "sand",
+      "probe": "tel_btn",
+      "ratio": 12.07,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "hero_h1",
+      "ratio": 14.25,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "hero_gold",
+      "ratio": 11.49,
+      "color": "rgb(234, 219, 192)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "body_h2",
+      "ratio": 14.09,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "body_p",
+      "ratio": 16.22,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "row_title",
+      "ratio": 14.72,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "row_desc",
+      "ratio": 11.3,
+      "color": "rgb(203, 211, 223)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "pill",
+      "ratio": 15.59,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "form_h3",
+      "ratio": 15.5,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "form_label",
+      "ratio": 15.04,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "form_consent",
+      "ratio": 15.02,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "form_button",
+      "ratio": 5.4,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "aside_h4",
+      "ratio": 14.27,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "aside_link",
+      "ratio": 14.27,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "cta_h2",
+      "ratio": 7.89,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "yoetz-mashkantaot-merkaz",
+      "palette": "privatebank",
+      "probe": "tel_btn",
+      "ratio": 16.48,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "hero_h1",
+      "ratio": 13.38,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "hero_gold",
+      "ratio": 10.8,
+      "color": "rgb(244, 226, 176)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "body_h2",
+      "ratio": 13.38,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "body_h3",
+      "ratio": 14.13,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "body_p",
+      "ratio": 15.67,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "strong",
+      "ratio": 11.79,
+      "color": "rgb(244, 226, 176)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "row_title",
+      "ratio": 14.13,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "row_desc",
+      "ratio": 10.68,
+      "color": "rgb(207, 216, 204)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "step_line",
+      "ratio": 14.13,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "linkrow",
+      "ratio": 13.09,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "note",
+      "ratio": 8.33,
+      "color": "rgb(207, 216, 204)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "form_h3",
+      "ratio": 14.99,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "form_label",
+      "ratio": 14.4,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "form_consent",
+      "ratio": 14.41,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "form_button",
+      "ratio": 7.38,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "aside_h4",
+      "ratio": 13.54,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "aside_link",
+      "ratio": 13.52,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "cta_h2",
+      "ratio": 9.64,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "default",
+      "probe": "tel_btn",
+      "ratio": 16.06,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "hero_h1",
+      "ratio": 14.42,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "hero_gold",
+      "ratio": 6.28,
+      "color": "rgb(107, 80, 32)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "body_h2",
+      "ratio": 13.44,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "body_h3",
+      "ratio": 14.56,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "body_p",
+      "ratio": 14.3,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "strong",
+      "ratio": 5.84,
+      "color": "rgb(107, 80, 32)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "row_title",
+      "ratio": 13.71,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "row_desc",
+      "ratio": 8.17,
+      "color": "rgb(51, 66, 90)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "step_line",
+      "ratio": 14.56,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "linkrow",
+      "ratio": 13.43,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "note",
+      "ratio": 8.13,
+      "color": "rgb(51, 66, 90)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "form_h3",
+      "ratio": 15.47,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "form_label",
+      "ratio": 15.12,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "form_consent",
+      "ratio": 15.22,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "form_button",
+      "ratio": 5.28,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "aside_h4",
+      "ratio": 13.57,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "aside_link",
+      "ratio": 13.56,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "cta_h2",
+      "ratio": 10.68,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "ivory",
+      "probe": "tel_btn",
+      "ratio": 15.08,
+      "color": "rgb(15, 30, 53)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "hero_h1",
+      "ratio": 17.6,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "hero_gold",
+      "ratio": 8.13,
+      "color": "rgb(94, 70, 25)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "body_h2",
+      "ratio": 16.84,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "body_h3",
+      "ratio": 17.6,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "body_p",
+      "ratio": 18.09,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "strong",
+      "ratio": 7.59,
+      "color": "rgb(94, 70, 25)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "row_title",
+      "ratio": 17.3,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "row_desc",
+      "ratio": 12.04,
+      "color": "rgb(47, 47, 47)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "step_line",
+      "ratio": 17.6,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "linkrow",
+      "ratio": 16.84,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "note",
+      "ratio": 12.04,
+      "color": "rgb(47, 47, 47)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "form_h3",
+      "ratio": 18.56,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "form_label",
+      "ratio": 18.39,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "form_consent",
+      "ratio": 18.41,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "form_button",
+      "ratio": 5.45,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "aside_h4",
+      "ratio": 16.99,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "aside_link",
+      "ratio": 16.99,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "cta_h2",
+      "ratio": 10.68,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "white",
+      "probe": "tel_btn",
+      "ratio": 18.88,
+      "color": "rgb(17, 17, 17)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "hero_h1",
+      "ratio": 15.36,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "hero_gold",
+      "ratio": 11.5,
+      "color": "rgb(20, 41, 122)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "body_h2",
+      "ratio": 14.39,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "body_h3",
+      "ratio": 15.33,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "body_p",
+      "ratio": 15.07,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "strong",
+      "ratio": 10.24,
+      "color": "rgb(20, 41, 122)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "row_title",
+      "ratio": 14.64,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "row_desc",
+      "ratio": 10.03,
+      "color": "rgb(38, 55, 92)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "step_line",
+      "ratio": 15.33,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "linkrow",
+      "ratio": 14.39,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "note",
+      "ratio": 10.13,
+      "color": "rgb(38, 55, 92)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "form_h3",
+      "ratio": 16.5,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "form_label",
+      "ratio": 16.2,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "form_consent",
+      "ratio": 16.33,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "form_button",
+      "ratio": 6.52,
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "aside_h4",
+      "ratio": 14.51,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "aside_link",
+      "ratio": 14.51,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "cta_h2",
+      "ratio": 10.68,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "royal",
+      "probe": "tel_btn",
+      "ratio": 15.75,
+      "color": "rgb(11, 27, 63)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "hero_h1",
+      "ratio": 12.07,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "hero_gold",
+      "ratio": 7.39,
+      "color": "rgb(106, 59, 30)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "body_h2",
+      "ratio": 11.14,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "body_h3",
+      "ratio": 12.3,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "body_p",
+      "ratio": 11.43,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "strong",
+      "ratio": 6.56,
+      "color": "rgb(106, 59, 30)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "row_title",
+      "ratio": 11.24,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "row_desc",
+      "ratio": 7.71,
+      "color": "rgb(69, 64, 58)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "step_line",
+      "ratio": 12.3,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "linkrow",
+      "ratio": 11.13,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "note",
+      "ratio": 7.85,
+      "color": "rgb(69, 64, 58)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "form_h3",
+      "ratio": 12.85,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "form_label",
+      "ratio": 12.64,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "form_consent",
+      "ratio": 12.64,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "form_button",
+      "ratio": 4.56,
+      "color": "rgb(255, 255, 255)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "aside_h4",
+      "ratio": 11.21,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "aside_link",
+      "ratio": 11.21,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "cta_h2",
+      "ratio": 10.68,
+      "color": "rgb(26, 20, 8)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "sand",
+      "probe": "tel_btn",
+      "ratio": 12.07,
+      "color": "rgb(43, 39, 36)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "hero_h1",
+      "ratio": 13.95,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "hero_gold",
+      "ratio": 10.55,
+      "color": "rgb(234, 219, 192)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "body_h2",
+      "ratio": 14.11,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "body_h3",
+      "ratio": 14.72,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "body_p",
+      "ratio": 16.22,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "strong",
+      "ratio": 11.9,
+      "color": "rgb(234, 219, 192)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "row_title",
+      "ratio": 14.78,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "row_desc",
+      "ratio": 10.94,
+      "color": "rgb(203, 211, 223)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "step_line",
+      "ratio": 14.74,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "linkrow",
+      "ratio": 13.93,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "note",
+      "ratio": 8.48,
+      "color": "rgb(203, 211, 223)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "form_h3",
+      "ratio": 15.5,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "form_label",
+      "ratio": 14.93,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "form_consent",
+      "ratio": 15.02,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "form_button",
+      "ratio": 5.36,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "aside_h4",
+      "ratio": 14.27,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "aside_link",
+      "ratio": 14.27,
+      "color": "rgb(244, 238, 225)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "cta_h2",
+      "ratio": 7.83,
+      "color": "rgb(11, 35, 28)"
+    },
+    {
+      "page": "ishur-ekroni",
+      "palette": "privatebank",
+      "probe": "tel_btn",
+      "ratio": 16.48,
+      "color": "rgb(244, 238, 225)"
+    }
+  ]
+}

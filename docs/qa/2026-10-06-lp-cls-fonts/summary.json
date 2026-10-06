@@ -1,0 +1,570 @@
+{
+  "107A": {
+    "yoetz-mashkantaot": {
+      "cls": [
+        0.1542,
+        0.1541,
+        0.1532
+      ],
+      "lcp": [
+        1982,
+        1991,
+        1980
+      ],
+      "clsMedian": 0.1541,
+      "lcpMedian": 1982,
+      "heroMedian": 0,
+      "raysMedian": 0,
+      "medianNodes": [
+        {
+          "score": 0.134196,
+          "selector": "body.lp-redesign > div.page > div#cookie"
+        },
+        {
+          "score": 0.015142,
+          "selector": "div.page > div#cookie > p > a"
+        },
+        {
+          "score": 0.001931,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.001801,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.00099,
+          "selector": "body.lp-redesign > div.page > div#cookie > p"
+        },
+        {
+          "score": 6.5e-05,
+          "selector": "div.wrap > a.brand > span.brand-name > b"
+        }
+      ]
+    },
+    "mashkanta-kablan": {
+      "cls": [
+        0.1538,
+        0.1447,
+        0.1674
+      ],
+      "lcp": [
+        2026,
+        2009,
+        2003
+      ],
+      "clsMedian": 0.1538,
+      "lcpMedian": 2009,
+      "heroMedian": 0,
+      "raysMedian": 0,
+      "medianNodes": [
+        {
+          "score": 0.134173,
+          "selector": "body.lp-redesign > div.page > div#cookie"
+        },
+        {
+          "score": 0.015141,
+          "selector": "div.page > div#cookie > p > a"
+        },
+        {
+          "score": 0.001925,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.001795,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.000737,
+          "selector": "body.lp-redesign > div.page > div#cookie > p"
+        },
+        {
+          "score": 6.5e-05,
+          "selector": "div.wrap > a.brand > span.brand-name > b"
+        }
+      ]
+    },
+    "yoetz-mashkantaot-merkaz": {
+      "cls": [
+        0.1655,
+        0.1401,
+        0.152
+      ],
+      "lcp": [
+        2019,
+        2023,
+        2005
+      ],
+      "clsMedian": 0.152,
+      "lcpMedian": 2019,
+      "heroMedian": 0,
+      "raysMedian": 0,
+      "medianNodes": [
+        {
+          "score": 0.134196,
+          "selector": "body.lp-redesign > div.page > div#cookie"
+        },
+        {
+          "score": 0.013264,
+          "selector": "div.page > div#cookie > p > a"
+        },
+        {
+          "score": 0.001919,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.001801,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.000737,
+          "selector": "body.lp-redesign > div.page > div#cookie > p"
+        },
+        {
+          "score": 6.5e-05,
+          "selector": "div.wrap > a.brand > span.brand-name > b"
+        }
+      ]
+    },
+    "ishur-ekroni": {
+      "cls": [
+        0.1491,
+        0.1505,
+        0.1387
+      ],
+      "lcp": [
+        1994,
+        1986,
+        2017
+      ],
+      "clsMedian": 0.1491,
+      "lcpMedian": 1994,
+      "heroMedian": 0,
+      "raysMedian": 0,
+      "medianNodes": [
+        {
+          "score": 0.134173,
+          "selector": "body.lp-redesign > div.page > div#cookie"
+        },
+        {
+          "score": 0.010121,
+          "selector": "div.page > div#cookie > p > a"
+        },
+        {
+          "score": 0.001919,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.001795,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.00099,
+          "selector": "body.lp-redesign > div.page > div#cookie > p"
+        },
+        {
+          "score": 6.5e-05,
+          "selector": "div.wrap > a.brand > span.brand-name > b"
+        }
+      ]
+    }
+  },
+  "107B": {
+    "yoetz-mashkantaot": {
+      "cls": [
+        0.1539,
+        0.1674,
+        0.1539
+      ],
+      "lcp": [
+        1986,
+        1989,
+        1977
+      ],
+      "clsMedian": 0.1539,
+      "lcpMedian": 1986,
+      "heroMedian": 0,
+      "raysMedian": 0,
+      "medianNodes": [
+        {
+          "score": 0.134241,
+          "selector": "body.lp-redesign > div.page > div#cookie"
+        },
+        {
+          "score": 0.015141,
+          "selector": "div.page > div#cookie > p > a"
+        },
+        {
+          "score": 0.001931,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.001801,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.000737,
+          "selector": "body.lp-redesign > div.page > div#cookie > p"
+        },
+        {
+          "score": 6.5e-05,
+          "selector": "div.wrap > a.brand > span.brand-name > b"
+        }
+      ]
+    },
+    "mashkanta-kablan": {
+      "cls": [
+        0.1539,
+        0.1538,
+        0.1538
+      ],
+      "lcp": [
+        2024,
+        2039,
+        1992
+      ],
+      "clsMedian": 0.1538,
+      "lcpMedian": 2024,
+      "heroMedian": 0,
+      "raysMedian": 0,
+      "medianNodes": [
+        {
+          "score": 0.134173,
+          "selector": "body.lp-redesign > div.page > div#cookie"
+        },
+        {
+          "score": 0.015141,
+          "selector": "div.page > div#cookie > p > a"
+        },
+        {
+          "score": 0.001925,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.001795,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.000737,
+          "selector": "body.lp-redesign > div.page > div#cookie > p"
+        },
+        {
+          "score": 6.5e-05,
+          "selector": "div.wrap > a.brand > span.brand-name > b"
+        }
+      ]
+    },
+    "yoetz-mashkantaot-merkaz": {
+      "cls": [
+        0.152,
+        0.1512,
+        0.1512
+      ],
+      "lcp": [
+        2018,
+        1991,
+        2029
+      ],
+      "clsMedian": 0.1512,
+      "lcpMedian": 2018,
+      "heroMedian": 0,
+      "raysMedian": 0,
+      "medianNodes": [
+        {
+          "score": 0.134196,
+          "selector": "body.lp-redesign > div.page > div#cookie"
+        },
+        {
+          "score": 0.013265,
+          "selector": "div.page > div#cookie > p > a"
+        },
+        {
+          "score": 0.001919,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.001795,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 6.5e-05,
+          "selector": "div.wrap > a.brand > span.brand-name > b"
+        }
+      ]
+    },
+    "ishur-ekroni": {
+      "cls": [
+        0.1387,
+        0.1387,
+        0.1492
+      ],
+      "lcp": [
+        1990,
+        1989,
+        2016
+      ],
+      "clsMedian": 0.1387,
+      "lcpMedian": 1990,
+      "heroMedian": 0,
+      "raysMedian": 0,
+      "medianNodes": [
+        {
+          "score": 0.134196,
+          "selector": "body.lp-redesign > div.page > div#cookie"
+        },
+        {
+          "score": 0.001919,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.001795,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 0.000737,
+          "selector": "body.lp-redesign > div.page > div#cookie > p"
+        },
+        {
+          "score": 6.5e-05,
+          "selector": "div.wrap > a.brand > span.brand-name > b"
+        }
+      ]
+    }
+  },
+  "mergeA": {
+    "yoetz-mashkantaot": {
+      "cls": [
+        0.0763,
+        0.0763,
+        0.0764
+      ],
+      "lcp": [
+        999,
+        1001,
+        1003
+      ],
+      "clsMedian": 0.0763,
+      "lcpMedian": 1001,
+      "heroMedian": 0,
+      "raysMedian": 0.0758,
+      "medianNodes": [
+        {
+          "score": 0.075783,
+          "selector": "div.page > section.sec > div.layer > div.rays"
+        },
+        {
+          "score": 0.000412,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 9.9e-05,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        }
+      ]
+    },
+    "mashkanta-kablan": {
+      "cls": [
+        0.0466,
+        0.0459,
+        0.0466
+      ],
+      "lcp": [
+        995,
+        995,
+        991
+      ],
+      "clsMedian": 0.0466,
+      "lcpMedian": 995,
+      "heroMedian": 0,
+      "raysMedian": 0.0461,
+      "medianNodes": [
+        {
+          "score": 0.046079,
+          "selector": "div.page > section.sec > div.layer > div.rays"
+        },
+        {
+          "score": 0.000412,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 9.9e-05,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        }
+      ]
+    },
+    "yoetz-mashkantaot-merkaz": {
+      "cls": [
+        0.0178,
+        0.0165,
+        0.0178
+      ],
+      "lcp": [
+        1012,
+        1008,
+        998
+      ],
+      "clsMedian": 0.0178,
+      "lcpMedian": 1008,
+      "heroMedian": 0,
+      "raysMedian": 0.0172,
+      "medianNodes": [
+        {
+          "score": 0.017244,
+          "selector": "div.page > section.sec > div.layer > div.rays"
+        },
+        {
+          "score": 0.000443,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 9.9e-05,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        }
+      ]
+    },
+    "ishur-ekroni": {
+      "cls": [
+        0.0005,
+        0.0005,
+        0.0005
+      ],
+      "lcp": [
+        985,
+        1002,
+        985
+      ],
+      "clsMedian": 0.0005,
+      "lcpMedian": 985,
+      "heroMedian": 0,
+      "raysMedian": 0,
+      "medianNodes": [
+        {
+          "score": 0.000412,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 9.9e-05,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        }
+      ]
+    }
+  },
+  "mergeB": {
+    "yoetz-mashkantaot": {
+      "cls": [
+        0.0763,
+        0.0763,
+        0.0763
+      ],
+      "lcp": [
+        999,
+        1006,
+        993
+      ],
+      "clsMedian": 0.0763,
+      "lcpMedian": 999,
+      "heroMedian": 0,
+      "raysMedian": 0.0758,
+      "medianNodes": [
+        {
+          "score": 0.075783,
+          "selector": "div.page > section.sec > div.layer > div.rays"
+        },
+        {
+          "score": 0.000412,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 9.9e-05,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        }
+      ]
+    },
+    "mashkanta-kablan": {
+      "cls": [
+        0.0459,
+        0.0459,
+        0.0466
+      ],
+      "lcp": [
+        986,
+        995,
+        992
+      ],
+      "clsMedian": 0.0459,
+      "lcpMedian": 992,
+      "heroMedian": 0,
+      "raysMedian": 0.0454,
+      "medianNodes": [
+        {
+          "score": 0.04542,
+          "selector": "div.page > section.sec > div.layer > div.rays"
+        },
+        {
+          "score": 0.000412,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 9.9e-05,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        }
+      ]
+    },
+    "yoetz-mashkantaot-merkaz": {
+      "cls": [
+        0.0178,
+        0.0166,
+        0.0066
+      ],
+      "lcp": [
+        1008,
+        1005,
+        1004
+      ],
+      "clsMedian": 0.0166,
+      "lcpMedian": 1005,
+      "heroMedian": 0,
+      "raysMedian": 0.016,
+      "medianNodes": [
+        {
+          "score": 0.016029,
+          "selector": "div.page > section.sec > div.layer > div.rays"
+        },
+        {
+          "score": 0.000441,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 9.9e-05,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        }
+      ]
+    },
+    "ishur-ekroni": {
+      "cls": [
+        0.0005,
+        0.0005,
+        0.0005
+      ],
+      "lcp": [
+        979,
+        983,
+        993
+      ],
+      "clsMedian": 0.0005,
+      "lcpMedian": 983,
+      "heroMedian": 0,
+      "raysMedian": 0,
+      "medianNodes": [
+        {
+          "score": 0.000414,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        },
+        {
+          "score": 9.9e-05,
+          "selector": "section.sec > div.ticker > div.ticker-in > span"
+        }
+      ]
+    }
+  }
+}

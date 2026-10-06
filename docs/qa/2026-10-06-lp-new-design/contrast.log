@@ -1,0 +1,8 @@
+round 3, 2026-10-06
+method: screenshot, worst of 3x3 background pixels vs computed color
+palettes: default, ivory, white, royal, sand, privatebank
+pages: yoetz-mashkantaot, mashkanta-kablan, yoetz-mashkantaot-merkaz, ishur-ekroni
+checked: 438
+fails: 0
+min: 4.54 (form button, sand)
+new probes: row_title 11.23, row_desc 7.71, step_title 10.35, step_desc 7.71, step_line 11.43, pill 12.85, linkrow 11.13, note 6.52, contact_gold 6.60

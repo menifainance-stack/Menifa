@@ -1,0 +1,178 @@
+{
+  "tool": "Lighthouse 12.8.2",
+  "form_factor": "mobile",
+  "throttling": "simulated (default)",
+  "runs": 3,
+  "round": 3,
+  "before": {
+    "ishur-ekroni": {
+      "runs": [
+        {
+          "lcp_ms": 1801.7,
+          "cls": 0.0036
+        },
+        {
+          "lcp_ms": 1802.3,
+          "cls": 0.0143
+        },
+        {
+          "lcp_ms": 1801.7,
+          "cls": 0.0052
+        }
+      ],
+      "lcp_ms_median": 1801.7,
+      "cls_median": 0.0052
+    },
+    "mashkanta-kablan": {
+      "runs": [
+        {
+          "lcp_ms": 1951.2,
+          "cls": 0.0119
+        },
+        {
+          "lcp_ms": 1954.4,
+          "cls": 0.0125
+        },
+        {
+          "lcp_ms": 1952.0,
+          "cls": 0.0041
+        }
+      ],
+      "lcp_ms_median": 1952.0,
+      "cls_median": 0.0119
+    },
+    "yoetz-mashkantaot": {
+      "runs": [
+        {
+          "lcp_ms": 1951.7,
+          "cls": 0.0035
+        },
+        {
+          "lcp_ms": 1951.2,
+          "cls": 0.0041
+        },
+        {
+          "lcp_ms": 1951.3,
+          "cls": 0.0035
+        }
+      ],
+      "lcp_ms_median": 1951.3,
+      "cls_median": 0.0035
+    },
+    "yoetz-mashkantaot-merkaz": {
+      "runs": [
+        {
+          "lcp_ms": 1950.8,
+          "cls": 0.0577
+        },
+        {
+          "lcp_ms": 1952.1,
+          "cls": 0.0676
+        },
+        {
+          "lcp_ms": 1952.0,
+          "cls": 0.0581
+        }
+      ],
+      "lcp_ms_median": 1952.0,
+      "cls_median": 0.0581
+    }
+  },
+  "after": {
+    "ishur-ekroni": {
+      "runs": [
+        {
+          "lcp_ms": 1801.8,
+          "cls": 0.0055
+        },
+        {
+          "lcp_ms": 1801.5,
+          "cls": 0.0129
+        },
+        {
+          "lcp_ms": 1801.5,
+          "cls": 0.0125
+        }
+      ],
+      "lcp_ms_median": 1801.5,
+      "cls_median": 0.0125,
+      "lcp_selector": "section.sec > div.wrap > div.stack > h1.h-hero",
+      "render_delay_ms": 1501
+    },
+    "mashkanta-kablan": {
+      "runs": [
+        {
+          "lcp_ms": 1951.5,
+          "cls": 0.0663
+        },
+        {
+          "lcp_ms": 1951.7,
+          "cls": 0.0664
+        },
+        {
+          "lcp_ms": 1951.9,
+          "cls": 0.0755
+        }
+      ],
+      "lcp_ms_median": 1951.7,
+      "cls_median": 0.0664
+    },
+    "yoetz-mashkantaot": {
+      "runs": [
+        {
+          "lcp_ms": 1951.1,
+          "cls": 0.0113
+        },
+        {
+          "lcp_ms": 1951.3,
+          "cls": 0.0038
+        },
+        {
+          "lcp_ms": 1952.1,
+          "cls": 0.0052
+        }
+      ],
+      "lcp_ms_median": 1951.3,
+      "cls_median": 0.0052,
+      "lcp_selector": "section.sec > div.wrap > div.stack > h1.h-hero",
+      "render_delay_ms": 1501
+    },
+    "yoetz-mashkantaot-merkaz": {
+      "runs": [
+        {
+          "lcp_ms": 1951.4,
+          "cls": 0.0672
+        },
+        {
+          "lcp_ms": 1951.5,
+          "cls": 0.064
+        },
+        {
+          "lcp_ms": 1951.0,
+          "cls": 0.0641
+        }
+      ],
+      "lcp_ms_median": 1951.4,
+      "cls_median": 0.0641
+    }
+  },
+  "delta_median": {
+    "ishur-ekroni": {
+      "lcp_ms": -0.2,
+      "cls": 0.0073
+    },
+    "mashkanta-kablan": {
+      "lcp_ms": -0.3,
+      "cls": 0.0545
+    },
+    "yoetz-mashkantaot": {
+      "lcp_ms": 0.0,
+      "cls": 0.0017
+    },
+    "yoetz-mashkantaot-merkaz": {
+      "lcp_ms": -0.6,
+      "cls": 0.006
+    }
+  },
+  "note": "Median of 3 cold mobile runs, simulated throttling, local servers. Before is the #100 snapshot. After is this round: bold-lead paragraphs as rows, step lists as rows, contact links as pills. No new images, font weights, or opacity animation. LCP stays on h1.h-hero at the shared-template floor (render delay about 1.50s). That floor is Google Fonts, site.css, and site.js, already addressed in PR #106 and not copied here. CLS stays under 0.1. Kablan remains near 0.066 because the LCP element is the large display H1 and the template still swaps Frank Ruhl Libre."
+}

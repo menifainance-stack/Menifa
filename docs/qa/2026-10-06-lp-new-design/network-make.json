@@ -1,0 +1,15 @@
+{
+  "makeRequests": 0,
+  "blocked": "hook.*.make.com and any host matching make.com, aborted in Playwright before the request was sent",
+  "runs": [
+    "before screenshots",
+    "after screenshots",
+    "contrast probes",
+    "final reshoot",
+    "Vercel Preview recapture of before (#100) and after (first pass), 390 and 1440",
+    "round 2 local capture of the homepage-band redesign, 390 and 1440, plus contrast",
+    "Vercel Preview recapture of 5f59ae2, homepage and four LPs, 390 and 1440",
+    "Vercel Preview recapture after b01be02, rows and contact pills, 390 and 1440"
+  ],
+  "urls": []
+}
