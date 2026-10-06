@@ -1,19 +1,25 @@
-/* Quiz bots · Menifa Mercury shell
-   Tokens from the Mercury LP reference: ink #0E3C5C · sky #5BAFD8 ·
-   champ #C4A574–#B8956A · night #081420 · Heebo · RTL.
-   Question copy and engine are not styled here. */
+/* Quiz bots · Menifa Mercury shell (Soft brief 2026-10-06)
+   Night #081420 · mercury-hero.jpg · glass · champ hairline.
+   Header logo stays the live-site fan SVG. Question copy is not styled here. */
 :root {
   --aic-blue: #5BAFD8;
   --aic-blue-user: #5BAFD8;
   --aic-ink: #0E3C5C;
   --aic-white: #fff;
+  --mercury-night: #081420;
   --menifa-ink: #0E3C5C;
   --menifa-accent: #5BAFD8;
   --menifa-champ: #C4A574;
   --menifa-champ-deep: #B8956A;
+  --gold-hi: #E6C980;
+  --gold-hair: rgba(196, 165, 116, 0.35);
+  --glass-bot: rgba(8, 20, 32, 0.62);
+  --glass-user: rgba(91, 175, 216, 0.34);
+  --glass-chip: rgba(91, 175, 216, 0.16);
+  --text-primary: #EAF3F9;
+  --text-muted: rgba(234, 243, 249, 0.60);
   --menifa-wa: #25D366;
-  --mercury-night: #081420;
-  /* Live menifa.org html[data-palette="privatebank"] golds */
+  /* Live menifa.org html[data-palette="privatebank"] — fan + wordmark only */
   --gold-deep: #8C6E40;
   --gold: #B08D57;
   --gold-pale: #EADBC0;
@@ -31,8 +37,8 @@ html { scroll-behavior: smooth; }
   * { animation: none !important; transition: none !important; }
 }
 body.aic-shell {
-  font-family: "Heebo", system-ui, -apple-system, sans-serif;
-  color: #fff;
+  font-family: "Heebo", "IBM Plex Sans Hebrew", system-ui, sans-serif;
+  color: var(--text-primary);
   background: var(--mercury-night);
   min-height: 100%;
   height: 100%;
@@ -102,7 +108,7 @@ body.aic-shell {
   gap: 14px;
   min-width: 0;
   flex: 1 1 auto;
-  color: var(--ivory);
+  color: #fff;
   text-decoration: none;
   text-shadow: none;
 }
@@ -176,8 +182,8 @@ body.aic-shell {
   background: transparent;
 }
 .aic-card {
-  background: rgba(8, 20, 32, .62);
-  color: #fff;
+  background: var(--glass-bot);
+  color: var(--text-primary);
   border-radius: 18px;
   padding: 13px 13px 12px;
   border: 1px solid rgba(255, 255, 255, .14);
@@ -220,13 +226,13 @@ body.aic-shell {
   line-height: 1.55;
   font-size: 15.5px;
   font-weight: 400;
-  color: rgba(255, 255, 255, .94);
+  color: var(--text-primary);
 }
 .aic-card p:last-child { margin-bottom: 0; }
 .aic-card strong { font-weight: 700; color: #fff; }
 .aic-user {
   align-self: flex-end;
-  background: rgba(91, 175, 216, .34);
+  background: var(--glass-user);
   color: #fff;
   border: 1px solid rgba(91, 175, 216, .55);
   border-radius: 16px 16px 16px 4px;
@@ -245,23 +251,25 @@ body.aic-shell {
 .aic-time {
   font-size: 11px;
   font-weight: 500;
-  color: rgba(255, 255, 255, .55);
+  color: var(--text-muted);
   align-self: flex-start;
   margin-top: -4px;
   padding-inline-start: 52px;
   flex-shrink: 0;
 }
 
-/* Opaque dock: chips stay readable and history cannot show through */
+/* Frosted dock over the mountain — dark, not cream. Chips stay in this band. */
 .aic-dock {
   flex-shrink: 0;
   position: relative;
   z-index: 5;
   margin: 0 -12px 0;
   padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px));
-  background: rgba(8, 16, 26, .97);
-  border-top: 1px solid rgba(196, 165, 116, .38);
-  box-shadow: 0 -16px 36px rgba(0, 0, 0, .45);
+  background: linear-gradient(180deg, rgba(8, 20, 32, 0) 0%, rgba(8, 20, 32, .55) 28%, rgba(8, 20, 32, .86) 100%);
+  border-top: 1px solid var(--gold-hair);
+  box-shadow: none;
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
 .aic-hint {
   color: var(--menifa-champ);
@@ -280,7 +288,7 @@ body.aic-shell {
 .aic-chip {
   appearance: none;
   border: 1px solid rgba(91, 175, 216, .48);
-  background: rgba(91, 175, 216, .16);
+  background: var(--glass-chip);
   color: #fff;
   font: inherit;
   font-size: 15px;
@@ -298,6 +306,8 @@ body.aic-shell {
   align-items: center;
   justify-content: center;
   unicode-bidi: isolate;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
 .aic-chip bdi[dir="ltr"],
 .aic-user bdi[dir="ltr"] {
@@ -344,8 +354,9 @@ body.aic-shell {
   border: 0;
   background: var(--menifa-accent);
   color: #fff;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
+  min-height: 48px;
   border-radius: 999px;
   cursor: pointer;
   display: grid;
@@ -380,8 +391,8 @@ body.aic-shell {
 
 /* Hub — same atmosphere, not a flat navy page */
 body.aic-hub {
-  font-family: "Heebo", system-ui, -apple-system, sans-serif;
-  color: #fff;
+  font-family: "Heebo", "IBM Plex Sans Hebrew", system-ui, sans-serif;
+  color: var(--text-primary);
   background: var(--mercury-night);
   min-height: 100%;
   direction: rtl;
