@@ -165,11 +165,65 @@
     if (consent && (consent.statistics || consent.marketing)) sendEvent(name, params); else evQ.push([name, params]);
   };
   function cookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; }
-  // remember campaign attribution for the whole visit (first landing page)
-  try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
-    if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
-    if (got) sessionStorage.setItem('menifa-att', JSON.stringify(att0)); } catch (er) {}
+  /* First-touch attribution for the CRM body.
+     Storage matches the retired menifa_ft_v1 script: sessionStorage, no TTL.
+     That script locked the first landing for the browser session and did not
+     use a 90-day localStorage window, so this does the same. Key stays
+     menifa-att because the lead payload already reads it.
+     Written once and never overwritten: utm_*, gclid, fbclid, landing, referrer.
+     A later campaign in the same session is stored only as last_utm_*.
+     The payload's utm_* keys stay first-touch so the Make field mapping holds.
+     מקור_הפניה / makor_hafnia use the A24 dictionary from menifa-first-touch.js
+     mapMakor (utm_source + utm_medium only). gclid, fbclid and referrer are
+     stored and sent, and they do not change the channel: the old mapper
+     returns לא מיוחס unless a verified UTM pair matches. These two channel
+     fields are added to the CRM body at submit and are not passed to menifaTrack. */
+  var ATT_KEY = 'menifa-att';
+  var FT_UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  var FT_CLICK = ['gclid', 'fbclid'];
+  var MAKOR_UNATTRIBUTED = 'לא מיוחס';
+  function readAtt() {
+    try {
+      var raw = sessionStorage.getItem(ATT_KEY);
+      var parsed = raw ? JSON.parse(raw) : null;
+      return (parsed && typeof parsed === 'object') ? parsed : {};
+    } catch (e) { return {}; }
+  }
+  function qpParam(qp, key) {
+    var value = qp.get(key);
+    return value == null ? '' : String(value).trim();
+  }
+  function captureAtt() {
+    var qp = new URLSearchParams(location.search || '');
+    var att = readAtt();
+    var locked = typeof att.landing === 'string' && att.landing !== '';
+    if (!locked) {
+      FT_UTM.concat(FT_CLICK).forEach(function (k) { att[k] = qpParam(qp, k); });
+      att.landing = location.pathname || '/';
+      var host = '';
+      try { host = document.referrer ? new URL(document.referrer).hostname : ''; } catch (e) { host = ''; }
+      att.referrer = host || 'direct';
+    }
+    var hasLast = FT_UTM.some(function (k) { return qpParam(qp, k) !== ''; });
+    if (hasLast) FT_UTM.forEach(function (k) { att['last_' + k] = qpParam(qp, k); });
+    else if (!locked) FT_UTM.forEach(function (k) { att['last_' + k] = att[k] || ''; });
+    try { sessionStorage.setItem(ATT_KEY, JSON.stringify(att)); } catch (e) {}
+    return att;
+  }
+  function normAtt(value) { return String(value == null ? '' : value).trim().toLowerCase(); }
+  function isOneOf(value, list) { return list.indexOf(value) !== -1; }
+  function mapMakor(touch) {
+    var source = normAtt(touch && touch.utm_source);
+    var medium = normAtt(touch && touch.utm_medium);
+    if (source === 'google' && medium === 'organic') return 'seo';
+    if (source === 'google' && isOneOf(medium, ['cpc', 'paid', 'ppc'])) return 'google';
+    if (isOneOf(source, ['facebook', 'fb', 'ig', 'instagram', 'meta']) &&
+        isOneOf(medium, ['paid', 'cpc', 'social', 'paid_social'])) return 'meta';
+    if (medium === 'referral' || source === 'referral') return 'referral';
+    if (isOneOf(source, ['partner', 'b2b', 'affiliate'])) return 'b2b';
+    return MAKOR_UNATTRIBUTED;
+  }
+  captureAtt();
   window.menifaIds = function () { return { event_id: 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
   // clicks: WhatsApp / phone
   document.addEventListener('click', function (e) {
@@ -307,9 +361,12 @@
       err.textContent = '';
       data.page = location.pathname; data.source = form.getAttribute('data-lead'); data.ts = new Date().toISOString();
       var ids = window.menifaIds ? window.menifaIds() : {}; data.event_id = ids.event_id; data.fbp = ids.fbp; data.fbc = ids.fbc;
-      var att = {}; try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (er) {}
+      var att = readAtt();
       Object.keys(att).forEach(function (k) { data[k] = att[k]; });
-      if (window.menifaTrack) window.menifaTrack('generate_lead', { form: data.source, page: data.page, event_id: data.event_id, currency: 'ILS', value: 1 });
+      var makor = mapMakor(att);
+      data['מקור_הפניה'] = makor;
+      data.makor_hafnia = makor;
+      var leadEvent = { form: data.source, page: data.page, event_id: data.event_id, currency: 'ILS', value: 1 };
       var msg = 'שלום תמיר, השארתי פרטים באתר מניפה.\nשם: ' + data.name + '\nטלפון: ' + data.phone + (data.need ? '\nנושא: ' + data.need : '') + (data.when ? '\nמתי נוח: ' + data.when : '') + (extra.length ? '\n' + extra.join('\n') : '') + (data.note ? '\nהערה: ' + data.note : '');
       data.answers = extra;
       var finish = function (sent) {
@@ -322,12 +379,25 @@
         }
       };
       if (CONFIG.leadWebhook) {
-        // form-urlencoded + no-cors = simple request (no CORS preflight); Make parses the fields. keepalive survives page navigation.
+        // Simple form-urlencoded POST (no custom headers, so no CORS preflight).
+        // Make Gateway returns Access-Control-Allow-Origin: * on the webhook
+        // response (community.make.com/t/how-to-get-custom-headers-in-webhook-response/35367,
+        // Chrome response headers, X-Powered-By: Make Gateway/production). CORS mode
+        // can therefore read res.ok. generate_lead fires only then, with the same
+        // event_id already placed on the CRM body. A failed or unreadable response
+        // falls back to WhatsApp and is not retried in no-cors (that would duplicate the lead).
         var body = new URLSearchParams();
         Object.keys(data).forEach(function (k) { var v = data[k]; body.append(k, Array.isArray(v) ? v.join(' | ') : (v === true ? 'כן' : v === false ? 'לא' : String(v == null ? '' : v))); });
         var done = false, t = setTimeout(function () { if (!done) { done = true; finish(false); } }, 6000);
-        fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'no-cors', keepalive: true, body: body })
-          .then(function () { if (!done) { done = true; clearTimeout(t); finish(true); } }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
+        fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'cors', keepalive: true, body: body })
+          .then(function (res) {
+            if (done) return;
+            done = true; clearTimeout(t);
+            if (res && res.ok) {
+              if (window.menifaTrack) window.menifaTrack('generate_lead', leadEvent);
+              finish(true);
+            } else finish(false);
+          }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
       } else finish(false);
     });
   });

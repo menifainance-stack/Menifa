@@ -17,6 +17,18 @@ import { fileURLToPath } from 'url';
 const jsdomPkg = process.env.JSDOM_PACKAGE || '/tmp/privacy-harness/node_modules/jsdom/package.json';
 const { JSDOM } = createRequire(jsdomPkg)('jsdom');
 
+const makeHits = [];
+const nativeFetch = globalThis.fetch;
+globalThis.fetch = function (url, opts) {
+  const href = String(url && url.url ? url.url : url);
+  if (href.includes('make.com')) {
+    makeHits.push(href);
+    return Promise.reject(new Error('blocked make.com'));
+  }
+  if (typeof nativeFetch === 'function') return nativeFetch.call(globalThis, url, opts);
+  return Promise.reject(new Error('network disabled'));
+};
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const html = fs.readFileSync(path.join(root, 'contact.html'), 'utf8');
 const siteJs = fs.readFileSync(path.join(root, 'assets/site.js'), 'utf8');
@@ -46,7 +58,7 @@ function boot(consent) {
       mode: opts && opts.mode,
       body: opts && opts.body ? String(opts.body) : ''
     });
-    return Promise.resolve({ ok: true, status: 0, type: 'opaque' });
+    return Promise.resolve({ ok: true, status: 200, type: 'basic' });
   };
   window.eval(siteJs);
   window.document.addEventListener('click', function (e) {
@@ -115,6 +127,7 @@ fsEl.appendChild(radio);
 form.appendChild(fsEl);
 
 form.dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true }));
+await new Promise(function (resolve) { setTimeout(resolve, 0); });
 
 const dl = leadEvents(window);
 assert(dl.length === 1, 'expected one generate_lead on the dataLayer, got ' + dl.length);
@@ -139,7 +152,7 @@ assert(fbqLead[0][3] && fbqLead[0][3].eventID === analyticsEvent.event_id, 'fbq 
 
 assert(crm.length === 1, 'expected exactly one stubbed CRM post, got ' + crm.length);
 assert(crm[0].url === 'https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig', 'CRM url changed');
-assert(crm[0].mode === 'no-cors', 'CRM mode changed');
+assert(crm[0].mode === 'cors', 'CRM mode should be cors so res.ok is readable');
 const crmFields = Object.fromEntries(new URLSearchParams(crm[0].body));
 assert(crmFields.need === NEED, 'CRM lost need: ' + crmFields.need);
 assert(crmFields.name === 'בדיקת פרטיות', 'CRM lost name');
@@ -155,6 +168,12 @@ assert(crmFields.when === 'השבוע', 'CRM lost when');
 assert(crmFields.consent === 'כן', 'CRM lost consent');
 assert(crmFields.fbp === 'fb.1.privacytest', 'CRM lost fbp');
 assert(crmFields.fbc === 'fb.1.privacyclick', 'CRM lost fbc');
+assert(crmFields['מקור_הפניה'] === 'לא מיוחס', 'CRM makor should follow the A24 dictionary: ' + crmFields['מקור_הפניה']);
+assert(crmFields.makor_hafnia === 'לא מיוחס', 'CRM makor_hafnia mismatch');
+assert(crmFields.last_utm_source === 'preview', 'CRM lost last_utm_source');
+assert(crmFields.event_id === analyticsEvent.event_id, 'CRM event_id must match generate_lead');
+assert(!Object.prototype.hasOwnProperty.call(analyticsEvent, 'makor_hafnia'), 'analytics received makor_hafnia');
+assert(!Object.prototype.hasOwnProperty.call(analyticsEvent, 'מקור_הפניה'), 'analytics received מקור_הפניה');
 
 const wa = Array.prototype.find.call(document.querySelectorAll('.wa-topics a'), function (a) {
   return a.textContent.trim() === NEED;
@@ -230,6 +249,9 @@ const proof = {
     body: crm[0].body
   }
 };
+
+assert(makeHits.length === 0, 'a real fetch reached make.com: ' + makeHits.join(', '));
+proof.make_com_network_hits = makeHits.length;
 
 console.log(JSON.stringify(proof, null, 2));
 if (!process.exitCode) console.log('\nPASS');
