@@ -13,6 +13,13 @@
   --menifa-champ-deep: #B8956A;
   --menifa-wa: #25D366;
   --mercury-night: #081420;
+  /* Live menifa.org html[data-palette="privatebank"] golds */
+  --gold-deep: #8C6E40;
+  --gold: #B08D57;
+  --gold-pale: #EADBC0;
+  --ivory: #F4EEE1;
+  --f-display: "Frank Ruhl Libre", "David Libre", Georgia, serif;
+  --f-num: "Cormorant Garamond", Georgia, serif;
   --ease: cubic-bezier(.22, 1, .36, 1);
   --dock-h: auto;
 }
@@ -88,35 +95,45 @@ body.aic-shell {
   backdrop-filter: blur(18px) saturate(150%);
   -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
+/* Same cluster as menifa.org header: fan SVG + מניפה / MENIFA · FINANCE */
 .aic-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
   min-width: 0;
   flex: 1 1 auto;
-  color: #fff;
-  font-weight: 700;
-  font-size: 13px;
-  line-height: 1.25;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, .4);
+  color: var(--ivory);
+  text-decoration: none;
+  text-shadow: none;
 }
-.aic-brand span {
-  min-width: 0;
-  color: rgba(255, 255, 255, .92);
-}
-/* Locked transparent wordmark. Filter turns the navy ink white on the night
-   field. No plate, no circular crop. */
-.aic-brand img.aic-brand__logo {
-  width: auto;
-  height: 46px;
-  max-width: 42vw;
+.aic-brand svg {
+  width: 38px;
+  height: 26px;
   flex: 0 0 auto;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-  object-fit: contain;
-  filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0, 0, 0, .35));
+  display: block;
+}
+.aic-brand .brand-name {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  min-width: 0;
+}
+.aic-brand .brand-name b {
+  font-family: var(--f-display);
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: var(--ivory);
+}
+.aic-brand .brand-name span {
+  font-family: var(--f-num);
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .38em;
+  color: var(--gold);
+  margin-top: 5px;
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 .aic-back {
   appearance: none;
@@ -354,8 +371,6 @@ body.aic-shell {
   .aic-replies .aic-chip:first-child:nth-last-child(n + 3) ~ .aic-chip {
     flex: 1 1 100%;
   }
-  .aic-brand img.aic-brand__logo { height: 40px; max-width: 38vw; }
-  .aic-brand { font-size: 12.5px; }
 }
 .aic-card.aic-focus {
   scroll-margin-top: 72px;
@@ -380,14 +395,7 @@ body.aic-hub {
   margin: 0 auto;
   padding: 28px 18px 48px;
 }
-.aic-hub-main img.aic-brand__logo {
-  height: 52px;
-  width: auto;
-  max-width: 70vw;
-  filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0, 0, 0, .35));
-  display: block;
-  margin-bottom: 18px;
-}
+.aic-hub-main .aic-brand { margin-bottom: 18px; }
 .aic-hub-main h1 {
   font-size: 26px;
   font-weight: 800;
