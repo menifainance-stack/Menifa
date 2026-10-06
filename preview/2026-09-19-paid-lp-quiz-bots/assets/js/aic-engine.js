@@ -118,10 +118,37 @@
     return { card: card, time: time };
   }
 
+  /* A run of digits, ranges, plus, and ₪. Hebrew letters stay outside it. */
+  var LTR_RUN = /[0-9+\u2013\u2014\-₪,.\s]*[0-9][0-9+\u2013\u2014\-₪,.\s]*/g;
+  function fillLabel(el, label) {
+    label = String(label || "");
+    LTR_RUN.lastIndex = 0;
+    if (!LTR_RUN.test(label)) {
+      el.textContent = label;
+      return;
+    }
+    LTR_RUN.lastIndex = 0;
+    var last = 0;
+    var match;
+    while ((match = LTR_RUN.exec(label))) {
+      if (match.index > last) {
+        el.appendChild(document.createTextNode(label.slice(last, match.index)));
+      }
+      var bdi = document.createElement("bdi");
+      bdi.dir = "ltr";
+      bdi.textContent = match[0];
+      el.appendChild(bdi);
+      last = match.index + match[0].length;
+    }
+    if (last < label.length) {
+      el.appendChild(document.createTextNode(label.slice(last)));
+    }
+  }
+
   function addUser(text) {
     var el = document.createElement("div");
     el.className = "aic-user";
-    el.textContent = text;
+    fillLabel(el, text);
     logEl.appendChild(el);
     scrollEnd();
     return el;
@@ -138,7 +165,7 @@
         b.target = "_blank";
         b.rel = "noopener noreferrer";
       } else b.type = "button";
-      b.textContent = item.label;
+      fillLabel(b, item.label);
       if (item.onClick) {
         b.addEventListener("click", function (e) {
           if (!item.href) e.preventDefault();

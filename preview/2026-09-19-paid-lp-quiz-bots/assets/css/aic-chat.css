@@ -280,6 +280,12 @@ body.aic-shell {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  unicode-bidi: isolate;
+}
+.aic-chip bdi[dir="ltr"],
+.aic-user bdi[dir="ltr"] {
+  unicode-bidi: isolate;
+  direction: ltr;
 }
 .aic-chip:hover,
 .aic-chip:focus-visible {
