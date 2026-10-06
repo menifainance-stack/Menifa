@@ -739,11 +739,10 @@ body.lp-redesign{background:var(--em-950);color:var(--ivory)}
    with size-adjust and local() does not load, so the range faces in
    the template never paint Hebrew. The numbers are #106's
    (Frank Local 101% / 94.75% / 33.07%, David Adjust 88% / 108.75% / 37.95%).
-   The first hero's rays are pinned to the top of the section, same
-   idea as .page-hero .rays, so a one-line reflow cannot slide the
-   1800px burst. Each LP sets --lp-rays-m and --lp-rays-d to the
-   settled bottom-anchor position at 390 and 1440. The band blend
-   fades the next section across the hero's empty padding. ----- */
+   The first hero keeps the live bottom geometry of .rays. A top
+   anchor moves the burst, so the crumbs line and the H1 line box
+   are reserved instead. The band blend fades the next section
+   across the hero's empty padding. ----- */
 @font-face{
   font-family:"Frank Local";
   src:local("Frank Ruhl Libre Light"),local("Frank Ruhl Libre Regular"),local("FrankRuhlLibre-Regular"),local("Frank Ruhl Libre");
@@ -952,23 +951,9 @@ body.lp-redesign .h-hero{
   max-width:none;
   font-family:"Frank Ruhl Libre Web","Frank Local","Frank Ruhl Fallback","Frank Ruhl System","David Adjust","LP Hero FR","LP Hero David","LP Hero Noto Sans","LP Hero Noto Serif","LP Hero Arial","LP Hero Segoe",Georgia,serif;
 }
-/* First hero only. Contact rays stay on the template anchor.
-   top + a fixed translate, and a spin that does not change that
-   translate, so the burst does not track hero height.
-   --lp-rays-m / --lp-rays-d are set on that section. They are the
-   old bottom:-10% visual top at 390 and at 1440, so the settled
-   burst stays where it was on each page. */
-body.lp-redesign > .page > section.bg-hero .rays{
-  --lp-rays-y:var(--lp-rays-m, -29.8px);
-  top:0;
-  bottom:auto;
-  transform:translate(-50%,var(--lp-rays-y));
-  animation-name:lp-rays-spin;
-}
-@media (min-width:900px){
-  body.lp-redesign > .page > section.bg-hero .rays{--lp-rays-y:var(--lp-rays-d, 84.7px)}
-}
-@keyframes lp-rays-spin{to{transform:translate(-50%,var(--lp-rays-y)) rotate(360deg)}}
+/* One line, including the mobile size. Reserving it here keeps the
+   bottom-anchored burst still when the async sheet arrives. */
+body.lp-redesign .crumbs.crumbs-one{min-height:1.7em}
 body.lp-redesign .h-hero .g{display:block;color:var(--gold-pale)}
 @media (max-width:400px){
   body.lp-redesign .h-hero{min-height:5lh}
