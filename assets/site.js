@@ -123,15 +123,28 @@
     modal.hidden = false; $('#ck-stats').focus();
   }
   function loadScript(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
-  /* TODO(#96): PR #96 owns Tier S for all six paths (masurvei-bankim,
-     sirov-mashkanta-ma-osim, blog/מסורבי-משכנתא-7-דרכים-לאישור,
-     ihud-halvaot-lemashkanta, blog/ihud-halvaot-matei-ken-lo, /lp/ihud/).
-     On those paths #96 must skip Pixel and Clarity, omit utm_campaign /
-     utm_term / utm_content from GA4 with no replacement value, and truncate
-     the referrer to origin on that page and the next one. This file does not
-     keep a second copy of that path list.
-     Google Ads (new in this change) asks the same helper when #96 exposes it:
-     window.MenifaTierS.allowsAds() === false means do not load or fire. */
+  /* TODO(#96): Tier S is owned by PR #96. This file does not keep the path
+     list. #99 calls the helper below when it exists and does nothing when it
+     does not. Interface #96 should assign, so both sides match:
+       window.MenifaTierS.isTierS() -> boolean
+         true on the six Tier S paths, and still true for referrer truncation
+         on the next page after one of those paths.
+       window.MenifaTierS.allowsAds() -> boolean
+         false on Tier S. #99 already consults this before loading the Ads tag
+         and before firing the conversion.
+       window.MenifaTierS.allowsPixel() -> boolean
+         false on Tier S. #96 skips the Pixel load and every fbq call.
+         Clarity is off on the same pages (no separate method): no Clarity
+         script when isTierS() is true.
+       window.MenifaTierS.filterGa4Params(params) -> object
+         GA4 param filter. On Tier S, the returned object keeps utm_source and
+         utm_medium, omits utm_campaign / utm_term / utm_content entirely (no
+         replacement value), sets form_id to "service_page", sets page_path
+         and landing_page_path to "/service-page", and sets page_referrer to
+         the referrer origin only (scheme + host, no path or query) on that
+         page and on the next page. The Make body is not passed through this
+         filter and keeps the real values. #96 applies the filter inside the
+         existing analytics gate. */
   function tierSBlocksAds() {
     var api = window.MenifaTierS;
     if (api && typeof api.allowsAds === 'function') return api.allowsAds() === false;
@@ -475,9 +488,9 @@
         value: 1
       };
       ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) { if (att[k]) leadEvent[k] = att[k]; });
-      // TODO(#96): on Tier S, analyticsParams must drop utm_campaign (no stand-in
-      // value) and rewrite form_id / page_path / landing_page_path. Make keeps
-      // the real values assigned above. Do not duplicate the six paths here.
+      // TODO(#96): window.MenifaTierS.filterGa4Params() rewrites this object
+      // on Tier S (service_page, /service-page, no campaign/term/content).
+      // Make keeps the real values assigned above.
       var msg = 'שלום תמיר, השארתי פרטים באתר מניפה.\nשם: ' + data.name + '\nטלפון: ' + data.phone + (data.need ? '\nנושא: ' + data.need : '') + (data.when ? '\nמתי נוח: ' + data.when : '') + (extra.length ? '\n' + extra.join('\n') : '') + (data.note ? '\nהערה: ' + data.note : '');
       data.answers = extra;
       var finish = function (sent) {
