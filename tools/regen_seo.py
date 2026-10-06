@@ -58,6 +58,7 @@ PAGES = [
     ("/yoetz-mashkantaot.html", "0.86", "weekly"),
     ("/yoetz-mashkantaot-online.html", "0.86", "weekly"),
     ("/yoetz-mashkantaot-rosh-haayin.html", "0.86", "weekly"),
+    ("/yoetz-mashkantaot-merkaz.html", "0.86", "weekly"),
     ("/kama-ole-yoetz-mashkantaot.html", "0.86", "weekly"),
     ("/mashkanta-bneiya-atzmit.html", "0.86", "weekly"),
     ("/mashkanta-kablan.html", "0.86", "weekly"),
