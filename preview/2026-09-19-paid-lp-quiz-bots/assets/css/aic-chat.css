@@ -1,4 +1,7 @@
-/* AIC chat · Menifa · RTL · Mercury shell (continuous bg + glass, PR #49) */
+/* Quiz bots · Menifa Mercury shell
+   Tokens from the Mercury LP reference: ink #0E3C5C · sky #5BAFD8 ·
+   champ #C4A574–#B8956A · night #081420 · Heebo · RTL.
+   Question copy and engine are not styled here. */
 :root {
   --aic-blue: #5BAFD8;
   --aic-blue-user: #5BAFD8;
@@ -7,6 +10,8 @@
   --menifa-ink: #0E3C5C;
   --menifa-accent: #5BAFD8;
   --menifa-champ: #C4A574;
+  --menifa-champ-deep: #B8956A;
+  --menifa-wa: #25D366;
   --mercury-night: #081420;
   --ease: cubic-bezier(.22, 1, .36, 1);
   --dock-h: auto;
@@ -26,8 +31,9 @@ body.aic-shell {
   height: 100%;
   direction: rtl;
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
 }
-/* Continuous Mercury atmosphere — fixed full-viewport, no mid-page slabs */
+/* Continuous cinematic field — fixed to the viewport, never a flat mid-page slab */
 .aic-bg {
   position: fixed;
   inset: 0;
@@ -57,12 +63,12 @@ body.aic-shell {
 .aic-frame {
   position: relative;
   z-index: 1;
-  max-width: 560px;
+  max-width: 440px;
   margin: 0 auto;
   height: 100%;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: 12px 14px 0;
+  padding: calc(8px + env(safe-area-inset-top, 0px)) 12px 0;
   display: flex;
   flex-direction: column;
   background: transparent;
@@ -73,47 +79,56 @@ body.aic-shell {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-bottom: 8px;
-  padding: 4px 0;
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border-radius: 18px;
+  background: rgba(8, 20, 32, .46);
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .08);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
 .aic-brand {
   display: flex;
   align-items: center;
   gap: 8px;
+  min-width: 0;
+  flex: 1 1 auto;
   color: #fff;
   font-weight: 700;
-  font-size: 14px;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, .45);
+  font-size: 13px;
+  line-height: 1.25;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, .4);
 }
-.aic-brand img {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, .28);
-  background: transparent;
+.aic-brand span {
+  min-width: 0;
+  color: rgba(255, 255, 255, .92);
 }
-/* Locked transparent wordmark — no circular plate */
+/* Locked transparent wordmark. Filter turns the navy ink white on the night
+   field. No plate, no circular crop. */
 .aic-brand img.aic-brand__logo {
   width: auto;
-  height: 44px;
-  max-width: 46vw;
+  height: 46px;
+  max-width: 42vw;
   flex: 0 0 auto;
   border: 0;
   border-radius: 0;
   background: transparent;
   box-shadow: none;
   object-fit: contain;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0, 0, 0, .35));
 }
 .aic-back {
   appearance: none;
-  border: 1px solid rgba(255, 255, 255, .2);
-  background: rgba(255, 255, 255, .12);
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, .22);
+  background: rgba(255, 255, 255, .1);
   color: #fff;
   font: inherit;
   font-size: 13px;
   font-weight: 700;
   padding: 8px 14px;
+  min-height: 40px;
   border-radius: 999px;
   cursor: pointer;
   box-shadow: none;
@@ -121,9 +136,15 @@ body.aic-shell {
   -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
 .aic-back:hover { background: rgba(255, 255, 255, .2); }
+.aic-back:focus-visible,
+.aic-chip:focus-visible,
+.aic-send:focus-visible {
+  outline: 2px solid var(--menifa-champ);
+  outline-offset: 2px;
+}
 .aic-back[hidden] { display: none !important; }
 
-/* Scrollable chat history — never under dock */
+/* Scrollable history — dock is a sibling, so bubbles never slide under chips */
 .aic-log {
   flex: 1 1 auto;
   min-height: 0;
@@ -131,39 +152,42 @@ body.aic-shell {
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 4px 2px 16px;
+  gap: 10px;
+  padding: 2px 2px 14px;
   -webkit-overflow-scrolling: touch;
   scroll-padding-bottom: 24px;
   background: transparent;
 }
 .aic-card {
-  background: rgba(8, 20, 32, .48);
+  background: rgba(8, 20, 32, .62);
   color: #fff;
   border-radius: 18px;
-  padding: 14px 14px 12px;
-  border: 1px solid rgba(255, 255, 255, .12);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .08);
+  padding: 13px 13px 12px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-inline-start: 3px solid var(--menifa-champ);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .08);
   backdrop-filter: blur(22px) saturate(150%);
   -webkit-backdrop-filter: blur(22px) saturate(150%);
   position: relative;
   z-index: 1;
-  max-width: 92%;
+  max-width: 94%;
   align-self: flex-start;
   flex-shrink: 0;
 }
 .aic-card__row { display: flex; gap: 10px; align-items: flex-start; }
+.aic-card__body { min-width: 0; text-align: right; }
 .aic-avatar {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  border: 1px solid rgba(255, 255, 255, .22);
+  border: 1px solid rgba(196, 165, 116, .7);
+  box-shadow: 0 0 0 2px rgba(8, 20, 32, .45);
 }
 .aic-badge {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: var(--menifa-ink);
   color: #fff;
@@ -172,21 +196,29 @@ body.aic-shell {
   font-size: 11px;
   font-weight: 800;
   flex-shrink: 0;
+  border: 1px solid rgba(196, 165, 116, .7);
 }
-.aic-card p { margin: 0 0 8px; line-height: 1.45; font-size: 15px; color: rgba(255, 255, 255, .94); }
+.aic-card p {
+  margin: 0 0 8px;
+  line-height: 1.55;
+  font-size: 15.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, .94);
+}
 .aic-card p:last-child { margin-bottom: 0; }
 .aic-card strong { font-weight: 700; color: #fff; }
 .aic-user {
   align-self: flex-end;
-  background: rgba(91, 175, 216, .28);
+  background: rgba(91, 175, 216, .34);
   color: #fff;
-  border: 1px solid rgba(91, 175, 216, .45);
-  border-radius: 14px 14px 4px 14px;
+  border: 1px solid rgba(91, 175, 216, .55);
+  border-radius: 16px 16px 16px 4px;
   padding: 10px 14px;
-  max-width: 78%;
-  font-size: 14px;
+  max-width: 82%;
+  font-size: 14.5px;
   font-weight: 600;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+  line-height: 1.4;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .22);
   backdrop-filter: blur(16px) saturate(150%);
   -webkit-backdrop-filter: blur(16px) saturate(150%);
   position: relative;
@@ -195,122 +227,206 @@ body.aic-shell {
 }
 .aic-time {
   font-size: 11px;
+  font-weight: 500;
   color: rgba(255, 255, 255, .55);
-  align-self: flex-end;
-  margin-top: -6px;
+  align-self: flex-start;
+  margin-top: -4px;
+  padding-inline-start: 52px;
   flex-shrink: 0;
 }
 
-/* Dock stays frosted so the photo continues behind the chips */
+/* Opaque dock: chips stay readable and history cannot show through */
 .aic-dock {
   flex-shrink: 0;
   position: relative;
   z-index: 5;
-  margin: 0 -14px 0;
-  padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
-  background: linear-gradient(180deg, rgba(8, 20, 32, 0) 0%, rgba(8, 20, 32, .55) 28%, rgba(8, 20, 32, .72) 100%);
-  border-top: 1px solid rgba(255, 255, 255, .1);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  margin: 0 -12px 0;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: rgba(8, 16, 26, .97);
+  border-top: 1px solid rgba(196, 165, 116, .38);
+  box-shadow: 0 -16px 36px rgba(0, 0, 0, .45);
 }
 .aic-hint {
-  color: rgba(255, 255, 255, .78);
-  font-size: 13px;
+  color: var(--menifa-champ);
+  font-size: 12.5px;
+  font-weight: 600;
   margin: 0 2px 8px;
   min-height: 1.2em;
 }
 .aic-replies {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   justify-content: flex-start;
   align-items: stretch;
 }
 .aic-chip {
   appearance: none;
-  border: 1px solid rgba(255, 255, 255, .18);
-  background: rgba(255, 255, 255, .1);
+  border: 1px solid rgba(91, 175, 216, .48);
+  background: rgba(91, 175, 216, .16);
   color: #fff;
   font: inherit;
   font-size: 15px;
   font-weight: 700;
-  padding: 12px 18px;
+  line-height: 1.35;
+  padding: 12px 16px;
+  min-height: 48px;
   border-radius: 999px;
   cursor: pointer;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  transition: transform .12s var(--ease), background .12s var(--ease);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14);
+  transition: transform .12s var(--ease), background .12s var(--ease), border-color .12s var(--ease);
   text-decoration: none;
+  text-align: center;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.aic-chip:hover { background: rgba(91, 175, 216, .32); border-color: rgba(91, 175, 216, .5); }
+.aic-chip:hover,
+.aic-chip:focus-visible {
+  background: var(--menifa-accent);
+  border-color: var(--menifa-accent);
+  color: #fff;
+}
 .aic-chip:active { transform: scale(.98); }
 .aic-input-row {
   display: flex;
   gap: 8px;
   width: 100%;
-  background: rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, .06);
   border: 1px solid rgba(255, 255, 255, .2);
   border-radius: 14px;
   padding: 6px;
   align-items: center;
-  backdrop-filter: blur(14px) saturate(140%);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
 .aic-input-row input {
   flex: 1;
   border: 0;
   outline: 0;
   font: inherit;
-  font-size: 15px;
+  font-size: 16px;
   padding: 10px 8px;
   direction: ltr;
   text-align: right;
   background: transparent;
   color: #fff;
+  min-width: 0;
 }
-.aic-input-row input::placeholder { color: rgba(255, 255, 255, .5); }
+.aic-input-row input[type="number"] {
+  direction: ltr;
+  text-align: right;
+}
+.aic-input-row input::placeholder { color: rgba(255, 255, 255, .48); }
 .aic-send {
   appearance: none;
   border: 0;
   background: var(--menifa-accent);
   color: #fff;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 999px;
   cursor: pointer;
   display: grid;
   place-items: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 18px rgba(91, 175, 216, .38);
+  box-shadow: 0 4px 16px rgba(91, 175, 216, .4);
 }
-.aic-send svg { width: 20px; height: 20px; }
+.aic-send svg { width: 20px; height: 20px; transform: scaleX(-1); }
 .aic-foot {
   margin-top: 8px;
   text-align: center;
-  color: rgba(255, 255, 255, .5);
+  color: rgba(255, 255, 255, .46);
   font-size: 11px;
 }
 @media (max-width: 480px) {
+  .aic-frame { max-width: none; padding-inline: 10px; }
+  .aic-dock { margin-inline: -10px; padding-inline: 10px; }
   .aic-card { max-width: 100%; }
-  .aic-chip { flex: 1 1 calc(50% - 10px); text-align: center; }
+  .aic-card p { font-size: 15px; }
+  .aic-chip { flex: 1 1 calc(50% - 8px); }
   .aic-chip:only-child,
   .aic-replies .aic-chip:first-child:nth-last-child(n + 3),
   .aic-replies .aic-chip:first-child:nth-last-child(n + 3) ~ .aic-chip {
     flex: 1 1 100%;
   }
+  .aic-brand img.aic-brand__logo { height: 40px; max-width: 38vw; }
+  .aic-brand { font-size: 12.5px; }
 }
-/* Soft-scroll focus target — next question sits comfortably above dock */
 .aic-card.aic-focus {
   scroll-margin-top: 72px;
   scroll-margin-bottom: 140px;
 }
-.aic-dock {
-  scroll-margin-bottom: 8px;
+.aic-dock { scroll-margin-bottom: 8px; }
+
+/* Hub — same atmosphere, not a flat navy page */
+body.aic-hub {
+  font-family: "Heebo", system-ui, -apple-system, sans-serif;
+  color: #fff;
+  background: var(--mercury-night);
+  min-height: 100%;
+  direction: rtl;
+  overflow: auto;
+  -webkit-font-smoothing: antialiased;
 }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+.aic-hub-main {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 28px 18px 48px;
+}
+.aic-hub-main img.aic-brand__logo {
+  height: 52px;
+  width: auto;
+  max-width: 70vw;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0, 0, 0, .35));
+  display: block;
+  margin-bottom: 18px;
+}
+.aic-hub-main h1 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+.aic-hub-main .aic-hub-note {
+  margin: 0 0 18px;
+  color: rgba(255, 255, 255, .72);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.aic-hub-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.aic-hub-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 16px 16px;
+  border-radius: 16px;
+  background: rgba(8, 20, 32, .55);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-inline-start: 3px solid var(--menifa-champ);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .08);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+.aic-hub-list a span {
+  color: var(--menifa-accent);
+  font-weight: 600;
+  font-size: 13px;
+}
+.aic-hub-list a:hover { background: rgba(14, 60, 92, .55); }
+.aic-hub-list a:focus-visible {
+  outline: 2px solid var(--menifa-champ);
+  outline-offset: 3px;
 }
