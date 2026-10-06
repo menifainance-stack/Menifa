@@ -158,6 +158,13 @@
     <priority>0.86</priority>
   </url>
   <url>
+    <loc>https://menifa.org/yoetz-mashkantaot-merkaz.html</loc>
+    <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/yoetz-mashkantaot-merkaz.html"/>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.86</priority>
+  </url>
+  <url>
     <loc>https://menifa.org/kama-ole-yoetz-mashkantaot.html</loc>
     <xhtml:link rel="alternate" hreflang="he-IL" href="https://menifa.org/kama-ole-yoetz-mashkantaot.html"/>
     <lastmod>2026-10-06</lastmod>
