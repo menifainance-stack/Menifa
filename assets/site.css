@@ -688,6 +688,7 @@ body.lp-redesign .h-hero .g{display:block;color:var(--gold-pale)}
 
 /* Below the fold, or not the LCP element. Leave these in site.css. */
 body.lp-redesign .sec-head::after{transform:scaleX(1)}
+body.lp-redesign .h-xl .g{color:var(--gold-pale);font-weight:500}
 body.lp-redesign .prose{max-width:none;color:var(--ivory)}
 body.lp-redesign .prose p,
 body.lp-redesign .prose h3,
@@ -765,4 +766,97 @@ html.light body.lp-redesign .bg-cta{
   --gold-deep-rgb:168 134 74;
   --on-gold:#1A1408;
   color:var(--on-gold);
+}
+
+/* ----- LP rows, steps, contact pills.
+   Homepage «השירותים העיקריים» rhythm: display lead, muted
+   description, gold hairline. Not the LCP element. ----- */
+body.lp-redesign .prose .lp-row{
+  display:grid;
+  grid-template-columns:minmax(0,.9fr) minmax(0,1.15fr);
+  gap:12px 40px;
+  align-items:start;
+  max-width:none;
+  margin:0;
+  padding:28px 0;
+  border-top:1px solid rgb(var(--gold-hi-rgb) / .45);
+}
+body.lp-redesign .lp-row-t{
+  font-family:var(--f-display);
+  font-size:clamp(1.45rem,2.3vw,2.25rem);
+  font-weight:500;
+  line-height:1.2;
+  color:var(--ivory);
+}
+body.lp-redesign .lp-row-t strong{color:inherit;font-weight:500}
+body.lp-redesign .lp-row-d{color:var(--muted);font-size:1.02rem;line-height:1.7}
+body.lp-redesign .prose .lp-steps,
+body.lp-redesign .prose .lp-linkrows,
+body.lp-redesign .prose .lp-pills{max-width:none;list-style:none;margin:0;padding:0}
+body.lp-redesign .prose .lp-steps li::marker,
+body.lp-redesign .prose .lp-linkrows li::marker,
+body.lp-redesign .prose .lp-pills li::marker{content:none}
+body.lp-redesign .prose li.lp-step{
+  margin:0;
+  padding:22px 0;
+  border-top:1px solid rgb(var(--gold-hi-rgb) / .45);
+  color:var(--ivory);
+  font-family:var(--f-display);
+  font-size:clamp(1.2rem,1.8vw,1.55rem);
+  font-weight:400;
+  line-height:1.35;
+}
+body.lp-redesign .prose li.lp-step.split{
+  display:grid;
+  grid-template-columns:minmax(11rem,.8fr) minmax(0,1.2fr);
+  gap:8px 32px;
+  align-items:start;
+  font-family:var(--f-body);
+  font-size:1rem;
+}
+body.lp-redesign .prose .lp-linkrows li{margin:0;border-top:1px solid rgb(var(--gold-hi-rgb) / .45)}
+body.lp-redesign .prose .lp-linkrows a{
+  display:flex;
+  align-items:center;
+  min-height:68px;
+  padding:14px 4px;
+  color:var(--ivory);
+  text-decoration:none;
+  font-family:var(--f-display);
+  font-size:clamp(1.25rem,2vw,1.8rem);
+  font-weight:400;
+}
+body.lp-redesign .prose .lp-linkrows a:hover{color:var(--gold-pale);padding-inline:12px}
+body.lp-redesign .lp-contact .sec-head{margin-bottom:8px}
+body.lp-redesign .prose .lp-pills{display:flex;flex-wrap:wrap;gap:12px}
+body.lp-redesign .prose .lp-pills li{margin:0}
+body.lp-redesign .prose .lp-pills a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:54px;
+  padding:12px 22px;
+  border-radius:999px;
+  text-decoration:none;
+  color:var(--ivory);
+  background:rgb(var(--em-900-rgb) / .72);
+  border:1px solid rgb(var(--gold-hi-rgb) / .4);
+  font-weight:500;
+}
+body.lp-redesign .prose .lp-pills a:hover{color:var(--gold-pale);border-color:var(--gold-hi)}
+body.lp-redesign .prose .lp-note{
+  max-width:62ch;
+  color:var(--muted);
+  font-size:.95rem;
+  line-height:1.65;
+}
+body.lp-redesign .prose .lp-note strong{color:var(--ivory);font-weight:600}
+@media (max-width:720px){
+  body.lp-redesign .prose .lp-row,
+  body.lp-redesign .prose li.lp-step.split{grid-template-columns:1fr;gap:8px;padding:20px 0}
+  body.lp-redesign .lp-row-t{font-size:1.4rem}
+  body.lp-redesign .prose li.lp-step{font-size:1.25rem;padding:18px 0}
+  body.lp-redesign .prose .lp-pills{flex-direction:column}
+  body.lp-redesign .prose .lp-pills a{width:100%}
+  body.lp-redesign .prose .lp-linkrows a{min-height:56px;font-size:1.25rem}
 }

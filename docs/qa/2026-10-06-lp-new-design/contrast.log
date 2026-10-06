@@ -1,24 +1,8 @@
-WCAG contrast, 4 landing pages x 6 palettes
-threshold 4.5
-
-overall min 4.56  fails 0  checked 372
-
-aside_h4         min 11.21  n 24
-aside_link       min 11.21  n 24
-body_h2          min 11.13  n 24
-body_h3          min 10.26  n 12
-body_p           min 10.16  n 24
-cta_h2           min 7.76  n 24
-form_button      min 4.56  n 24
-form_consent     min 12.73  n 24
-form_h3          min 12.88  n 24
-form_label       min 12.74  n 24
-form_sub         min 8.98  n 24
-hero_gold        min 6.11  n 24
-hero_h1          min 12.50  n 24
-prose_a          min 5.99  n 24
-strong           min 6.17  n 24
-tel_btn          min 6.24  n 24
-
-Palettes: default, privatebank, ivory, white, royal, sand.
-Hero gold line uses var(--gold-pale). Form heading uses var(--ivory). Submit uses var(--gold) on var(--on-gold).
+round 3, 2026-10-06
+method: screenshot, worst of 3x3 background pixels vs computed color
+palettes: default, ivory, white, royal, sand, privatebank
+pages: yoetz-mashkantaot, mashkanta-kablan, yoetz-mashkantaot-merkaz, ishur-ekroni
+checked: 438
+fails: 0
+min: 4.54 (form button, sand)
+new probes: row_title 11.23, row_desc 7.71, step_title 10.35, step_desc 7.71, step_line 11.43, pill 12.85, linkrow 11.13, note 6.52, contact_gold 6.60
