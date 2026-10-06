@@ -190,7 +190,12 @@ const pages = [
 ];
 const bodies = {};
 for (const [file, url, source, page] of pages) {
-  const session = boot(file, url, { storage: bag });
+  const storage = Object.assign({}, bag);
+  // The earlier /lp/ihud/ visit sets the one-hop flag. Drop it here so
+  // contact and calculators stay off Tier S; the hop itself is covered in
+  // tools/test_tier_s_paths.mjs.
+  if (page !== '/lp/ihud/') delete storage['menifa-sensitive-hop'];
+  const session = boot(file, url, { storage: storage });
   const form = fill(session.window);
   form.dispatchEvent(new session.window.Event('submit', { bubbles: true, cancelable: true }));
   await flush();
@@ -208,7 +213,11 @@ for (const [file, url, source, page] of pages) {
   const ev = leadEvents(session.window);
   assert(ev.length === 1, page + ' generate_lead');
   assert(ev[0].lead_uuid === fields.lead_uuid, page + ' lead_uuid');
-  assert(ev[0].form_id === source && ev[0].page_path === page, page + ' analytics ids');
+  if (page === '/lp/ihud/') {
+    assert(ev[0].form_id === 'service_page' && ev[0].page_path === '/service-page', page + ' Tier S analytics');
+  } else {
+    assert(ev[0].form_id === source && ev[0].page_path === page, page + ' analytics ids');
+  }
   assert(ev[0].value === 1 && ev[0].currency === 'ILS', page + ' value');
   assert(!Object.prototype.hasOwnProperty.call(ev[0], 'need'), page + ' need leaked');
   const msg = session.window.document.querySelector('[data-f=okmsg]');

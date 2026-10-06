@@ -1,20 +1,14 @@
 /**
- * Tier S coverage for the six paths in measurement card decision 4.
+ * Tier S coverage for the six paths. The helper comes from #96.
+ * Privacy assertions are enforced. The Make body keeps the real values
+ * and is not passed through filterGa4Params.
  *
- * IDs are filled in the test config below. Make-body assertions always run.
- * The privacy assertions (no Pixel, no Clarity, no Google Ads, GA4 limited to
- * utm_source + utm_medium, form_id=service_page, generic page paths, origin-only
- * referrer on this page and the next) are TODO(#96) expected-fail until site.js
- * defines the helper. After the rebase onto #96 they run as real assertions.
- *
- * Interface this test turns on, and that #99 expects #96 to assign:
  *   window.MenifaTierS.isTierS()
  *   window.MenifaTierS.allowsAds()
  *   window.MenifaTierS.allowsPixel()
  *   window.MenifaTierS.filterGa4Params(params)
- * Clarity follows isTierS() (no separate method). The Make body is not filtered.
  *
- * fetch is stubbed. Nothing is sent to Make.
+ * Clarity follows isTierS(). fetch is stubbed. Nothing is sent to Make.
  *
  *   node tools/test_tier_s_paths.mjs
  */
@@ -48,6 +42,7 @@ const TIER_S = [
 const QUERY = '?utm_source=google&utm_medium=cpc&utm_campaign=winter&utm_term=secret-term&utm_content=secret-content&gclid=Cj0tier';
 const REFERRER = 'https://news.example/story?id=9&loan=900000';
 const GENERIC_PATH = '/service-page';
+const SECRETS = /winter|secret-term|secret-content|Cj0tier|masurvei-bankim|sirov-mashkanta|ihud-halvaot|\/lp\/ihud|מסורב/;
 
 function assert(cond, msg) {
   if (!cond) {
@@ -89,15 +84,6 @@ function boot(file, urlPath, opts) {
   return { window, crm };
 }
 
-function helperReady(window) {
-  const api = window.MenifaTierS;
-  return !!(api
-    && typeof api.isTierS === 'function'
-    && typeof api.allowsAds === 'function'
-    && typeof api.allowsPixel === 'function'
-    && typeof api.filterGa4Params === 'function');
-}
-
 function scripts(window) {
   return Array.prototype.map.call(window.document.scripts, function (s) { return s.src || ''; });
 }
@@ -107,15 +93,7 @@ function leadEvents(window) {
 }
 
 function gtagEvents(window) {
-  return (window.dataLayer || []).filter(function (e) {
-    return e && e[0] === 'event';
-  });
-}
-
-function adsConfigs(window) {
-  return (window.dataLayer || []).filter(function (e) {
-    return e && e[0] === 'config' && String(e[1] || '').indexOf('AW-') === 0;
-  });
+  return (window.dataLayer || []).filter(function (e) { return e && e[0] === 'event'; });
 }
 
 function pageReferrers(window) {
@@ -149,103 +127,95 @@ function submit(window) {
   form.dispatchEvent(new window.Event('submit', { bubbles: true, cancelable: true }));
 }
 
-const lines = [];
-const makePass = [];
-let expectedFail = 0;
-let skippedPass = 0;
-let enforced = 0;
-
-function note(status, label) {
-  lines.push(status + ' ' + label);
-  if (status === 'TODO(#96) expected-fail') expectedFail += 1;
-  else if (status === 'TODO(#96) skipped') skippedPass += 1;
-  else if (status === 'ENFORCED PASS') enforced += 1;
-}
-
-function checkTierS(ready, cond, label) {
-  if (ready) {
-    assert(cond, label);
-    note('ENFORCED PASS', label);
-    return;
-  }
-  note(cond ? 'TODO(#96) skipped' : 'TODO(#96) expected-fail', label);
-}
-
+assert(siteJs.indexOf('window.MenifaTierS =') !== -1, 'MenifaTierS is not assigned');
+assert((siteJs.match(/var TIER_S_EXACT =/g) || []).length === 1, 'Tier S path list is duplicated');
+assert(!siteJs.includes('trackCustom'), 'trackCustom returned');
 console.log('test config IDs: ' + JSON.stringify(IDS));
 
+let enforced = 0;
 for (const [urlPath, file, formId] of TIER_S) {
   const open = boot(file, urlPath, {});
-  const ready = helperReady(open.window);
+  const api = open.window.MenifaTierS;
+  assert(api && typeof api.isTierS === 'function' && typeof api.allowsAds === 'function' && typeof api.allowsPixel === 'function' && typeof api.filterGa4Params === 'function', urlPath + ' helper missing');
+  assert(api.isTierS() === true, urlPath + ' isTierS');
+  assert(api.allowsAds() === false, urlPath + ' allowsAds');
+  assert(api.allowsPixel() === false, urlPath + ' allowsPixel');
+  const filtered = api.filterGa4Params({
+    form_id: formId,
+    page_path: urlPath,
+    landing_page_path: urlPath,
+    utm_source: 'google',
+    utm_medium: 'cpc',
+    utm_campaign: 'winter',
+    utm_term: 'secret-term',
+    utm_content: 'secret-content',
+    gclid: 'Cj0tier',
+    page_referrer: REFERRER
+  });
+  assert(filtered.form_id === 'service_page', urlPath + ' filter form_id');
+  assert(filtered.page_path === GENERIC_PATH && filtered.landing_page_path === GENERIC_PATH, urlPath + ' filter paths');
+  assert(filtered.page_referrer === 'https://news.example', urlPath + ' filter referrer ' + filtered.page_referrer);
+  assert(filtered.utm_source === 'google' && filtered.utm_medium === 'cpc', urlPath + ' filter utm');
+  ['utm_campaign', 'utm_term', 'utm_content', 'gclid'].forEach(function (key) {
+    assert(!Object.prototype.hasOwnProperty.call(filtered, key), urlPath + ' filter kept ' + key);
+  });
+  assert(!SECRETS.test(JSON.stringify(filtered)), urlPath + ' filter leaked a real value');
+
   const srcs = scripts(open.window);
+  assert(!srcs.some(function (s) { return s.includes('facebook.net'); }) && typeof open.window.fbq !== 'function', urlPath + ' loaded Pixel');
+  assert(!srcs.some(function (s) { return s.includes('clarity.ms'); }) && typeof open.window.clarity !== 'function', urlPath + ' loaded Clarity');
+  assert(!srcs.some(function (s) { return s.includes('AW-'); }), urlPath + ' loaded Ads tag');
+  assert(!(open.window.dataLayer || []).some(function (e) { return e && e[0] === 'config' && String(e[1] || '').indexOf('AW-') === 0; }), urlPath + ' configured Ads');
+
   submit(open.window);
   await flush();
-
   const fields = Object.fromEntries(new URLSearchParams(open.crm[0].body));
-  assert(fields.page_path === open.window.location.pathname, urlPath + ' Make page_path ' + fields.page_path);
-  assert(decodeURIComponent(fields.page_path) === urlPath, urlPath + ' Make page decoded ' + fields.page_path);
+  assert(decodeURIComponent(fields.page_path) === urlPath, urlPath + ' Make page_path ' + fields.page_path);
   assert(fields.form_id === formId, urlPath + ' Make form_id ' + fields.form_id);
   assert(fields.form_id !== 'service_page', urlPath + ' Make form_id was generalized');
-  assert(fields.utm_source === 'google', urlPath + ' Make utm_source');
-  assert(fields.utm_medium === 'cpc', urlPath + ' Make utm_medium');
-  assert(fields.utm_campaign === 'winter', urlPath + ' Make utm_campaign');
-  assert(fields.utm_term === 'secret-term', urlPath + ' Make utm_term');
-  assert(fields.utm_content === 'secret-content', urlPath + ' Make utm_content');
+  assert(fields.utm_source === 'google' && fields.utm_medium === 'cpc', urlPath + ' Make utm');
+  assert(fields.utm_campaign === 'winter' && fields.utm_term === 'secret-term' && fields.utm_content === 'secret-content', urlPath + ' Make campaign');
   assert(fields.gclid === 'Cj0tier', urlPath + ' Make gclid');
   assert(fields.referrer_host === 'news.example', urlPath + ' Make referrer_host ' + fields.referrer_host);
-  assert(decodeURIComponent(fields.page_path) !== GENERIC_PATH, urlPath + ' Make page was generalized');
-  note('MAKE PASS', urlPath + ' form_id=' + fields.form_id + ' campaign=' + fields.utm_campaign + ' gclid=' + fields.gclid);
-  makePass.push(urlPath);
+  console.log('MAKE PASS ' + urlPath + ' form_id=' + fields.form_id);
 
-  const ev = leadEvents(open.window)[0] || {};
+  const ev = leadEvents(open.window)[0];
+  assert(ev, urlPath + ' generate_lead missing');
   const gtagLead = gtagEvents(open.window).filter(function (e) { return e[1] === 'generate_lead'; });
-  const ga4Payloads = [ev].concat(gtagLead.map(function (e) { return e[2] || {}; }));
-  const noPixel = !srcs.some(function (s) { return s.includes('facebook.net'); }) && typeof open.window.fbq !== 'function';
-  const noClarity = !srcs.some(function (s) { return s.includes('clarity.ms'); }) && typeof open.window.clarity !== 'function';
-  const noAdsTag = adsConfigs(open.window).length === 0 && !srcs.some(function (s) { return s.includes('AW-'); });
-  const noAdsConversion = !(open.window.dataLayer || []).some(function (e) {
-    return e && (e[1] === 'conversion' || e.event === 'conversion');
-  });
-  const onlySourceMedium = ga4Payloads.every(function (payload) {
+  [ev].concat(gtagLead.map(function (e) { return e[2] || {}; })).forEach(function (payload) {
     const keys = utmKeys(payload);
-    return keys.length === 2 && keys[0] === 'utm_medium' && keys[1] === 'utm_source'
-      && !Object.prototype.hasOwnProperty.call(payload, 'utm_campaign')
-      && !Object.prototype.hasOwnProperty.call(payload, 'utm_term')
-      && !Object.prototype.hasOwnProperty.call(payload, 'utm_content');
+    assert(keys.length === 2 && keys[0] === 'utm_medium' && keys[1] === 'utm_source', urlPath + ' GA4 utm keys ' + keys.join(','));
+    assert(!Object.prototype.hasOwnProperty.call(payload, 'utm_campaign'), urlPath + ' GA4 kept utm_campaign');
+    assert(!Object.prototype.hasOwnProperty.call(payload, 'utm_term'), urlPath + ' GA4 kept utm_term');
+    assert(!Object.prototype.hasOwnProperty.call(payload, 'utm_content'), urlPath + ' GA4 kept utm_content');
+    assert(payload.form_id === 'service_page' && payload.page_path === GENERIC_PATH && payload.landing_page_path === GENERIC_PATH, urlPath + ' GA4 page');
+    assert(!SECRETS.test(JSON.stringify(payload)), urlPath + ' GA4 leaked a campaign or path');
   });
-  const genericPage = ga4Payloads.every(function (payload) {
-    return payload.form_id === 'service_page'
-      && payload.page_path === GENERIC_PATH
-      && payload.landing_page_path === GENERIC_PATH;
-  });
-  const hereOrigin = 'https://news.example';
-  const hereRefs = pageReferrers(open.window);
-  const hereReferrer = hereRefs.length > 0 && hereRefs.every(function (r) { return r === hereOrigin; });
+  assert(!gtagEvents(open.window).some(function (e) { return e[1] === 'conversion'; }), urlPath + ' Ads conversion fired');
+  const refs = pageReferrers(open.window);
+  assert(refs.length > 0 && refs.every(function (r) { return r === 'https://news.example'; }), urlPath + ' referrer ' + refs.join(','));
 
-  checkTierS(ready, noPixel, urlPath + ' no fbq load/calls');
-  checkTierS(ready, noClarity, urlPath + ' no Clarity');
-  checkTierS(ready, noAdsTag, urlPath + ' no Google Ads tag');
-  checkTierS(ready, noAdsConversion, urlPath + ' no Google Ads conversion');
-  checkTierS(ready, onlySourceMedium, urlPath + ' GA4 only utm_source+utm_medium');
-  checkTierS(ready, genericPage, urlPath + ' form_id=service_page page_path=/service-page');
-  checkTierS(ready, hereReferrer, urlPath + ' referrer origin-only (' + (hereRefs.join(',') || 'missing') + ')');
-
-  const nextReferrer = 'https://menifa.org' + urlPath + '?utm_campaign=secret&loan=900000';
   const next = boot('contact.html', '/contact.html', {
     query: false,
-    referrer: nextReferrer,
-    storage: { 'menifa-att': open.window.sessionStorage.getItem('menifa-att') }
+    referrer: 'https://menifa.org' + urlPath + '?utm_campaign=secret&loan=900000'
   });
-  const nextReady = helperReady(next.window);
+  assert(next.window.MenifaTierS.isTierS() === true, urlPath + ' next page left Tier S');
+  assert(next.window.MenifaTierS.allowsAds() === false && next.window.MenifaTierS.allowsPixel() === false, urlPath + ' next page allows trackers');
+  assert(typeof next.window.fbq !== 'function', urlPath + ' next page loaded Pixel');
+  assert(typeof next.window.clarity !== 'function', urlPath + ' next page loaded Clarity');
   const nextRefs = pageReferrers(next.window);
-  const nextOrigin = 'https://menifa.org';
-  const nextOk = nextRefs.length > 0 && nextRefs.every(function (r) { return r === nextOrigin; });
-  checkTierS(ready && nextReady, nextOk, urlPath + ' next page referrer origin-only (' + (nextRefs.join(',') || 'missing') + ')');
+  assert(nextRefs.length > 0 && nextRefs.every(function (r) { return r === 'https://menifa.org'; }), urlPath + ' next referrer ' + nextRefs.join(','));
+  assert(!SECRETS.test(JSON.stringify(nextRefs)), urlPath + ' next referrer leaked the path');
+  enforced += 1;
+  console.log('ENFORCED PASS ' + urlPath);
 }
 
-const helperOn = lines.some(function (line) { return line.indexOf('ENFORCED PASS') === 0; });
-console.log(lines.join('\n'));
-console.log('\n' + (helperOn
-  ? 'Tier S helper is present; privacy assertions are enforced.'
-  : 'TODO(#96) Tier S helper is absent (window.MenifaTierS.isTierS/allowsAds/allowsPixel/filterGa4Params). Privacy assertions are expected-fail and turn on after the rebase onto #96.'));
-console.log('MAKE PASS ' + makePass.length + '/6; TODO(#96) expected-fail ' + expectedFail + '; TODO(#96) skipped ' + skippedPass + '; enforced ' + enforced);
+const plain = boot('contact.html', '/contact.html', { query: false, referrer: 'https://www.google.com/search?q=mortgage' });
+assert(plain.window.MenifaTierS.isTierS() === false, 'contact isTierS');
+assert(plain.window.MenifaTierS.allowsAds() === true && plain.window.MenifaTierS.allowsPixel() === true, 'contact allowsAds/Pixel');
+const kept = plain.window.MenifaTierS.filterGa4Params({ utm_campaign: 'winter', form: 'contact', page: '/contact.html' });
+assert(kept.utm_campaign === 'winter' && kept.form === 'contact' && kept.page === '/contact.html', 'off Tier S filter changed params');
+assert(!Object.prototype.hasOwnProperty.call(kept, 'form_id'), 'off Tier S filter added form_id');
+
+console.log('ENFORCED ' + enforced + '/6');
 if (!process.exitCode) console.log('PASS');

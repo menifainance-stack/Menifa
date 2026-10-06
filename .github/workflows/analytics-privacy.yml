@@ -1,0 +1,22 @@
+name: Analytics privacy
+
+# Soft gate: sensitive pages must not send bank-refusal or campaign detail to GA4/Meta.
+# jsdom is installed in the job. It is not a site dependency.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  proof:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install jsdom outside the site
+        run: npm install --prefix /tmp/privacy-harness jsdom
+      - name: Analytics privacy proof
+        run: node tools/test_analytics_privacy.mjs && node tools/test_tier_s_paths.mjs

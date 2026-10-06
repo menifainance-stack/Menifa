@@ -3,8 +3,9 @@
   'use strict';
 
   /* ===== configuration: the developer fills these in production =====
-     Measurement IDs live once, here. window.MENIFA_TRACK is only an optional
-     preview override: an empty or missing value must not blank these defaults. */
+     Measurement IDs live once, here. window.MENIFA_TRACK (assets/tracking-ids.js,
+     or a preview override) applies only when the value is non-empty. An empty
+     override must not blank these defaults. Do not invent IDs. */
   var TRACK_DEFAULTS = {
     ga4: '',
     meta_pixel: '',
@@ -22,11 +23,11 @@
     phone: '052-4502821',
     // Lead webhook (e.g. Make.com custom webhook -> Google Sheets CRM). Empty = WhatsApp hand-off only.
     leadWebhook: 'https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig',
-    // Tracking IDs load ONLY after the visitor consents to that category.
-    ga4: pickTrack('ga4'),                                 // statistics
-    metaPixel: pickTrack('meta_pixel'),                    // marketing
-    clarity: pickTrack('clarity'),                         // statistics
-    googleAds: pickTrack('google_ads'),                    // marketing; empty = do not load
+    // Tracking IDs load ONLY after the visitor consents to that category. gtag, not GTM.
+    ga4: pickTrack('ga4'),
+    metaPixel: pickTrack('meta_pixel'),
+    clarity: pickTrack('clarity'),
+    googleAds: pickTrack('google_ads'),
     googleAdsLeadLabel: pickTrack('google_ads_lead_label'),
     consentVersion: 2
   };
@@ -40,6 +41,107 @@
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var fmt = function (n) { return Math.round(n).toLocaleString('he-IL'); };
   var waLink = function (text) { return 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(text); };
+
+  /* Tier S is the only path list. #99 calls window.MenifaTierS and must not keep a second copy.
+     Assigned before cookie consent, trackers, and any Ads call. */
+  var TIER_S_EXACT = {
+    '/masurvei-bankim.html': 1,
+    '/sirov-mashkanta-ma-osim.html': 1,
+    '/blog/מסורבי-משכנתא-7-דרכים-לאישור.html': 1,
+    '/ihud-halvaot-lemashkanta.html': 1,
+    '/blog/ihud-halvaot-matei-ken-lo.html': 1
+  };
+  var SENSITIVE_TEXT = /masurvei-bankim|sirov-mashkanta|ihud-halvaot|\/lp\/ihud|מסורב|סירוב/i;
+  var GA4_OMIT = {
+    utm_campaign: 1, utm_term: 1, utm_content: 1, gclid: 1, fbclid: 1,
+    campaign_name: 1, campaign_term: 1, campaign_content: 1, campaign_id: 1,
+    form: 1, page: 1, form_id: 1,
+    page_path: 1, page_title: 1, page_location: 1, page_referrer: 1
+  };
+  function pathOf(url) {
+    try {
+      if (!url) return '';
+      var raw = String(url).split('#')[0];
+      if (raw.charAt(0) === '/') return decodeURIComponent(raw.split('?')[0]);
+      return decodeURIComponent(new URL(raw, location.href).pathname);
+    } catch (e) { return ''; }
+  }
+  function domainOnlyReferrer(ref) {
+    try {
+      if (!ref) return location.origin + '/';
+      var u = new URL(ref, location.href);
+      if (SENSITIVE_TEXT.test(u.hostname)) return location.origin + '/';
+      return u.origin + '/';
+    } catch (e) { return location.origin + '/'; }
+  }
+  function originOnly(ref) {
+    try {
+      if (!ref) return location.origin;
+      var u = new URL(ref, location.href);
+      if (SENSITIVE_TEXT.test(u.hostname)) return location.origin;
+      return u.origin;
+    } catch (e) { return location.origin; }
+  }
+  /* True for this page when the current URL is one of the six, or this page
+     was opened from one of them. The follow flag is one hop only. */
+  var tierSFollow = false;
+  function tierSPath(pathname) {
+    var p = pathOf(pathname).replace(/\/index\.html$/, '/');
+    if (!p) return false;
+    if (p === '/lp/ihud' || p === '/lp/ihud/' || p.indexOf('/lp/ihud/') === 0) return true;
+    if (TIER_S_EXACT[p]) return true;
+    if (p.length > 1 && TIER_S_EXACT[p.replace(/\/$/, '')]) return true;
+    return false;
+  }
+  function readQuery() {
+    var q = { utm_source: '', utm_medium: '', utm_campaign: '', utm_term: '', utm_content: '', gclid: '', fbclid: '' };
+    try {
+      var params = new URLSearchParams(location.search);
+      Object.keys(q).forEach(function (k) { q[k] = params.get(k) || ''; });
+    } catch (e) {}
+    return q;
+  }
+  window.MenifaTierS = {
+    isTierS: function () {
+      var here = false;
+      try { here = tierSPath(location.pathname); } catch (e) {}
+      return here || tierSFollow;
+    },
+    allowsAds: function () { return !window.MenifaTierS.isTierS(); },
+    allowsPixel: function () { return !window.MenifaTierS.isTierS(); },
+    filterGa4Params: function (params) {
+      var src = params || {};
+      var out = {};
+      if (!window.MenifaTierS.isTierS()) {
+        Object.keys(src).forEach(function (k) { out[k] = src[k]; });
+        return out;
+      }
+      Object.keys(src).forEach(function (k) {
+        var lower = String(k).toLowerCase();
+        if (GA4_OMIT[lower]) return;
+        if (lower === 'utm_source' || lower === 'utm_medium') return;
+        var v = src[k];
+        if (v != null && typeof v === 'object') return;
+        if (typeof v === 'string' && SENSITIVE_TEXT.test(v)) return;
+        out[k] = v;
+      });
+      var q = readQuery();
+      var source = src.utm_source || q.utm_source;
+      var medium = src.utm_medium || q.utm_medium;
+      if (source && !SENSITIVE_TEXT.test(String(source))) out.utm_source = String(source);
+      if (medium && !SENSITIVE_TEXT.test(String(medium))) out.utm_medium = String(medium);
+      var refIn = typeof src.page_referrer === 'string' ? src.page_referrer : '';
+      if (!refIn) refIn = rawReferrer || '';
+      if (!refIn) { try { refIn = document.referrer || ''; } catch (e) {} }
+      out.form_id = 'service_page';
+      out.page_path = '/service-page';
+      out.landing_page_path = '/service-page';
+      out.page_location = location.origin + '/service-page';
+      out.page_title = 'service';
+      out.page_referrer = originOnly(refIn);
+      return out;
+    }
+  };
 
   /* ===== mobile nav + dropdown ===== */
   var burger = $('.burger'), mnav = $('.mnav');
@@ -123,72 +225,85 @@
     modal.hidden = false; $('#ck-stats').focus();
   }
   function loadScript(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
-  /* TODO(#96): Tier S is owned by PR #96. This file does not keep the path
-     list. #99 calls the helper below when it exists and does nothing when it
-     does not. Interface #96 should assign, so both sides match:
-       window.MenifaTierS.isTierS() -> boolean
-         true on the six Tier S paths, and still true for referrer truncation
-         on the next page after one of those paths.
-       window.MenifaTierS.allowsAds() -> boolean
-         false on Tier S. #99 already consults this before loading the Ads tag
-         and before firing the conversion.
-       window.MenifaTierS.allowsPixel() -> boolean
-         false on Tier S. #96 skips the Pixel load and every fbq call.
-         Clarity is off on the same pages (no separate method): no Clarity
-         script when isTierS() is true.
-       window.MenifaTierS.filterGa4Params(params) -> object
-         GA4 param filter. On Tier S, the returned object keeps utm_source and
-         utm_medium, omits utm_campaign / utm_term / utm_content entirely (no
-         replacement value), sets form_id to "service_page", sets page_path
-         and landing_page_path to "/service-page", and sets page_referrer to
-         the referrer origin only (scheme + host, no path or query) on that
-         page and on the next page. The Make body is not passed through this
-         filter and keeps the real values. #96 applies the filter inside the
-         existing analytics gate. */
-  function tierSBlocksAds() {
-    var api = window.MenifaTierS;
-    if (api && typeof api.allowsAds === 'function') return api.allowsAds() === false;
+  function safeTrackId(id) { return /^[A-Za-z0-9_-]+$/.test(id || '') ? id : ''; }
+  /* Path checks go through window.MenifaTierS. There is no second list. */
+  function isSensitivePath(url) { return tierSPath(url || ''); }
+  function isSensitivePage() {
+    try { return tierSPath(location.pathname); } catch (e) { return false; }
+  }
+  var fromSensitiveHop = false;
+  var referrerWasSensitive = false;
+  var referrerTruncated = false;
+  var rawReferrer = '';
+  function ga4Config() {
+    var cfg = { anonymize_ip: true };
+    var ref = rawReferrer;
+    try { if (!ref) ref = document.referrer || ''; } catch (e) {}
+    if (window.MenifaTierS.isTierS()) {
+      var q = readQuery();
+      if (q.utm_source && !SENSITIVE_TEXT.test(q.utm_source)) cfg.utm_source = q.utm_source;
+      if (q.utm_medium && !SENSITIVE_TEXT.test(q.utm_medium)) cfg.utm_medium = q.utm_medium;
+      if (ref) cfg.page_referrer = ref;
+      return window.MenifaTierS.filterGa4Params(cfg);
+    } else if (fromSensitiveHop || referrerWasSensitive) {
+      cfg.page_referrer = originOnly(ref);
+    }
+    return cfg;
+  }
+  function thirdPartyReferrerUnsafe() {
+    if (isSensitivePage()) return true;
+    var ref = '';
+    try { ref = document.referrer || ''; } catch (e) { return true; }
+    if (ref && (isSensitivePath(ref) || SENSITIVE_TEXT.test(ref))) return true;
+    if ((fromSensitiveHop || referrerWasSensitive) && !referrerTruncated && rawReferrer && (isSensitivePath(rawReferrer) || SENSITIVE_TEXT.test(rawReferrer))) return true;
     return false;
+  }
+  function loadTrackers() {
+    if (!consent) return;
+    if (!privacyGateIntact()) return;
+    var ga4Id = safeTrackId(CONFIG.ga4);
+    var pixelId = safeTrackId(CONFIG.metaPixel);
+    var clarityId = safeTrackId(CONFIG.clarity);
+    if (consent.statistics && ga4Id && !window.__ga) {
+      window.__ga = true; loadScript('https://www.googletagmanager.com/gtag/js?id=' + ga4Id);
+      window.dataLayer = window.dataLayer || []; window.gtag = function () { dataLayer.push(arguments); };
+      gtag('consent', 'default', { ad_storage: consent.marketing ? 'granted' : 'denied', ad_user_data: consent.marketing ? 'granted' : 'denied', ad_personalization: consent.marketing ? 'granted' : 'denied', analytics_storage: 'granted' });
+      gtag('js', new Date()); gtag('config', ga4Id, ga4Config());
+    }
+    if (!window.MenifaTierS.isTierS() && !thirdPartyReferrerUnsafe() && consent.statistics && clarityId && !window.clarity) {
+      (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', clarityId);
+    }
+    if (window.MenifaTierS.allowsPixel() && !thirdPartyReferrerUnsafe() && consent.marketing && pixelId && !window.fbq) {
+      (function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', pixelId); fbq('track', 'PageView');
+    }
+    var adsId = safeTrackId(CONFIG.googleAds);
+    var adsLabel = safeTrackId(CONFIG.googleAdsLeadLabel);
+    if (window.MenifaTierS.allowsAds() && consent.marketing && adsId && adsLabel && !window.__gads) {
+      window.__gads = true;
+      if (!window.gtag) {
+        loadScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(adsId));
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        gtag('js', new Date());
+      }
+      gtag('config', adsId);
+    }
+    flushEvents();
   }
   function fireAdsConversion(leadUuid) {
     if (!CONFIG.googleAds || !CONFIG.googleAdsLeadLabel || !leadUuid) return;
-    if (tierSBlocksAds()) return;
+    if (!window.MenifaTierS.allowsAds()) return;
     if (typeof window.gtag !== 'function') return;
     window.gtag('event', 'conversion', {
       send_to: CONFIG.googleAds + '/' + CONFIG.googleAdsLeadLabel,
       transaction_id: leadUuid
     });
   }
-  function loadTrackers() {
-    if (!consent) return;
-    if (consent.statistics && CONFIG.ga4 && !window.__ga) {
-      window.__ga = true; loadScript('https://www.googletagmanager.com/gtag/js?id=' + CONFIG.ga4);
-      window.dataLayer = window.dataLayer || []; window.gtag = function () { dataLayer.push(arguments); };
-      gtag('consent', 'default', { ad_storage: consent.marketing ? 'granted' : 'denied', ad_user_data: consent.marketing ? 'granted' : 'denied', ad_personalization: consent.marketing ? 'granted' : 'denied', analytics_storage: 'granted' });
-      gtag('js', new Date()); gtag('config', CONFIG.ga4, { anonymize_ip: true });
-    }
-    if (consent.statistics && CONFIG.clarity && !window.clarity) {
-      (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', CONFIG.clarity);
-    }
-    if (consent.marketing && CONFIG.metaPixel && !window.fbq) {
-      (function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', CONFIG.metaPixel); fbq('track', 'PageView');
-    }
-    if (consent.marketing && CONFIG.googleAds && CONFIG.googleAdsLeadLabel && !tierSBlocksAds() && !window.__gads) {
-      window.__gads = true;
-      if (!window.gtag) {
-        loadScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(CONFIG.googleAds));
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function () { dataLayer.push(arguments); };
-        gtag('js', new Date());
-      }
-      gtag('config', CONFIG.googleAds);
-    }
-    flushEvents();
-  }
   /* ===== conversion events: one call -> GA4 + Meta Pixel (+ dataLayer), queued until consent =====
      Identity and financial detail stay on the CRM webhook. This gate is the only
-     path into dataLayer / gtag / fbq, and it drops those fields before they leave. */
+     path into dataLayer / gtag / fbq, and it drops those fields before they leave.
+     Trackers do not load unless privacyGateIntact() still drops the blocked keys. */
   var evQ = [], PIXEL_STD = { generate_lead: 'Lead', contact_whatsapp: 'Contact', contact_phone: 'Contact', schedule_call: 'Schedule' };
   var ANALYTICS_BLOCK = {
     need: 1, link_text: 1,
@@ -202,23 +317,65 @@
   };
   function analyticsParams(params) {
     var safe = {};
-    if (!params) return safe;
-    Object.keys(params).forEach(function (k) {
-      if (ANALYTICS_BLOCK[String(k).toLowerCase()] || /^q\d+$/.test(String(k))) return;
-      var v = params[k];
-      if (v != null && typeof v === 'object') return;
-      safe[k] = v;
+    if (params) {
+      Object.keys(params).forEach(function (k) {
+        var lower = String(k).toLowerCase();
+        if (ANALYTICS_BLOCK[lower] || /^q\d+$/.test(String(k))) return;
+        var v = params[k];
+        if (v != null && typeof v === 'object') return;
+        if (typeof v === 'string' && SENSITIVE_TEXT.test(v)) return;
+        safe[k] = v;
+      });
+    }
+    return window.MenifaTierS.filterGa4Params(safe);
+  }
+  function privacyGateIntact() {
+    var sensitive = window.MenifaTierS.isTierS();
+    var probe = analyticsParams({
+      need: 'probe-need',
+      link_text: 'probe-link',
+      topic: 'מסורבי בנקים',
+      name: 'x',
+      phone: 'x',
+      page: sensitive ? location.pathname : '/contact.html',
+      form: sensitive ? 'service:masurvei-bankim' : 'contact',
+      form_id: 'service:masurvei-bankim',
+      utm_source: 'preview',
+      utm_medium: 'qa',
+      utm_campaign: 'probe-campaign',
+      utm_term: 'probe-term',
+      utm_content: 'probe-content',
+      gclid: 'probe-gclid',
+      fbclid: 'probe-fbclid',
+      currency: 'ILS',
+      value: 1
     });
-    return safe;
+    if (!probe || probe.currency !== 'ILS' || probe.value !== 1) return false;
+    if (probe.need || probe.link_text || probe.name || probe.phone) return false;
+    var blob = JSON.stringify(probe);
+    if (SENSITIVE_TEXT.test(blob)) return false;
+    if (sensitive && /probe-campaign|probe-term|probe-content|probe-gclid|probe-fbclid/.test(blob)) return false;
+    if (sensitive) {
+      var omitted = ['form', 'page', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'campaign_name', 'campaign_term', 'campaign_content'];
+      for (var oi = 0; oi < omitted.length; oi++) {
+        if (Object.prototype.hasOwnProperty.call(probe, omitted[oi])) return false;
+      }
+      if (probe.form_id !== 'service_page') return false;
+      if (probe.page_path !== '/service-page' || probe.landing_page_path !== '/service-page') return false;
+      if (probe.utm_source !== 'preview' || probe.utm_medium !== 'qa') return false;
+      if (typeof probe.page_referrer !== 'string' || /[?#]/.test(probe.page_referrer) || probe.page_referrer.charAt(probe.page_referrer.length - 1) === '/') return false;
+    } else if (probe.form !== 'contact' || probe.page !== '/contact.html') return false;
+    return true;
   }
   function sendEvent(name, params) {
+    if (!privacyGateIntact()) return;
     params = analyticsParams(params);
     (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params));
     if (window.gtag && window.__ga) gtag('event', name, params);
-    if (window.fbq && PIXEL_STD[name]) {
+    if (window.fbq && window.MenifaTierS.allowsPixel() && !thirdPartyReferrerUnsafe()) {
       var dedupe = params.lead_uuid || params.event_id;
       var opts = dedupe ? { eventID: dedupe } : undefined;
-      fbq('track', PIXEL_STD[name], params, opts);
+      if (PIXEL_STD[name]) fbq('track', PIXEL_STD[name], params, opts);
     }
   }
   function flushEvents() { if (!consent || (!consent.statistics && !consent.marketing)) return; while (evQ.length) { var e = evQ.shift(); sendEvent(e[0], e[1]); } }
@@ -227,19 +384,10 @@
     if (consent && (consent.statistics || consent.marketing)) sendEvent(name, params); else evQ.push([name, params]);
   };
   function cookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; }
-  /* First-touch attribution for the CRM body.
-     Storage matches the retired menifa_ft_v1 script: sessionStorage, no TTL.
-     That script locked the first landing for the browser session and did not
-     use a 90-day localStorage window, so this does the same. Key stays
-     menifa-att because the lead payload already reads it.
-     Written once and never overwritten: utm_*, gclid, fbclid, landing_page_path, referrer_host.
-     A later campaign in the same session is stored only as lt_utm_source,
-     lt_utm_medium and lt_utm_campaign. The payload's utm_* keys stay first-touch.
-     מקור_הפניה / makor_hafnia use the A24 dictionary from menifa-first-touch.js
-     mapMakor (utm_source + utm_medium only). gclid, fbclid and referrer are
-     stored and sent, and they do not change the channel: the old mapper
-     returns לא מיוחס unless a verified UTM pair matches. These two channel
-     fields are added to the CRM body at submit and are not passed to menifaTrack. */
+  /* CRM attribution. First-touch utm_*, gclid, fbclid, landing_page_path and
+     referrer_host lock once per session. A later campaign is only lt_utm_source,
+     lt_utm_medium and lt_utm_campaign. This object is the Make body. It is not
+     passed through MenifaTierS.filterGa4Params. */
   var ATT_KEY = 'menifa-att';
   var FT_UTM = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
   var FT_CLICK = ['gclid', 'fbclid'];
@@ -323,7 +471,6 @@
     return 'inline';
   }
   window.menifaIds = function () { return { lead_uuid: newLeadUuid(), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
-  // clicks: WhatsApp / phone
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
     var h = a.getAttribute('href') || '';
@@ -331,7 +478,6 @@
     if (/wa\.me\//.test(h) || a.hasAttribute('data-wa')) window.menifaTrack('contact_whatsapp', where);
     else if (/^tel:/.test(h)) window.menifaTrack('contact_phone', where);
   }, true);
-  // first interaction with each calculator
   var usedCalc = {};
   document.addEventListener('input', function (e) {
     var box = e.target.closest && e.target.closest('[data-calc], #calc-ptax'); if (!box) return;
@@ -339,6 +485,29 @@
     window.menifaTrack('calculator_use', { calculator_id: id, page_path: location.pathname });
   }, true);
   window.MenifaConsent = { get: function () { return consent; }, open: openPrefs };
+  try { rawReferrer = document.referrer || ''; } catch (e) {}
+  referrerWasSensitive = isSensitivePath(rawReferrer);
+  var hopSet = false;
+  try { hopSet = sessionStorage.getItem('menifa-sensitive-hop') === '1'; } catch (e) {}
+  tierSFollow = isSensitivePage() || referrerWasSensitive || hopSet;
+  try {
+    if (isSensitivePage()) {
+      sessionStorage.setItem('menifa-sensitive-hop', '1');
+      $$('a[href], area[href]').forEach(function (a) { try { a.referrerPolicy = 'origin'; } catch (e2) {} });
+    } else if (hopSet) {
+      fromSensitiveHop = true;
+      sessionStorage.removeItem('menifa-sensitive-hop');
+    }
+  } catch (e3) {}
+  if (rawReferrer && (isSensitivePage() || fromSensitiveHop || referrerWasSensitive)) {
+    var trimmedRef = domainOnlyReferrer(rawReferrer);
+    if (trimmedRef && trimmedRef !== rawReferrer) {
+      try {
+        Object.defineProperty(document, 'referrer', { configurable: true, get: function () { return trimmedRef; } });
+        referrerTruncated = (document.referrer === trimmedRef);
+      } catch (e4) {}
+    } else referrerTruncated = true;
+  }
   if (banner) {
     if (!consent) banner.hidden = false; else loadTrackers();
     $('#ck-all').addEventListener('click', function () { saveConsent(true, true); });
@@ -458,7 +627,6 @@
       if (!/^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test((data.phone || '').replace(/\s/g, '')) && !/^\+?972/.test(data.phone || '')) { err.textContent = 'נא למלא מספר נייד תקין, לדוגמה 050-1234567.'; $('[name=phone]', form).focus(); return; }
       if (!data.consent) { err.textContent = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.'; $('[name=consent]', form).focus(); return; }
       err.textContent = '';
-      // Only inputs inside this form are read. Calculator results sit outside it and are not copied.
       data.page_path = location.pathname;
       data.form_id = stableFormId(form.getAttribute('data-lead'));
       data.ts = new Date().toISOString();
@@ -488,9 +656,6 @@
         value: 1
       };
       ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (k) { if (att[k]) leadEvent[k] = att[k]; });
-      // TODO(#96): window.MenifaTierS.filterGa4Params() rewrites this object
-      // on Tier S (service_page, /service-page, no campaign/term/content).
-      // Make keeps the real values assigned above.
       var msg = 'שלום תמיר, השארתי פרטים באתר מניפה.\nשם: ' + data.name + '\nטלפון: ' + data.phone + (data.need ? '\nנושא: ' + data.need : '') + (data.when ? '\nמתי נוח: ' + data.when : '') + (extra.length ? '\n' + extra.join('\n') : '') + (data.note ? '\nהערה: ' + data.note : '');
       data.answers = extra;
       var finish = function (sent) {
@@ -503,16 +668,11 @@
         }
       };
       if (CONFIG.leadWebhook) {
-        // Interim, PM 2026-10-06 09:35, measurement card decision 2.
-        // Make does not send CORS headers for this webhook yet, so the browser
-        // cannot read the status. A resolved fetch means the request was sent,
-        // not that Make confirmed it. An HTTP 4xx or 5xx still looks like success.
-        // The thank-you state, generate_lead, and a Google Ads conversion (when
-        // the two Ads placeholders are filled) run only after this promise
-        // resolves, never before the send. A network error or the 10s timeout
-        // shows the WhatsApp handoff, fires nothing, and does not try again.
-        // TODO(when Tamir opens Make CORS): switch this fetch to CORS mode and
-        // gate the thank-you state and generate_lead on res.ok.
+        // Interim: Make does not send CORS headers, so a resolved fetch means
+        // the request was sent, not that Make confirmed it. Thank-you,
+        // generate_lead and the Ads conversion run only after that resolve.
+        // menifaTrack sends the event through filterGa4Params. The body below
+        // is the real CRM payload and is not filtered.
         var body = new URLSearchParams();
         Object.keys(data).forEach(function (k) { var v = data[k]; body.append(k, Array.isArray(v) ? v.join(' | ') : (v === true ? 'כן' : v === false ? 'לא' : String(v == null ? '' : v))); });
         var done = false, t = setTimeout(function () { if (!done) { done = true; finish(false); } }, 10000);
