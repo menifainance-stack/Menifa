@@ -24,6 +24,14 @@ const CBS_CPI_TITLE = 'למ״ס הודעה 293/2026 — מדד אוגוסט 2026
 const CPI_PERIOD_LABEL = 'אוגוסט 2026';
 const CPI_PUBLISHED_SHORT = '15.09';
 const CPI_INDEX_LEVEL = 105.8; // נקודות, בסיס ממוצע 2024 = 100.0 — למ״ס 293/2026
+// decisionDate (GetInterest lastPublishedDate / press release 01-09-26) is NOT
+// the day the rate takes effect. Live ticker «בתוקף מ-…» reads effectiveFrom
+// from assets/data/boi-mortgage-averages.json (2026-09-03 → 3.9.2026).
+// Next business day after 2026-09-01 is 2026-09-02, the last day of the OLD
+// window (BOI: בתוקף עד 02/09/26), so do not derive «בתוקף מ» from decisionDate.
+const BOI_DECISION_DATE = '2026-09-01';
+const BOI_EFFECTIVE_FROM = '2026-09-03';
+const BOI_NEXT_DECISION = '2026-10-21';
 const MARKET_FALLBACK = {
   boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 01.09.2026)
   prime: 4.75,       // פריים = BoI + 1.5
@@ -33,6 +41,10 @@ const MARKET_FALLBACK = {
   cpiPeriodLabel: CPI_PERIOD_LABEL,
   cpiPublishedShort: CPI_PUBLISHED_SHORT,
   cpiSourceUrl: CBS_CPI_PDF,
+  decisionDate: BOI_DECISION_DATE,
+  effectiveFrom: BOI_EFFECTIVE_FROM, // טיקר חי: בתוקף מ-3.9.2026 — לא 1.9.2026
+  nextDecisionDate: BOI_NEXT_DECISION,
+  // Old #m-update label is the decision/publication date, not «בתוקף מ».
   updateDate: 'מדד 15.09 · BOI 01.09'
 };
 // ממוצעי מסלולי משכנתא (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
