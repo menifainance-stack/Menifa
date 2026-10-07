@@ -12,6 +12,19 @@
   var WA =
     "https://wa.me/972524502821?text=" +
     encodeURIComponent("שלום, אשמח לתיאום שיחה");
+  /* Same Make webhook as live assets/site.js. form-urlencoded, no-cors. */
+  var LEAD_WEBHOOK = "https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig";
+  var SOURCE = {
+    ihud: "quiz_ihud",
+    mihzur: "quiz_mihzur",
+    pikdonot: "quiz_pikdonot-300k"
+  };
+  var NEED = {
+    ihud: "איחוד הלוואות",
+    mihzur: "מחזור משכנתא",
+    pikdonot: "הפקדות 300K+"
+  };
+  var leadSent = false;
   var reduce =
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -305,8 +318,155 @@
       isResult: true,
     });
     setHint("לאיזה מספר לחזור אליך?");
-    setInput("text", "הקלד טלפון כאן...", function (phone) {
+    setPhoneForm();
+  }
+
+  function validPhone(raw) {
+    var trimmed = String(raw || "").trim();
+    var nospace = trimmed.replace(/\s/g, "");
+    return /^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test(nospace) || /^\+?972/.test(trimmed);
+  }
+
+  function answersSummary() {
+    var parts = [];
+    Object.keys(answers).forEach(function (k) {
+      if (k === "phone") return;
+      parts.push(k + ": " + answers[k]);
+    });
+    return parts.join(" | ");
+  }
+
+  function fallbackIds() {
+    return {
+      event_id: "lead_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+      fbp: "",
+      fbc: ""
+    };
+  }
+
+  /* Make gets the quiz summary. Pixel gets only form, page, event_id, currency, value. */
+  function postLead(phone, marketing) {
+    var ids = window.menifaIds ? window.menifaIds() : fallbackIds();
+    var source = SOURCE[cfg.product] || "";
+    var page = location.pathname;
+    var att = {};
+    try { att = JSON.parse(sessionStorage.getItem("menifa-att") || "{}"); } catch (e) {}
+    var data = {
+      phone: phone,
+      name: answers.name || "",
+      consent: "כן",
+      marketing: marketing ? "כן" : "לא",
+      page: page,
+      source: source,
+      event_id: ids.event_id,
+      fbp: ids.fbp || "",
+      fbc: ids.fbc || "",
+      ts: new Date().toISOString(),
+      need: NEED[cfg.product] || "",
+      answers: answersSummary()
+    };
+    Object.keys(att).forEach(function (k) { data[k] = att[k]; });
+    if (window.menifaTrack) {
+      window.menifaTrack("generate_lead", {
+        form: source,
+        page: page,
+        event_id: ids.event_id,
+        currency: "ILS",
+        value: 1
+      });
+    }
+    var body = new URLSearchParams();
+    Object.keys(data).forEach(function (k) {
+      var v = data[k];
+      body.append(k, v == null ? "" : String(v));
+    });
+    fetch(LEAD_WEBHOOK, {
+      method: "POST",
+      mode: "no-cors",
+      keepalive: true,
+      body: body
+    }).catch(function () {});
+  }
+
+  function setPhoneForm() {
+    clearReplies();
+    var form = document.createElement("form");
+    form.className = "aic-phone";
+    form.noValidate = true;
+
+    var consent = document.createElement("label");
+    consent.className = "aic-consent";
+    var consentBox = document.createElement("input");
+    consentBox.type = "checkbox";
+    consentBox.name = "consent";
+    var consentText = document.createElement("span");
+    consentText.appendChild(document.createTextNode("אני מאשר/ת שמניפה פיננסית תחזור אליי בטלפון או בוואטסאפ בנוגע לפנייה, ושקראתי את "));
+    var privacy = document.createElement("a");
+    privacy.href = "https://menifa.org/privacy.html";
+    privacy.target = "_blank";
+    privacy.rel = "noopener noreferrer";
+    privacy.textContent = "מדיניות הפרטיות";
+    consentText.appendChild(privacy);
+    consentText.appendChild(document.createTextNode(". הפרטים ישמשו רק לטיפול בפנייה."));
+    consent.appendChild(consentBox);
+    consent.appendChild(consentText);
+
+    var marketing = document.createElement("label");
+    marketing.className = "aic-consent";
+    var marketingBox = document.createElement("input");
+    marketingBox.type = "checkbox";
+    marketingBox.name = "marketing";
+    var marketingText = document.createElement("span");
+    marketingText.textContent = "אשמח לקבל עדכונים מקצועיים ותוכן שיווקי (לא חובה, אפשר להסיר בכל עת).";
+    marketing.appendChild(marketingBox);
+    marketing.appendChild(marketingText);
+
+    var row = document.createElement("div");
+    row.className = "aic-input-row";
+    var input = document.createElement("input");
+    input.name = "phone";
+    input.type = "tel";
+    input.inputMode = "tel";
+    input.autocomplete = "tel";
+    input.placeholder = "050-0000000";
+    input.dir = "ltr";
+    input.setAttribute("aria-label", "טלפון");
+    var send = document.createElement("button");
+    send.type = "submit";
+    send.className = "aic-send";
+    send.setAttribute("aria-label", "שליחה");
+    send.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>';
+    row.appendChild(input);
+    row.appendChild(send);
+
+    var err = document.createElement("p");
+    err.className = "aic-form-err";
+    err.setAttribute("role", "alert");
+
+    form.appendChild(consent);
+    form.appendChild(marketing);
+    form.appendChild(row);
+    form.appendChild(err);
+    repliesEl.appendChild(form);
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (busy || leadSent) return;
+      var phone = String(input.value || "").trim();
+      if (!consentBox.checked) {
+        err.textContent = "כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.";
+        consentBox.focus();
+        return;
+      }
+      if (!validPhone(phone)) {
+        err.textContent = "נא למלא מספר נייד תקין, לדוגמה 050-1234567.";
+        input.focus();
+        return;
+      }
+      err.textContent = "";
+      leadSent = true;
       answers.phone = phone;
+      postLead(phone, marketingBox.checked);
       clearReplies();
       addUser(phone);
       addBotCard(
@@ -318,6 +478,7 @@
       setHint("");
       if (backBtn) backBtn.hidden = true;
     });
+    scrollEnd();
   }
 
   function removeNodes(nodes) {
