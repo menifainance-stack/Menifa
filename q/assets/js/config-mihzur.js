@@ -1,6 +1,7 @@
 /** מחזור · שאלות תמיר נעולות 2026-09-28 + המשכנתא על שמכם · טון איחוד · בלי יאללה · בלי הבטחות */
 window.MENIFA_AIC = {
   product: "mihzur",
+  meta_pixel: "1085659520839178",
   lockProduct: true,
   portraitSrc: "/q/assets/img/tamir.jpg",
   introHtml:

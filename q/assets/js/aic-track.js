@@ -1,13 +1,23 @@
 /**
- * Quiz attribution + a Lead-only pixel path.
- * meta_pixel stays empty until it is set on window.MENIFA_TRACK.
- * An empty id does not define fbq, does not load fbevents, and does not fire.
- * Financial answers never leave this page toward Meta.
+ * Quiz attribution + Meta pixel behind the same menifa-consent choice as assets/site.js.
+ * fbevents.js loads only after marketing consent. An empty pixel id does nothing.
+ * Meta events are PageView and Lead with eventID only. ua and answers stay off Meta.
  */
 (function () {
   "use strict";
   window.MENIFA_TRACK = window.MENIFA_TRACK || { ga4: "", meta_pixel: "", clarity: "" };
-  var pixelId = String(window.MENIFA_TRACK.meta_pixel || "").trim();
+  var C_KEY = "menifa-consent";
+  var C_VERSION = 2;
+  var pixelId = "";
+  var consent = null;
+
+  try {
+    consent = JSON.parse(localStorage.getItem(C_KEY) || "null");
+  } catch (e) {
+    consent = null;
+  }
+  if (!consent || consent.v !== C_VERSION) consent = null;
+
   var attKeys = [
     "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term",
     "gclid", "gbraid", "wbraid", "fbclid"
@@ -43,23 +53,37 @@
     };
   }
 
-  function sendEvent(name, params) {
-    params = params || {};
-    if (name !== "Lead" && name !== "generate_lead") return;
-    var eventId = params.event_id || "";
-    (window.dataLayer = window.dataLayer || []).push({ event: "Lead", event_id: eventId });
-    if (!pixelId || typeof window.fbq !== "function") return;
-    window.fbq("track", "Lead", {}, eventId ? { eventID: eventId } : undefined);
-  }
+  function $(sel) { return document.querySelector(sel); }
 
-  if (!window.menifaTrack) {
-    window.menifaTrack = function (name, params) {
-      sendEvent(name, params);
+  function saveConsent(stats, mkt) {
+    consent = {
+      v: C_VERSION,
+      necessary: true,
+      statistics: !!stats,
+      marketing: !!mkt,
+      ts: new Date().toISOString()
     };
+    try { localStorage.setItem(C_KEY, JSON.stringify(consent)); } catch (e) {}
+    var banner = $("#cookie");
+    var modal = $("#cookie-modal");
+    if (banner) banner.hidden = true;
+    if (modal) modal.hidden = true;
+    maybeLoadPixel();
   }
 
-  /* fbevents loads only when an id is set. Empty id is a no-op: no fbq, no PageView. */
-  if (pixelId && typeof window.fbq !== "function") {
+  function openPrefs() {
+    var modal = $("#cookie-modal");
+    if (!modal) return;
+    var stats = $("#ck-stats");
+    var mkt = $("#ck-mkt");
+    if (stats) stats.checked = !!(consent && consent.statistics);
+    if (mkt) mkt.checked = !!(consent && consent.marketing);
+    modal.hidden = false;
+    if (stats) stats.focus();
+  }
+
+  function maybeLoadPixel() {
+    if (!pixelId || !consent || !consent.marketing || window.fbq) return;
     (function (f, b, e, v, n, t, s) {
       if (f.fbq) return;
       n = f.fbq = function () {
@@ -77,5 +101,47 @@
       s.parentNode.insertBefore(t, s);
     })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
     window.fbq("init", pixelId);
+    window.fbq("track", "PageView");
   }
+
+  window.menifaArmPixel = function (id) {
+    pixelId = String(id || "").trim();
+    if (pixelId) window.MENIFA_TRACK.meta_pixel = pixelId;
+    maybeLoadPixel();
+  };
+
+  window.menifaTrackLead = function (eventId) {
+    if (!consent || !consent.marketing || !pixelId) return;
+    maybeLoadPixel();
+    if (typeof window.fbq !== "function") return;
+    window.fbq("track", "Lead", {}, { eventID: eventId });
+    (window.dataLayer = window.dataLayer || []).push({ event: "Lead", event_id: eventId });
+  };
+
+  if (!window.MenifaConsent) {
+    window.MenifaConsent = { get: function () { return consent; }, open: openPrefs };
+  }
+
+  var banner = $("#cookie");
+  var modal = $("#cookie-modal");
+  if (banner) {
+    if (!consent) banner.hidden = false;
+    var all = $("#ck-all");
+    var none = $("#ck-none");
+    var prefs = $("#ck-prefs");
+    if (all) all.addEventListener("click", function () { saveConsent(true, true); });
+    if (none) none.addEventListener("click", function () { saveConsent(false, false); });
+    if (prefs) prefs.addEventListener("click", openPrefs);
+  }
+  if (modal) {
+    var save = $("#ck-save");
+    var cancel = $("#ck-cancel");
+    if (save) save.addEventListener("click", function () {
+      saveConsent($("#ck-stats").checked, $("#ck-mkt").checked);
+    });
+    if (cancel) cancel.addEventListener("click", function () { modal.hidden = true; });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("[data-cookie-settings]"), function (b) {
+    b.addEventListener("click", function (e) { e.preventDefault(); openPrefs(); });
+  });
 })();

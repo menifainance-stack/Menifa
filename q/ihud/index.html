@@ -27,6 +27,17 @@
       <div class="aic-replies" id="aic-replies"></div>
     </div>
   </div>
+  <div class="cookie" id="cookie" hidden role="region" aria-label="הסכמה לעוגיות">
+    <p><b>פרטיות ועוגיות.</b> האתר משתמש בעוגיות חיוניות לתפקוד. בהסכמתכם בלבד נשתמש גם בעוגיות סטטיסטיקה ושיווק. אפשר לשנות את הבחירה בכל עת. פרטים ב<a href="../../cookies.html">מדיניות העוגיות</a> וב<a href="../../privacy.html">מדיניות הפרטיות</a>.</p>
+    <div class="acts"><button class="btn btn-a" type="button" id="ck-all">אישור הכל</button><button class="btn btn-line-dark" type="button" id="ck-none">חיוניות בלבד</button><button class="btn btn-line-dark" type="button" id="ck-prefs">הגדרות</button></div>
+  </div>
+  <div class="modal" id="cookie-modal" hidden role="dialog" aria-modal="true" aria-labelledby="ck-title"><div class="modal-box">
+    <h2 id="ck-title">הגדרות עוגיות</h2><p>בחרו אילו עוגיות להפעיל. עוגיות שאינן חיוניות כבויות עד שתאשרו אותן.</p>
+    <div class="toggle-row"><div><b>חיוניות</b><p>נדרשות לתפקוד האתר ולשמירת הבחירה שלכם בחלון זה. תמיד פעילות.</p></div><label class="switch"><input type="checkbox" checked disabled aria-label="עוגיות חיוניות, תמיד פעילות"><span></span></label></div>
+    <div class="toggle-row"><div><b>סטטיסטיקה</b><p>מדידת שימוש אנונימית (למשל Google Analytics) כדי לשפר את התוכן.</p></div><label class="switch"><input type="checkbox" id="ck-stats" aria-label="עוגיות סטטיסטיקה"><span></span></label></div>
+    <div class="toggle-row"><div><b>שיווק</b><p>מדידת קמפיינים ופרסום מותאם (למשל Meta Pixel).</p></div><label class="switch"><input type="checkbox" id="ck-mkt" aria-label="עוגיות שיווק"><span></span></label></div>
+    <div class="acts"><button class="btn btn-a" type="button" id="ck-save">שמירת הבחירה</button><button class="btn btn-line-dark" type="button" id="ck-cancel">ביטול</button></div>
+  </div></div>
   <script>window.MENIFA_TRACK = window.MENIFA_TRACK || { ga4: "", meta_pixel: "", clarity: "" };</script>
   <script src="/q/assets/js/aic-track.js"></script>
   <script src="/q/assets/js/config-ihud.js"></script>

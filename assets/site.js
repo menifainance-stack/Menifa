@@ -11,7 +11,9 @@
     // Tracking IDs load ONLY after the visitor consents to that category.
     // IDs are set in parts.py -> TRACKING and injected as window.MENIFA_TRACK
     ga4: (window.MENIFA_TRACK || {}).ga4 || '',               // statistics
-    metaPixel: (window.MENIFA_TRACK || {}).meta_pixel || '',  // marketing
+    // Menifa Website. An empty page-level id still uses this one.
+    // fbevents.js loads only after marketing consent (see loadTrackers).
+    metaPixel: (window.MENIFA_TRACK || {}).meta_pixel || '1085659520839178',
     clarity: (window.MENIFA_TRACK || {}).clarity || '',       // statistics
     consentVersion: 2
   };
@@ -125,16 +127,20 @@
     }
     flushEvents();
   }
-  /* ===== conversion events: one call -> GA4 + Meta Pixel (+ dataLayer), queued until consent ===== */
-  var evQ = [], PIXEL_STD = { generate_lead: 'Lead', contact_whatsapp: 'Contact', contact_phone: 'Contact', schedule_call: 'Schedule' };
+  /* ===== conversion events. Meta receives only PageView (in loadTrackers) and Lead (after the webhook). ===== */
+  var evQ = [];
+  var DL_DROP = { need: 1, answers: 1, currency: 1, value: 1, phone: 1, name: 1, email: 1, form: 1, link_text: 1 };
   function sendEvent(name, params) {
     params = params || {};
-    (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, params));
-    if (window.gtag && window.__ga) gtag('event', name, params);
-    if (window.fbq) {
-      var opts = params.event_id ? { eventID: params.event_id } : undefined;
-      if (PIXEL_STD[name]) fbq('track', PIXEL_STD[name], params, opts); else fbq('trackCustom', name, params, opts);
-    }
+    var clean = {};
+    Object.keys(params).forEach(function (k) { if (!DL_DROP[k]) clean[k] = params[k]; });
+    (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, clean));
+    if (window.gtag && window.__ga) gtag('event', name, clean);
+  }
+  function fireMetaLead(eventId) {
+    if (!consent || !consent.marketing || !window.fbq) return;
+    window.fbq('track', 'Lead', {}, { eventID: eventId });
+    (window.dataLayer = window.dataLayer || []).push({ event: 'Lead', event_id: eventId });
   }
   function flushEvents() { if (!consent || (!consent.statistics && !consent.marketing)) return; while (evQ.length) { var e = evQ.shift(); sendEvent(e[0], e[1]); } }
   window.menifaTrack = function (name, params) {
@@ -151,7 +157,7 @@
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
     var h = a.getAttribute('href') || '';
-    if (/wa\.me\//.test(h) || a.hasAttribute('data-wa')) window.menifaTrack('contact_whatsapp', { page: location.pathname, link_text: (a.textContent || '').trim().slice(0, 60) });
+    if (/wa\.me\//.test(h) || a.hasAttribute('data-wa')) window.menifaTrack('contact_whatsapp', { page: location.pathname });
     else if (/^tel:/.test(h)) window.menifaTrack('contact_phone', { page: location.pathname });
   }, true);
   // first interaction with each calculator
@@ -282,10 +288,15 @@
       if (!data.consent) { err.textContent = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.'; $('[name=consent]', form).focus(); return; }
       err.textContent = '';
       data.page = location.pathname; data.source = form.getAttribute('data-lead'); data.ts = new Date().toISOString();
-      var ids = window.menifaIds ? window.menifaIds() : {}; data.event_id = ids.event_id; data.fbp = ids.fbp; data.fbc = ids.fbc;
+      var ids = window.menifaIds ? window.menifaIds() : {};
+      data.event_id = ids.event_id || '';
       var att = {}; try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (er) {}
       Object.keys(att).forEach(function (k) { data[k] = att[k]; });
-      if (window.menifaTrack) window.menifaTrack('generate_lead', { form: data.source, page: data.page, need: data.need || '', event_id: data.event_id, currency: 'ILS', value: 1 });
+      data.fbp = ids.fbp || '';
+      data.fbc = ids.fbc || '';
+      data.ua = navigator.userAgent;
+      data.event_source_url = location.origin + location.pathname;
+      data.cookie_marketing = (consent && consent.marketing) ? 'כן' : 'לא';
       var msg = 'שלום תמיר, השארתי פרטים באתר מניפה.\nשם: ' + data.name + '\nטלפון: ' + data.phone + (data.need ? '\nנושא: ' + data.need : '') + (data.when ? '\nמתי נוח: ' + data.when : '') + (extra.length ? '\n' + extra.join('\n') : '') + (data.note ? '\nהערה: ' + data.note : '');
       data.answers = extra;
       var finish = function (sent) {
@@ -303,7 +314,7 @@
         Object.keys(data).forEach(function (k) { var v = data[k]; body.append(k, Array.isArray(v) ? v.join(' | ') : (v === true ? 'כן' : v === false ? 'לא' : String(v == null ? '' : v))); });
         var done = false, t = setTimeout(function () { if (!done) { done = true; finish(false); } }, 6000);
         fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'no-cors', keepalive: true, body: body })
-          .then(function () { if (!done) { done = true; clearTimeout(t); finish(true); } }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
+          .then(function () { if (!done) { done = true; clearTimeout(t); fireMetaLead(data.event_id); finish(true); } }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
       } else finish(false);
     });
   });

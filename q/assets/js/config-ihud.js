@@ -1,6 +1,7 @@
 /** איחוד · ניסוחים נעולים תמיר 2026-09-28 · מניפה · בלי · בלי הבטחות */
 window.MENIFA_AIC = {
   product: "ihud",
+  meta_pixel: "1085659520839178",
   lockProduct: true,
   portraitSrc: "/q/assets/img/tamir.jpg",
   introHtml:
