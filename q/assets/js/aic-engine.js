@@ -111,7 +111,7 @@
   function addBotCard(html, trackArr) {
     var card = document.createElement("div");
     card.className = "aic-card";
-    var portrait = cfg.portraitSrc || "../assets/img/tamir.jpg";
+    var portrait = cfg.portraitSrc || "/q/assets/img/tamir.jpg";
     card.innerHTML =
       '<div class="aic-card__row">' +
       '<img class="aic-avatar" src="' +

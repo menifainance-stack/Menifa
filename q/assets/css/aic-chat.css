@@ -59,7 +59,7 @@ body.aic-shell {
     radial-gradient(ellipse 60% 45% at 85% 70%, rgba(196, 165, 116, .12) 0%, transparent 50%),
     radial-gradient(ellipse 80% 55% at 50% 40%, rgba(6, 16, 28, .25) 0%, transparent 60%),
     linear-gradient(180deg, rgba(6, 16, 28, .55) 0%, rgba(6, 16, 28, .42) 35%, rgba(8, 20, 32, .72) 70%, rgba(6, 14, 22, .88) 100%),
-    url("../bg/mercury-hero.jpg");
+    url("/q/assets/bg/mercury-hero.jpg");
   background-size: cover;
   background-position: center 30%;
   background-repeat: no-repeat;

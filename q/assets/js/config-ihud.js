@@ -2,7 +2,7 @@
 window.MENIFA_AIC = {
   product: "ihud",
   lockProduct: true,
-  portraitSrc: "../assets/img/tamir.jpg",
+  portraitSrc: "/q/assets/img/tamir.jpg",
   introHtml:
     "<p>היי, כאן <strong>תמיר גרמה</strong> ממניפה פיננסית.</p>" +
     "<p>בכדי שנוכל לבדוק כיצד ניתן לעזור — כמה שאלות קצרות על איחוד הלוואות, לראות אם אפשר להקל על מה שיוצא לכם כל חודש.</p>",
