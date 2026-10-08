@@ -252,6 +252,9 @@ fetchMarketData();
    BOI MORTGAGE AVERAGES — calculators.html panel
    Policy rate stays on GetInterest / MARKET_FALLBACK (separate block).
    Track averages come ONLY from assets/data/boi-mortgage-averages.json
+   klacApproxPercent is a legacy key name: BOI defines 4.58% as the average of ALL
+   new non-indexed mortgages (fixed + variable), not fixed non-indexed only.
+   cpiLinkedApproxPercent is the average of ALL new CPI-indexed mortgages.
    Never invent an unpublished month (Sept 2026 not published as of 2026-09-16).
    ═══════════════════════════════════════════════════════════════ */
 const BOI_AVERAGES_JSON_PATH = 'assets/data/boi-mortgage-averages.json';
@@ -320,7 +323,7 @@ function applyBoiMortgageAverages(data) {
   if (tip && tracks.klacApproxPercent != null) {
     const conservative = Number(tracks.klacApproxPercent) + 0.2;
     const shown = Math.round(conservative * 10) / 10;
-    tip.textContent = '💡 ברירת מחדל ≈ ממוצע קל״צ + 0.2% מרווח שמרני (≈' + shown.toFixed(1) + '%).';
+    tip.textContent = '💡 ברירת מחדל ≈ ממוצע המשכנתאות הלא צמודות + 0.2% מרווח שמרני (≈' + shown.toFixed(1) + '%).';
   }
 
   const sourceLink = document.getElementById('boi-avg-source');
