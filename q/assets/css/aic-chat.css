@@ -1,0 +1,490 @@
+/* Quiz bots · Menifa Mercury shell (Soft brief 2026-10-06)
+   Night #081420 · mercury-hero.jpg · glass · champ hairline.
+   Header logo stays the live-site fan SVG. Question copy is not styled here. */
+:root {
+  --aic-blue: #5BAFD8;
+  --aic-blue-user: #5BAFD8;
+  --aic-ink: #0E3C5C;
+  --aic-white: #fff;
+  --mercury-night: #081420;
+  --menifa-ink: #0E3C5C;
+  --menifa-accent: #5BAFD8;
+  --menifa-champ: #C4A574;
+  --menifa-champ-deep: #B8956A;
+  --gold-hi: #E6C980;
+  --gold-hair: rgba(196, 165, 116, 0.35);
+  --glass-bot: rgba(8, 20, 32, 0.62);
+  --glass-user: rgba(91, 175, 216, 0.34);
+  --glass-chip: rgba(91, 175, 216, 0.16);
+  --text-primary: #EAF3F9;
+  --text-muted: rgba(234, 243, 249, 0.60);
+  --menifa-wa: #25D366;
+  /* Live menifa.org html[data-palette="privatebank"] — fan + wordmark only */
+  --gold-deep: #8C6E40;
+  --gold: #B08D57;
+  --gold-pale: #EADBC0;
+  --ivory: #F4EEE1;
+  --f-display: "Frank Ruhl Libre", "David Libre", Georgia, serif;
+  --f-num: "Cormorant Garamond", Georgia, serif;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --dock-h: auto;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+body.aic-shell {
+  font-family: "Heebo", "IBM Plex Sans Hebrew", system-ui, sans-serif;
+  color: var(--text-primary);
+  background: var(--mercury-night);
+  min-height: 100%;
+  height: 100%;
+  direction: rtl;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+/* Continuous cinematic field — fixed to the viewport, never a flat mid-page slab */
+.aic-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: var(--mercury-night);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 20% 20%, rgba(91, 175, 216, .18) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 85% 70%, rgba(196, 165, 116, .12) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 55% at 50% 40%, rgba(6, 16, 28, .25) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(6, 16, 28, .55) 0%, rgba(6, 16, 28, .42) 35%, rgba(8, 20, 32, .72) 70%, rgba(6, 14, 22, .88) 100%),
+    url("/q/assets/bg/mercury-hero.jpg");
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+}
+.aic-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 0%, transparent 0%, rgba(6, 14, 22, .35) 100%),
+    linear-gradient(180deg, transparent 0%, rgba(6, 14, 22, .15) 40%, rgba(6, 14, 22, .55) 100%);
+  pointer-events: none;
+}
+.aic-frame {
+  position: relative;
+  z-index: 1;
+  max-width: 440px;
+  margin: 0 auto;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: calc(8px + env(safe-area-inset-top, 0px)) 12px 0;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+.aic-top {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border-radius: 18px;
+  background: rgba(8, 20, 32, .46);
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .08);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+/* Same cluster as menifa.org header: fan SVG + מניפה / MENIFA · FINANCE */
+.aic-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  flex: 1 1 auto;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: none;
+}
+.aic-brand svg {
+  width: 38px;
+  height: 26px;
+  flex: 0 0 auto;
+  display: block;
+}
+.aic-brand .brand-name {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+  min-width: 0;
+}
+.aic-brand .brand-name b {
+  font-family: var(--f-display);
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: .02em;
+  color: var(--ivory);
+}
+.aic-brand .brand-name span {
+  font-family: var(--f-num);
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .38em;
+  color: var(--gold);
+  margin-top: 5px;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.aic-back {
+  appearance: none;
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 255, 255, .22);
+  background: rgba(255, 255, 255, .1);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 14px;
+  min-height: 40px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: none;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+.aic-back:hover { background: rgba(255, 255, 255, .2); }
+.aic-back:focus-visible,
+.aic-chip:focus-visible,
+.aic-send:focus-visible {
+  outline: 2px solid var(--menifa-champ);
+  outline-offset: 2px;
+}
+.aic-back[hidden] { display: none !important; }
+
+/* Scrollable history — dock is a sibling, so bubbles never slide under chips */
+.aic-log {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px 2px 14px;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-bottom: 24px;
+  background: transparent;
+}
+.aic-card {
+  background: var(--glass-bot);
+  color: var(--text-primary);
+  border-radius: 18px;
+  padding: 13px 13px 12px;
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-inline-start: 3px solid var(--menifa-champ);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, .28), inset 0 1px 0 rgba(255, 255, 255, .08);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  position: relative;
+  z-index: 1;
+  max-width: 94%;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+.aic-card__row { display: flex; gap: 10px; align-items: flex-start; }
+.aic-card__body { min-width: 0; text-align: right; }
+.aic-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid rgba(196, 165, 116, .7);
+  box-shadow: 0 0 0 2px rgba(8, 20, 32, .45);
+}
+.aic-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--menifa-ink);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  flex-shrink: 0;
+  border: 1px solid rgba(196, 165, 116, .7);
+}
+.aic-card p {
+  margin: 0 0 8px;
+  line-height: 1.55;
+  font-size: 15.5px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+.aic-card p:last-child { margin-bottom: 0; }
+.aic-card strong { font-weight: 700; color: #fff; }
+.aic-user {
+  align-self: flex-end;
+  background: var(--glass-user);
+  color: #fff;
+  border: 1px solid rgba(91, 175, 216, .55);
+  border-radius: 16px 16px 16px 4px;
+  padding: 10px 14px;
+  max-width: 82%;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .22);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.aic-time {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  align-self: flex-start;
+  margin-top: -4px;
+  padding-inline-start: 52px;
+  flex-shrink: 0;
+}
+
+/* Frosted dock over the mountain — dark, not cream. Chips stay in this band. */
+.aic-dock {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 5;
+  margin: 0 -12px 0;
+  padding: 12px 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(180deg, rgba(8, 20, 32, 0) 0%, rgba(8, 20, 32, .55) 28%, rgba(8, 20, 32, .86) 100%);
+  border-top: 1px solid var(--gold-hair);
+  box-shadow: none;
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+.aic-hint {
+  color: var(--menifa-champ);
+  font-size: 12.5px;
+  font-weight: 600;
+  margin: 0 2px 8px;
+  min-height: 1.2em;
+}
+.aic-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+.aic-chip {
+  appearance: none;
+  border: 1px solid rgba(91, 175, 216, .48);
+  background: var(--glass-chip);
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  padding: 12px 16px;
+  min-height: 48px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14);
+  transition: transform .12s var(--ease), background .12s var(--ease), border-color .12s var(--ease);
+  text-decoration: none;
+  text-align: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  unicode-bidi: isolate;
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+}
+.aic-chip bdi[dir="ltr"],
+.aic-user bdi[dir="ltr"] {
+  unicode-bidi: isolate;
+  direction: ltr;
+}
+.aic-chip:hover,
+.aic-chip:focus-visible {
+  background: var(--menifa-accent);
+  border-color: var(--menifa-accent);
+  color: #fff;
+}
+.aic-chip:active { transform: scale(.98); }
+.aic-input-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 14px;
+  padding: 6px;
+  align-items: center;
+}
+.aic-input-row input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 16px;
+  padding: 10px 8px;
+  direction: ltr;
+  text-align: right;
+  background: transparent;
+  color: #fff;
+  min-width: 0;
+}
+.aic-input-row input[type="number"],
+.aic-input-row input[type="tel"] {
+  direction: ltr;
+  text-align: right;
+}
+.aic-phone {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+.aic-consent {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 12.5px;
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.aic-consent input {
+  margin-top: 2px;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--menifa-accent);
+}
+.aic-consent a {
+  color: var(--menifa-champ);
+}
+.aic-form-err {
+  margin: 0;
+  min-height: 1.2em;
+  color: #F0C2C2;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.aic-input-row input::placeholder { color: rgba(255, 255, 255, .48); }
+.aic-send {
+  appearance: none;
+  border: 0;
+  background: var(--menifa-accent);
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  min-height: 48px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(91, 175, 216, .4);
+}
+.aic-send svg { width: 20px; height: 20px; transform: scaleX(-1); }
+.aic-foot {
+  margin-top: 8px;
+  text-align: center;
+  color: rgba(255, 255, 255, .46);
+  font-size: 11px;
+}
+@media (max-width: 480px) {
+  .aic-frame { max-width: none; padding-inline: 10px; }
+  .aic-dock { margin-inline: -10px; padding-inline: 10px; }
+  .aic-card { max-width: 100%; }
+  .aic-card p { font-size: 15px; }
+  .aic-chip { flex: 1 1 calc(50% - 8px); }
+  .aic-chip:only-child,
+  .aic-replies .aic-chip:first-child:nth-last-child(n + 3),
+  .aic-replies .aic-chip:first-child:nth-last-child(n + 3) ~ .aic-chip {
+    flex: 1 1 100%;
+  }
+}
+.aic-card.aic-focus {
+  scroll-margin-top: 72px;
+  scroll-margin-bottom: 140px;
+}
+.aic-dock { scroll-margin-bottom: 8px; }
+
+/* Hub — same atmosphere, not a flat navy page */
+body.aic-hub {
+  font-family: "Heebo", "IBM Plex Sans Hebrew", system-ui, sans-serif;
+  color: var(--text-primary);
+  background: var(--mercury-night);
+  min-height: 100%;
+  direction: rtl;
+  overflow: auto;
+  -webkit-font-smoothing: antialiased;
+}
+.aic-hub-main {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 28px 18px 48px;
+}
+.aic-hub-main .aic-brand { margin-bottom: 18px; }
+.aic-hub-main h1 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  line-height: 1.25;
+  margin: 0 0 8px;
+}
+.aic-hub-main .aic-hub-note {
+  margin: 0 0 18px;
+  color: rgba(255, 255, 255, .72);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.aic-hub-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.aic-hub-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 16px 16px;
+  border-radius: 16px;
+  background: rgba(8, 20, 32, .55);
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-inline-start: 3px solid var(--menifa-champ);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .08);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+}
+.aic-hub-list a span {
+  color: var(--menifa-accent);
+  font-weight: 600;
+  font-size: 13px;
+}
+.aic-hub-list a:hover { background: rgba(14, 60, 92, .55); }
+.aic-hub-list a:focus-visible {
+  outline: 2px solid var(--menifa-champ);
+  outline-offset: 3px;
+}
