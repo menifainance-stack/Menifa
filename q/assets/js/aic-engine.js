@@ -9,10 +9,11 @@
     console.error("MENIFA_AIC missing");
     return;
   }
+  if (window.menifaArmPixel) window.menifaArmPixel(cfg.meta_pixel || "");
   var WA =
     "https://wa.me/972524502821?text=" +
     encodeURIComponent("שלום, אשמח לתיאום שיחה");
-  /* Same Make webhook as live assets/site.js. form-urlencoded, no-cors. */
+  /* Same Make webhook as live assets/site.js. form-urlencoded, cors. Lead only on a 2xx response. */
   var LEAD_WEBHOOK = "https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig";
   var SOURCE = {
     ihud: "q-ihud",
@@ -365,14 +366,14 @@
       fbc: ids.fbc || "",
       ts: new Date().toISOString(),
       need: NEED[cfg.product] || "",
-      answers: answersSummary()
+      answers: answersSummary(),
+      ua: navigator.userAgent,
+      event_source_url: location.origin + location.pathname,
+      cookie_marketing: cookieMarketingLabel()
     };
     ATT_FIELDS.forEach(function (k) {
       data[k] = att[k] == null ? "" : String(att[k]);
     });
-    if (window.menifaTrack) {
-      window.menifaTrack("Lead", { event_id: ids.event_id });
-    }
     var body = new URLSearchParams();
     Object.keys(data).forEach(function (k) {
       var v = data[k];
@@ -380,10 +381,21 @@
     });
     fetch(LEAD_WEBHOOK, {
       method: "POST",
-      mode: "no-cors",
+      mode: "cors",
       keepalive: true,
       body: body
+    }).then(function (res) {
+      if (res && res.ok && window.menifaTrackLead) window.menifaTrackLead(ids.event_id);
     }).catch(function () {});
+  }
+
+  function cookieMarketingLabel() {
+    try {
+      var stored = JSON.parse(localStorage.getItem("menifa-consent") || "null");
+      return stored && stored.marketing ? "כן" : "לא";
+    } catch (e) {
+      return "לא";
+    }
   }
 
   function setPhoneForm() {
