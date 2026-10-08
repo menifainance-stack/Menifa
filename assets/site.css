@@ -250,6 +250,8 @@ a:hover{color:var(--gold-pale)}
 .prose h2{font-size:clamp(1.7rem,2.6vw,2.3rem);color:var(--em-700);margin-top:2.2em;font-weight:500;padding-top:.6em;border-top:1px solid rgb(var(--paper-line-rgb) / .28)}
 .prose h2:first-child{margin-top:0;border-top:0;padding-top:0}
 .prose h3{font-size:1.45rem;color:var(--em-700);margin-top:1.8em;font-weight:500}
+/* Lead-card heading: .prose h3 is the dark ink token, and this h3 sits on the dark card. --ivory flips with the card on light palettes. */
+#form h3{color:var(--ivory)}
 .prose h4{font-size:1.2rem;color:var(--em-700);margin-top:1.4em;font-weight:500}
 .prose strong{font-weight:600;color:#0B1A15}
 .prose a{color:var(--gold-ink);text-decoration-thickness:1px;text-underline-offset:3px}
