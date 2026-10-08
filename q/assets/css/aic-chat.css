@@ -81,7 +81,7 @@ body.aic-shell {
   height: 100%;
   min-height: 100vh;
   min-height: 100dvh;
-  padding: calc(8px + env(safe-area-inset-top, 0px)) 12px 0;
+  padding: calc(8px + env(safe-area-inset-top, 0px)) 12px var(--aic-cookie-pad, 0px);
   display: flex;
   flex-direction: column;
   background: transparent;
@@ -403,6 +403,16 @@ body.aic-shell {
   text-align: center;
   color: rgba(255, 255, 255, .46);
   font-size: 11px;
+}
+.aic-foot a {
+  color: var(--menifa-champ);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
 }
 @media (max-width: 480px) {
   .aic-frame { max-width: none; padding-inline: 10px; }

@@ -13,7 +13,7 @@
   var WA =
     "https://wa.me/972524502821?text=" +
     encodeURIComponent("שלום, אשמח לתיאום שיחה");
-  /* Same Make webhook as live assets/site.js. form-urlencoded, no-cors. */
+  /* Same Make webhook as live assets/site.js. form-urlencoded, cors. Lead only on a 2xx response. */
   var LEAD_WEBHOOK = "https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig";
   var SOURCE = {
     ihud: "q-ihud",
@@ -381,11 +381,11 @@
     });
     fetch(LEAD_WEBHOOK, {
       method: "POST",
-      mode: "no-cors",
+      mode: "cors",
       keepalive: true,
       body: body
-    }).then(function () {
-      if (window.menifaTrackLead) window.menifaTrackLead(ids.event_id);
+    }).then(function (res) {
+      if (res && res.ok && window.menifaTrackLead) window.menifaTrackLead(ids.event_id);
     }).catch(function () {});
   }
 

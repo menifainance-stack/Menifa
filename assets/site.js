@@ -123,6 +123,7 @@
     }
     if (consent.marketing && CONFIG.metaPixel && !window.fbq) {
       (function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('set','autoConfig',false,'1085659520839178');
       fbq('init', CONFIG.metaPixel); fbq('track', 'PageView');
     }
     flushEvents();
@@ -141,6 +142,10 @@
     if (!consent || !consent.marketing || !window.fbq) return;
     window.fbq('track', 'Lead', {}, { eventID: eventId });
     (window.dataLayer = window.dataLayer || []).push({ event: 'Lead', event_id: eventId });
+  }
+  // Campaign landing pages only. Every other page that loads site.js stays on PageView.
+  function isCampaignLead(source) {
+    return source === 'lp-ihud' || source === 'lp-mihzur';
   }
   function flushEvents() { if (!consent || (!consent.statistics && !consent.marketing)) return; while (evQ.length) { var e = evQ.shift(); sendEvent(e[0], e[1]); } }
   window.menifaTrack = function (name, params) {
@@ -309,12 +314,20 @@
         }
       };
       if (CONFIG.leadWebhook) {
-        // form-urlencoded + no-cors = simple request (no CORS preflight); Make parses the fields. keepalive survives page navigation.
+        // form-urlencoded + cors, so a non-2xx Make response is visible. keepalive survives page navigation.
         var body = new URLSearchParams();
         Object.keys(data).forEach(function (k) { var v = data[k]; body.append(k, Array.isArray(v) ? v.join(' | ') : (v === true ? 'כן' : v === false ? 'לא' : String(v == null ? '' : v))); });
         var done = false, t = setTimeout(function () { if (!done) { done = true; finish(false); } }, 6000);
-        fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'no-cors', keepalive: true, body: body })
-          .then(function () { if (!done) { done = true; clearTimeout(t); fireMetaLead(data.event_id); finish(true); } }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
+        fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'cors', keepalive: true, body: body })
+          .then(function (res) {
+            if (done) return;
+            done = true;
+            clearTimeout(t);
+            if (res && res.ok) {
+              if (isCampaignLead(data.source)) fireMetaLead(data.event_id);
+              finish(true);
+            } else finish(false);
+          }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
       } else finish(false);
     });
   });

@@ -55,6 +55,17 @@
 
   function $(sel) { return document.querySelector(sel); }
 
+  function syncCookiePad() {
+    var root = document.documentElement;
+    var bar = $("#cookie");
+    if (!bar || bar.hidden) {
+      root.style.removeProperty("--aic-cookie-pad");
+      return;
+    }
+    var h = Math.ceil(bar.getBoundingClientRect().height + 24);
+    root.style.setProperty("--aic-cookie-pad", h + "px");
+  }
+
   function saveConsent(stats, mkt) {
     consent = {
       v: C_VERSION,
@@ -68,6 +79,7 @@
     var modal = $("#cookie-modal");
     if (banner) banner.hidden = true;
     if (modal) modal.hidden = true;
+    syncCookiePad();
     maybeLoadPixel();
   }
 
@@ -100,6 +112,7 @@
       s = b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t, s);
     })(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
+    fbq('set','autoConfig',false,'1085659520839178');
     window.fbq("init", pixelId);
     window.fbq("track", "PageView");
   }
@@ -126,6 +139,10 @@
   var modal = $("#cookie-modal");
   if (banner) {
     if (!consent) banner.hidden = false;
+    syncCookiePad();
+    requestAnimationFrame(syncCookiePad);
+    window.addEventListener("resize", syncCookiePad);
+    if (window.ResizeObserver) new ResizeObserver(syncCookiePad).observe(banner);
     var all = $("#ck-all");
     var none = $("#ck-none");
     var prefs = $("#ck-prefs");
