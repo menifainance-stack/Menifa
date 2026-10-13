@@ -9,6 +9,7 @@ regen_seo.py — מחולל SEO אוטומטי ל-menifa.org
 
 הרעיון: המקור היחיד לאמת הוא הקבצים בתיקייה. שום מאמר לא יכול
 "ליפול בין הכיסאות" יותר — כל blog/*.html נכנס אוטומטית לכל הפידים.
+נתיבי /q/ לא נסרקים ולא נכנסים ל-sitemap (ראו sitemap_pages).
 
 המאמרים יושבים בכתובות עבריות. art-N.html הישנים מופנים ב-301 דרך
 vercel.json, ו-redirects.csv ממפה ביניהם — קובץ שהוא מקור של הפניה
@@ -73,6 +74,15 @@ PAGES = [
 
 HE_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+
+
+def sitemap_pages():
+    """נתיבי /q/ (בוטי השאלון בתשלום) הם noindex ולא נכנסים ל-sitemap.
+
+    הם לא ברשימת PAGES. הסינון כאן שומר שגם הוספה עתידית של /q/
+    לא תפורסם ב-sitemap.xml או ב-sitemap-pages.xml.
+    """
+    return [row for row in PAGES if not str(row[0]).startswith("/q/")]
 
 
 def xml_escape(s):
@@ -167,7 +177,7 @@ def build_sitemap(arts, today):
     out = ['<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
            '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n\n']
-    for path, prio, freq in PAGES:
+    for path, prio, freq in sitemap_pages():
         out.append(url_block(SITE + path, newest, freq, prio,
                              x_default=(path == "/")))
     out.append("\n")
@@ -181,7 +191,7 @@ def build_sitemap_pages(newest):
     out = ['<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
            '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n\n']
-    for path, prio, freq in PAGES:
+    for path, prio, freq in sitemap_pages():
         out.append(url_block(SITE + path, newest, freq, prio,
                              x_default=(path == "/")))
     out.append("</urlset>\n")
@@ -400,7 +410,7 @@ def main():
     if sync_index(arts):
         print("  ✓ index.html (Blog schema)")
 
-    print(f"\nסה\"כ ב-sitemap: {len(PAGES) + len(arts)} כתובות")
+    print(f"\nסה\"כ ב-sitemap: {len(sitemap_pages()) + len(arts)} כתובות")
 
 
 if __name__ == "__main__":
