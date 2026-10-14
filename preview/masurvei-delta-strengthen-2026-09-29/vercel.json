@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/preview/masurvei-delta-strengthen-2026-09-29/(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    }
+  ]
+}
