@@ -1,0 +1,200 @@
+{
+  "source_pdf": "הנחות מיוחדות ריסקים עד גיל 67!.pdf",
+  "table_title_ocr": "מכונות מעודכן",
+  "extraction_method": "OCR (scanned PDF) + visual verification; pdftotext empty",
+  "company_on_page": "UNKNOWN — לא מופיע שם חברה מפורש בעמוד שחולץ",
+  "product_scope": "ריסקים (כפי בכותרת הקובץ: הנחות מיוחדות ריסקים עד גיל 67)",
+  "columns": {
+    "agreement_code": "קוד הסכם חדש",
+    "min_cover": "סכום ביטוח מינימלי (2M=2,000,000; 1.5M=1,500,000; 1M=1,000,000; 750K=750,000; 500K=500,000)",
+    "ages": "גילאים — טווח כשירות",
+    "aleph_to_vav": "עמודות א' ב' ג' ד' ה' ו' — אחוזי הנחה. מקרא מפורש למשמעות האותיות אינו מופיע בעמוד → UNKNOWN (ייתכן שנות פוליסה; אין לנחש במימוש ללא אישור)"
+  },
+  "eligibility": {
+    "special_codes_red": [
+      3703,
+      3704,
+      3705,
+      3706,
+      3707
+    ],
+    "special_age_range": "30-67",
+    "prior_codes_age_range": "30-60",
+    "min_cover_required": "סכום הכיסוי חייב להיות לפחות הסכום המינימלי של קוד ההסכם שנבחר"
+  },
+  "application": {
+    "unit": "אחוז הנחה מהתעריף (כפי שמופיע בטבלה עם סימן %)",
+    "formula": "net_rate = base_rate * (1 - discount_pct/100)",
+    "stacking_with_other_codes": "UNKNOWN — בעמוד מופיע קוד הסכם אחד לשורה; אין הוראת צבירה בין קודים",
+    "selection_rule": "קלט מפורש של agreement_code (או בחירת סוכן). אין לבחור אוטומטית «ההנחה הגבוהה ביותר» אלא אם מוגדר במפורש ב-UI כמדיניות",
+    "year_column_input": "policy_year_letter ∈ {א,ב,ג,ד,ה,ו} — חובה; משמעות UNKNOWN ללא מקרא",
+    "max_discount": "אין תקרת הנחה נפרדת מעבר לאחוז שבתא — UNKNOWN אם קיימת תקרה נוספת מחוץ לעמוד"
+  },
+  "rows": [
+    {
+      "agreement_code": 3703,
+      "min_cover_ils": 2000000,
+      "age_min": 30,
+      "age_max": 67,
+      "discounts_pct": {
+        "א": 72,
+        "ב": 65,
+        "ג": 65,
+        "ד": 55,
+        "ה": 45,
+        "ו": 45
+      },
+      "is_special_until_67": true
+    },
+    {
+      "agreement_code": 3585,
+      "min_cover_ils": 2000000,
+      "age_min": 30,
+      "age_max": 60,
+      "discounts_pct": {
+        "א": 60,
+        "ב": 60,
+        "ג": 60,
+        "ד": 50,
+        "ה": 50,
+        "ו": 50
+      },
+      "is_special_until_67": false
+    },
+    {
+      "agreement_code": 3586,
+      "min_cover_ils": 2000000,
+      "age_min": 30,
+      "age_max": 60,
+      "discounts_pct": {
+        "א": 58,
+        "ב": 58,
+        "ג": 58,
+        "ד": 58,
+        "ה": 58,
+        "ו": 58
+      },
+      "is_special_until_67": false
+    },
+    {
+      "agreement_code": 3587,
+      "min_cover_ils": 1500000,
+      "age_min": 30,
+      "age_max": 60,
+      "discounts_pct": {
+        "א": 70,
+        "ב": 58,
+        "ג": 58,
+        "ד": 48,
+        "ה": 48,
+        "ו": 38
+      },
+      "is_special_until_67": false
+    },
+    {
+      "agreement_code": 3704,
+      "min_cover_ils": 1500000,
+      "age_min": 30,
+      "age_max": 67,
+      "discounts_pct": {
+        "א": 70,
+        "ב": 65,
+        "ג": 60,
+        "ד": 55,
+        "ה": 50,
+        "ו": 40
+      },
+      "is_special_until_67": true
+    },
+    {
+      "agreement_code": 3589,
+      "min_cover_ils": 1500000,
+      "age_min": 30,
+      "age_max": 60,
+      "discounts_pct": {
+        "א": 53,
+        "ב": 53,
+        "ג": 53,
+        "ד": 53,
+        "ה": 53,
+        "ו": 53
+      },
+      "is_special_until_67": false
+    },
+    {
+      "agreement_code": 3705,
+      "min_cover_ils": 1000000,
+      "age_min": 30,
+      "age_max": 67,
+      "discounts_pct": {
+        "א": 70,
+        "ב": 65,
+        "ג": 60,
+        "ד": 50,
+        "ה": 40,
+        "ו": 40
+      },
+      "is_special_until_67": true
+    },
+    {
+      "agreement_code": 3592,
+      "min_cover_ils": 1000000,
+      "age_min": 30,
+      "age_max": 60,
+      "discounts_pct": {
+        "א": 50,
+        "ב": 50,
+        "ג": 50,
+        "ד": 50,
+        "ה": 50,
+        "ו": 50
+      },
+      "is_special_until_67": false
+    },
+    {
+      "agreement_code": 3593,
+      "min_cover_ils": 750000,
+      "age_min": 30,
+      "age_max": 60,
+      "discounts_pct": {
+        "א": 38,
+        "ב": 38,
+        "ג": 38,
+        "ד": 38,
+        "ה": 38,
+        "ו": 38
+      },
+      "is_special_until_67": false
+    },
+    {
+      "agreement_code": 3706,
+      "min_cover_ils": 750000,
+      "age_min": 30,
+      "age_max": 67,
+      "discounts_pct": {
+        "א": 65,
+        "ב": 60,
+        "ג": 55,
+        "ד": 50,
+        "ה": 45,
+        "ו": 40
+      },
+      "is_special_until_67": true
+    },
+    {
+      "agreement_code": 3707,
+      "min_cover_ils": 500000,
+      "age_min": 30,
+      "age_max": 67,
+      "discounts_pct": {
+        "א": 65,
+        "ב": 55,
+        "ג": 55,
+        "ד": 50,
+        "ה": 40,
+        "ו": 30
+      },
+      "is_special_until_67": true
+    }
+  ]
+}

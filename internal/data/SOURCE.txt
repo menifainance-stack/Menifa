@@ -1,0 +1,12 @@
+Source of truth for the Shilat life-risk calculator (pilot only).
+
+Copied from WhatsApp PDF extractions on 2026-09-16:
+- official-risk1-tariff-annual-per-1000-by-age-sex-smoker.csv
+- special-discounts-agreement-codes-until-67.csv
+- special-discounts-rules.json
+
+Company name on the Risk1 tariff and the discount table: UNKNOWN — do not invent.
+Meaning of discount letters א–ו: UNKNOWN — label as אות הנחה only.
+
+Regenerate JS: python3 tools/build_shilat_life_data.py
+Tests: node tools/test_shilat_life_calc.js

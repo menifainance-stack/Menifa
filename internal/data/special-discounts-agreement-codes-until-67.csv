@@ -1,0 +1,12 @@
+agreement_code,min_cover_ils,age_min,age_max,discount_pct_aleph,discount_pct_bet,discount_pct_gimel,discount_pct_dalet,discount_pct_he,discount_pct_vav,is_special_until_67,table_title,source_pdf,notes
+3703,2000000,30,67,72,65,65,55,45,45,true,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,red_code_special_until_67
+3585,2000000,30,60,60,60,60,50,50,50,false,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,prior_agreement_until_60
+3586,2000000,30,60,58,58,58,58,58,58,false,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,prior_agreement_until_60
+3587,1500000,30,60,70,58,58,48,48,38,false,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,prior_agreement_until_60
+3704,1500000,30,67,70,65,60,55,50,40,true,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,red_code_special_until_67
+3589,1500000,30,60,53,53,53,53,53,53,false,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,prior_agreement_until_60
+3705,1000000,30,67,70,65,60,50,40,40,true,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,red_code_special_until_67
+3592,1000000,30,60,50,50,50,50,50,50,false,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,prior_agreement_until_60
+3593,750000,30,60,38,38,38,38,38,38,false,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,prior_agreement_until_60
+3706,750000,30,67,65,60,55,50,45,40,true,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,red_code_special_until_67
+3707,500000,30,67,65,55,55,50,40,30,true,מכונות מעודכן,הנחות מיוחדות ריסקים עד גיל 67!.pdf,red_code_special_until_67
