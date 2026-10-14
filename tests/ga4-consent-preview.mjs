@@ -13,6 +13,13 @@ if (!BASE) {
   process.exit(1);
 }
 const TID = 'G-8ZP1G2VP40';
+const BEACON_HOST = 'fp-beacon.test';
+const BEACON_EXPECT = {
+  'lp-mihzur': { events: ['page_view', 'quiz_step'], slim: false },
+  'lp-ihud': { events: ['quiz_step'], slim: true },
+  'q-mihzur': { events: ['page_view', 'quiz_step'], slim: false },
+  'q-ihud': { events: ['page_view', 'quiz_step'], slim: false }
+};
 const QS = '?utm_source=facebook&email=x@y.com&fbclid=TEST&phone=0509999999';
 const REFERRER = 'https://news.example/story?email=x@y.com&phone=0501234567&utm_source=newsletter&gclid=gclidtest';
 const OUT = process.env.GA4_OUT || '/opt/cursor/artifacts/ga4';
@@ -239,14 +246,31 @@ const iphone = devices['iPhone 13'];
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const report = { base: BASE, started: new Date().toISOString(), pages: [], errors: [], samples: [], debugHits: [] };
 
+function beaconEvents(beacons) {
+  return beacons.map(function (hit) {
+    try { return JSON.parse(hit.post).event || ''; } catch (e) { return ''; }
+  }).filter(Boolean);
+}
+
 async function freshContext() {
   const context = await browser.newContext({ ...iphone });
+  await context.addInitScript(function (host) {
+    window.FP_BEACON_URL = 'https://' + host + '/collect';
+    window.__consentUpdates = 0;
+    window.addEventListener('consent-update', function () { window.__consentUpdates += 1; });
+  }, BEACON_HOST);
   const leads = [];
+  const beacons = [];
   await stubLeads(context, leads);
+  await context.route('**://' + BEACON_HOST + '/**', async function (route) {
+    const req = route.request();
+    beacons.push({ url: req.url(), post: req.postData() || '', ts: new Date().toISOString() });
+    await route.fulfill({ status: 204, body: '' });
+  });
   const page = await context.newPage();
   const hits = [];
   watch(page, hits);
-  return { context, page, hits, leads };
+  return { context, page, hits, leads, beacons };
 }
 
 for (const spec of PAGES) {
@@ -255,21 +279,25 @@ for (const spec of PAGES) {
 
   // Before consent + reject: zero GA and zero Meta.
   {
-    const { context, page, hits } = await freshContext();
+    const { context, page, hits, beacons } = await freshContext();
     try {
       const opened = await openPage(page, spec.path);
       row.status = opened.status;
       await page.locator('#cookie').waitFor({ state: 'visible', timeout: 10000 });
       await page.waitForTimeout(1500);
       const before = hits.filter(function (h) { return isGa(h) || isMeta(h); });
-      row.checks.beforeConsent = before.length === 0;
+      row.checks.beforeConsent = before.length === 0 && beacons.length === 0;
       if (before.length) report.errors.push(spec.name + ': requests before consent ' + before.map(function (h) { return h.url; }).join(' | '));
+      if (beacons.length) report.errors.push(spec.name + ': beacon before consent');
       await shot(page, spec.name + '-before-consent');
       await page.locator('#ck-none').click();
       await page.waitForTimeout(1500);
       const afterReject = hits.filter(function (h) { return isGa(h) || isMeta(h); });
-      row.checks.afterReject = afterReject.length === 0;
+      const rejectUpdates = await page.evaluate(function () { return window.__consentUpdates; });
+      row.checks.afterReject = afterReject.length === 0 && beacons.length === 0 && rejectUpdates === 1;
       if (afterReject.length) report.errors.push(spec.name + ': requests after reject ' + afterReject.map(function (h) { return h.url; }).join(' | '));
+      if (beacons.length) report.errors.push(spec.name + ': beacon after reject');
+      if (rejectUpdates !== 1) report.errors.push(spec.name + ': consent-update on reject fired ' + rejectUpdates + ' times');
       await shot(page, spec.name + '-after-reject');
     } catch (err) {
       row.checks.beforeConsent = false;
@@ -280,14 +308,22 @@ for (const spec of PAGES) {
 
   // Statistics only. Marketing stays off, so Meta must stay at 0.
   {
-    const { context, page, hits, leads } = await freshContext();
+    const { context, page, hits, leads, beacons } = await freshContext();
     try {
       await openPage(page, spec.path);
       await page.locator('#cookie').waitFor({ state: 'visible', timeout: 10000 });
       await page.waitForTimeout(800);
       const before = hits.filter(isGa);
       if (before.length) report.errors.push(spec.name + ': GA before accept ' + before.length);
+      if (beacons.length) report.errors.push(spec.name + ': beacon before statistics');
       await acceptStatistics(page);
+      const updates = await page.evaluate(function () { return window.__consentUpdates; });
+      row.checks.consentOnce = updates === 1;
+      if (!row.checks.consentOnce) report.errors.push(spec.name + ': consent-update fired ' + updates + ' times');
+      if (spec.name === 'lp-mihzur' || spec.name === 'lp-ihud') {
+        await page.locator('fieldset[data-q] input[type="radio"]').first().check({ force: true });
+        await page.waitForTimeout(400);
+      }
       await page.waitForRequest(function (req) {
         return GA_HOST.test(req.url()) && /\/collect/.test(req.url()) && (req.url().includes(TID) || (req.postData() || '').includes(TID));
       }, { timeout: 15000 });
@@ -431,6 +467,21 @@ for (const spec of PAGES) {
         const waBody = waHits.length ? decodeURIComponent(blobOf(waHits[0])) : '';
         if (waHits.length && (/[?&]text=/.test(waBody) || /שלום/.test(waBody))) report.errors.push('home: whatsapp link_url kept the message text');
         if (waHits.length) report.samples.push({ page: 'home', event: 'whatsapp_click', ts: waHits[0].ts, post: redact(waHits[0].post).slice(0, 500), url: redact(waHits[0].url).slice(0, 300) });
+      }
+      const expectBeacon = BEACON_EXPECT[spec.name];
+      const events = beaconEvents(beacons);
+      if (!expectBeacon) {
+        row.checks.beaconQuiet = beacons.length === 0;
+        if (beacons.length) report.errors.push(spec.name + ': beacon fired on a page that does not load it');
+      } else {
+        expectBeacon.events.forEach(function (name) {
+          if (events.indexOf(name) < 0) report.errors.push(spec.name + ': beacon missing ' + name + ' (' + events.join(',') + ')');
+        });
+        if (expectBeacon.slim && events.indexOf('page_view') >= 0) report.errors.push(spec.name + ': slim beacon sent page_view');
+        const leaked = beacons.some(function (hit) { return /x@y\.com|0501234567|fbclid=|מסורב/.test(hit.post); });
+        row.checks.beacon = expectBeacon.events.every(function (name) { return events.indexOf(name) >= 0; }) && !leaked && !(expectBeacon.slim && events.indexOf('page_view') >= 0);
+        if (leaked) report.errors.push(spec.name + ': beacon payload leaked contact data');
+        if (beacons[0]) report.samples.push({ page: spec.name, event: 'beacon', events: events, post: beacons[0].post.slice(0, 400) });
       }
       hits.filter(isCollect).forEach(function (h) {
         const raw = decodeURIComponent(blobOf(h));

@@ -137,9 +137,9 @@
   function isGaCollect(url) {
     return typeof url === 'string' && /\/g\/(?:s\/)?collect/i.test(url) && /google-analytics\.com|analytics\.google\.com/i.test(url);
   }
-  /* Preview hosts append _dbg=1 because this gtag build never writes it.
-     menifa.org is left untouched. After a statistics opt-out the same wrapper
-     drops every collect, including the cookieless gcs=G100 ping. */
+  /* Fetch, XHR, sendBeacon and image are patched only on *.vercel.app.
+     That is where Preview hits gain _dbg=1, and where a statistics opt-out
+     can drop the cookieless ping. menifa.org is not patched. */
   function scrubPairString(body) {
     return String(body || '').split('&').filter(function (part) {
       if (!part) return false;
@@ -174,7 +174,7 @@
     return url + (url.indexOf('?') === -1 ? '?' : '&') + '_dbg=1';
   }
   function armGaTransport() {
-    if (window.__menifaGaTransport) return;
+    if (!isPreviewHost() || window.__menifaGaTransport) return;
     window.__menifaGaTransport = true;
     var origBeacon = navigator.sendBeacon && navigator.sendBeacon.bind(navigator);
     if (origBeacon) {
@@ -255,7 +255,6 @@
   }
   function gaConfig() {
     var cfg = {
-      anonymize_ip: true,
       page_location: safePageLocation(),
       allow_google_signals: false,
       allow_ad_personalization_signals: false

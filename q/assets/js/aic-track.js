@@ -185,8 +185,9 @@
     if (!isPreviewHost() || /(?:^|[?&])_dbg=/.test(url)) return url;
     return url + (url.indexOf("?") === -1 ? "?" : "&") + "_dbg=1";
   }
+  /* Same preview-only transport patch as site.js. menifa.org is not patched. */
   function armGaTransport() {
-    if (window.__menifaGaTransport) return;
+    if (!isPreviewHost() || window.__menifaGaTransport) return;
     window.__menifaGaTransport = true;
     var origBeacon = navigator.sendBeacon && navigator.sendBeacon.bind(navigator);
     if (origBeacon) {
@@ -360,7 +361,6 @@
     });
     window.gtag("js", new Date());
     var cfg = {
-      anonymize_ip: true,
       page_location: safePageLocation(),
       allow_google_signals: false,
       allow_ad_personalization_signals: false
