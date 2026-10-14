@@ -10,7 +10,7 @@
     leadWebhook: 'https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig',
     // Tracking IDs load ONLY after the visitor consents to that category.
     // IDs are set in parts.py -> TRACKING and injected as window.MENIFA_TRACK
-    ga4: (window.MENIFA_TRACK || {}).ga4 || '',               // statistics
+    ga4: (window.MENIFA_TRACK || {}).ga4 || 'G-8ZP1G2VP40', // statistics. Property 557328779.
     // Menifa Website. An empty page-level id still uses this one.
     // fbevents.js loads only after marketing consent (see loadTrackers).
     metaPixel: (window.MENIFA_TRACK || {}).meta_pixel || '1085659520839178',
@@ -111,14 +111,63 @@
     modal.hidden = false; $('#ck-stats').focus();
   }
   function loadScript(src) { var s = document.createElement('script'); s.async = true; s.src = src; document.head.appendChild(s); }
+  /* page_location allowlist: utm_* and gclid only. Email, phone, or any other query never reaches GA. */
+  function safePageLocation() {
+    try {
+      var u = new URL(location.href);
+      var next = new URL(u.origin + u.pathname);
+      u.searchParams.forEach(function (value, key) {
+        if (key === 'gclid' || key.indexOf('utm_') === 0) next.searchParams.append(key, value);
+      });
+      if (u.hash) next.hash = u.hash;
+      return next.href;
+    } catch (e) {
+      return location.origin + location.pathname;
+    }
+  }
+  function gaConfig() {
+    var cfg = {
+      anonymize_ip: true,
+      page_location: safePageLocation(),
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false
+    };
+    /* DebugView only on Vercel Preview. Never on menifa.org. */
+    if (/\.vercel\.app$/i.test(location.hostname)) cfg.debug_mode = true;
+    return cfg;
+  }
+  function updateGaConsent() {
+    if (!window.gtag || !window.__ga) return;
+    window.gtag('consent', 'update', {
+      analytics_storage: consent && consent.statistics ? 'granted' : 'denied',
+      ad_storage: consent && consent.marketing ? 'granted' : 'denied',
+      ad_user_data: consent && consent.marketing ? 'granted' : 'denied',
+      ad_personalization: consent && consent.marketing ? 'granted' : 'denied'
+    });
+  }
+  function loadGa() {
+    if (!consent || !consent.statistics || !CONFIG.ga4) return;
+    if (window.__ga) { updateGaConsent(); return; }
+    window.__ga = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    /* Consent Mode v2 default is denied, before config. The script loads only after this queue is set. */
+    window.gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
+    window.gtag('js', new Date());
+    window.gtag('config', CONFIG.ga4, gaConfig());
+    updateGaConsent();
+    loadScript('https://www.googletagmanager.com/gtag/js?id=' + CONFIG.ga4);
+  }
   function loadTrackers() {
     if (!consent) return;
-    if (consent.statistics && CONFIG.ga4 && !window.__ga) {
-      window.__ga = true; loadScript('https://www.googletagmanager.com/gtag/js?id=' + CONFIG.ga4);
-      window.dataLayer = window.dataLayer || []; window.gtag = function () { dataLayer.push(arguments); };
-      gtag('consent', 'default', { ad_storage: consent.marketing ? 'granted' : 'denied', ad_user_data: consent.marketing ? 'granted' : 'denied', ad_personalization: consent.marketing ? 'granted' : 'denied', analytics_storage: 'granted' });
-      gtag('js', new Date()); gtag('config', CONFIG.ga4, { anonymize_ip: true });
-    }
+    if (consent.statistics) loadGa();
+    else if (window.__ga) updateGaConsent();
     if (consent.statistics && CONFIG.clarity && !window.clarity) {
       (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', CONFIG.clarity);
     }
@@ -137,7 +186,7 @@
     var clean = {};
     Object.keys(params).forEach(function (k) { if (!DL_DROP[k]) clean[k] = params[k]; });
     (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, clean));
-    if (window.gtag && window.__ga) gtag('event', name, clean);
+    if (window.gtag && window.__ga) window.gtag('event', name, clean);
   }
   function fireMetaLead(eventId) {
     if (!consent || !consent.marketing || !window.fbq) return;
@@ -148,6 +197,21 @@
   function isCampaignLead(source) {
     return source === 'lp-ihud' || source === 'lp-mihzur';
   }
+  function leadBucket(source) {
+    source = String(source || '');
+    if (source.indexOf('lp') === 0) return 'lp';
+    if (source.indexOf('q') === 0) return 'q';
+    return 'site';
+  }
+  function trackGenerateLead(form, data) {
+    var source = (data && data.source) || (form && form.getAttribute('data-lead')) || '';
+    window.menifaTrack('generate_lead', {
+      form_id: (form && (form.id || form.getAttribute('data-lead'))) || source,
+      page_path: location.pathname,
+      lead_source: leadBucket(source),
+      event_id: (data && data.event_id) || ''
+    });
+  }
   function flushEvents() { if (!consent || (!consent.statistics && !consent.marketing)) return; while (evQ.length) { var e = evQ.shift(); sendEvent(e[0], e[1]); } }
   window.menifaTrack = function (name, params) {
     if (consent && (consent.statistics || consent.marketing)) sendEvent(name, params); else evQ.push([name, params]);
@@ -157,7 +221,11 @@
   try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
     if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
-    if (got) sessionStorage.setItem('menifa-att', JSON.stringify(att0)); } catch (er) {}
+    if (got) sessionStorage.setItem('menifa-att', JSON.stringify(att0));
+    /* Drop email, phone, and any other query key before a tracker can read location. Attribution is already stored. */
+    var cleanLoc = safePageLocation();
+    if (cleanLoc !== location.href) history.replaceState(history.state, '', cleanLoc);
+  } catch (er) {}
   window.menifaIds = function () { return { event_id: 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
   // clicks: WhatsApp / phone
   document.addEventListener('click', function (e) {
@@ -284,6 +352,19 @@
   /* ===== lead forms ===== */
   $$('form[data-lead]').forEach(function (form) {
     var err = $('.form-err', form), ok = form.parentNode.querySelector('.form-ok');
+    var leadKey = form.getAttribute('data-lead') || '';
+    if (leadKey.indexOf('lp') === 0) {
+      var formStarted = false;
+      form.addEventListener('focusin', function () {
+        if (formStarted) return;
+        formStarted = true;
+        window.menifaTrack('form_start', {
+          form_id: form.id || leadKey,
+          page_path: location.pathname,
+          lead_source: 'lp'
+        });
+      });
+    }
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var data = {}, extra = [];
@@ -326,6 +407,7 @@
             clearTimeout(t);
             if (res && res.ok) {
               if (isCampaignLead(data.source)) fireMetaLead(data.event_id);
+              trackGenerateLead(form, data);
               finish(true);
             } else finish(false);
           }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });

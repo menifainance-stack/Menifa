@@ -228,10 +228,26 @@
     scrollEnd();
   }
 
+  var quizStarted = false;
+  function quizName() {
+    return cfg.product === "ihud" || cfg.product === "mihzur" ? cfg.product : "";
+  }
+  function trackQuiz(name, extra) {
+    if (!window.menifaTrack) return;
+    var params = { quiz: quizName(), page_path: location.pathname };
+    if (extra) Object.keys(extra).forEach(function (k) { params[k] = extra[k]; });
+    window.menifaTrack(name, params);
+  }
+
   async function ask(idx) {
     phase = "ask";
     qIndex = idx;
     window.MENIFA_QUIZ_STEP = qIndex;
+    if (!quizStarted) {
+      quizStarted = true;
+      trackQuiz("quiz_start");
+    }
+    trackQuiz("quiz_step", { step_number: idx + 1 });
     updateBack();
     var q = cfg.questions[idx];
     var botNodes = [];
@@ -301,6 +317,7 @@
 
   async function showResult() {
     phase = "result";
+    trackQuiz("quiz_complete");
     updateBack();
     var html =
       typeof cfg.softResult === "function"
@@ -387,7 +404,16 @@
       keepalive: true,
       body: body
     }).then(function (res) {
-      if (res && res.ok && window.menifaTrackLead) window.menifaTrackLead(ids.event_id);
+      if (!res || !res.ok) return;
+      if (window.menifaTrack) {
+        window.menifaTrack("generate_lead", {
+          form_id: source,
+          page_path: page,
+          lead_source: "q",
+          event_id: ids.event_id
+        });
+      }
+      if (window.menifaTrackLead) window.menifaTrackLead(ids.event_id);
     }).catch(function () {});
   }
 

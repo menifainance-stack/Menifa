@@ -5,7 +5,8 @@
  */
 (function () {
   "use strict";
-  window.MENIFA_TRACK = window.MENIFA_TRACK || { ga4: "", meta_pixel: "", clarity: "" };
+  window.MENIFA_TRACK = window.MENIFA_TRACK || { ga4: "G-8ZP1G2VP40", meta_pixel: "", clarity: "" };
+  if (!window.MENIFA_TRACK.ga4) window.MENIFA_TRACK.ga4 = "G-8ZP1G2VP40";
   var C_KEY = "menifa-consent";
   var C_VERSION = 2;
   var pixelId = "";
@@ -32,10 +33,23 @@
       else if (att[k] == null) att[k] = "";
     });
     if (!att.landing) {
-      att.landing = location.href;
       att.referrer = document.referrer || "";
     }
     sessionStorage.setItem("menifa-att", JSON.stringify(att));
+    var cleanLoc = (function () {
+      var u = new URL(location.href);
+      var next = new URL(u.origin + u.pathname);
+      u.searchParams.forEach(function (value, key) {
+        if (key === "gclid" || key.indexOf("utm_") === 0) next.searchParams.append(key, value);
+      });
+      if (u.hash) next.hash = u.hash;
+      return next.href;
+    })();
+    if (!att.landing) {
+      att.landing = cleanLoc;
+      sessionStorage.setItem("menifa-att", JSON.stringify(att));
+    }
+    if (cleanLoc !== location.href) history.replaceState(history.state, "", cleanLoc);
   } catch (err) {}
 
   function cookie(name) {
@@ -81,6 +95,7 @@
     if (modal) modal.hidden = true;
     syncCookiePad();
     maybeLoadPixel();
+    maybeLoadGa();
     window.dispatchEvent(new CustomEvent("consent-update"));
   }
 
@@ -124,6 +139,91 @@
     maybeLoadPixel();
   };
 
+  /* page_location allowlist: utm_* and gclid only. Same rule as assets/site.js. */
+  function safePageLocation() {
+    try {
+      var u = new URL(location.href);
+      var next = new URL(u.origin + u.pathname);
+      u.searchParams.forEach(function (value, key) {
+        if (key === "gclid" || key.indexOf("utm_") === 0) next.searchParams.append(key, value);
+      });
+      if (u.hash) next.hash = u.hash;
+      return next.href;
+    } catch (e) {
+      return location.origin + location.pathname;
+    }
+  }
+  function gaId() {
+    return String((window.MENIFA_TRACK && window.MENIFA_TRACK.ga4) || "").trim() || "G-8ZP1G2VP40";
+  }
+  function updateGaConsent() {
+    if (!window.gtag || !window.__ga) return;
+    window.gtag("consent", "update", {
+      analytics_storage: consent && consent.statistics ? "granted" : "denied",
+      ad_storage: consent && consent.marketing ? "granted" : "denied",
+      ad_user_data: consent && consent.marketing ? "granted" : "denied",
+      ad_personalization: consent && consent.marketing ? "granted" : "denied"
+    });
+  }
+  var gaQ = [];
+  var GA_KEYS = { form_id: 1, page_path: 1, lead_source: 1, event_id: 1, step_number: 1, quiz: 1 };
+  function sendGaEvent(name, params) {
+    params = params || {};
+    var clean = {};
+    Object.keys(params).forEach(function (k) {
+      if (GA_KEYS[k] && params[k] != null && params[k] !== "") clean[k] = params[k];
+    });
+    (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, clean));
+    if (window.gtag && window.__ga) window.gtag("event", name, clean);
+  }
+  function flushGa() {
+    if (!consent || !consent.statistics || !window.gtag || !window.__ga) return;
+    while (gaQ.length) {
+      var e = gaQ.shift();
+      sendGaEvent(e[0], e[1]);
+    }
+  }
+  function maybeLoadGa() {
+    if (!consent || !consent.statistics) {
+      if (window.__ga) updateGaConsent();
+      return;
+    }
+    if (window.__ga) { updateGaConsent(); flushGa(); return; }
+    var id = gaId();
+    if (!id) return;
+    window.__ga = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    window.gtag("consent", "default", {
+      analytics_storage: "denied",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      wait_for_update: 500
+    });
+    window.gtag("js", new Date());
+    var cfg = {
+      anonymize_ip: true,
+      page_location: safePageLocation(),
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false
+    };
+    if (/\.vercel\.app$/i.test(location.hostname)) cfg.debug_mode = true;
+    window.gtag("config", id, cfg);
+    updateGaConsent();
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
+    document.head.appendChild(s);
+    flushGa();
+  }
+  if (!window.menifaTrack) {
+    window.menifaTrack = function (name, params) {
+      if (consent && consent.statistics && window.gtag && window.__ga) sendGaEvent(name, params);
+      else gaQ.push([name, params]);
+    };
+  }
+
   window.menifaTrackLead = function (eventId) {
     if (!consent || !consent.marketing || !pixelId) return;
     maybeLoadPixel();
@@ -162,4 +262,5 @@
   Array.prototype.forEach.call(document.querySelectorAll("[data-cookie-settings]"), function (b) {
     b.addEventListener("click", function (e) { e.preventDefault(); openPrefs(); });
   });
+  if (consent && consent.statistics) maybeLoadGa();
 })();
