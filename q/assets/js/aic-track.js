@@ -153,6 +153,58 @@
       return location.origin + location.pathname;
     }
   }
+  function isPreviewHost() {
+    return /\.vercel\.app$/i.test(location.hostname);
+  }
+  /* Same _dbg bridge as assets/site.js. This gtag build never writes _dbg itself. */
+  function armPreviewDebug() {
+    if (window.__menifaGaDbg || !isPreviewHost()) return;
+    window.__menifaGaDbg = true;
+    function isCollect(url) {
+      return typeof url === "string" && /\/g\/(?:s\/)?collect/i.test(url) && /google-analytics\.com|analytics\.google\.com/i.test(url);
+    }
+    function withDbg(url) {
+      if (!isCollect(url) || /(?:^|[?&])_dbg=/.test(url)) return url;
+      return url + (url.indexOf("?") === -1 ? "?" : "&") + "_dbg=1";
+    }
+    var origBeacon = navigator.sendBeacon && navigator.sendBeacon.bind(navigator);
+    if (origBeacon) {
+      navigator.sendBeacon = function (url, data) {
+        return origBeacon(typeof url === "string" ? withDbg(url) : url, data);
+      };
+    }
+    var origFetch = window.fetch && window.fetch.bind(window);
+    if (origFetch) {
+      window.fetch = function (input, init) {
+        try {
+          if (typeof input === "string") input = withDbg(input);
+          else if (input && typeof input.url === "string") {
+            var next = withDbg(input.url);
+            if (next !== input.url) input = new Request(next, input);
+          }
+        } catch (e) {}
+        return origFetch(input, init);
+      };
+    }
+    var xo = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function () {
+      var args = Array.prototype.slice.call(arguments);
+      if (typeof args[1] === "string") args[1] = withDbg(args[1]);
+      return xo.apply(this, args);
+    };
+    try {
+      var proto = window.HTMLImageElement && HTMLImageElement.prototype;
+      var desc = proto && Object.getOwnPropertyDescriptor(proto, "src");
+      if (desc && desc.set && desc.get) {
+        Object.defineProperty(proto, "src", {
+          configurable: true,
+          enumerable: desc.enumerable,
+          get: function () { return desc.get.call(this); },
+          set: function (v) { desc.set.call(this, typeof v === "string" ? withDbg(v) : v); }
+        });
+      }
+    } catch (e2) {}
+  }
   function gaId() {
     return String((window.MENIFA_TRACK && window.MENIFA_TRACK.ga4) || "").trim() || "G-8ZP1G2VP40";
   }
@@ -188,6 +240,7 @@
       if (window.__ga) updateGaConsent();
       return;
     }
+    armPreviewDebug();
     if (window.__ga) { updateGaConsent(); flushGa(); return; }
     var id = gaId();
     if (!id) return;
@@ -208,7 +261,7 @@
       allow_google_signals: false,
       allow_ad_personalization_signals: false
     };
-    if (/\.vercel\.app$/i.test(location.hostname)) cfg.debug_mode = true;
+    if (isPreviewHost()) cfg.debug_mode = true;
     window.gtag("config", id, cfg);
     updateGaConsent();
     var s = document.createElement("script");

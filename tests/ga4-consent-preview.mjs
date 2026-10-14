@@ -65,7 +65,8 @@ function eventIdOf(hit) {
 }
 function hasDebug(hit) {
   const b = blobOf(hit);
-  return /(?:^|[?&])_dbg=1(?:&|$)/.test(b) || /ep\.debug_mode=1/.test(b) || /debug_mode=1/.test(b);
+  /* blobOf joins url and body with a newline, so _dbg=1 at the end of the URL is not at end-of-string. */
+  return /(?:^|[?&])_dbg=1(?:&|\n|$)/.test(b) || /ep\.debug_mode=1(?:&|\n|$)/.test(b) || /(?:^|[?&\n])debug_mode=1(?:&|\n|$)/.test(b);
 }
 function locationOf(hit) {
   const p = paramsOf(hit);

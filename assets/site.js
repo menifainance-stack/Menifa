@@ -125,6 +125,60 @@
       return location.origin + location.pathname;
     }
   }
+  function isPreviewHost() {
+    return /\.vercel\.app$/i.test(location.hostname);
+  }
+  /* This gtag build copies debug_mode onto the hit as ep.debug_mode and never
+     emits _dbg. DebugView only lists hits that carry _dbg=1, so Preview hosts
+     append that flag on the collect URL. menifa.org is left alone. */
+  function armPreviewDebug() {
+    if (window.__menifaGaDbg || !isPreviewHost()) return;
+    window.__menifaGaDbg = true;
+    function isCollect(url) {
+      return typeof url === 'string' && /\/g\/(?:s\/)?collect/i.test(url) && /google-analytics\.com|analytics\.google\.com/i.test(url);
+    }
+    function withDbg(url) {
+      if (!isCollect(url) || /(?:^|[?&])_dbg=/.test(url)) return url;
+      return url + (url.indexOf('?') === -1 ? '?' : '&') + '_dbg=1';
+    }
+    var origBeacon = navigator.sendBeacon && navigator.sendBeacon.bind(navigator);
+    if (origBeacon) {
+      navigator.sendBeacon = function (url, data) {
+        return origBeacon(typeof url === 'string' ? withDbg(url) : url, data);
+      };
+    }
+    var origFetch = window.fetch && window.fetch.bind(window);
+    if (origFetch) {
+      window.fetch = function (input, init) {
+        try {
+          if (typeof input === 'string') input = withDbg(input);
+          else if (input && typeof input.url === 'string') {
+            var next = withDbg(input.url);
+            if (next !== input.url) input = new Request(next, input);
+          }
+        } catch (e) {}
+        return origFetch(input, init);
+      };
+    }
+    var xo = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function () {
+      var args = Array.prototype.slice.call(arguments);
+      if (typeof args[1] === 'string') args[1] = withDbg(args[1]);
+      return xo.apply(this, args);
+    };
+    try {
+      var proto = window.HTMLImageElement && HTMLImageElement.prototype;
+      var desc = proto && Object.getOwnPropertyDescriptor(proto, 'src');
+      if (desc && desc.set && desc.get) {
+        Object.defineProperty(proto, 'src', {
+          configurable: true,
+          enumerable: desc.enumerable,
+          get: function () { return desc.get.call(this); },
+          set: function (v) { desc.set.call(this, typeof v === 'string' ? withDbg(v) : v); }
+        });
+      }
+    } catch (e2) {}
+  }
   function gaConfig() {
     var cfg = {
       anonymize_ip: true,
@@ -133,7 +187,7 @@
       allow_ad_personalization_signals: false
     };
     /* DebugView only on Vercel Preview. Never on menifa.org. */
-    if (/\.vercel\.app$/i.test(location.hostname)) cfg.debug_mode = true;
+    if (isPreviewHost()) cfg.debug_mode = true;
     return cfg;
   }
   function updateGaConsent() {
@@ -147,6 +201,7 @@
   }
   function loadGa() {
     if (!consent || !consent.statistics || !CONFIG.ga4) return;
+    armPreviewDebug();
     if (window.__ga) { updateGaConsent(); return; }
     window.__ga = true;
     window.dataLayer = window.dataLayer || [];
