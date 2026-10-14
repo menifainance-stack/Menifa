@@ -34,6 +34,7 @@
 
   var answers = {};
   var qIndex = -1;
+  window.MENIFA_QUIZ_STEP = -1;
   var phase = "intro"; /* intro | ask | result */
   var busy = false;
   /* each turn: { qIdx, botNodes:[], userNode, timeNode, answerKey, answerVal } */
@@ -230,6 +231,7 @@
   async function ask(idx) {
     phase = "ask";
     qIndex = idx;
+    window.MENIFA_QUIZ_STEP = qIndex;
     updateBack();
     var q = cfg.questions[idx];
     var botNodes = [];
@@ -559,6 +561,7 @@
       busy = false;
       phase = "intro";
       qIndex = -1;
+      window.MENIFA_QUIZ_STEP = qIndex;
       updateBack();
       setHint("בחר אפשרות");
       /* if lockProduct, re-ask q0 */

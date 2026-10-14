@@ -102,6 +102,7 @@
     if (banner) banner.hidden = true;
     if (modal) modal.hidden = true;
     loadTrackers();
+    window.dispatchEvent(new CustomEvent("consent-update"));
   }
   function openPrefs() {
     if (!modal) return;

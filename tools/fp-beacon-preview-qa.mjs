@@ -135,6 +135,34 @@ async function instrument(context, beaconUrl) {
   }, beaconUrl || "");
 }
 
+async function silenceProbe(page) {
+  await page.clock.fastForward(12000);
+  await page.evaluate(() => {
+    const el = document.scrollingElement || document.documentElement;
+    el.style.scrollBehavior = "auto";
+    const span = Math.max(el.scrollHeight - el.clientHeight, 0);
+    if (span) el.scrollTop = span;
+    const log = document.getElementById("aic-log");
+    if (!log) return;
+    log.style.scrollBehavior = "auto";
+    if (log.scrollHeight > log.clientHeight) log.scrollTop = log.scrollHeight;
+  });
+  await new Promise((r) => setTimeout(r, 150));
+}
+
+async function acceptStatistics(page) {
+  await page.evaluate(() => {
+    const open = document.querySelector("[data-cookie-settings]");
+    if (open) open.click();
+    const stats = document.getElementById("ck-stats");
+    const mkt = document.getElementById("ck-mkt");
+    if (stats) stats.checked = true;
+    if (mkt) mkt.checked = false;
+    const save = document.getElementById("ck-save");
+    if (save) save.click();
+  });
+}
+
 async function exercise(page, pathname) {
   if (pathname.startsWith("/lp/")) {
     const name = page.locator('input[name="name"]');
@@ -209,7 +237,22 @@ async function runPage(browser, origin, beaconUrl, pathname, viaRoute, disableBe
   const shotName = pathname.replace(/\//g, "_").replace(/^_|_$/g, "") + ".png";
   await page.screenshot({ path: path.join(shotDir, shotName), fullPage: false });
   const landedNow = new URL(page.url()).pathname;
-  if (!disableBeacon) await exercise(page, landedNow);
+  const seen = () => (viaRoute ? routed.length : mockHits.length - before);
+  let beforeConsent = 0;
+  let afterReject = 0;
+  if (!disableBeacon) {
+    await silenceProbe(page);
+    beforeConsent = seen();
+    await page.evaluate(() => {
+      const none = document.getElementById("ck-none");
+      if (none) none.click();
+    });
+    await silenceProbe(page);
+    afterReject = seen();
+    await acceptStatistics(page);
+    await exercise(page, landedNow);
+  }
+  const acceptedAt = afterReject;
   await page.clock.fastForward(121000);
   const privacy = await page.evaluate(() => ({
     cookie: document.cookie,
@@ -227,15 +270,16 @@ async function runPage(browser, origin, beaconUrl, pathname, viaRoute, disableBe
   });
   await new Promise((r) => setTimeout(r, 400));
   let batch;
-  if (viaRoute) batch = routed.slice();
+  if (viaRoute) batch = routed.slice(acceptedAt);
   else {
-    await waitFor(() => mockHits.length > before, 4000).catch(() => null);
+    if (!disableBeacon) await waitFor(() => mockHits.length - before > acceptedAt, 4000).catch(() => null);
     await new Promise((r) => setTimeout(r, 300));
-    batch = mockHits.slice(before);
+    batch = mockHits.slice(before + acceptedAt);
   }
   const landed = new URL(page.url()).pathname;
+  const engineStep = await page.evaluate(() => window.MENIFA_QUIZ_STEP);
   await context.close();
-  return { pathname: landed, shotName, pixel, posts, privacy, batch };
+  return { pathname: landed, shotName, pixel, posts, privacy, batch, beforeConsent, afterReject, engineStep };
 }
 
 function expectEvents(pathname, events) {
@@ -291,8 +335,11 @@ async function main() {
       const row = await runPage(browser, origin, beaconUrl, pathname, viaRoute, false);
       if (row.pixel.length) throw new Error(pathname + " pixel requests " + row.pixel.join(" "));
       if (row.privacy.fbq !== "undefined" || row.privacy.fbqCalls) throw new Error(pathname + " fbq before consent");
+      if (row.beforeConsent) throw new Error(pathname + " beacon before consent " + row.beforeConsent);
+      if (row.afterReject) throw new Error(pathname + " beacon after reject " + row.afterReject);
       if (row.privacy.cookie) throw new Error(pathname + " cookie written " + row.privacy.cookie);
-      if (row.privacy.local.length) throw new Error(pathname + " localStorage " + row.privacy.local.join(","));
+      const localExtra = row.privacy.local.filter((k) => k !== "menifa-consent");
+      if (localExtra.length) throw new Error(pathname + " localStorage " + localExtra.join(","));
       const beaconWrites = row.privacy.writes.filter((w) => /fp-beacon\.js/.test(w.stack));
       if (beaconWrites.length) throw new Error(pathname + " beacon wrote storage");
       const foreign = row.privacy.session.filter((k) => k !== "menifa-att" && !/^vc-|^__vtkb/.test(k));
@@ -304,11 +351,22 @@ async function main() {
         return assertClean(h.body, row.pathname);
       });
       expectEvents(row.pathname, events);
+      if (row.pathname.indexOf("/q/") === 0) {
+        const steps = events.filter((e) => e.event === "quiz_step").map((e) => e.step);
+        const max = steps.reduce((hi, n) => Math.max(hi, n), 0);
+        for (let s = 1; s <= max; s++) {
+          if (!steps.includes(s)) throw new Error(row.pathname + " missing engine step " + s);
+        }
+        if (row.engineStep !== max - 1) throw new Error(row.pathname + " engine index " + row.engineStep + " last step " + max);
+      }
       samples[row.pathname] = events;
       results.push({
         page: row.pathname,
         events: events.map((e) => e.event + (e.step ? ":" + e.step : e.bucket ? ":" + e.bucket : "")),
         requests: events.length,
+        beforeConsent: row.beforeConsent,
+        afterReject: row.afterReject,
+        engineStep: row.engineStep,
         pixel: 0,
         cookies: row.privacy.cookie || "(none)",
         localStorage: row.privacy.local,
