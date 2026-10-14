@@ -19,12 +19,12 @@ const FP_BEACON_URL = "";
   function send(event, extra) {
     if (!allowed()) return;
     if (slim && event !== "quiz_step" && event !== "page_exit") return;
-    var o = { event: event, v: 1, fp: 1, path: path };
+    var o = { event: event, v: 1, fp: 1, path: path, sid: sid };
     if (utm.utm_source) o.utm_source = utm.utm_source;
     if (!slim) {
       allow.forEach(function (k) { if (k !== "utm_source" && utm[k]) o[k] = utm[k]; });
       o.has_fbclid = q.has("fbclid"); o.device = innerWidth < 768 ? "mobile" : "desktop";
-      o.ts = Math.floor(Date.now() / 60000) * 60000; o.sid = sid;
+      o.ts = Math.floor(Date.now() / 60000) * 60000;
     }
     if (extra) Object.keys(extra).forEach(function (k) { o[k] = extra[k]; });
     var body = JSON.stringify(o), blob = new Blob([body], { type: "text/plain;charset=UTF-8" });

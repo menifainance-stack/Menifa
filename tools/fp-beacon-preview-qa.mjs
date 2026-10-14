@@ -86,19 +86,19 @@ function assertClean(raw, pathname) {
   if (data.v !== 1 || data.fp !== 1) throw new Error("missing v/fp");
   if (data.utm_source !== "facebook") throw new Error("utm_source");
   const allowed = slimPath(pathname)
-    ? ["event", "v", "fp", "path", "utm_source", "step", "last_step"]
+    ? ["event", "v", "fp", "path", "utm_source", "sid", "step", "last_step"]
     : ["event", "v", "fp", "path", "utm_source", "utm_medium", "utm_campaign", "utm_content", "has_fbclid", "device", "ts", "sid", "step", "bucket", "last_step", "max_scroll"];
   Object.keys(data).forEach((key) => {
     if (!allowed.includes(key)) throw new Error(pathname + " unexpected field " + key);
   });
+  if (typeof data.sid !== "string" || data.sid.length < 8) throw new Error(pathname + " sid");
   if (slimPath(pathname)) {
-    ["has_fbclid", "device", "ts", "sid", "bucket", "max_scroll", "utm_medium", "utm_campaign", "utm_content"].forEach((key) => {
+    ["has_fbclid", "device", "ts", "bucket", "max_scroll", "utm_medium", "utm_campaign", "utm_content"].forEach((key) => {
       if (key in data) throw new Error("slim field " + key);
     });
   } else {
     if (data.has_fbclid !== true) throw new Error("has_fbclid");
     if (data.device !== "mobile") throw new Error("device " + data.device);
-    if (typeof data.sid !== "string" || data.sid.length < 8) throw new Error("sid");
     if (typeof data.ts !== "number" || data.ts % 60000 !== 0) throw new Error("ts");
   }
   return data;
@@ -291,6 +291,10 @@ function expectEvents(pathname, events) {
   need.forEach((name) => {
     if (!names.includes(name)) throw new Error(pathname + " missing " + name + " got " + names.join(","));
   });
+  const sids = events.map((e) => e.sid);
+  if (sids.some((id) => typeof id !== "string" || id.length < 8) || new Set(sids).size !== 1) {
+    throw new Error(pathname + " sid missing or unstable");
+  }
   if (slim) {
     ["page_view", "form_start", "time_on_page", "scroll_depth"].forEach((name) => {
       if (names.includes(name)) throw new Error(pathname + " slim sent " + name);
@@ -304,8 +308,6 @@ function expectEvents(pathname, events) {
     });
     const exit = events.find((e) => e.event === "page_exit");
     if (!exit || typeof exit.last_step !== "number" || typeof exit.max_scroll !== "number") throw new Error("page_exit fields");
-    const sids = events.map((e) => e.sid);
-    if (new Set(sids).size !== 1) throw new Error("sid not stable");
   }
   const steps = events.filter((e) => e.event === "quiz_step").map((e) => e.step);
   if (!steps.includes(1)) throw new Error("quiz step 1");
@@ -330,7 +332,8 @@ async function main() {
   const results = [];
   const samples = {};
   try {
-    for (const pathname of PAGES) {
+    const pages = process.env.FP_ONLY ? [process.env.FP_ONLY] : PAGES;
+    for (const pathname of pages) {
       mockHits.length = 0;
       const row = await runPage(browser, origin, beaconUrl, pathname, viaRoute, false);
       if (row.pixel.length) throw new Error(pathname + " pixel requests " + row.pixel.join(" "));
