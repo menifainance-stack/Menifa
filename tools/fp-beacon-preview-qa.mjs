@@ -86,21 +86,19 @@ function assertClean(raw, pathname) {
   if (data.v !== 1 || data.fp !== 1) throw new Error("missing v/fp");
   if (data.utm_source !== "facebook") throw new Error("utm_source");
   const allowed = slimPath(pathname)
-    ? ["event", "v", "fp", "path", "utm_source", "sid", "step", "last_step"]
+    ? ["event", "v", "fp", "path", "utm_source", "sid", "device", "ts", "step", "last_step"]
     : ["event", "v", "fp", "path", "utm_source", "utm_medium", "utm_campaign", "utm_content", "has_fbclid", "device", "ts", "sid", "step", "bucket", "last_step", "max_scroll"];
   Object.keys(data).forEach((key) => {
     if (!allowed.includes(key)) throw new Error(pathname + " unexpected field " + key);
   });
   if (typeof data.sid !== "string" || data.sid.length < 8) throw new Error(pathname + " sid");
+  if (data.device !== "mobile") throw new Error(pathname + " device " + data.device);
+  if (typeof data.ts !== "number" || data.ts % 60000 !== 0) throw new Error(pathname + " ts");
   if (slimPath(pathname)) {
-    ["has_fbclid", "device", "ts", "bucket", "max_scroll", "utm_medium", "utm_campaign", "utm_content"].forEach((key) => {
+    ["has_fbclid", "bucket", "max_scroll", "utm_medium", "utm_campaign", "utm_content"].forEach((key) => {
       if (key in data) throw new Error("slim field " + key);
     });
-  } else {
-    if (data.has_fbclid !== true) throw new Error("has_fbclid");
-    if (data.device !== "mobile") throw new Error("device " + data.device);
-    if (typeof data.ts !== "number" || data.ts % 60000 !== 0) throw new Error("ts");
-  }
+  } else if (data.has_fbclid !== true) throw new Error("has_fbclid");
   return data;
 }
 
