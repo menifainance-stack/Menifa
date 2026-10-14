@@ -33,23 +33,11 @@
       else if (att[k] == null) att[k] = "";
     });
     if (!att.landing) {
+      att.landing = location.pathname;
       att.referrer = document.referrer || "";
     }
     sessionStorage.setItem("menifa-att", JSON.stringify(att));
-    var cleanLoc = (function () {
-      var u = new URL(location.href);
-      var next = new URL(u.origin + u.pathname);
-      u.searchParams.forEach(function (value, key) {
-        if (key === "gclid" || key.indexOf("utm_") === 0) next.searchParams.append(key, value);
-      });
-      if (u.hash) next.hash = u.hash;
-      return next.href;
-    })();
-    if (!att.landing) {
-      att.landing = cleanLoc;
-      sessionStorage.setItem("menifa-att", JSON.stringify(att));
-    }
-    if (cleanLoc !== location.href) history.replaceState(history.state, "", cleanLoc);
+    /* Leave fbclid, gbraid, wbraid and gclid in the address bar for Meta _fbc. */
   } catch (err) {}
 
   function cookie(name) {
@@ -156,41 +144,92 @@
   function isPreviewHost() {
     return /\.vercel\.app$/i.test(location.hostname);
   }
-  /* Same _dbg bridge as assets/site.js. This gtag build never writes _dbg itself. */
-  function armPreviewDebug() {
-    if (window.__menifaGaDbg || !isPreviewHost()) return;
-    window.__menifaGaDbg = true;
-    function isCollect(url) {
-      return typeof url === "string" && /\/g\/(?:s\/)?collect/i.test(url) && /google-analytics\.com|analytics\.google\.com/i.test(url);
+  function gaOff() {
+    if (window.MENIFA_GA_OFF) return true;
+    var meta = document.querySelector('meta[name="menifa-ga"]');
+    return !!(meta && String(meta.getAttribute("content") || "").toLowerCase() === "off");
+  }
+  function isGaCollect(url) {
+    return typeof url === "string" && /\/g\/(?:s\/)?collect/i.test(url) && /google-analytics\.com|analytics\.google\.com/i.test(url);
+  }
+  function scrubPairString(body) {
+    return String(body || "").split("&").filter(function (part) {
+      if (!part) return false;
+      var text = part;
+      try { text = decodeURIComponent(part.replace(/\+/g, " ")); } catch (e) {}
+      return !hasSensitiveText(text);
+    }).join("&");
+  }
+  function hasSensitiveText(text) {
+    return /@[a-z0-9.-]+\.[a-z]{2,}/i.test(text) || /(?:\+972|0)5\d[-\s]?\d{3}[-\s]?\d{4}/.test(text) || /מסורב/.test(text);
+  }
+  function scrubCollect(url) {
+    try {
+      var u = new URL(url);
+      var drop = [];
+      u.searchParams.forEach(function (value, key) {
+        var text = value;
+        try { text = decodeURIComponent(value); } catch (e) {}
+        if (hasSensitiveText(text) || hasSensitiveText(key)) drop.push(key);
+      });
+      drop.forEach(function (k) { u.searchParams.delete(k); });
+      return u.toString();
+    } catch (e) {
+      return url;
     }
-    function withDbg(url) {
-      if (!isCollect(url) || /(?:^|[?&])_dbg=/.test(url)) return url;
-      return url + (url.indexOf("?") === -1 ? "?" : "&") + "_dbg=1";
-    }
+  }
+  function tuneCollect(url) {
+    if (!isGaCollect(url)) return url;
+    if (window.__menifaGaRevoked) return null;
+    url = scrubCollect(url);
+    if (!isPreviewHost() || /(?:^|[?&])_dbg=/.test(url)) return url;
+    return url + (url.indexOf("?") === -1 ? "?" : "&") + "_dbg=1";
+  }
+  function armGaTransport() {
+    if (window.__menifaGaTransport) return;
+    window.__menifaGaTransport = true;
     var origBeacon = navigator.sendBeacon && navigator.sendBeacon.bind(navigator);
     if (origBeacon) {
       navigator.sendBeacon = function (url, data) {
-        return origBeacon(typeof url === "string" ? withDbg(url) : url, data);
+        if (typeof url !== "string") return origBeacon(url, data);
+        var next = tuneCollect(url);
+        if (next === null) return true;
+        if (typeof data === "string") data = scrubPairString(data);
+        return origBeacon(next, data);
       };
     }
     var origFetch = window.fetch && window.fetch.bind(window);
     if (origFetch) {
       window.fetch = function (input, init) {
         try {
-          if (typeof input === "string") input = withDbg(input);
-          else if (input && typeof input.url === "string") {
-            var next = withDbg(input.url);
-            if (next !== input.url) input = new Request(next, input);
+          if (typeof input === "string") {
+            var next = tuneCollect(input);
+            if (next === null) return Promise.resolve(new Response("", { status: 204 }));
+            input = next;
+            if (init && typeof init.body === "string") init = Object.assign({}, init, { body: scrubPairString(init.body) });
+          } else if (input && typeof input.url === "string") {
+            var rewritten = tuneCollect(input.url);
+            if (rewritten === null) return Promise.resolve(new Response("", { status: 204 }));
+            if (rewritten !== input.url) input = new Request(rewritten, input);
           }
         } catch (e) {}
         return origFetch(input, init);
       };
     }
     var xo = XMLHttpRequest.prototype.open;
+    var xs = XMLHttpRequest.prototype.send;
     XMLHttpRequest.prototype.open = function () {
       var args = Array.prototype.slice.call(arguments);
-      if (typeof args[1] === "string") args[1] = withDbg(args[1]);
+      if (typeof args[1] === "string") {
+        var next = tuneCollect(args[1]);
+        if (next === null) { this.__menifaDrop = true; args[1] = "about:blank"; }
+        else args[1] = next;
+      }
       return xo.apply(this, args);
+    };
+    XMLHttpRequest.prototype.send = function () {
+      if (this.__menifaDrop) return;
+      return xs.apply(this, arguments);
     };
     try {
       var proto = window.HTMLImageElement && HTMLImageElement.prototype;
@@ -200,10 +239,43 @@
           configurable: true,
           enumerable: desc.enumerable,
           get: function () { return desc.get.call(this); },
-          set: function (v) { desc.set.call(this, typeof v === "string" ? withDbg(v) : v); }
+          set: function (v) {
+            if (typeof v === "string") {
+              var next = tuneCollect(v);
+              if (next === null) return;
+              v = next;
+            }
+            desc.set.call(this, v);
+          }
         });
       }
     } catch (e2) {}
+  }
+  function deleteGaCookies(id) {
+    var suffix = String(id || "").replace(/^G-/, "");
+    var names = ["_ga"];
+    if (suffix) names.push("_ga_" + suffix);
+    var domains = ["menifa.org", ".menifa.org"];
+    var host = location.hostname;
+    if (host && domains.indexOf(host) < 0) domains.push(host);
+    if (host && host.indexOf(".") > 0 && domains.indexOf("." + host) < 0) domains.push("." + host);
+    names.forEach(function (name) {
+      var tail = "=; Max-Age=0; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      document.cookie = name + tail;
+      document.cookie = name + tail + "; Secure";
+      domains.forEach(function (domain) {
+        document.cookie = name + tail + "; domain=" + domain;
+        document.cookie = name + tail + "; domain=" + domain + "; Secure";
+      });
+    });
+  }
+  function revokeGa() {
+    var id = gaId();
+    if (id) window["ga-disable-" + id] = true;
+    window.__menifaGaRevoked = true;
+    armGaTransport();
+    updateGaConsent();
+    deleteGaCookies(id);
   }
   function gaId() {
     return String((window.MENIFA_TRACK && window.MENIFA_TRACK.ga4) || "").trim() || "G-8ZP1G2VP40";
@@ -218,29 +290,61 @@
     });
   }
   var gaQ = [];
-  var GA_KEYS = { form_id: 1, page_path: 1, lead_source: 1, event_id: 1, step_number: 1, quiz: 1 };
+  var GA_KEYS = {
+    form_id: 1, lead_uuid: 1, page_path: 1, landing_page_path: 1,
+    utm_source: 1, utm_medium: 1, utm_campaign: 1, utm_content: 1, utm_term: 1,
+    step_number: 1, quiz: 1, wa_variant: 1, cta_location: 1, link_url: 1, lead_source: 1
+  };
+  function sensitiveValue(v) {
+    var s = String(v == null ? "" : v);
+    if (/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(s)) return true;
+    if (/(?:\+972|0)5\d[-\s]?\d{3}[-\s]?\d{4}/.test(s)) return true;
+    if (/מסורב/.test(s)) return true;
+    return false;
+  }
   function sendGaEvent(name, params) {
     params = params || {};
+    var allowStepOnly = name === "quiz_step";
     var clean = {};
     Object.keys(params).forEach(function (k) {
-      if (GA_KEYS[k] && params[k] != null && params[k] !== "") clean[k] = params[k];
+      if (allowStepOnly && k !== "step_number") return;
+      if (!GA_KEYS[k] || params[k] == null || params[k] === "") return;
+      if (sensitiveValue(params[k])) return;
+      clean[k] = params[k];
     });
     (window.dataLayer = window.dataLayer || []).push(Object.assign({ event: name }, clean));
+    if (window.__menifaGaRevoked || gaOff() || !consent || !consent.statistics) return;
     if (window.gtag && window.__ga) window.gtag("event", name, clean);
   }
   function flushGa() {
-    if (!consent || !consent.statistics || !window.gtag || !window.__ga) return;
+    if (!consent || !consent.statistics || gaOff() || window.__menifaGaRevoked || !window.gtag || !window.__ga) return;
     while (gaQ.length) {
       var e = gaQ.shift();
       sendGaEvent(e[0], e[1]);
     }
   }
+  function safeReferrer() {
+    var raw = document.referrer;
+    if (!raw) return "";
+    try {
+      var u = new URL(raw);
+      var next = new URL(u.origin + u.pathname);
+      u.searchParams.forEach(function (value, key) {
+        if (key === "gclid" || key.indexOf("utm_") === 0) next.searchParams.append(key, value);
+      });
+      return next.href;
+    } catch (e) {
+      return String(raw).split("?")[0].split("#")[0];
+    }
+  }
   function maybeLoadGa() {
-    if (!consent || !consent.statistics) {
-      if (window.__ga) updateGaConsent();
+    if (gaOff() || !consent || !consent.statistics) {
+      if (window.__ga) revokeGa();
       return;
     }
-    armPreviewDebug();
+    window.__menifaGaRevoked = false;
+    window["ga-disable-" + gaId()] = false;
+    armGaTransport();
     if (window.__ga) { updateGaConsent(); flushGa(); return; }
     var id = gaId();
     if (!id) return;
@@ -261,6 +365,8 @@
       allow_google_signals: false,
       allow_ad_personalization_signals: false
     };
+    var ref = safeReferrer();
+    if (ref) cfg.page_referrer = ref;
     if (isPreviewHost()) cfg.debug_mode = true;
     window.gtag("config", id, cfg);
     updateGaConsent();
@@ -272,9 +378,34 @@
   }
   if (!window.menifaTrack) {
     window.menifaTrack = function (name, params) {
-      if (consent && consent.statistics && window.gtag && window.__ga) sendGaEvent(name, params);
+      if (consent && consent.statistics && !gaOff() && window.gtag && window.__ga) sendGaEvent(name, params);
       else gaQ.push([name, params]);
     };
+  }
+  if (!window.__menifaWaClick) {
+    window.__menifaWaClick = true;
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest && e.target.closest("a[href]");
+      if (!a) return;
+      var h = a.getAttribute("href") || "";
+      if (!/wa\.me\/|api\.whatsapp\.com/i.test(h) && !a.hasAttribute("data-wa")) return;
+      var href = a.href || h;
+      var link = href;
+      try {
+        var u = new URL(href, location.href);
+        u.searchParams.delete("text");
+        u.hash = "";
+        link = u.origin + u.pathname + (u.search ? u.search : "");
+      } catch (err) {
+        link = String(href).split("?")[0];
+      }
+      var zone = a.closest && a.closest("#aic-replies, #wa-pop, footer, header, aside, [id]");
+      window.menifaTrack("whatsapp_click", {
+        wa_variant: /api\.whatsapp\.com/i.test(href) ? "api" : "wa.me",
+        cta_location: (zone && (zone.id || zone.tagName.toLowerCase())) || "page",
+        link_url: link
+      });
+    }, true);
   }
 
   window.menifaTrackLead = function (eventId) {

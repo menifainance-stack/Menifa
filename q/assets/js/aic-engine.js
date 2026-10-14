@@ -234,9 +234,11 @@
   }
   function trackQuiz(name, extra) {
     if (!window.menifaTrack) return;
-    var params = { quiz: quizName(), page_path: location.pathname };
-    if (extra) Object.keys(extra).forEach(function (k) { params[k] = extra[k]; });
-    window.menifaTrack(name, params);
+    if (name === "quiz_step") {
+      window.menifaTrack("quiz_step", { step_number: extra && extra.step_number });
+      return;
+    }
+    window.menifaTrack(name, { quiz: quizName() });
   }
 
   async function ask(idx) {
@@ -406,11 +408,18 @@
     }).then(function (res) {
       if (!res || !res.ok) return;
       if (window.menifaTrack) {
-        window.menifaTrack("generate_lead", {
+        var landing = att.landing || page;
+        try { if (/^https?:/i.test(landing)) landing = new URL(landing).pathname; } catch (err) {}
+        window.menifaTrack("form_submit_success", {
           form_id: source,
+          lead_uuid: ids.event_id,
           page_path: page,
-          lead_source: "q",
-          event_id: ids.event_id
+          landing_page_path: String(landing).split("?")[0].split("#")[0],
+          utm_source: att.utm_source || "",
+          utm_medium: att.utm_medium || "",
+          utm_campaign: att.utm_campaign || "",
+          utm_content: att.utm_content || "",
+          utm_term: att.utm_term || ""
         });
       }
       if (window.menifaTrackLead) window.menifaTrackLead(ids.event_id);

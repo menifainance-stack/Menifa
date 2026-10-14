@@ -13,7 +13,8 @@ if (!BASE) {
   process.exit(1);
 }
 const TID = 'G-8ZP1G2VP40';
-const QS = '?utm_source=facebook&email=x@y.com';
+const QS = '?utm_source=facebook&email=x@y.com&fbclid=TEST&phone=0509999999';
+const REFERRER = 'https://news.example/story?email=x@y.com&phone=0501234567&utm_source=newsletter&gclid=gclidtest';
 const OUT = process.env.GA4_OUT || '/opt/cursor/artifacts/ga4';
 const GA_HOST = /google-analytics\.com|googletagmanager\.com|analytics\.google\.com/i;
 const META_HOST = /connect\.facebook\.net|facebook\.com\/tr|fbevents\.js/i;
@@ -60,7 +61,7 @@ function hasPageView(hit) {
   return /(?:^|[?&])en=page_view(?:&|$)/.test(b) || /en=page_view/.test(b);
 }
 function eventIdOf(hit) {
-  const m = blobOf(hit).match(/(?:evnid|ep\.event_id|(?:^|[?&])event_id)=([^&\s]+)/);
+  const m = blobOf(hit).match(/(?:ep\.lead_uuid|(?:^|[?&])lead_uuid)=([^&\s]+)/);
   return m ? decodeURIComponent(m[1]) : '';
 }
 function hasDebug(hit) {
@@ -138,11 +139,11 @@ async function stubLeads(context, leads) {
 
 async function openPage(page, urlPath) {
   const url = BASE + urlPath + QS;
-  const res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
+  const res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000, referer: REFERRER });
   const status = res ? res.status() : 0;
   if (status >= 400) {
     const alt = urlPath.endsWith('/') ? urlPath.slice(0, -1) : urlPath + '/';
-    const res2 = await page.goto(BASE + alt + QS, { waitUntil: 'domcontentloaded', timeout: 45000 });
+    const res2 = await page.goto(BASE + alt + QS, { waitUntil: 'domcontentloaded', timeout: 45000, referer: REFERRER });
     return { url: page.url(), status: res2 ? res2.status() : status };
   }
   return { url: page.url(), status: status };
@@ -150,6 +151,11 @@ async function openPage(page, urlPath) {
 
 async function submitSiteForm(page) {
   const form = page.locator('form[data-lead]').first();
+  const need = form.locator('select[name="need"]');
+  if (await need.count()) {
+    const refused = need.locator('option', { hasText: 'מסורבי בנקים' });
+    if (await refused.count()) await need.selectOption({ label: 'מסורבי בנקים' });
+  }
   await form.locator('input[name="name"]').fill('בדיקה');
   await form.locator('input[name="phone"]').fill('0501234567');
   await form.locator('input[name="consent"]').check();
@@ -204,7 +210,29 @@ function assertCleanLocation(hits, errors, label) {
       if (k !== 'gclid' && k.indexOf('utm_') !== 0) errors.push(label + ': page_location kept ' + k);
     });
     if (u.searchParams.get('utm_source') !== 'facebook') errors.push(label + ': utm_source missing from page_location');
+    if (u.searchParams.has('fbclid')) errors.push(label + ': page_location kept fbclid');
   });
+}
+
+function assertCleanReferrer(hits, errors, label) {
+  const views = hits.filter(function (h) { return isCollect(h) && hasPageView(h); });
+  const refs = views.map(function (h) { return paramsOf(h).dr || ''; }).filter(Boolean);
+  if (!refs.length) {
+    errors.push(label + ': no dr/page_referrer on page_view');
+    return false;
+  }
+  let ok = true;
+  refs.forEach(function (dr) {
+    if (/x@y\.com|0501234567|email=|phone=/i.test(dr)) {
+      errors.push(label + ': dr leaks contact data: ' + dr);
+      ok = false;
+    }
+    if (!/utm_source=newsletter/.test(dr) || !/gclid=gclidtest/.test(dr)) {
+      errors.push(label + ': dr dropped an allowlisted referrer param: ' + dr);
+      ok = false;
+    }
+  });
+  return ok;
 }
 
 const iphone = devices['iPhone 13'];
@@ -275,7 +303,11 @@ for (const spec of PAGES) {
       if (expectDebug && !row.checks.debug) report.errors.push(spec.name + ': missing debug_mode on preview');
       if (!expectDebug && collects.some(hasDebug)) report.errors.push(spec.name + ': debug_mode set off preview');
       assertCleanLocation(hits, report.errors, spec.name);
-      row.checks.location = !report.errors.some(function (e) { return e.indexOf(spec.name + ':') === 0 && /page_location|utm_source/.test(e); });
+      row.checks.referrer = assertCleanReferrer(hits, report.errors, spec.name);
+      const bar = new URL(page.url());
+      row.checks.urlKeptFbclid = bar.searchParams.get('fbclid') === 'TEST';
+      if (!row.checks.urlKeptFbclid) report.errors.push(spec.name + ': address bar lost fbclid');
+      row.checks.location = !report.errors.some(function (e) { return e.indexOf(spec.name + ':') === 0 && /page_location|utm_source|dr /.test(e); });
       const meta = hits.filter(isMeta);
       row.checks.metaBeforeMarketing = meta.length === 0;
       if (meta.length) report.errors.push(spec.name + ': Meta before marketing ' + meta.map(function (h) { return h.url; }).join(' | '));
@@ -314,7 +346,8 @@ for (const spec of PAGES) {
         const stepHit = steps[0];
         if (stepHit) {
           const body = blobOf(stepHit);
-          if (/ep\.quiz=(?!ihud|mihzur)/.test(body)) report.errors.push(spec.name + ': quiz_step quiz name is not ihud or mihzur');
+          const segment = body.split(/[\r\n]+/).filter(function (part) { return part.indexOf('en=quiz_step') >= 0; }).join('\n');
+          if (/ep\.quiz=|answer|מסורב|@/.test(segment)) report.errors.push(spec.name + ': quiz_step included more than the step number');
           report.samples.push({ page: spec.name, event: 'quiz_step', ts: stepHit.ts, url: redact(stepHit.url), post: redact(stepHit.post).slice(0, 800) });
         }
         await shot(page, spec.name + '-quiz-step');
@@ -323,11 +356,11 @@ for (const spec of PAGES) {
       if (spec.form) {
         await submitSiteForm(page);
         await page.waitForRequest(function (req) {
-          return /generate_lead/.test(req.url() + (req.postData() || ''));
+          return /form_submit_success/.test(req.url() + (req.postData() || ''));
         }, { timeout: 12000 }).catch(function () {});
-        const allLead = hits.filter(function (h) { return isCollect(h) && /generate_lead/.test(blobOf(h)); });
-        row.checks.generateLead = allLead.length > 0;
-        if (!row.checks.generateLead) report.errors.push(spec.name + ': generate_lead did not fire');
+        const allLead = hits.filter(function (h) { return isCollect(h) && /form_submit_success/.test(blobOf(h)); });
+        row.checks.formSubmit = allLead.length > 0;
+        if (!row.checks.formSubmit) report.errors.push(spec.name + ': form_submit_success did not fire');
         if (spec.formStart) {
           const started = hits.some(function (h) {
             const b = blobOf(h);
@@ -340,18 +373,18 @@ for (const spec of PAGES) {
         if (!row.checks.webhookStubbed) report.errors.push(spec.name + ': Make webhook was not stubbed');
         const leadHit = allLead[0];
         const leadBody = leadHit ? blobOf(leadHit) : '';
-        if (leadHit && PII.test(decodeURIComponent(leadBody)) && /x@y\.com|0501234567|בדיקה/.test(decodeURIComponent(leadBody))) {
-          report.errors.push(spec.name + ': generate_lead payload has PII');
+        const decodedLead = leadHit ? decodeURIComponent(leadBody) : '';
+        if (leadHit && /x@y\.com|0501234567|בדיקה|מסורב/.test(decodedLead)) {
+          report.errors.push(spec.name + ': form_submit_success payload has PII or a sensitive answer');
         }
         const eventId = leadHit ? eventIdOf(leadHit) : '';
         const webhookId = (leads[0] && (leads[0].post.match(/(?:^|&)event_id=([^&]+)/) || [])[1]) || '';
         const webhookEventId = webhookId ? decodeURIComponent(webhookId) : '';
         row.checks.eventIdMatch = !!(eventId && webhookEventId && eventId === webhookEventId);
-        if (!row.checks.eventIdMatch) report.errors.push(spec.name + ': event_id mismatch ga=' + eventId + ' webhook=' + webhookEventId);
-        const bucket = (leadBody.match(/lead_source=([^&\s]+)/) || [])[1];
-        row.checks.leadSource = bucket === spec.lead;
-        if (!row.checks.leadSource) report.errors.push(spec.name + ': lead_source ' + bucket + ' expected ' + spec.lead);
-        if (leadHit) report.samples.push({ page: spec.name, event: 'generate_lead', ts: leadHit.ts, url: redact(leadHit.url), post: redact(leadHit.post).slice(0, 800), event_id: eventId });
+        if (!row.checks.eventIdMatch) report.errors.push(spec.name + ': lead_uuid mismatch ga=' + eventId + ' webhook=' + webhookEventId);
+        row.checks.leadParams = /ep\.form_id=/.test(leadBody) && /ep\.landing_page_path=/.test(leadBody) && /ep\.utm_source=facebook/.test(leadBody) && (/(?:^|[?&])dp=/.test(leadBody) || /ep\.page_path=/.test(leadBody));
+        if (!row.checks.leadParams) report.errors.push(spec.name + ': form_submit_success missing canonical params');
+        if (leadHit) report.samples.push({ page: spec.name, event: 'form_submit_success', ts: leadHit.ts, url: redact(leadHit.url), post: redact(leadHit.post).slice(0, 800), event_id: eventId });
         if (leads[0]) report.samples.push({ page: spec.name, event: 'webhook_stub', ts: leads[0].ts, post: redact(leads[0].post).slice(0, 500), stubbed: true });
         await shot(page, spec.name + '-lead');
       }
@@ -359,41 +392,177 @@ for (const spec of PAGES) {
       if (spec.bot) {
         await completeBot(page);
         await page.waitForRequest(function (req) {
-          return /generate_lead/.test(req.url() + (req.postData() || ''));
+          return /form_submit_success/.test(req.url() + (req.postData() || ''));
         }, { timeout: 15000 }).catch(function () {});
-        const allLead = hits.filter(function (h) { return isCollect(h) && /generate_lead/.test(blobOf(h)); });
-        row.checks.generateLead = allLead.length > 0;
-        if (!row.checks.generateLead) report.errors.push(spec.name + ': bot generate_lead did not fire');
+        const allLead = hits.filter(function (h) { return isCollect(h) && /form_submit_success/.test(blobOf(h)); });
+        row.checks.formSubmit = allLead.length > 0;
+        if (!row.checks.formSubmit) report.errors.push(spec.name + ': bot form_submit_success did not fire');
         row.checks.webhookStubbed = leads.length > 0 && leads.every(function (l) { return l.stubbed; });
         if (!row.checks.webhookStubbed) report.errors.push(spec.name + ': bot webhook was not stubbed');
         const leadHit = allLead[0];
         const leadBody = leadHit ? blobOf(leadHit) : '';
-        if (leadHit && /0501234567|בדיקה/.test(decodeURIComponent(leadBody))) report.errors.push(spec.name + ': bot generate_lead has PII');
+        if (leadHit && /0501234567|בדיקה|מסורב/.test(decodeURIComponent(leadBody))) report.errors.push(spec.name + ': bot form_submit_success has PII');
         const eventId = leadHit ? eventIdOf(leadHit) : '';
         const webhookId = (leads[0] && (leads[0].post.match(/(?:^|&)event_id=([^&]+)/) || [])[1]) || '';
         const webhookEventId = webhookId ? decodeURIComponent(webhookId) : '';
         row.checks.eventIdMatch = !!(eventId && webhookEventId && eventId === webhookEventId);
-        if (!row.checks.eventIdMatch) report.errors.push(spec.name + ': bot event_id mismatch ga=' + eventId + ' webhook=' + webhookEventId);
-        const bucket = (leadBody.match(/lead_source=([^&\s]+)/) || [])[1];
-        row.checks.leadSource = bucket === 'q';
-        if (bucket !== 'q') report.errors.push(spec.name + ': bot lead_source ' + bucket);
+        if (!row.checks.eventIdMatch) report.errors.push(spec.name + ': bot lead_uuid mismatch ga=' + eventId + ' webhook=' + webhookEventId);
+        row.checks.leadParams = /ep\.form_id=q-/.test(leadBody) && /ep\.lead_uuid=/.test(leadBody) && /ep\.landing_page_path=/.test(leadBody);
+        if (!row.checks.leadParams) report.errors.push(spec.name + ': bot form_submit_success missing canonical params');
         const meta = hits.filter(isMeta);
         if (meta.length) report.errors.push(spec.name + ': Meta during bot submit without marketing');
-        if (leadHit) report.samples.push({ page: spec.name, event: 'generate_lead', ts: leadHit.ts, url: redact(leadHit.url), post: redact(leadHit.post).slice(0, 800), event_id: eventId });
+        if (leadHit) report.samples.push({ page: spec.name, event: 'form_submit_success', ts: leadHit.ts, url: redact(leadHit.url), post: redact(leadHit.post).slice(0, 800), event_id: eventId });
         if (leads[0]) report.samples.push({ page: spec.name, event: 'webhook_stub', ts: leads[0].ts, post: redact(leads[0].post).slice(0, 500), stubbed: true });
         await shot(page, spec.name + '-bot-lead');
       }
+      if (spec.name === 'home') {
+        await page.evaluate(function () {
+          var a = document.querySelector('a[href*="wa.me"], a[href*="api.whatsapp.com"]');
+          if (!a) throw new Error('no whatsapp link');
+          a.addEventListener('click', function (e) { e.preventDefault(); });
+          a.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+        });
+        await page.waitForRequest(function (req) {
+          return /whatsapp_click/.test((req.url() || '') + (req.postData() || ''));
+        }, { timeout: 10000 }).catch(function () {});
+        const waHits = hits.filter(function (h) { return isCollect(h) && /whatsapp_click/.test(blobOf(h)); });
+        row.checks.whatsapp = waHits.length > 0;
+        if (!row.checks.whatsapp) report.errors.push('home: whatsapp_click did not fire');
+        const waBody = waHits.length ? decodeURIComponent(blobOf(waHits[0])) : '';
+        if (waHits.length && (/[?&]text=/.test(waBody) || /שלום/.test(waBody))) report.errors.push('home: whatsapp link_url kept the message text');
+        if (waHits.length) report.samples.push({ page: 'home', event: 'whatsapp_click', ts: waHits[0].ts, post: redact(waHits[0].post).slice(0, 500), url: redact(waHits[0].url).slice(0, 300) });
+      }
       hits.filter(isCollect).forEach(function (h) {
         const raw = decodeURIComponent(blobOf(h));
-        if (/[?&]email=/i.test(raw) || /x@y\.com/i.test(raw) || /0501234567/.test(raw)) {
+        if (/[?&]email=/i.test(raw) || /x@y\.com/i.test(raw) || /0501234567/.test(raw) || /מסורב/.test(raw)) {
           report.errors.push(spec.name + ': collect still carries query or form PII');
         }
       });
+      const beforeOpt = hits.length;
+      await page.evaluate(function () {
+        document.cookie = '_ga=GA1.1.111.222; path=/';
+        document.cookie = '_ga_8ZP1G2VP40=GS1.1.111; path=/';
+      });
+      await page.evaluate(function () { window.MenifaConsent.open(); });
+      await page.locator('#cookie-modal').waitFor({ state: 'visible' });
+      await page.locator('#ck-stats').uncheck();
+      await page.locator('#ck-save').click();
+      await page.waitForTimeout(2500);
+      const after = hits.slice(beforeOpt).filter(isCollect);
+      row.checks.optOutSilent = after.length === 0;
+      if (after.length) report.errors.push(spec.name + ': collect after statistics opt-out ' + after.length);
+      const revoked = await page.evaluate(function () {
+        return {
+          disabled: window['ga-disable-G-8ZP1G2VP40'] === true,
+          cookie: document.cookie
+        };
+      });
+      row.checks.gaDisable = revoked.disabled;
+      if (!revoked.disabled) report.errors.push(spec.name + ': ga-disable flag was not set');
+      row.checks.cookiesDeleted = !/(?:^|; )_ga=/.test(revoked.cookie) && !/_ga_8ZP1G2VP40=/.test(revoked.cookie);
+      if (!row.checks.cookiesDeleted) report.errors.push(spec.name + ': GA cookies still present: ' + revoked.cookie);
+      await shot(page, spec.name + '-opt-out');
     } catch (err) {
       report.errors.push(spec.name + ' accept flow: ' + err.message);
     }
     await context.close();
   }
+}
+
+const EXTRA_REF = [
+  { path: '/cookies.html', name: 'cookies' },
+  { path: '/privacy.html', name: 'privacy' },
+  { path: '/contact.html', name: 'contact' }
+];
+for (const spec of EXTRA_REF) {
+  const row = { name: spec.name, path: spec.path, checks: {} };
+  report.pages.push(row);
+  const { context, page, hits } = await freshContext();
+  try {
+    await openPage(page, spec.path);
+    await page.locator('#cookie').waitFor({ state: 'visible', timeout: 10000 });
+    const before = hits.filter(isGa);
+    row.checks.beforeConsent = before.length === 0;
+    if (before.length) report.errors.push(spec.name + ': GA before consent');
+    await acceptStatistics(page);
+    await page.waitForTimeout(2500);
+    row.checks.referrer = assertCleanReferrer(hits, report.errors, spec.name);
+    row.checks.pageView = hits.some(function (h) { return isCollect(h) && hasPageView(h); });
+    if (!row.checks.pageView) report.errors.push(spec.name + ': missing page_view');
+    const bar = new URL(page.url());
+    if (bar.searchParams.get('fbclid') !== 'TEST') report.errors.push(spec.name + ': address bar lost fbclid');
+  } catch (err) {
+    report.errors.push(spec.name + ' referrer flow: ' + err.message);
+  }
+  await context.close();
+}
+
+for (const spec of [{ path: '/', name: 'home' }, { path: '/lp/mihzur', name: 'lp-mihzur' }, { path: '/q/mihzur', name: 'q-mihzur' }]) {
+  const row = { name: spec.name + '-marketing', path: spec.path, checks: {} };
+  report.pages.push(row);
+  const { context, page, hits } = await freshContext();
+  try {
+    await openPage(page, spec.path);
+    await page.locator('#cookie').waitFor({ state: 'visible', timeout: 10000 });
+    if (hits.filter(isMeta).length) report.errors.push(spec.name + ': Meta before marketing consent');
+    await page.locator('#ck-all').click();
+    await page.waitForTimeout(4000);
+    const fbc = await page.evaluate(function () {
+      var m = document.cookie.match(/(?:^|; )_fbc=([^;]*)/);
+      return m ? decodeURIComponent(m[1]) : '';
+    });
+    row.checks.fbc = fbc.indexOf('TEST') !== -1;
+    if (!row.checks.fbc) report.errors.push(spec.name + ': _fbc missing after marketing consent, cookie=' + fbc);
+    if (new URL(page.url()).searchParams.get('fbclid') !== 'TEST') report.errors.push(spec.name + ': fbclid stripped before pixel');
+    await shot(page, spec.name + '-marketing');
+  } catch (err) {
+    report.errors.push(spec.name + ' marketing flow: ' + err.message);
+  }
+  await context.close();
+}
+
+{
+  const row = { name: 'kill-switch', path: '/', checks: {} };
+  report.pages.push(row);
+  const context = await browser.newContext({ ...iphone });
+  await context.addInitScript(function () { window.MENIFA_GA_OFF = true; });
+  await stubLeads(context, []);
+  const page = await context.newPage();
+  const hits = [];
+  watch(page, hits);
+  try {
+    await openPage(page, '/');
+    await page.locator('#ck-all').click();
+    await page.waitForTimeout(2000);
+    row.checks.noGa = hits.filter(isGa).length === 0;
+    if (!row.checks.noGa) report.errors.push('kill-switch: GA loaded while MENIFA_GA_OFF');
+  } catch (err) {
+    report.errors.push('kill-switch: ' + err.message);
+  }
+  await context.close();
+  const context2 = await browser.newContext({ ...iphone });
+  await context2.route('**/*', async function (route) {
+    const req = route.request();
+    if (req.resourceType() !== 'document') return route.continue();
+    const res = await route.fetch();
+    const body = (await res.text()).replace(/<head[^>]*>/i, function (open) {
+      return open + '<meta name="menifa-ga" content="off">';
+    });
+    await route.fulfill({ response: res, body: body });
+  });
+  const page2 = await context2.newPage();
+  const hits2 = [];
+  watch(page2, hits2);
+  try {
+    await openPage(page2, '/');
+    await page2.locator('#ck-all').click();
+    await page2.waitForTimeout(2000);
+    row.checks.metaOff = hits2.filter(isGa).length === 0;
+    if (!row.checks.metaOff) report.errors.push('kill-switch: GA loaded with meta menifa-ga=off');
+  } catch (err) {
+    report.errors.push('kill-switch meta: ' + err.message);
+  }
+  await context2.close();
 }
 
 report.finished = new Date().toISOString();
