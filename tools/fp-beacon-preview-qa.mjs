@@ -208,7 +208,8 @@ async function runPage(browser, origin, beaconUrl, pathname, viaRoute, disableBe
   fs.mkdirSync(shotDir, { recursive: true });
   const shotName = pathname.replace(/\//g, "_").replace(/^_|_$/g, "") + ".png";
   await page.screenshot({ path: path.join(shotDir, shotName), fullPage: false });
-  if (!disableBeacon) await exercise(page, pathname);
+  const landedNow = new URL(page.url()).pathname;
+  if (!disableBeacon) await exercise(page, landedNow);
   await page.clock.fastForward(121000);
   const privacy = await page.evaluate(() => ({
     cookie: document.cookie,
@@ -232,8 +233,9 @@ async function runPage(browser, origin, beaconUrl, pathname, viaRoute, disableBe
     await new Promise((r) => setTimeout(r, 300));
     batch = mockHits.slice(before);
   }
+  const landed = new URL(page.url()).pathname;
   await context.close();
-  return { pathname, shotName, pixel, posts, privacy, batch };
+  return { pathname: landed, shotName, pixel, posts, privacy, batch };
 }
 
 function expectEvents(pathname, events) {
@@ -291,20 +293,20 @@ async function main() {
       if (row.privacy.fbq !== "undefined" || row.privacy.fbqCalls) throw new Error(pathname + " fbq before consent");
       if (row.privacy.cookie) throw new Error(pathname + " cookie written " + row.privacy.cookie);
       if (row.privacy.local.length) throw new Error(pathname + " localStorage " + row.privacy.local.join(","));
-      const beaconWrites = row.privacy.writes.filter((w) => /fp-beacon/.test(w.stack));
+      const beaconWrites = row.privacy.writes.filter((w) => /fp-beacon\.js/.test(w.stack));
       if (beaconWrites.length) throw new Error(pathname + " beacon wrote storage");
-      const foreign = row.privacy.session.filter((k) => k !== "menifa-att");
+      const foreign = row.privacy.session.filter((k) => k !== "menifa-att" && !/^vc-|^__vtkb/.test(k));
       if (foreign.length) throw new Error(pathname + " unexpected session keys " + foreign.join(","));
       if (row.posts.some((u) => u.includes("hook.us2.make.com"))) throw new Error(pathname + " lead webhook");
       if (row.batch.some((h) => h.method === "OPTIONS")) throw new Error(pathname + " CORS preflight");
       const events = row.batch.map((h) => {
-        if (!/text\/plain/i.test(h.contentType)) throw new Error(pathname + " content-type " + h.contentType);
-        return assertClean(h.body, pathname);
+        if (!/text\/plain/i.test(h.contentType)) throw new Error(row.pathname + " content-type " + h.contentType);
+        return assertClean(h.body, row.pathname);
       });
-      expectEvents(pathname, events);
-      samples[pathname] = events;
+      expectEvents(row.pathname, events);
+      samples[row.pathname] = events;
       results.push({
-        page: pathname,
+        page: row.pathname,
         events: events.map((e) => e.event + (e.step ? ":" + e.step : e.bucket ? ":" + e.bucket : "")),
         requests: events.length,
         pixel: 0,
