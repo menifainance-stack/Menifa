@@ -364,6 +364,7 @@
       if (allow && !allow[k]) return;
       var v = params[k];
       if (v == null || v === '') return;
+      if (k === 'utm_source' && String(v) === 'direct/unknown') return;
       if (sensitiveValue(v)) return;
       clean[k] = v;
     });
@@ -405,7 +406,11 @@
       var raw = sessionStorage.getItem('menifa-att');
       if (raw) {
         var parsed = JSON.parse(raw);
-        if (parsed && typeof parsed === 'object') { attMem = parsed; return parsed; }
+        if (parsed && typeof parsed === 'object') {
+          if (String(parsed.utm_source) === 'direct/unknown') delete parsed.utm_source;
+          attMem = parsed;
+          return parsed;
+        }
       }
     } catch (e) {}
     return attMem && typeof attMem === 'object' ? attMem : {};
@@ -428,7 +433,7 @@
     if (!attFilled(att0.landing)) att0.landing = location.pathname;
     if (!attFilled(att0.landing_page)) att0.landing_page = location.pathname;
     if (!attFilled(att0.referrer)) att0.referrer = referrerHost();
-    if (!attFilled(att0.utm_source)) att0.utm_source = 'direct/unknown';
+    if (String(att0.utm_source) === 'direct/unknown') delete att0.utm_source;
     writeAtt(att0);
     return att0;
   }
@@ -436,7 +441,9 @@
     var att = readAtt();
     var out = { page_path: location.pathname };
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
-      if (attFilled(att[k])) out[k] = String(att[k]).slice(0, 120);
+      if (!attFilled(att[k])) return;
+      if (k === 'utm_source' && String(att[k]) === 'direct/unknown') return;
+      out[k] = String(att[k]).slice(0, 120);
     });
     var landing = attFilled(att.landing_page) ? att.landing_page : (attFilled(att.landing) ? att.landing : location.pathname);
     try { if (/^https?:/i.test(landing)) landing = new URL(landing).pathname; } catch (e) {}
@@ -455,6 +462,183 @@
     if (consent && consent.statistics && !gaOff()) sendEvent(name, params);
     else if (!consent) evQ.push([name, params]);
   };
+
+  /* Essential queue: a lead the visitor already submitted. Minimal fields only.
+     Same keys as q/assets/js/aic-engine.js so either page can replay the other. */
+  var LEAD_QUEUE_KEY = 'menifa-lead-queue';
+  var SENT_KEY = 'menifa-lead-sent';
+  var QUEUE_TTL = 48 * 60 * 60 * 1000;
+  var MAX_ATTEMPTS = 3;
+  var QUEUE_FIELDS = [
+    'name', 'phone', 'source', 'landing_page',
+    'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
+    'gclid', 'gbraid', 'wbraid',
+    'event_id', 'ts', 'form_version'
+  ];
+  var TRACK_KEYS = {
+    form_id: 1, lead_uuid: 1, page_path: 1, landing_page_path: 1,
+    utm_source: 1, utm_medium: 1, utm_campaign: 1, utm_content: 1, utm_term: 1
+  };
+
+  function pruneSent(map) {
+    var now = Date.now();
+    var out = {};
+    Object.keys(map || {}).forEach(function (id) {
+      var t = map[id];
+      if (typeof t === 'number' && (now - t) < QUEUE_TTL) out[id] = t;
+    });
+    return out;
+  }
+  function readSentMap() {
+    try {
+      var parsed = JSON.parse(localStorage.getItem(SENT_KEY) || '{}');
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+      return pruneSent(parsed);
+    } catch (e) { return {}; }
+  }
+  function writeSentMap(map) {
+    try { localStorage.setItem(SENT_KEY, JSON.stringify(pruneSent(map))); return true; }
+    catch (e) { return false; }
+  }
+  function markSent(eventId) {
+    if (!eventId) return;
+    var map = readSentMap();
+    map[String(eventId)] = Date.now();
+    writeSentMap(map);
+  }
+  function wasSent(eventId) {
+    if (!eventId) return false;
+    return !!readSentMap()[String(eventId)];
+  }
+  function pickQueueFields(data) {
+    var fields = {};
+    QUEUE_FIELDS.forEach(function (k) {
+      if (!attFilled(data && data[k])) return;
+      fields[k] = String(data[k]);
+    });
+    return fields;
+  }
+  function cleanTrack(track) {
+    var clean = {};
+    Object.keys(TRACK_KEYS).forEach(function (k) {
+      if (!attFilled(track && track[k])) return;
+      if (k === 'utm_source' && String(track[k]) === 'direct/unknown') return;
+      clean[k] = String(track[k]).slice(0, 120);
+    });
+    return clean;
+  }
+  function normalizeQueue(items) {
+    var now = Date.now();
+    var kept = [];
+    (items || []).forEach(function (item) {
+      if (!item || typeof item !== 'object') return;
+      if (item.body && !item.fields) return;
+      if (!item.event_id || !item.fields) return;
+      if (wasSent(item.event_id)) return;
+      var savedAt = typeof item.savedAt === 'number' ? item.savedAt : 0;
+      if (!savedAt || (now - savedAt) > QUEUE_TTL) return;
+      var attempts = typeof item.attempts === 'number' ? item.attempts : 0;
+      if (attempts >= MAX_ATTEMPTS) return;
+      kept.push({
+        event_id: String(item.event_id),
+        savedAt: savedAt,
+        attempts: attempts,
+        fields: pickQueueFields(item.fields),
+        track: cleanTrack(item.track)
+      });
+    });
+    return kept;
+  }
+  function readLeadQueue() {
+    var items = [];
+    try {
+      var parsed = JSON.parse(localStorage.getItem(LEAD_QUEUE_KEY) || '[]');
+      items = Array.isArray(parsed) ? parsed : [];
+    } catch (e) { items = []; }
+    var kept = normalizeQueue(items);
+    try { localStorage.setItem(LEAD_QUEUE_KEY, JSON.stringify(kept)); } catch (e2) {}
+    return kept;
+  }
+  function writeLeadQueue(items) {
+    try { localStorage.setItem(LEAD_QUEUE_KEY, JSON.stringify(items)); return true; }
+    catch (e) { return false; }
+  }
+  function enqueueLead(data, track) {
+    try {
+      if (!data || !data.event_id || wasSent(data.event_id)) return false;
+      var q = readLeadQueue().filter(function (item) { return item.event_id !== String(data.event_id); });
+      q.push({
+        event_id: String(data.event_id),
+        savedAt: Date.now(),
+        attempts: 0,
+        fields: pickQueueFields(data),
+        track: cleanTrack(track)
+      });
+      return writeLeadQueue(q);
+    } catch (e) { return false; }
+  }
+  function bodyFromFields(fields) {
+    var body = new URLSearchParams();
+    QUEUE_FIELDS.forEach(function (k) {
+      if (!attFilled(fields && fields[k])) return;
+      body.append(k, String(fields[k]));
+    });
+    if (attFilled(fields && fields.landing_page)) body.append('landing', String(fields.landing_page));
+    return body;
+  }
+  function postOnce(body) {
+    return fetch(CONFIG.leadWebhook, {
+      method: 'POST', mode: 'cors', keepalive: true, body: body
+    }).then(function (res) {
+      if (!res || !res.ok) throw new Error('http');
+      return res;
+    });
+  }
+  function fireReplayEvents(item) {
+    var track = cleanTrack(item && item.track);
+    if (window.menifaTrack) window.menifaTrack('form_submit_success', track);
+    var source = item && item.fields && item.fields.source;
+    if (isCampaignLead(source) && item.event_id) fireMetaLead(item.event_id);
+  }
+  function flushLeadQueue() {
+    if (window.__menifaLeadFlushing) return;
+    if (!CONFIG.leadWebhook) return;
+    window.__menifaLeadFlushing = true;
+    function step() {
+      var rest = readLeadQueue();
+      if (!rest.length) { window.__menifaLeadFlushing = false; return; }
+      var item = rest[0];
+      if (wasSent(item.event_id)) {
+        writeLeadQueue(rest.slice(1));
+        step();
+        return;
+      }
+      item.attempts = (item.attempts || 0) + 1;
+      if (item.attempts > MAX_ATTEMPTS) {
+        writeLeadQueue(rest.slice(1));
+        step();
+        return;
+      }
+      rest[0] = item;
+      writeLeadQueue(rest);
+      var eventId = item.event_id;
+      postOnce(bodyFromFields(item.fields)).then(function () {
+        markSent(eventId);
+        var cur = readLeadQueue().filter(function (x) { return x.event_id !== eventId; });
+        writeLeadQueue(cur);
+        fireReplayEvents(item);
+        step();
+      }).catch(function () {
+        var cur = readLeadQueue();
+        if (item.attempts >= MAX_ATTEMPTS) {
+          cur = cur.filter(function (x) { return x.event_id !== eventId; });
+          writeLeadQueue(cur);
+        }
+        window.__menifaLeadFlushing = false;
+      });
+    }
+    step();
+  }
   function waLinkUrl(href) {
     try {
       var u = new URL(href, location.href);
@@ -483,6 +667,7 @@
   // The address bar stays intact, including fbclid, so Meta can write _fbc after marketing consent.
   // GA still receives only the allowlisted page_location from gaConfig.
   captureAtt();
+  flushLeadQueue();
   window.menifaIds = function () { return { event_id: 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
   // clicks: WhatsApp / phone
   document.addEventListener('click', function (e) {
@@ -642,7 +827,8 @@
       data.ts = new Date().toISOString();
       data.form_version = 'site-v1';
       var ids = window.menifaIds ? window.menifaIds() : {};
-      data.event_id = ids.event_id || '';
+      if (!ids.event_id) ids.event_id = 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      data.event_id = ids.event_id;
       var att = readAtt();
       Object.keys(att).forEach(function (k) {
         if (k === 'source') return;
@@ -660,7 +846,7 @@
       data.event_source_url = location.origin + location.pathname;
       data.cookie_marketing = (consent && consent.marketing) ? 'כן' : 'לא';
       var msg = 'שלום תמיר, השארתי פרטים באתר מניפה.\nשם: ' + data.name + '\nטלפון: ' + data.phone + (data.need ? '\nנושא: ' + data.need : '') + (data.when ? '\nמתי נוח: ' + data.when : '') + (extra.length ? '\n' + extra.join('\n') : '') + (data.note ? '\nהערה: ' + data.note : '');
-      data.answers = extra;
+      if (extra.length) data.answers = extra.join(' | ');
       var finish = function (sent) {
         form.hidden = true;
         if (ok) {
@@ -673,19 +859,47 @@
       if (CONFIG.leadWebhook) {
         // form-urlencoded + cors, so a non-2xx Make response is visible. keepalive survives page navigation.
         var body = new URLSearchParams();
-        Object.keys(data).forEach(function (k) { var v = data[k]; body.append(k, Array.isArray(v) ? v.join(' | ') : (v === true ? 'כן' : v === false ? 'לא' : String(v == null ? '' : v))); });
-        var done = false, t = setTimeout(function () { if (!done) { done = true; finish(false); } }, 6000);
+        Object.keys(data).forEach(function (k) {
+          var v = data[k];
+          if (Array.isArray(v) && !v.length) return;
+          body.append(k, Array.isArray(v) ? v.join(' | ') : (v === true ? 'כן' : v === false ? 'לא' : String(v == null ? '' : v)));
+        });
+        var queuedOnce = false;
+        var queueFailure = function () {
+          if (queuedOnce || wasSent(data.event_id)) return;
+          queuedOnce = true;
+          enqueueLead(data, {
+            form_id: (form.id || form.getAttribute('data-lead')) || data.source,
+            lead_uuid: data.event_id,
+            page_path: location.pathname,
+            landing_page_path: data.landing_page,
+            utm_source: data.utm_source,
+            utm_medium: data.utm_medium,
+            utm_campaign: data.utm_campaign,
+            utm_content: data.utm_content,
+            utm_term: data.utm_term
+          });
+        };
+        var done = false, t = setTimeout(function () {
+          if (done) return;
+          done = true;
+          queueFailure();
+          finish(false);
+        }, 6000);
         fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'cors', keepalive: true, body: body })
           .then(function (res) {
-            if (done) return;
-            done = true;
-            clearTimeout(t);
             if (res && res.ok) {
+              markSent(data.event_id);
+              if (done) return;
+              done = true;
+              clearTimeout(t);
               if (isCampaignLead(data.source)) fireMetaLead(data.event_id);
               trackFormSuccess(form, data);
               finish(true);
-            } else finish(false);
-          }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
+              return;
+            }
+            if (!done) { done = true; clearTimeout(t); queueFailure(); finish(false); }
+          }, function () { if (!done) { done = true; clearTimeout(t); queueFailure(); finish(false); } });
       } else finish(false);
     });
   });

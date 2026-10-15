@@ -382,7 +382,16 @@
   }
 
   var LEAD_QUEUE_KEY = "menifa-lead-queue";
+  var SENT_KEY = "menifa-lead-sent";
+  var QUEUE_TTL = 48 * 60 * 60 * 1000;
+  var MAX_ATTEMPTS = 3;
   var RETRY_MS = 500;
+  var QUEUE_FIELDS = [
+    "name", "phone", "source", "landing_page",
+    "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term",
+    "gclid", "gbraid", "wbraid",
+    "event_id", "ts", "form_version"
+  ];
   var TRACK_KEYS = {
     form_id: 1, lead_uuid: 1, page_path: 1, landing_page_path: 1,
     utm_source: 1, utm_medium: 1, utm_campaign: 1, utm_content: 1, utm_term: 1
@@ -403,69 +412,179 @@
     }
   }
 
+  /* In-memory copy. FB/IG in-app browsers throw on sessionStorage; click ids still reach Make. */
+  var attMem = {};
   function readAtt() {
     try {
       var parsed = JSON.parse(sessionStorage.getItem("menifa-att") || "{}");
-      if (parsed && typeof parsed === "object") return parsed;
+      if (parsed && typeof parsed === "object") {
+        Object.keys(parsed).forEach(function (k) {
+          if (!filled(parsed[k])) return;
+          if (k === "utm_source" && String(parsed[k]) === "direct/unknown") return;
+          attMem[k] = parsed[k];
+        });
+      }
     } catch (e) {}
-    return {};
+    return attMem;
+  }
+  function captureClickIds() {
+    var current = {};
+    try {
+      var parsed = JSON.parse(sessionStorage.getItem("menifa-att") || "{}");
+      if (parsed && typeof parsed === "object") current = parsed;
+    } catch (e) {}
+    Object.keys(current).forEach(function (k) {
+      if (!filled(current[k]) || filled(attMem[k])) return;
+      if (k === "utm_source" && String(current[k]) === "direct/unknown") return;
+      attMem[k] = current[k];
+    });
+    var qp;
+    try { qp = new URLSearchParams(location.search || ""); } catch (e2) { qp = new URLSearchParams(); }
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "gbraid", "wbraid", "fbclid"].forEach(function (k) {
+      var v = "";
+      try { v = qp.get(k) || ""; } catch (e3) { v = ""; }
+      if (filled(v)) attMem[k] = v;
+    });
+    Object.keys(attMem).forEach(function (k) {
+      if (!filled(attMem[k])) return;
+      if (k === "utm_source" && String(attMem[k]) === "direct/unknown") return;
+      current[k] = attMem[k];
+    });
+    if (String(current.utm_source) === "direct/unknown") delete current.utm_source;
+    try { sessionStorage.setItem("menifa-att", JSON.stringify(current)); } catch (e4) {}
   }
 
   function wait(ms) {
     return new Promise(function (resolve) { setTimeout(resolve, ms); });
   }
 
+  function pruneSent(map) {
+    var now = Date.now();
+    var out = {};
+    Object.keys(map || {}).forEach(function (id) {
+      var t = map[id];
+      if (typeof t === "number" && (now - t) < QUEUE_TTL) out[id] = t;
+    });
+    return out;
+  }
+  function readSentMap() {
+    try {
+      var parsed = JSON.parse(localStorage.getItem(SENT_KEY) || "{}");
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+      return pruneSent(parsed);
+    } catch (e) { return {}; }
+  }
+  function writeSentMap(map) {
+    try { localStorage.setItem(SENT_KEY, JSON.stringify(pruneSent(map))); return true; }
+    catch (e) { return false; }
+  }
+  function markSent(eventId) {
+    if (!eventId) return;
+    var map = readSentMap();
+    map[String(eventId)] = Date.now();
+    writeSentMap(map);
+  }
+  function wasSent(eventId) {
+    if (!eventId) return false;
+    return !!readSentMap()[String(eventId)];
+  }
+  function pickQueueFields(data) {
+    var fields = {};
+    QUEUE_FIELDS.forEach(function (k) {
+      if (!filled(data && data[k])) return;
+      fields[k] = String(data[k]);
+    });
+    return fields;
+  }
+  function cleanTrack(track) {
+    var clean = {};
+    Object.keys(TRACK_KEYS).forEach(function (k) {
+      if (!filled(track && track[k])) return;
+      if (k === "utm_source" && String(track[k]) === "direct/unknown") return;
+      clean[k] = String(track[k]).slice(0, 120);
+    });
+    return clean;
+  }
+  function normalizeQueue(items) {
+    var now = Date.now();
+    var kept = [];
+    (items || []).forEach(function (item) {
+      if (!item || typeof item !== "object") return;
+      if (item.body && !item.fields) return;
+      if (!item.event_id || !item.fields) return;
+      if (wasSent(item.event_id)) return;
+      var savedAt = typeof item.savedAt === "number" ? item.savedAt : 0;
+      if (!savedAt || (now - savedAt) > QUEUE_TTL) return;
+      var attempts = typeof item.attempts === "number" ? item.attempts : 0;
+      if (attempts >= MAX_ATTEMPTS) return;
+      kept.push({
+        event_id: String(item.event_id),
+        savedAt: savedAt,
+        attempts: attempts,
+        fields: pickQueueFields(item.fields),
+        track: cleanTrack(item.track)
+      });
+    });
+    return kept;
+  }
   function readLeadQueue() {
+    var items = [];
     try {
       var parsed = JSON.parse(localStorage.getItem(LEAD_QUEUE_KEY) || "[]");
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (e) {
-      return [];
-    }
+      items = Array.isArray(parsed) ? parsed : [];
+    } catch (e) { items = []; }
+    var kept = normalizeQueue(items);
+    try { localStorage.setItem(LEAD_QUEUE_KEY, JSON.stringify(kept)); } catch (e2) {}
+    return kept;
   }
-
   function writeLeadQueue(items) {
-    try {
-      localStorage.setItem(LEAD_QUEUE_KEY, JSON.stringify(items));
-      return true;
-    } catch (e) {
-      return false;
-    }
+    try { localStorage.setItem(LEAD_QUEUE_KEY, JSON.stringify(items)); return true; }
+    catch (e) { return false; }
   }
-
-  function enqueueLead(item) {
+  function enqueueLead(data, track) {
     try {
-      var q = readLeadQueue();
-      q.push(item);
+      if (!data || !data.event_id || wasSent(data.event_id)) return false;
+      var q = readLeadQueue().filter(function (item) { return item.event_id !== String(data.event_id); });
+      q.push({
+        event_id: String(data.event_id),
+        savedAt: Date.now(),
+        attempts: 0,
+        fields: pickQueueFields(data),
+        track: cleanTrack(track)
+      });
       return writeLeadQueue(q);
-    } catch (e) {
-      return false;
-    }
+    } catch (e) { return false; }
+  }
+  function bodyFromFields(fields) {
+    var body = new URLSearchParams();
+    QUEUE_FIELDS.forEach(function (k) {
+      if (!filled(fields && fields[k])) return;
+      body.append(k, String(fields[k]));
+    });
+    if (filled(fields && fields.landing_page)) body.append("landing", String(fields.landing_page));
+    return body;
   }
 
   function trackParams(ids, source, page, att) {
     var landing = filled(att.landing_page) ? att.landing_page : (filled(att.landing) ? att.landing : page);
     try { if (/^https?:/i.test(landing)) landing = new URL(landing).pathname; } catch (err) {}
-    return {
+    var out = {
       form_id: source,
       lead_uuid: ids.event_id,
       page_path: page,
-      landing_page_path: String(landing).split("?")[0].split("#")[0] || page,
-      utm_source: filled(att.utm_source) ? String(att.utm_source) : "direct/unknown",
-      utm_medium: att.utm_medium || "",
-      utm_campaign: att.utm_campaign || "",
-      utm_content: att.utm_content || "",
-      utm_term: att.utm_term || ""
+      landing_page_path: String(landing).split("?")[0].split("#")[0] || page
     };
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (k) {
+      if (!filled(att[k])) return;
+      if (k === "utm_source" && String(att[k]) === "direct/unknown") return;
+      out[k] = String(att[k]);
+    });
+    return out;
   }
 
   /* Lead and GA only after a real 2xx. Params stay on the allowlist — no phone, name, or answers. */
   function fireLeadEvents(track, eventId) {
-    var clean = {};
-    Object.keys(track || {}).forEach(function (k) {
-      if (!TRACK_KEYS[k] || !filled(track[k])) return;
-      clean[k] = track[k];
-    });
+    var clean = cleanTrack(track);
     if (window.menifaTrack) window.menifaTrack("form_submit_success", clean);
     if (window.menifaTrackLead && eventId) window.menifaTrackLead(eventId);
   }
@@ -491,30 +610,38 @@
   }
 
   function flushLeadQueue() {
-    var items = readLeadQueue();
-    if (!items.length) return;
-    var rest = items.slice();
+    if (window.__menifaLeadFlushing) return;
+    window.__menifaLeadFlushing = true;
     function step() {
-      if (!rest.length) {
-        writeLeadQueue([]);
-        return;
-      }
+      var rest = readLeadQueue();
+      if (!rest.length) { window.__menifaLeadFlushing = false; return; }
       var item = rest[0];
-      var params;
-      try { params = new URLSearchParams(item.body || ""); } catch (e) { params = null; }
-      if (!params) {
-        rest.shift();
-        writeLeadQueue(rest);
+      if (wasSent(item.event_id)) {
+        writeLeadQueue(rest.slice(1));
         step();
         return;
       }
-      postOnce(params).then(function () {
-        rest.shift();
-        writeLeadQueue(rest);
-        fireLeadEvents(item.track, item.event_id);
+      item.attempts = (item.attempts || 0) + 1;
+      if (item.attempts > MAX_ATTEMPTS) {
+        writeLeadQueue(rest.slice(1));
+        step();
+        return;
+      }
+      rest[0] = item;
+      writeLeadQueue(rest);
+      var eventId = item.event_id;
+      postOnce(bodyFromFields(item.fields)).then(function () {
+        markSent(eventId);
+        var cur = readLeadQueue().filter(function (x) { return x.event_id !== eventId; });
+        writeLeadQueue(cur);
+        fireLeadEvents(item.track, eventId);
         step();
       }).catch(function () {
-        writeLeadQueue(rest);
+        if (item.attempts >= MAX_ATTEMPTS) {
+          var cur = readLeadQueue().filter(function (x) { return x.event_id !== eventId; });
+          writeLeadQueue(cur);
+        }
+        window.__menifaLeadFlushing = false;
       });
     }
     step();
@@ -545,7 +672,7 @@
       cookie_marketing: cookieMarketingLabel()
     };
     ATT_FIELDS.forEach(function (k) {
-      data[k] = att[k] == null ? "" : String(att[k]);
+      if (filled(att[k])) data[k] = String(att[k]);
     });
     data.landing_page = page;
     if (!filled(data.landing)) data.landing = page;
@@ -555,22 +682,24 @@
     var body = new URLSearchParams();
     Object.keys(data).forEach(function (k) {
       var v = data[k];
-      body.append(k, v == null ? "" : String(v));
+      if (v == null || v === "") return;
+      body.append(k, String(v));
     });
     var track = trackParams(ids, source, page, {
       landing: data.landing,
       landing_page: data.landing_page,
-      utm_source: data.utm_source,
-      utm_medium: data.utm_medium,
-      utm_campaign: data.utm_campaign,
-      utm_content: data.utm_content,
-      utm_term: data.utm_term
+      utm_source: att.utm_source,
+      utm_medium: att.utm_medium,
+      utm_campaign: att.utm_campaign,
+      utm_content: att.utm_content,
+      utm_term: att.utm_term
     });
     return postWithRetry(body).then(function () {
+      markSent(ids.event_id);
       fireLeadEvents(track, ids.event_id);
       return "sent";
     }).catch(function () {
-      var queued = enqueueLead({ body: body.toString(), event_id: ids.event_id, track: track });
+      var queued = enqueueLead(data, track);
       return queued ? "queued" : "failed";
     });
   }
@@ -677,7 +806,7 @@
           );
         } else if (result === "queued") {
           addBotCard(
-            "<p>הפרטים לא נשלחו עכשיו. שמרנו אותם במכשיר וננסה שוב בכניסה הבאה.</p>" +
+            "<p>הפרטים לא נשלחו עכשיו. שמרנו אותם במכשיר לזמן קצר, וננסה לשלוח אותם שוב.</p>" +
             "<p>אפשר לתאם שיחה בוואטסאפ, בלי התחייבות.</p>"
           );
         } else {
@@ -812,6 +941,7 @@
     );
   }
 
+  captureClickIds();
   flushLeadQueue();
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", start);
