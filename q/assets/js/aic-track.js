@@ -81,6 +81,7 @@
     if (modal) modal.hidden = true;
     syncCookiePad();
     maybeLoadPixel();
+    window.dispatchEvent(new CustomEvent("consent-update"));
   }
 
   function openPrefs() {
