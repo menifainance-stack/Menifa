@@ -383,15 +383,13 @@
 
   var LEAD_QUEUE_KEY = "menifa-lead-queue";
   var SENT_KEY = "menifa-lead-sent";
+  var LOCK_KEY = "menifa-lead-lock";
   var QUEUE_TTL = 48 * 60 * 60 * 1000;
+  var LOCK_MS = 30000;
   var MAX_ATTEMPTS = 3;
   var RETRY_MS = 500;
-  var QUEUE_FIELDS = [
-    "name", "phone", "source", "landing_page",
-    "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term",
-    "gclid", "gbraid", "wbraid",
-    "event_id", "ts", "form_version"
-  ];
+  var DROP_KEYS = { answers: 1, ua: 1 };
+  var lockOwner = "t" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   var TRACK_KEYS = {
     form_id: 1, lead_uuid: 1, page_path: 1, landing_page_path: 1,
     utm_source: 1, utm_medium: 1, utm_campaign: 1, utm_content: 1, utm_term: 1
@@ -488,13 +486,78 @@
     if (!eventId) return false;
     return !!readSentMap()[String(eventId)];
   }
+  function readLocks() {
+    try {
+      var parsed = JSON.parse(localStorage.getItem(LOCK_KEY) || "{}");
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+      return parsed;
+    } catch (e) { return {}; }
+  }
+  function writeLocks(map) {
+    try { localStorage.setItem(LOCK_KEY, JSON.stringify(map)); return true; }
+    catch (e) { return false; }
+  }
+  function lockFresh(entry) {
+    return !!(entry && entry.owner && typeof entry.ts === "number" && (Date.now() - entry.ts) < LOCK_MS);
+  }
+  function claimLock(eventId) {
+    return new Promise(function (resolve) {
+      var id = String(eventId || "");
+      if (!id) { resolve(true); return; }
+      var token = lockOwner + ":" + Date.now().toString(36) + ":" + Math.random().toString(36).slice(2);
+      var map = readLocks();
+      var cur = map[id];
+      if (lockFresh(cur) && cur.owner !== lockOwner) { resolve(false); return; }
+      map[id] = { owner: lockOwner, token: token, ts: Date.now() };
+      if (!writeLocks(map)) { resolve(true); return; }
+      try {
+        if (window.BroadcastChannel) {
+          var ch = new BroadcastChannel("menifa-lead-lock");
+          ch.postMessage({ eventId: id, token: token, ts: Date.now() });
+          ch.close();
+        }
+      } catch (e) {}
+      setTimeout(function () {
+        var again = readLocks()[id];
+        resolve(!!(again && again.token === token));
+      }, 50 + Math.floor(Math.random() * 40));
+    });
+  }
+  function releaseLock(eventId) {
+    var id = String(eventId || "");
+    if (!id) return;
+    var map = readLocks();
+    var cur = map[id];
+    if (cur && cur.owner === lockOwner) {
+      delete map[id];
+      writeLocks(map);
+    }
+  }
   function pickQueueFields(data) {
     var fields = {};
-    QUEUE_FIELDS.forEach(function (k) {
-      if (!filled(data && data[k])) return;
-      fields[k] = String(data[k]);
+    Object.keys(data || {}).forEach(function (k) {
+      if (!k || k === "[]" || DROP_KEYS[k]) return;
+      var raw = data[k];
+      if (Array.isArray(raw)) {
+        if (!raw.length) return;
+        fields[k] = raw.join(" | ");
+        return;
+      }
+      if (raw === true) { fields[k] = "כן"; return; }
+      if (raw === false) { fields[k] = "לא"; return; }
+      if (raw == null) return;
+      var s = String(raw);
+      if (s === "[]") return;
+      fields[k] = s;
     });
     return fields;
+  }
+  function fieldsFromBody(body) {
+    var fields = {};
+    try {
+      body.forEach(function (v, k) { fields[k] = v; });
+    } catch (e) {}
+    return pickQueueFields(fields);
   }
   function cleanTrack(track) {
     var clean = {};
@@ -557,11 +620,18 @@
   }
   function bodyFromFields(fields) {
     var body = new URLSearchParams();
-    QUEUE_FIELDS.forEach(function (k) {
-      if (!filled(fields && fields[k])) return;
-      body.append(k, String(fields[k]));
+    Object.keys(fields || {}).forEach(function (k) {
+      if (!k || k === "[]" || DROP_KEYS[k]) return;
+      var v = fields[k];
+      if (Array.isArray(v)) {
+        if (!v.length) return;
+        v = v.join(" | ");
+      }
+      if (v == null) return;
+      var s = String(v);
+      if (s === "[]") return;
+      body.append(k, s);
     });
-    if (filled(fields && fields.landing_page)) body.append("landing", String(fields.landing_page));
     return body;
   }
 
@@ -601,11 +671,18 @@
     });
   }
 
-  function postWithRetry(body) {
+  function postWithRetry(body, eventId) {
     var encoded = body.toString();
     function once() { return postOnce(new URLSearchParams(encoded)); }
-    return once().catch(function () {
-      return wait(RETRY_MS).then(once);
+    return claimLock(eventId).then(function (got) {
+      if (!got) throw new Error("locked");
+      return once().catch(function () { return wait(RETRY_MS).then(once); });
+    }).then(function (res) {
+      releaseLock(eventId);
+      return res;
+    }, function (err) {
+      releaseLock(eventId);
+      throw err;
     });
   }
 
@@ -621,27 +698,43 @@
         step();
         return;
       }
-      item.attempts = (item.attempts || 0) + 1;
-      if (item.attempts > MAX_ATTEMPTS) {
-        writeLeadQueue(rest.slice(1));
-        step();
-        return;
-      }
-      rest[0] = item;
-      writeLeadQueue(rest);
-      var eventId = item.event_id;
-      postOnce(bodyFromFields(item.fields)).then(function () {
-        markSent(eventId);
-        var cur = readLeadQueue().filter(function (x) { return x.event_id !== eventId; });
-        writeLeadQueue(cur);
-        fireLeadEvents(item.track, eventId);
-        step();
-      }).catch(function () {
-        if (item.attempts >= MAX_ATTEMPTS) {
-          var cur = readLeadQueue().filter(function (x) { return x.event_id !== eventId; });
-          writeLeadQueue(cur);
+      claimLock(item.event_id).then(function (got) {
+        if (!got) { window.__menifaLeadFlushing = false; return; }
+        if (wasSent(item.event_id)) {
+          releaseLock(item.event_id);
+          writeLeadQueue(readLeadQueue().filter(function (x) { return x.event_id !== item.event_id; }));
+          step();
+          return;
         }
-        window.__menifaLeadFlushing = false;
+        var curQ = readLeadQueue();
+        var idx = -1;
+        curQ.forEach(function (x, i) { if (x.event_id === item.event_id) idx = i; });
+        if (idx === -1) { releaseLock(item.event_id); step(); return; }
+        var current = curQ[idx];
+        current.attempts = (current.attempts || 0) + 1;
+        if (current.attempts > MAX_ATTEMPTS) {
+          curQ.splice(idx, 1);
+          writeLeadQueue(curQ);
+          releaseLock(item.event_id);
+          step();
+          return;
+        }
+        curQ[idx] = current;
+        writeLeadQueue(curQ);
+        var eventId = current.event_id;
+        postOnce(bodyFromFields(current.fields)).then(function () {
+          markSent(eventId);
+          releaseLock(eventId);
+          writeLeadQueue(readLeadQueue().filter(function (x) { return x.event_id !== eventId; }));
+          fireLeadEvents(current.track, eventId);
+          step();
+        }).catch(function () {
+          releaseLock(eventId);
+          if (current.attempts >= MAX_ATTEMPTS) {
+            writeLeadQueue(readLeadQueue().filter(function (x) { return x.event_id !== eventId; }));
+          }
+          window.__menifaLeadFlushing = false;
+        });
       });
     }
     step();
@@ -682,7 +775,12 @@
     var body = new URLSearchParams();
     Object.keys(data).forEach(function (k) {
       var v = data[k];
-      if (v == null || v === "") return;
+      if (!k || k === "[]") return;
+      if (Array.isArray(v)) {
+        if (!v.length) return;
+        v = v.join(" | ");
+      }
+      if (v == null || v === "" || v === "[]") return;
       body.append(k, String(v));
     });
     var track = trackParams(ids, source, page, {
@@ -694,12 +792,13 @@
       utm_content: att.utm_content,
       utm_term: att.utm_term
     });
-    return postWithRetry(body).then(function () {
+    var queuedFields = fieldsFromBody(body);
+    return postWithRetry(body, ids.event_id).then(function () {
       markSent(ids.event_id);
       fireLeadEvents(track, ids.event_id);
       return "sent";
     }).catch(function () {
-      var queued = enqueueLead(data, track);
+      var queued = enqueueLead(queuedFields, track);
       return queued ? "queued" : "failed";
     });
   }
