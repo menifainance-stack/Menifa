@@ -89,6 +89,24 @@
     };
   }
 
+  function leadFormVersion() {
+    var marked = '';
+    try {
+      if (document.documentElement && document.documentElement.getAttribute) {
+        marked = document.documentElement.getAttribute('data-form-version') || '';
+      }
+    } catch (e) {}
+    if (marked) return String(marked);
+    var path = '';
+    try { path = location.pathname || ''; } catch (e2) { path = ''; }
+    var parts = String(path).split('/').filter(function (part) { return part; });
+    var last = parts.length ? parts[parts.length - 1] : 'home';
+    last = last.replace(/\.html$/i, '');
+    try { last = decodeURIComponent(last); } catch (e3) {}
+    if (!last) last = 'home';
+    return 'lp-' + last + '-v1';
+  }
+
   function buildSubmitBody(base) {
     var body = {
       page: base.page,
@@ -96,7 +114,8 @@
       phone: base.phone,
       amount: base.amount,
       note: base.note,
-      ts: base.ts
+      ts: base.ts,
+      form_version: leadFormVersion()
     };
     var extra = attributionFields();
     Object.keys(extra).forEach(function (key) { body[key] = extra[key]; });

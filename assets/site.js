@@ -434,7 +434,7 @@
   function cookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; }
   // remember campaign attribution for the whole visit (first landing page)
   try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
     if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
     if (got) sessionStorage.setItem('menifa-att', JSON.stringify(att0));
     /* The address bar stays intact, including fbclid, so Meta can write _fbc after marketing consent.
@@ -637,6 +637,7 @@
       if (!data.consent) { err.textContent = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.'; $('[name=consent]', form).focus(); return; }
       err.textContent = '';
       data.page = location.pathname; data.source = form.getAttribute('data-lead'); data.ts = new Date().toISOString();
+      data.form_version = 'site-v1';
       var ids = window.menifaIds ? window.menifaIds() : {};
       data.event_id = ids.event_id || '';
       var att = {}; try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (er) {}

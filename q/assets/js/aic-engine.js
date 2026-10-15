@@ -368,6 +368,19 @@
     };
   }
 
+  function quizFormVersion() {
+    var path = '';
+    try { path = location.pathname || ''; } catch (e) { path = ''; }
+    if (path.indexOf('/q/mihzur') !== -1) return 'q-mihzur-v1';
+    if (path.indexOf('/q/ihud') !== -1) return 'q-ihud-v1';
+    var parts = String(path).split('/').filter(function (part) { return part; });
+    var last = parts.length ? parts[parts.length - 1] : 'quiz';
+    last = last.replace(/\.html$/i, '');
+    try { last = decodeURIComponent(last); } catch (e2) {}
+    if (!last) last = 'quiz';
+    return 'q-' + last + '-v1';
+  }
+
   /* Make gets the quiz summary. Meta gets only a Lead event id — no answers. */
   function postLead(phone, marketing) {
     var ids = window.menifaIds ? window.menifaIds() : fallbackIds();
@@ -383,6 +396,7 @@
       page: page,
       source: source,
       event_id: ids.event_id,
+      form_version: quizFormVersion(),
       fbp: ids.fbp || "",
       fbc: ids.fbc || "",
       ts: new Date().toISOString(),
