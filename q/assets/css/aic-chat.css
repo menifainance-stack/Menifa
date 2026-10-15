@@ -523,6 +523,14 @@ body.aic-hub {
 .cookie p{flex:1 1 380px;font-size:.92rem;line-height:1.7;margin:0}
 .cookie p a{color:var(--gold-ink)}
 .cookie .acts,.modal .acts{display:flex;flex-wrap:wrap;gap:10px}
+/* Campaign consent only (.cookie-campaign on /q/mihzur, /q/ihud).
+   «אישור הכל» and «חיוניות בלבד» share one style, height, and width.
+   «הגדרות» stays secondary. Opt-in logic is unchanged. */
+.cookie.cookie-campaign{z-index:260;left:0;right:0;bottom:0;max-width:none;margin:0;border-radius:16px 16px 0 0;flex-direction:column;align-items:stretch;gap:14px;direction:rtl;padding:16px 16px calc(14px + env(safe-area-inset-bottom,0px));border:1px solid var(--gold);border-inline-start:4px solid var(--gold);box-shadow:0 -16px 48px rgba(0,0,0,.5)}
+.cookie.cookie-campaign p{flex:none;width:100%;font-size:.95rem}
+.cookie.cookie-campaign .acts{display:grid;grid-template-columns:1fr 1fr;direction:rtl;width:100%;gap:8px;align-items:stretch}
+.cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none{min-height:48px;width:100%;box-sizing:border-box;font-weight:700;font-size:.95rem;padding:10px 12px;line-height:1.25;text-align:center;white-space:normal}
+.cookie.cookie-campaign #ck-prefs{grid-column:1 / -1;min-height:48px;font-size:.92rem;font-weight:500}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 20px;border-radius:999px;font-family:var(--f-body);font-weight:500;font-size:.92rem;letter-spacing:.03em;text-decoration:none;border:0;cursor:pointer}
 .btn-a{background:linear-gradient(100deg,var(--g-1),var(--gold-pale) 45%,var(--g-2) 70%,var(--g-1));color:var(--em-800);box-shadow:0 8px 30px rgb(var(--gold-rgb) / .28)}
 .btn-line-dark{background:none;border:1px solid var(--em-700);color:var(--em-700)}
