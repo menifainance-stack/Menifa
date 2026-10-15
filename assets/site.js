@@ -462,6 +462,19 @@
     window.menifaTrack('calculator_use', { calculator: id, page: location.pathname });
   }, true);
   window.MenifaConsent = { get: function () { return consent; }, open: openPrefs };
+  function policyHref(p, file, fallback) {
+    var link = p.querySelector('a[href*="' + file + '"]');
+    if (!link) return fallback;
+    var raw = link.getAttribute('href') || '';
+    if (!raw || /^(?:https?:|javascript:|data:)/i.test(raw)) return fallback;
+    return raw;
+  }
+  function policyLink(href, label) {
+    var a = document.createElement('a');
+    a.setAttribute('href', href);
+    a.textContent = label;
+    return a;
+  }
   /* Short line on phones only. Desktop keeps the HTML sentence. */
   function syncCompactCookieCopy() {
     if (!banner) return;
@@ -477,18 +490,15 @@
     }
     if (p.getAttribute('data-cookie-compact') === '1') return;
     if (!p.__menifaFull) p.__menifaFull = p.innerHTML;
-    var href = 'privacy.html';
-    var link = p.querySelector('a[href*="privacy.html"]');
-    if (link) {
-      var raw = link.getAttribute('href') || '';
-      if (raw && !/^(?:https?:|javascript:|data:)/i.test(raw)) href = raw;
-    }
+    /* Same sentence as q/assets/js/aic-track.js. Kept in both files: the quiz pages do not load site.js. */
+    var COMPACT_COOKIE_BEFORE = 'עוגיות סטטיסטיקה ושיווק פועלות רק באישורכם. פרטים ב';
+    var cookiesHref = policyHref(p, 'cookies.html', 'cookies.html');
+    var privacyHref = policyHref(p, 'privacy.html', 'privacy.html');
     p.textContent = '';
-    p.appendChild(document.createTextNode('משתמשים בעוגיות כדי להבין איזו מודעה הביאה אתכם. פרטים ב'));
-    var a = document.createElement('a');
-    a.setAttribute('href', href);
-    a.textContent = 'מדיניות הפרטיות';
-    p.appendChild(a);
+    p.appendChild(document.createTextNode(COMPACT_COOKIE_BEFORE));
+    p.appendChild(policyLink(cookiesHref, 'מדיניות העוגיות'));
+    p.appendChild(document.createTextNode(' וב'));
+    p.appendChild(policyLink(privacyHref, 'מדיניות הפרטיות'));
     p.appendChild(document.createTextNode('.'));
     p.setAttribute('data-cookie-compact', '1');
   }
