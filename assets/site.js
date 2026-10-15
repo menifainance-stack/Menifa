@@ -384,16 +384,63 @@
   function isCampaignLead(source) {
     return source === 'lp-ihud' || source === 'lp-mihzur';
   }
+  /* In-memory copy of menifa-att. FB/IG in-app browsers throw on sessionStorage;
+     the visit still keeps attribution for the Make body. */
+  var attMem = {};
+  function attFilled(v) { return v != null && String(v).trim() !== ''; }
+  function referrerHost() {
+    var raw = '';
+    try { raw = document.referrer || ''; } catch (e) { raw = ''; }
+    if (!raw) return 'direct';
+    try {
+      var host = new URL(raw).hostname;
+      return host || 'direct';
+    } catch (e2) {
+      var loose = String(raw).replace(/^[a-z][a-z0-9+.-]*:\/\//i, '').split('/')[0].split('?')[0].split('#')[0];
+      return loose || 'direct';
+    }
+  }
+  function readAtt() {
+    try {
+      var raw = sessionStorage.getItem('menifa-att');
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') { attMem = parsed; return parsed; }
+      }
+    } catch (e) {}
+    return attMem && typeof attMem === 'object' ? attMem : {};
+  }
+  function writeAtt(obj) {
+    attMem = obj || {};
+    try { sessionStorage.setItem('menifa-att', JSON.stringify(attMem)); } catch (e) {}
+  }
+  function captureAtt() {
+    var att0 = readAtt();
+    var qp;
+    try { qp = new URLSearchParams(location.search || ''); } catch (e) { qp = new URLSearchParams(); }
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) {
+      var v = '';
+      try { v = qp.get(k) || ''; } catch (e2) { v = ''; }
+      if (attFilled(v)) att0[k] = v;
+    });
+    if (!attFilled(att0.landing_page) && attFilled(att0.landing)) att0.landing_page = String(att0.landing).split('?')[0].split('#')[0];
+    if (!attFilled(att0.landing) && attFilled(att0.landing_page)) att0.landing = att0.landing_page;
+    if (!attFilled(att0.landing)) att0.landing = location.pathname;
+    if (!attFilled(att0.landing_page)) att0.landing_page = location.pathname;
+    if (!attFilled(att0.referrer)) att0.referrer = referrerHost();
+    if (!attFilled(att0.utm_source)) att0.utm_source = 'direct/unknown';
+    writeAtt(att0);
+    return att0;
+  }
   function attributionParams() {
-    var att = {};
-    try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (e) {}
+    var att = readAtt();
     var out = { page_path: location.pathname };
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
-      if (att[k]) out[k] = String(att[k]).slice(0, 120);
+      if (attFilled(att[k])) out[k] = String(att[k]).slice(0, 120);
     });
-    var landing = att.landing || location.pathname;
+    var landing = attFilled(att.landing_page) ? att.landing_page : (attFilled(att.landing) ? att.landing : location.pathname);
     try { if (/^https?:/i.test(landing)) landing = new URL(landing).pathname; } catch (e) {}
-    out.landing_page_path = String(landing).split('?')[0].split('#')[0];
+    out.landing_page_path = String(landing).split('?')[0].split('#')[0] || location.pathname;
     return out;
   }
   function trackFormSuccess(form, data) {
@@ -432,14 +479,10 @@
     return zone.tagName.toLowerCase();
   }
   function cookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; }
-  // remember campaign attribution for the whole visit (first landing page)
-  try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
-    if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
-    if (got) sessionStorage.setItem('menifa-att', JSON.stringify(att0));
-    /* The address bar stays intact, including fbclid, so Meta can write _fbc after marketing consent.
-       GA still receives only the allowlisted page_location from gaConfig. */
-  } catch (er) {}
+  // remember campaign attribution for the whole visit (first landing page).
+  // The address bar stays intact, including fbclid, so Meta can write _fbc after marketing consent.
+  // GA still receives only the allowlisted page_location from gaConfig.
+  captureAtt();
   window.menifaIds = function () { return { event_id: 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
   // clicks: WhatsApp / phone
   document.addEventListener('click', function (e) {
@@ -594,12 +637,23 @@
       if (!/^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test((data.phone || '').replace(/\s/g, '')) && !/^\+?972/.test(data.phone || '')) { err.textContent = 'נא למלא מספר נייד תקין, לדוגמה 050-1234567.'; $('[name=phone]', form).focus(); return; }
       if (!data.consent) { err.textContent = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.'; $('[name=consent]', form).focus(); return; }
       err.textContent = '';
-      data.page = location.pathname; data.source = form.getAttribute('data-lead'); data.ts = new Date().toISOString();
+      data.page = location.pathname;
+      data.source = form.getAttribute('data-lead') || '';
+      data.ts = new Date().toISOString();
       data.form_version = 'site-v1';
       var ids = window.menifaIds ? window.menifaIds() : {};
       data.event_id = ids.event_id || '';
-      var att = {}; try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (er) {}
-      Object.keys(att).forEach(function (k) { data[k] = att[k]; });
+      var att = readAtt();
+      Object.keys(att).forEach(function (k) {
+        if (k === 'source') return;
+        if (!attFilled(att[k])) return;
+        data[k] = att[k];
+      });
+      if (!attFilled(data.source)) data.source = referrerHost();
+      data.landing_page = location.pathname;
+      if (!attFilled(data.landing)) data.landing = location.pathname;
+      if (!attFilled(data.referrer)) data.referrer = referrerHost();
+      if (!attFilled(data.utm_source)) data.utm_source = 'direct/unknown';
       data.fbp = ids.fbp || '';
       data.fbc = ids.fbc || '';
       data.ua = navigator.userAgent;

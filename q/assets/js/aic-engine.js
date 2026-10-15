@@ -381,13 +381,151 @@
     return 'q-' + last + '-v1';
   }
 
+  var LEAD_QUEUE_KEY = "menifa-lead-queue";
+  var RETRY_MS = 500;
+  var TRACK_KEYS = {
+    form_id: 1, lead_uuid: 1, page_path: 1, landing_page_path: 1,
+    utm_source: 1, utm_medium: 1, utm_campaign: 1, utm_content: 1, utm_term: 1
+  };
+
+  function filled(v) { return v != null && String(v).trim() !== ""; }
+
+  function referrerHost() {
+    var raw = "";
+    try { raw = document.referrer || ""; } catch (e) { raw = ""; }
+    if (!raw) return "direct";
+    try {
+      var host = new URL(raw).hostname;
+      return host || "direct";
+    } catch (e2) {
+      var loose = String(raw).replace(/^[a-z][a-z0-9+.-]*:\/\//i, "").split("/")[0].split("?")[0].split("#")[0];
+      return loose || "direct";
+    }
+  }
+
+  function readAtt() {
+    try {
+      var parsed = JSON.parse(sessionStorage.getItem("menifa-att") || "{}");
+      if (parsed && typeof parsed === "object") return parsed;
+    } catch (e) {}
+    return {};
+  }
+
+  function wait(ms) {
+    return new Promise(function (resolve) { setTimeout(resolve, ms); });
+  }
+
+  function readLeadQueue() {
+    try {
+      var parsed = JSON.parse(localStorage.getItem(LEAD_QUEUE_KEY) || "[]");
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function writeLeadQueue(items) {
+    try {
+      localStorage.setItem(LEAD_QUEUE_KEY, JSON.stringify(items));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function enqueueLead(item) {
+    try {
+      var q = readLeadQueue();
+      q.push(item);
+      return writeLeadQueue(q);
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function trackParams(ids, source, page, att) {
+    var landing = filled(att.landing_page) ? att.landing_page : (filled(att.landing) ? att.landing : page);
+    try { if (/^https?:/i.test(landing)) landing = new URL(landing).pathname; } catch (err) {}
+    return {
+      form_id: source,
+      lead_uuid: ids.event_id,
+      page_path: page,
+      landing_page_path: String(landing).split("?")[0].split("#")[0] || page,
+      utm_source: filled(att.utm_source) ? String(att.utm_source) : "direct/unknown",
+      utm_medium: att.utm_medium || "",
+      utm_campaign: att.utm_campaign || "",
+      utm_content: att.utm_content || "",
+      utm_term: att.utm_term || ""
+    };
+  }
+
+  /* Lead and GA only after a real 2xx. Params stay on the allowlist — no phone, name, or answers. */
+  function fireLeadEvents(track, eventId) {
+    var clean = {};
+    Object.keys(track || {}).forEach(function (k) {
+      if (!TRACK_KEYS[k] || !filled(track[k])) return;
+      clean[k] = track[k];
+    });
+    if (window.menifaTrack) window.menifaTrack("form_submit_success", clean);
+    if (window.menifaTrackLead && eventId) window.menifaTrackLead(eventId);
+  }
+
+  function postOnce(body) {
+    return fetch(LEAD_WEBHOOK, {
+      method: "POST",
+      mode: "cors",
+      keepalive: true,
+      body: body
+    }).then(function (res) {
+      if (!res || !res.ok) throw new Error("http");
+      return res;
+    });
+  }
+
+  function postWithRetry(body) {
+    var encoded = body.toString();
+    function once() { return postOnce(new URLSearchParams(encoded)); }
+    return once().catch(function () {
+      return wait(RETRY_MS).then(once);
+    });
+  }
+
+  function flushLeadQueue() {
+    var items = readLeadQueue();
+    if (!items.length) return;
+    var rest = items.slice();
+    function step() {
+      if (!rest.length) {
+        writeLeadQueue([]);
+        return;
+      }
+      var item = rest[0];
+      var params;
+      try { params = new URLSearchParams(item.body || ""); } catch (e) { params = null; }
+      if (!params) {
+        rest.shift();
+        writeLeadQueue(rest);
+        step();
+        return;
+      }
+      postOnce(params).then(function () {
+        rest.shift();
+        writeLeadQueue(rest);
+        fireLeadEvents(item.track, item.event_id);
+        step();
+      }).catch(function () {
+        writeLeadQueue(rest);
+      });
+    }
+    step();
+  }
+
   /* Make gets the quiz summary. Meta gets only a Lead event id — no answers. */
   function postLead(phone, marketing) {
     var ids = window.menifaIds ? window.menifaIds() : fallbackIds();
-    var source = SOURCE[cfg.product] || "";
+    var source = SOURCE[cfg.product] || referrerHost();
     var page = location.pathname;
-    var att = {};
-    try { att = JSON.parse(sessionStorage.getItem("menifa-att") || "{}"); } catch (e) {}
+    var att = readAtt();
     var data = {
       phone: phone,
       name: answers.name || "",
@@ -409,35 +547,32 @@
     ATT_FIELDS.forEach(function (k) {
       data[k] = att[k] == null ? "" : String(att[k]);
     });
+    data.landing_page = page;
+    if (!filled(data.landing)) data.landing = page;
+    if (!filled(data.referrer)) data.referrer = referrerHost();
+    if (!filled(data.utm_source)) data.utm_source = "direct/unknown";
+    if (!filled(data.source)) data.source = referrerHost();
     var body = new URLSearchParams();
     Object.keys(data).forEach(function (k) {
       var v = data[k];
       body.append(k, v == null ? "" : String(v));
     });
-    fetch(LEAD_WEBHOOK, {
-      method: "POST",
-      mode: "cors",
-      keepalive: true,
-      body: body
-    }).then(function (res) {
-      if (!res || !res.ok) return;
-      if (window.menifaTrack) {
-        var landing = att.landing || page;
-        try { if (/^https?:/i.test(landing)) landing = new URL(landing).pathname; } catch (err) {}
-        window.menifaTrack("form_submit_success", {
-          form_id: source,
-          lead_uuid: ids.event_id,
-          page_path: page,
-          landing_page_path: String(landing).split("?")[0].split("#")[0],
-          utm_source: att.utm_source || "",
-          utm_medium: att.utm_medium || "",
-          utm_campaign: att.utm_campaign || "",
-          utm_content: att.utm_content || "",
-          utm_term: att.utm_term || ""
-        });
-      }
-      if (window.menifaTrackLead) window.menifaTrackLead(ids.event_id);
-    }).catch(function () {});
+    var track = trackParams(ids, source, page, {
+      landing: data.landing,
+      landing_page: data.landing_page,
+      utm_source: data.utm_source,
+      utm_medium: data.utm_medium,
+      utm_campaign: data.utm_campaign,
+      utm_content: data.utm_content,
+      utm_term: data.utm_term
+    });
+    return postWithRetry(body).then(function () {
+      fireLeadEvents(track, ids.event_id);
+      return "sent";
+    }).catch(function () {
+      var queued = enqueueLead({ body: body.toString(), event_id: ids.event_id, track: track });
+      return queued ? "queued" : "failed";
+    });
   }
 
   function cookieMarketingLabel() {
@@ -526,18 +661,39 @@
       }
       err.textContent = "";
       leadSent = true;
+      busy = true;
       answers.phone = phone;
-      postLead(phone, marketingBox.checked);
-      clearReplies();
-      addUser(phone);
-      addBotCard(
-        "<p>תודה" +
-          (answers.name ? ", " + answers.name : "") +
-          ". אפשר גם לתאם עכשיו בוואטסאפ — בלי התחייבות.</p>"
-      );
-      setChips([{ label: "וואטסאפ — לתיאום שיחה", href: WA }]);
-      setHint("");
-      if (backBtn) backBtn.hidden = true;
+      setHint("שולחים את הפרטים...");
+      send.disabled = true;
+      postLead(phone, marketingBox.checked).then(function (result) {
+        busy = false;
+        clearReplies();
+        addUser(phone);
+        if (result === "sent") {
+          addBotCard(
+            "<p>תודה" +
+              (answers.name ? ", " + answers.name : "") +
+              ". אפשר גם לתאם עכשיו בוואטסאפ — בלי התחייבות.</p>"
+          );
+        } else if (result === "queued") {
+          addBotCard(
+            "<p>הפרטים לא נשלחו עכשיו. שמרנו אותם במכשיר וננסה שוב בכניסה הבאה.</p>" +
+            "<p>אפשר לתאם שיחה בוואטסאפ, בלי התחייבות.</p>"
+          );
+        } else {
+          addBotCard(
+            "<p>הפרטים לא נשלחו עכשיו. אפשר לתאם שיחה בוואטסאפ, בלי התחייבות.</p>"
+          );
+        }
+        setChips([{ label: "וואטסאפ — לתיאום שיחה", href: WA }]);
+        setHint("");
+        if (backBtn) backBtn.hidden = true;
+      }, function () {
+        busy = false;
+        leadSent = false;
+        send.disabled = false;
+        err.textContent = "הפרטים לא נשלחו עכשיו. אפשר לתאם שיחה בוואטסאפ.";
+      });
     });
     scrollEnd();
   }
@@ -656,6 +812,7 @@
     );
   }
 
+  flushLeadQueue();
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", start);
   } else start();
