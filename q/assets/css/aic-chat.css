@@ -531,6 +531,17 @@ body.aic-hub {
 .cookie.cookie-campaign .acts{display:grid;grid-template-columns:1fr 1fr;direction:rtl;width:100%;gap:8px;align-items:stretch}
 .cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none{min-height:48px;width:100%;box-sizing:border-box;font-weight:700;font-size:.95rem;padding:10px 12px;line-height:1.25;text-align:center;white-space:normal}
 .cookie.cookie-campaign #ck-prefs{grid-column:1 / -1;min-height:48px;font-size:.92rem;font-weight:500}
+/* Phone only. Same compact bar as assets/site.css. Desktop stays as above.
+   The two choice buttons keep equal size. Settings stays secondary. */
+@media (max-width:480px){
+  .cookie,.cookie.cookie-campaign{left:0;right:0;bottom:0;max-width:none;margin:0;border-radius:14px 14px 0 0;flex-direction:column;align-items:stretch;gap:8px;direction:rtl;padding:12px 12px calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -12px 40px rgba(0,0,0,.45)}
+  .cookie p,.cookie.cookie-campaign p{flex:none;width:100%;margin:0;font-size:15px;line-height:1.35}
+  .cookie p a{text-decoration:underline;text-underline-offset:2px}
+  .cookie .acts,.cookie.cookie-campaign .acts{display:grid;grid-template-columns:1fr 1fr 1fr;direction:rtl;width:100%;gap:6px;align-items:stretch}
+  .cookie .btn,.cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none,.cookie.cookie-campaign #ck-prefs{min-height:44px;height:44px;width:100%;box-sizing:border-box;padding:0 4px;font-size:13px;line-height:1.15;letter-spacing:0;text-align:center;white-space:nowrap;grid-column:auto}
+  .cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none{font-weight:700}
+  .cookie.cookie-campaign #ck-prefs{font-weight:500}
+}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 20px;border-radius:999px;font-family:var(--f-body);font-weight:500;font-size:.92rem;letter-spacing:.03em;text-decoration:none;border:0;cursor:pointer}
 .btn-a{background:linear-gradient(100deg,var(--g-1),var(--gold-pale) 45%,var(--g-2) 70%,var(--g-1));color:var(--em-800);box-shadow:0 8px 30px rgb(var(--gold-rgb) / .28)}
 .btn-line-dark{background:none;border:1px solid var(--em-700);color:var(--em-700)}

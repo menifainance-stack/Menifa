@@ -420,9 +420,40 @@
     window.MenifaConsent = { get: function () { return consent; }, open: openPrefs };
   }
 
+  function syncCompactCookieCopy(bannerEl) {
+    var p = bannerEl.querySelector("p");
+    if (!p) return;
+    var narrow = window.matchMedia("(max-width: 480px)").matches;
+    if (!narrow) {
+      if (p.getAttribute("data-cookie-compact") === "1" && p.__menifaFull) {
+        p.innerHTML = p.__menifaFull;
+        p.removeAttribute("data-cookie-compact");
+      }
+      return;
+    }
+    if (p.getAttribute("data-cookie-compact") === "1") return;
+    if (!p.__menifaFull) p.__menifaFull = p.innerHTML;
+    var href = "../../privacy.html";
+    var link = p.querySelector('a[href*="privacy.html"]');
+    if (link) {
+      var raw = link.getAttribute("href") || "";
+      if (raw && !/^(?:https?:|javascript:|data:)/i.test(raw)) href = raw;
+    }
+    p.textContent = "";
+    p.appendChild(document.createTextNode("משתמשים בעוגיות כדי להבין איזו מודעה הביאה אתכם. פרטים ב"));
+    var a = document.createElement("a");
+    a.setAttribute("href", href);
+    a.textContent = "מדיניות הפרטיות";
+    p.appendChild(a);
+    p.appendChild(document.createTextNode("."));
+    p.setAttribute("data-cookie-compact", "1");
+  }
+
   var banner = $("#cookie");
   var modal = $("#cookie-modal");
   if (banner) {
+    syncCompactCookieCopy(banner);
+    window.addEventListener("resize", function () { syncCompactCookieCopy(banner); });
     if (!consent) banner.hidden = false;
     syncCookiePad();
     requestAnimationFrame(syncCookiePad);
