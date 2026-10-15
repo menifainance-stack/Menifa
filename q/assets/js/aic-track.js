@@ -420,9 +420,50 @@
     window.MenifaConsent = { get: function () { return consent; }, open: openPrefs };
   }
 
+  function policyHref(p, file, fallback) {
+    var link = p.querySelector('a[href*="' + file + '"]');
+    if (!link) return fallback;
+    var raw = link.getAttribute("href") || "";
+    if (!raw || /^(?:https?:|javascript:|data:)/i.test(raw)) return fallback;
+    return raw;
+  }
+  function policyLink(href, label) {
+    var a = document.createElement("a");
+    a.setAttribute("href", href);
+    a.textContent = label;
+    return a;
+  }
+  function syncCompactCookieCopy(bannerEl) {
+    var p = bannerEl.querySelector("p");
+    if (!p) return;
+    var narrow = window.matchMedia("(max-width: 480px)").matches;
+    if (!narrow) {
+      if (p.getAttribute("data-cookie-compact") === "1" && p.__menifaFull) {
+        p.innerHTML = p.__menifaFull;
+        p.removeAttribute("data-cookie-compact");
+      }
+      return;
+    }
+    if (p.getAttribute("data-cookie-compact") === "1") return;
+    if (!p.__menifaFull) p.__menifaFull = p.innerHTML;
+    /* Same sentence as assets/site.js. Kept in both files: the quiz pages do not load site.js. */
+    var COMPACT_COOKIE_BEFORE = "עוגיות סטטיסטיקה ושיווק פועלות רק באישורכם. פרטים ";
+    var cookiesHref = policyHref(p, "cookies.html", "../../cookies.html");
+    var privacyHref = policyHref(p, "privacy.html", "../../privacy.html");
+    p.textContent = "";
+    p.appendChild(document.createTextNode(COMPACT_COOKIE_BEFORE));
+    p.appendChild(policyLink(cookiesHref, "במדיניות העוגיות"));
+    p.appendChild(document.createTextNode(" "));
+    p.appendChild(policyLink(privacyHref, "ובמדיניות הפרטיות"));
+    p.appendChild(document.createTextNode("."));
+    p.setAttribute("data-cookie-compact", "1");
+  }
+
   var banner = $("#cookie");
   var modal = $("#cookie-modal");
   if (banner) {
+    syncCompactCookieCopy(banner);
+    window.addEventListener("resize", function () { syncCompactCookieCopy(banner); });
     if (!consent) banner.hidden = false;
     syncCookiePad();
     requestAnimationFrame(syncCookiePad);
