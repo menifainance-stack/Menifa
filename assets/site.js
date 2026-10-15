@@ -465,15 +465,25 @@
 
   /* Essential queue: a lead the visitor already submitted.
      Same storage keys as q/assets/js/aic-engine.js so either page can replay the other.
-     answers and ua stay out. Everything else on the original body is kept, including consent. */
+     Only the allowlist is stored. LP answers (q0…), when, fbp, fbc, event_source_url and cookie_marketing are not. */
   var LEAD_QUEUE_KEY = 'menifa-lead-queue';
   var SENT_KEY = 'menifa-lead-sent';
   var LOCK_KEY = 'menifa-lead-lock';
   var QUEUE_TTL = 48 * 60 * 60 * 1000;
   var LOCK_MS = 30000;
   var MAX_ATTEMPTS = 3;
-  var DROP_KEYS = { answers: 1, ua: 1 };
+  var QUEUE_ALLOW = {
+    name: 1, phone: 1, source: 1, landing_page: 1, page: 1, need: 1,
+    consent: 1, marketing: 1,
+    gclid: 1, gbraid: 1, wbraid: 1,
+    event_id: 1, ts: 1, form_version: 1, referrer: 1
+  };
   var lockOwner = 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  function queueKeyAllowed(k) {
+    if (!k || k === '[]' || /^q\d+$/.test(k)) return false;
+    if (k.indexOf('utm_') === 0) return true;
+    return !!QUEUE_ALLOW[k];
+  }
   var TRACK_KEYS = {
     form_id: 1, lead_uuid: 1, page_path: 1, landing_page_path: 1,
     utm_source: 1, utm_medium: 1, utm_campaign: 1, utm_content: 1, utm_term: 1
@@ -517,8 +527,14 @@
     } catch (e) { return {}; }
   }
   function writeLocks(map) {
-    try { localStorage.setItem(LOCK_KEY, JSON.stringify(map)); return true; }
-    catch (e) { return false; }
+    try {
+      if (!map || !Object.keys(map).length) {
+        localStorage.removeItem(LOCK_KEY);
+        return true;
+      }
+      localStorage.setItem(LOCK_KEY, JSON.stringify(map));
+      return true;
+    } catch (e) { return false; }
   }
   function lockFresh(entry) {
     return !!(entry && entry.owner && typeof entry.ts === 'number' && (Date.now() - entry.ts) < LOCK_MS);
@@ -559,7 +575,7 @@
   function pickQueueFields(data) {
     var fields = {};
     Object.keys(data || {}).forEach(function (k) {
-      if (!k || k === '[]' || DROP_KEYS[k]) return;
+      if (!queueKeyAllowed(k)) return;
       var raw = data[k];
       if (Array.isArray(raw)) {
         if (!raw.length) return;
@@ -570,7 +586,7 @@
       if (raw === false) { fields[k] = 'לא'; return; }
       if (raw == null) return;
       var s = String(raw);
-      if (s === '[]') return;
+      if (s === '' || s === '[]') return;
       fields[k] = s;
     });
     return fields;
@@ -620,12 +636,18 @@
       items = Array.isArray(parsed) ? parsed : [];
     } catch (e) { items = []; }
     var kept = normalizeQueue(items);
-    try { localStorage.setItem(LEAD_QUEUE_KEY, JSON.stringify(kept)); } catch (e2) {}
+    writeLeadQueue(kept);
     return kept;
   }
   function writeLeadQueue(items) {
-    try { localStorage.setItem(LEAD_QUEUE_KEY, JSON.stringify(items)); return true; }
-    catch (e) { return false; }
+    try {
+      if (!items || !items.length) {
+        localStorage.removeItem(LEAD_QUEUE_KEY);
+        return true;
+      }
+      localStorage.setItem(LEAD_QUEUE_KEY, JSON.stringify(items));
+      return true;
+    } catch (e) { return false; }
   }
   function enqueueLead(data, track) {
     try {
@@ -644,7 +666,7 @@
   function bodyFromFields(fields) {
     var body = new URLSearchParams();
     Object.keys(fields || {}).forEach(function (k) {
-      if (!k || k === '[]' || DROP_KEYS[k]) return;
+      if (!queueKeyAllowed(k)) return;
       var v = fields[k];
       if (Array.isArray(v)) {
         if (!v.length) return;
