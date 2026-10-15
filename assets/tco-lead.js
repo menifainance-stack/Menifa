@@ -125,7 +125,8 @@
         utm_campaign: qs('utm_campaign') || 'alut_bituach',
         utm_content: qs('utm_content'),
         utm_term: qs('utm_term'),
-        ts: new Date().toISOString()
+        ts: new Date().toISOString(),
+        form_version: 'tco-v1'
       };
 
       var waFallback = waUrl(

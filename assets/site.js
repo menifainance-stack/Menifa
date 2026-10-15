@@ -595,6 +595,7 @@
       if (!data.consent) { err.textContent = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.'; $('[name=consent]', form).focus(); return; }
       err.textContent = '';
       data.page = location.pathname; data.source = form.getAttribute('data-lead'); data.ts = new Date().toISOString();
+      data.form_version = 'site-v1';
       var ids = window.menifaIds ? window.menifaIds() : {};
       data.event_id = ids.event_id || '';
       var att = {}; try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (er) {}
