@@ -447,14 +447,14 @@
     if (p.getAttribute("data-cookie-compact") === "1") return;
     if (!p.__menifaFull) p.__menifaFull = p.innerHTML;
     /* Same sentence as assets/site.js. Kept in both files: the quiz pages do not load site.js. */
-    var COMPACT_COOKIE_BEFORE = "עוגיות סטטיסטיקה ושיווק פועלות רק באישורכם. פרטים ב";
+    var COMPACT_COOKIE_BEFORE = "עוגיות סטטיסטיקה ושיווק פועלות רק באישורכם. פרטים ";
     var cookiesHref = policyHref(p, "cookies.html", "../../cookies.html");
     var privacyHref = policyHref(p, "privacy.html", "../../privacy.html");
     p.textContent = "";
     p.appendChild(document.createTextNode(COMPACT_COOKIE_BEFORE));
-    p.appendChild(policyLink(cookiesHref, "מדיניות העוגיות"));
-    p.appendChild(document.createTextNode(" וב"));
-    p.appendChild(policyLink(privacyHref, "מדיניות הפרטיות"));
+    p.appendChild(policyLink(cookiesHref, "במדיניות העוגיות"));
+    p.appendChild(document.createTextNode(" "));
+    p.appendChild(policyLink(privacyHref, "ובמדיניות הפרטיות"));
     p.appendChild(document.createTextNode("."));
     p.setAttribute("data-cookie-compact", "1");
   }
