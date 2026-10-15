@@ -228,10 +228,28 @@
     scrollEnd();
   }
 
+  var quizStarted = false;
+  function quizName() {
+    return cfg.product === "ihud" || cfg.product === "mihzur" ? cfg.product : "";
+  }
+  function trackQuiz(name, extra) {
+    if (!window.menifaTrack) return;
+    if (name === "quiz_step") {
+      window.menifaTrack("quiz_step", { step_number: extra && extra.step_number });
+      return;
+    }
+    window.menifaTrack(name, { quiz: quizName() });
+  }
+
   async function ask(idx) {
     phase = "ask";
     qIndex = idx;
     window.MENIFA_QUIZ_STEP = qIndex;
+    if (!quizStarted) {
+      quizStarted = true;
+      trackQuiz("quiz_start");
+    }
+    trackQuiz("quiz_step", { step_number: idx + 1 });
     updateBack();
     var q = cfg.questions[idx];
     var botNodes = [];
@@ -301,6 +319,7 @@
 
   async function showResult() {
     phase = "result";
+    trackQuiz("quiz_complete");
     updateBack();
     var html =
       typeof cfg.softResult === "function"
@@ -387,7 +406,23 @@
       keepalive: true,
       body: body
     }).then(function (res) {
-      if (res && res.ok && window.menifaTrackLead) window.menifaTrackLead(ids.event_id);
+      if (!res || !res.ok) return;
+      if (window.menifaTrack) {
+        var landing = att.landing || page;
+        try { if (/^https?:/i.test(landing)) landing = new URL(landing).pathname; } catch (err) {}
+        window.menifaTrack("form_submit_success", {
+          form_id: source,
+          lead_uuid: ids.event_id,
+          page_path: page,
+          landing_page_path: String(landing).split("?")[0].split("#")[0],
+          utm_source: att.utm_source || "",
+          utm_medium: att.utm_medium || "",
+          utm_campaign: att.utm_campaign || "",
+          utm_content: att.utm_content || "",
+          utm_term: att.utm_term || ""
+        });
+      }
+      if (window.menifaTrackLead) window.menifaTrackLead(ids.event_id);
     }).catch(function () {});
   }
 
