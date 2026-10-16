@@ -75,6 +75,30 @@ PAGES = [
 HE_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
+# 17 העמודים שנערכו ב-16.10.2026. רק הם מקבלים את התאריך הזה.
+# כל שאר הכתובות נשענות על dateModified שבקובץ, בלי רצפה.
+EDITED_HUBS_2026_10_16 = {
+    "/",
+    "/about.html",
+    "/blog.html",
+    "/calculators.html",
+    "/faq.html",
+    "/hashvaat-hatzaot-mashkanta.html",
+    "/ihud-halvaot-lemashkanta.html",
+    "/ishur-ekroni.html",
+    "/lifnei-shehotmim-mashkanta.html",
+    "/madrich-mashkanta.html",
+    "/mashkanta-bneiya-atzmit.html",
+    "/mashkanta-dira-rishona.html",
+    "/mashkanta-kablan.html",
+    "/masurvei-bankim.html",
+    "/mihzur-mashkanta.html",
+    "/tamhil-mashkanta-prime-madad.html",
+    "/yoetz-mashkantaot.html",
+}
+# עמוד בלי dateModified שלא נערך היום נשאר על התאריך שפורסם ב-main.
+UNEDITED_PAGE_LASTMOD = "2026-10-15"
+
 
 def sitemap_pages():
     """נתיבי /q/ (בוטי השאלון בתשלום) הם noindex ולא נכנסים ל-sitemap.
@@ -151,6 +175,27 @@ def load_articles():
     return arts
 
 
+def page_source(path):
+    if path in ("/", "/index.html"):
+        return os.path.join(ROOT, "index.html")
+    if path.endswith("/"):
+        return os.path.join(ROOT, path.strip("/"), "index.html")
+    return os.path.join(ROOT, path.lstrip("/"))
+
+
+def page_lastmod(path):
+    """lastmod של עמוד = dateModified האמיתי. 17 ההאבים שנערכו: 2026-10-16."""
+    key = "/" if path in ("/", "/index.html") else path
+    if key in EDITED_HUBS_2026_10_16 or path in EDITED_HUBS_2026_10_16:
+        return "2026-10-16"
+    html = ""
+    src = page_source(path)
+    if os.path.isfile(src):
+        with open(src, encoding="utf-8") as fh:
+            html = fh.read()
+    return first(r'"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})', html) or UNEDITED_PAGE_LASTMOD
+
+
 def url_block(loc, lastmod, changefreq, priority, x_default=False):
     alt = f'    <xhtml:link rel="alternate" hreflang="he-IL" href="{loc}"/>\n'
     if x_default:
@@ -172,13 +217,12 @@ def article_priority(rank):
     return "0.80"
 
 
-def build_sitemap(arts, today):
-    newest = arts[0]["mod"] if arts else today
+def build_sitemap(arts):
     out = ['<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
            '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n\n']
     for path, prio, freq in sitemap_pages():
-        out.append(url_block(SITE + path, newest, freq, prio,
+        out.append(url_block(SITE + path, page_lastmod(path), freq, prio,
                              x_default=(path == "/")))
     out.append("\n")
     for rank, a in enumerate(arts):
@@ -187,12 +231,12 @@ def build_sitemap(arts, today):
     return "".join(out)
 
 
-def build_sitemap_pages(newest):
+def build_sitemap_pages():
     out = ['<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
            '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n\n']
     for path, prio, freq in sitemap_pages():
-        out.append(url_block(SITE + path, newest, freq, prio,
+        out.append(url_block(SITE + path, page_lastmod(path), freq, prio,
                              x_default=(path == "/")))
     out.append("</urlset>\n")
     return "".join(out)
@@ -397,12 +441,13 @@ def main():
     arts = load_articles()
     if not arts:
         sys.exit("לא נמצאו מאמרים בתיקיית blog/ — עוצר.")
-    newest = arts[0]["mod"]
+    mods = [a["mod"] for a in arts] + [page_lastmod(p) for p, _, _ in sitemap_pages()]
+    newest = max(mods) if mods else today
 
     print(f"נמצאו {len(arts)} מאמרים. המאמר החדש ביותר: "
-          f"{arts[0]['slug']} ({newest})")
-    write("sitemap.xml", build_sitemap(arts, today))
-    write("sitemap-pages.xml", build_sitemap_pages(newest))
+          f"{arts[0]['slug']} ({arts[0]['mod']})")
+    write("sitemap.xml", build_sitemap(arts))
+    write("sitemap-pages.xml", build_sitemap_pages())
     write("sitemap-index.xml", build_sitemap_index(newest))
     write("rss.xml", build_rss(arts))
     if sync_llms(arts):
