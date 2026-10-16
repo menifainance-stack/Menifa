@@ -87,8 +87,12 @@ a:hover{color:var(--gold-pale)}
 .btn-wa{background:#1F6F4A;color:#fff}
 .btn-wa:hover{background:#24804F;color:#fff}
 /* Paid LP schedule link. In flow, under the form, clear of the fixed cookie bar and the left FAB. */
-.wa-schedule{align-self:flex-start;width:auto;max-width:100%;min-height:44px;min-width:44px;scroll-margin-bottom:180px;position:relative;z-index:1;white-space:normal;text-align:center;line-height:1.25}
+.wa-schedule{align-self:flex-start;width:auto;max-width:100%;min-height:48px;min-width:44px;scroll-margin-bottom:180px;position:relative;z-index:1;white-space:normal;text-align:center;line-height:1.25}
 .wa-schedule:focus-visible{outline:2px solid var(--gold-pale);outline-offset:3px}
+html.fx-refined .wa-schedule{overflow:visible}
+@media (max-width:480px){
+  .card .wa-schedule{max-width:calc(100% - 28px);padding-inline:16px}
+}
 .btn svg{flex:none}
 .chip{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border:1px solid var(--line);border-radius:999px;color:var(--muted);text-decoration:none;font-size:.875rem;background:none;font-family:inherit;cursor:pointer}
 .chip:hover{border-color:var(--gold-hi);color:var(--gold-hi)}
