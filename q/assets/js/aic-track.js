@@ -45,12 +45,26 @@
     return m ? decodeURIComponent(m[1]) : "";
   }
 
+  function marketingCookiesOn() {
+    try {
+      var stored = window.MenifaConsent && MenifaConsent.get && MenifaConsent.get();
+      if (stored) return !!stored.marketing;
+    } catch (e) {}
+    if (consent) return !!consent.marketing;
+    try {
+      var saved = JSON.parse(localStorage.getItem(C_KEY) || "null");
+      return !!(saved && saved.v === C_VERSION && saved.marketing);
+    } catch (e2) {}
+    return false;
+  }
+
   if (!window.menifaIds) {
     window.menifaIds = function () {
+      var mkt = marketingCookiesOn();
       return {
         event_id: "lead_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
-        fbp: cookie("_fbp"),
-        fbc: cookie("_fbc")
+        fbp: mkt ? cookie("_fbp") : "",
+        fbc: mkt ? cookie("_fbc") : ""
       };
     };
   }

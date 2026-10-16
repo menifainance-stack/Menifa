@@ -151,6 +151,37 @@
   function hasSensitiveText(text) {
     return /@[a-z0-9.-]+\.[a-z]{2,}/i.test(text) || /(?:\+972|0)5\d[-\s]?\d{3}[-\s]?\d{4}/.test(text) || /מסורב/.test(text);
   }
+  /* Make CAPI reads cookie_marketing as כן or לא. MenifaConsent first, then the stored choice. */
+  function cookieMarketingLabel() {
+    try {
+      if (window.MenifaConsent && typeof MenifaConsent.get === 'function') {
+        var c = MenifaConsent.get();
+        if (c) return c.marketing ? 'כן' : 'לא';
+      }
+    } catch (e) {}
+    try {
+      var stored = JSON.parse(localStorage.getItem('menifa-consent') || 'null');
+      if (!stored || stored.v !== 2) return 'לא';
+      return stored.marketing ? 'כן' : 'לא';
+    } catch (e2) {
+      return 'לא';
+    }
+  }
+  /* event_source_url keeps utm_*, gclid, gbraid, wbraid and fbclid. Hash and every other query key are dropped. */
+  function capiEventSourceUrl() {
+    try {
+      var u = new URL(location.href);
+      var next = new URL(u.origin + u.pathname);
+      u.searchParams.forEach(function (value, key) {
+        if (key === 'gclid' || key === 'gbraid' || key === 'wbraid' || key === 'fbclid' || key.indexOf('utm_') === 0) {
+          next.searchParams.append(key, value);
+        }
+      });
+      return next.origin + next.pathname + next.search;
+    } catch (e) {
+      return location.origin + location.pathname;
+    }
+  }
   function scrubCollect(url) {
     try {
       var u = new URL(url);
@@ -465,7 +496,8 @@
 
   /* Essential queue: a lead the visitor already submitted.
      Same storage keys as q/assets/js/aic-engine.js so either page can replay the other.
-     Only the allowlist is stored. LP answers (q0…), when, fbp, fbc, event_source_url and cookie_marketing are not. */
+     ua, event_source_url and cookie_marketing are stored. fbp and fbc are stored only when cookie_marketing is כן.
+     LP answers (q0…) and when are not. The user agent field is ua. Make reads that name. */
   var LEAD_QUEUE_KEY = 'menifa-lead-queue';
   var SENT_KEY = 'menifa-lead-sent';
   var LOCK_KEY = 'menifa-lead-lock';
@@ -476,7 +508,9 @@
     name: 1, phone: 1, source: 1, landing_page: 1, page: 1, need: 1,
     consent: 1, marketing: 1,
     gclid: 1, gbraid: 1, wbraid: 1,
-    event_id: 1, ts: 1, form_version: 1, referrer: 1
+    event_id: 1, ts: 1, form_version: 1, referrer: 1,
+    ua: 1, event_source_url: 1, cookie_marketing: 1,
+    fbp: 1, fbc: 1
   };
   var lockOwner = 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   function queueKeyAllowed(k) {
@@ -574,7 +608,9 @@
   }
   function pickQueueFields(data) {
     var fields = {};
+    var keepCookies = String((data && data.cookie_marketing) || '') === 'כן';
     Object.keys(data || {}).forEach(function (k) {
+      if ((k === 'fbp' || k === 'fbc') && !keepCookies) return;
       if (!queueKeyAllowed(k)) return;
       var raw = data[k];
       if (Array.isArray(raw)) {
@@ -776,7 +812,14 @@
   // GA still receives only the allowlisted page_location from gaConfig.
   captureAtt();
   flushLeadQueue();
-  window.menifaIds = function () { return { event_id: 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
+  window.menifaIds = function () {
+    var mkt = cookieMarketingLabel() === 'כן';
+    return {
+      event_id: 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+      fbp: mkt ? cookie('_fbp') : '',
+      fbc: mkt ? cookie('_fbc') : ''
+    };
+  };
   // clicks: WhatsApp / phone
   document.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
@@ -990,11 +1033,13 @@
       if (!attFilled(data.landing)) data.landing = location.pathname;
       if (!attFilled(data.referrer)) data.referrer = referrerHost();
       if (!attFilled(data.utm_source)) data.utm_source = 'direct/unknown';
-      data.fbp = ids.fbp || '';
-      data.fbc = ids.fbc || '';
+      data.cookie_marketing = cookieMarketingLabel();
+      if (data.cookie_marketing === 'כן') {
+        if (ids.fbp) data.fbp = ids.fbp;
+        if (ids.fbc) data.fbc = ids.fbc;
+      }
       data.ua = navigator.userAgent;
-      data.event_source_url = location.origin + location.pathname;
-      data.cookie_marketing = (consent && consent.marketing) ? 'כן' : 'לא';
+      data.event_source_url = capiEventSourceUrl();
       var msg = 'שלום תמיר, השארתי פרטים באתר מניפה.\nשם: ' + data.name + '\nטלפון: ' + data.phone + (data.need ? '\nנושא: ' + data.need : '') + (data.when ? '\nמתי נוח: ' + data.when : '') + (extra.length ? '\n' + extra.join('\n') : '') + (data.note ? '\nהערה: ' + data.note : '');
       if (extra.length) data.answers = extra.join(' | ');
       var finish = function (sent) {
