@@ -86,6 +86,13 @@ a:hover{color:var(--gold-pale)}
 .btn-dark:hover{color:var(--gold-pale);background:var(--em-700)}
 .btn-wa{background:#1F6F4A;color:#fff}
 .btn-wa:hover{background:#24804F;color:#fff}
+/* Paid LP schedule link. In flow, under the form, clear of the fixed cookie bar and the left FAB. */
+.wa-schedule{align-self:flex-start;width:auto;max-width:100%;min-height:48px;min-width:44px;scroll-margin-bottom:180px;position:relative;z-index:1;white-space:normal;text-align:center;line-height:1.25}
+.wa-schedule:focus-visible{outline:2px solid var(--gold-pale);outline-offset:3px}
+html.fx-refined .wa-schedule{overflow:visible}
+@media (max-width:480px){
+  .card .wa-schedule{max-width:calc(100% - 28px);padding-inline:16px}
+}
 .btn svg{flex:none}
 .chip{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border:1px solid var(--line);border-radius:999px;color:var(--muted);text-decoration:none;font-size:.875rem;background:none;font-family:inherit;cursor:pointer}
 .chip:hover{border-color:var(--gold-hi);color:var(--gold-hi)}
@@ -366,7 +373,33 @@ a:hover{color:var(--gold-pale)}
   .cookie .btn,.cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none,.cookie.cookie-campaign #ck-prefs{min-height:44px;height:44px;width:100%;box-sizing:border-box;padding:0 4px;font-size:13px;line-height:1.15;letter-spacing:0;text-align:center;white-space:nowrap;grid-column:auto}
   .cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none{font-weight:700}
   .cookie.cookie-campaign #ck-prefs{font-weight:500}
+  /* Campaign phones: the note and both choice buttons stay on screen.
+     Accept and essentials-only share one row, one height, and one weight. */
+  .cookie.cookie-campaign{
+    gap:8px;
+    padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+    box-sizing:border-box
+  }
+  .cookie.cookie-campaign p{
+    position:static;
+    width:100%;
+    height:auto;
+    overflow:visible;
+    clip:auto;
+    white-space:normal;
+    pointer-events:auto;
+    font-size:13px;
+    line-height:1.35
+  }
+  .cookie.cookie-campaign #ck-none{display:inline-flex}
+  .cookie.cookie-campaign #ck-all,
+  .cookie.cookie-campaign #ck-none{
+    font-weight:700;
+    font-size:12px
+  }
 }
+html.cookie-open .fab{bottom:calc(var(--cookie-bar, 64px) + 12px)}
+.cookie .btn:focus-visible{outline:3px solid var(--em-700);outline-offset:2px}
 .btn-line-dark{background:none;border:1px solid var(--em-700);color:var(--em-700)}
 .btn-line-dark:hover{background:var(--em-700);color:var(--gold-pale)}
 .modal{position:fixed;inset:0;z-index:300;background:rgb(var(--em-950-rgb) / .7);display:flex;align-items:center;justify-content:center;padding:16px}

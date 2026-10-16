@@ -1,0 +1,231 @@
+/**
+ * Facebook in-app browser, 390x664.
+ * Pre-consent: no Facebook requests, GA4 collect with gcs=G100, anonymous counter fires.
+ * Usage: BASE=http://127.0.0.1:8765 node tests/fb-inapp-consent.mjs
+ */
+import { chromium } from 'playwright';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const BASE = (process.env.BASE || 'http://127.0.0.1:8765').replace(/\/$/, '');
+const OUT = process.env.FB_OUT || '/opt/cursor/artifacts/fb-inapp-consent';
+const FB_UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/21F79 [FBAN/FBIOS;FBAV/470.0.0.0.0;FBBV/470000000;FBDV/iPhone14,5;FBMD/iPhone;FBSN/iOS;FBSV/17.5;FBSS/3;FBID/phone;FBLC/he_IL;FBOP/5]';
+const QS = '?utm_source=facebook&utm_medium=paid&utm_campaign=mihzur-oct&fbclid=IwAR_testvalue&email=x@y.com';
+const PAGES = ['/lp/mihzur/', '/lp/ihud/', '/q/mihzur/', '/q/ihud/'];
+
+fs.mkdirSync(OUT, { recursive: true });
+
+function gcsOf(blob) {
+  const m = String(blob).match(/(?:^|[?&])gcs=([^&\s]+)/);
+  return m ? decodeURIComponent(m[1]) : '';
+}
+function eventsOf(posts) {
+  return posts.map(function (raw) {
+    try { return JSON.parse(raw).event; } catch (e) { return ''; }
+  }).filter(Boolean);
+}
+
+const browser = await chromium.launch({ headless: true });
+const report = { base: BASE, ua: 'FBAN/FBIOS', viewport: '390x664', pages: [], errors: [] };
+
+for (const pathname of PAGES) {
+  const slug = pathname.replace(/\//g, '-').replace(/^-|-$/g, '');
+  const row = { path: pathname, checks: {}, shots: {} };
+  report.pages.push(row);
+  const hits = [];
+  const beacons = [];
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 664 },
+    deviceScaleFactor: 2,
+    isMobile: true,
+    hasTouch: true,
+    userAgent: FB_UA,
+    locale: 'he-IL'
+  });
+  context.on('request', function (req) {
+    const url = req.url();
+    const post = req.postData() || '';
+    if (/facebook\.net|facebook\.com|fbcdn\.net/i.test(url)) hits.push({ kind: 'meta', url: url });
+    if (/google-analytics\.com|googletagmanager\.com|analytics\.google\.com/i.test(url)) {
+      hits.push({ kind: 'ga', url: url, post: post.slice(0, 2000) });
+    }
+    if (/TODO-menifa-anon-counter|hook\.us2\.make\.com\/TODO/i.test(url)) hits.push({ kind: 'todo', url: url });
+    if (/\/api\/anon-count/.test(url)) beacons.push(post);
+  });
+  const page = await context.newPage();
+  try {
+    await page.goto(BASE + pathname + QS, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await page.locator('#cookie').waitFor({ state: 'visible', timeout: 10000 });
+    /* Cookieless custom events leave with the GA4 batch, about five seconds in. */
+    await page.waitForTimeout(5600);
+
+    const banner = await page.locator('#cookie').evaluate(function (el) {
+      var r = el.getBoundingClientRect();
+      var buttons = Array.prototype.map.call(el.querySelectorAll('button'), function (b) {
+        var br = b.getBoundingClientRect();
+        var style = getComputedStyle(b);
+        return {
+          id: b.id,
+          text: (b.textContent || '').trim(),
+          visible: style.display !== 'none' && style.visibility !== 'hidden' && br.width > 0 && br.height > 0,
+          h: Math.round(br.height),
+          w: Math.round(br.width),
+          weight: style.fontWeight
+        };
+      });
+      var note = el.querySelector('p');
+      var noteBox = note ? note.getBoundingClientRect() : { width: 0, height: 0 };
+      var links = note ? Array.prototype.map.call(note.querySelectorAll('a'), function (a) {
+        var ar = a.getBoundingClientRect();
+        return { href: a.getAttribute('href') || '', w: Math.round(ar.width), h: Math.round(ar.height) };
+      }) : [];
+      var text = (el.innerText || '').replace(/\s+/g, ' ').trim();
+      return { h: Math.round(r.height), top: Math.round(r.top), bottom: Math.round(r.bottom), buttons: buttons, text: text, noteH: Math.round(noteBox.height), links: links };
+    });
+    row.banner = banner;
+    row.checks.bannerHeight = banner.h >= 90 && banner.h <= 200;
+    if (!row.checks.bannerHeight) report.errors.push(slug + ': banner height ' + banner.h);
+    const visibleBtns = banner.buttons.filter(function (b) { return b.visible; });
+    const accept = banner.buttons.filter(function (b) { return b.id === 'ck-all'; })[0];
+    const reject = banner.buttons.filter(function (b) { return b.id === 'ck-none'; })[0];
+    row.checks.threeButtons = visibleBtns.length === 3 && visibleBtns.some(function (b) { return b.text === 'אישור הכל'; }) && visibleBtns.some(function (b) { return b.text === 'חיוניות בלבד'; }) && visibleBtns.some(function (b) { return b.text === 'הגדרות'; });
+    row.checks.equalChoice = !!(accept && reject && accept.visible && reject.visible && accept.h === reject.h && Math.abs((accept.w || 0) - (reject.w || 0)) <= 2 && String(accept.weight) === String(reject.weight));
+    if (!row.checks.threeButtons) report.errors.push(slug + ': visible buttons ' + JSON.stringify(visibleBtns));
+    if (!row.checks.equalChoice) report.errors.push(slug + ': reject is not equal to accept ' + JSON.stringify({ accept: accept, reject: reject }));
+    row.checks.noGuillemets = !/[«»]|<<|>>/.test(banner.text);
+    if (!row.checks.noGuillemets) report.errors.push(slug + ': banner text has angle quotes');
+    row.checks.textVisible = banner.noteH >= 16 && /מדיניות העוגיות/.test(banner.text) && /מדיניות הפרטיות/.test(banner.text) && banner.links.length >= 2 && banner.links.every(function (a) { return a.w > 8 && a.h > 8; });
+    if (!row.checks.textVisible) report.errors.push(slug + ': banner text or links hidden ' + JSON.stringify({ noteH: banner.noteH, links: banner.links, text: banner.text }));
+
+    const overlap = await page.evaluate(function () {
+      var bar = document.getElementById('cookie').getBoundingClientRect();
+      var nodes = Array.prototype.slice.call(document.querySelectorAll('.fab, .aic-dock, #aic-replies'));
+      return nodes.map(function (el) {
+        var r = el.getBoundingClientRect();
+        if (r.width < 2 || r.height < 2) return null;
+        var hits = !(r.bottom <= bar.top + 1 || r.top >= bar.bottom - 1 || r.right <= bar.left + 1 || r.left >= bar.right - 1);
+        return { id: el.id || el.className, top: Math.round(r.top), bottom: Math.round(r.bottom), barTop: Math.round(bar.top), overlap: hits };
+      }).filter(Boolean);
+    });
+    row.overlap = overlap;
+    row.checks.noOverlap = overlap.every(function (n) { return !n.overlap; });
+    if (!row.checks.noOverlap) report.errors.push(slug + ': overlap ' + JSON.stringify(overlap));
+
+    row.shots.before = path.join(OUT, slug + '-before.png');
+    await page.screenshot({ path: row.shots.before });
+
+    const meta = hits.filter(function (h) { return h.kind === 'meta'; });
+    const collects = hits.filter(function (h) { return h.kind === 'ga' && /\/collect/.test(h.url); });
+    const gcs = collects.map(function (h) { return gcsOf(h.url + '\n' + h.post); }).filter(Boolean);
+    function blobs() {
+      return collects.map(function (h) { return h.url + '\n' + (h.post || ''); }).concat(
+        hits.filter(function (h) { return h.kind === 'ga' && /\/collect/.test(h.url); }).map(function (h) { return h.url + '\n' + (h.post || ''); })
+      );
+    }
+    function hasGa(name, extra) {
+      return blobs().some(function (b) {
+        if (b.indexOf('en=' + name) < 0) return false;
+        return extra ? extra.test(b) : true;
+      });
+    }
+    row.checks.noFacebook = meta.length === 0;
+    row.checks.gaDenied = collects.length > 0 && gcs.length > 0 && gcs.every(function (g) { return g.indexOf('G100') === 0; });
+    row.gcs = gcs.slice(0, 6);
+    row.checks.gaPageView = hasGa('page_view');
+    row.checks.gaChoiceNone = hasGa('consent_choice', /choice=none/);
+    const early = beacons.map(function (raw) { try { return JSON.parse(raw); } catch (e) { return null; } }).filter(Boolean);
+    row.events = early.map(function (p) { return p.event; });
+    row.checks.beaconQuiet = early.every(function (p) { return p.event === 'form_start' || p.event === 'bot_step1'; });
+    if (!row.checks.noFacebook) report.errors.push(slug + ': facebook requests ' + meta.length);
+    if (!row.checks.gaDenied) report.errors.push(slug + ': GA gcs ' + (gcs.join(',') || 'none') + ' collects=' + collects.length);
+    if (!row.checks.gaPageView) report.errors.push(slug + ': GA page_view missing');
+    if (!row.checks.gaChoiceNone) report.errors.push(slug + ': GA consent_choice none missing');
+    if (!row.checks.beaconQuiet) report.errors.push(slug + ': Make received ' + row.events.join(','));
+
+    const storage = await page.evaluate(function () {
+      var keys = [];
+      try { for (var i = 0; i < localStorage.length; i++) keys.push(localStorage.key(i)); } catch (e) {}
+      return { cookie: document.cookie, local: keys };
+    });
+    row.checks.noGaCookie = !/(?:^|; )_ga=/.test(storage.cookie);
+    row.checks.noCounterId = !storage.local.some(function (k) { return /anon|counter|sid/i.test(k); });
+    if (!row.checks.noGaCookie) report.errors.push(slug + ': _ga cookie before consent ' + storage.cookie);
+    if (!row.checks.noCounterId) report.errors.push(slug + ': counter id in localStorage');
+
+    if (pathname.indexOf('/lp/') === 0) {
+      await page.locator('fieldset[data-q] input[type="radio"]').first().check({ force: true });
+      await page.locator('input[name="name"]').focus();
+      await page.evaluate(function () {
+        document.documentElement.style.scrollBehavior = 'auto';
+        var spacer = document.createElement('div');
+        spacer.style.height = '4000px';
+        document.body.appendChild(spacer);
+        window.scrollTo(0, document.documentElement.scrollHeight);
+      });
+    } else {
+      await page.evaluate(function () {
+        var log = document.getElementById('aic-log');
+        if (!log) return;
+        var spacer = document.createElement('div');
+        spacer.style.height = '4000px';
+        log.appendChild(spacer);
+        log.scrollTop = log.scrollHeight;
+      });
+    }
+    await page.waitForTimeout(5600);
+    const mid = beacons.map(function (raw) { try { return JSON.parse(raw); } catch (e) { return null; } }).filter(Boolean);
+    row.events = mid.map(function (p) { return p.event; });
+    row.checks.makeOnly = mid.every(function (p) { return p.event === 'form_start' || p.event === 'bot_step1'; });
+    row.checks.noPii = !beacons.some(function (raw) { return /IwAR_testvalue|x@y\.com|"sid"|"fbclid":/.test(raw); });
+    row.checks.scroll50 = hasGa('scroll', /percent_scrolled=50/);
+    row.checks.scroll90 = hasGa('scroll', /percent_scrolled=90/);
+    if (pathname.indexOf('/lp/') === 0) {
+      row.checks.botStep = mid.some(function (p) { return p.event === 'bot_step1'; });
+      row.checks.formStart = mid.some(function (p) { return p.event === 'form_start'; });
+      if (!row.checks.botStep) report.errors.push(slug + ': bot_step1 missing from Make');
+      if (!row.checks.formStart) report.errors.push(slug + ': form_start missing from Make');
+    } else {
+      row.checks.botStep = mid.some(function (p) { return p.event === 'bot_step1'; });
+      if (!row.checks.botStep) report.errors.push(slug + ': bot_step1 missing from Make');
+    }
+    if (!row.checks.makeOnly) report.errors.push(slug + ': Make events ' + row.events.join(','));
+    row.checks.noTodoBeacon = hits.every(function (h) { return h.kind !== 'todo'; });
+    if (!row.checks.noTodoBeacon) report.errors.push(slug + ': beacon to the TODO Make URL');
+    if (!row.checks.noPii) report.errors.push(slug + ': beacon leaked an id or the fbclid value');
+    if (!row.checks.scroll50 || !row.checks.scroll90) report.errors.push(slug + ': GA scroll missing');
+
+    await page.evaluate(function () { window.scrollTo(0, 0); });
+    await page.locator('#ck-all').click();
+    await page.locator('#cookie').waitFor({ state: 'hidden', timeout: 5000 });
+    await page.waitForTimeout(5600);
+    const after = await page.evaluate(function () {
+      var open = document.documentElement.classList.contains('cookie-open');
+      var fab = document.querySelector('.fab-wa');
+      var bottom = null;
+      if (fab) bottom = Math.round(parseFloat(getComputedStyle(fab).bottom));
+      return { open: open, fabBottom: bottom };
+    });
+    row.after = after;
+    row.checks.bannerClosed = after.open === false;
+    if (!row.checks.bannerClosed) report.errors.push(slug + ': banner still offsetting the page');
+    const choice = beacons.map(function (raw) { try { return JSON.parse(raw); } catch (e) { return null; } }).filter(Boolean);
+    row.checks.acceptAll = hasGa('consent_choice', /choice=accept_all/);
+    row.checks.choiceNotOnMake = !choice.some(function (p) { return p.event === 'consent_choice' || p.event === 'page_view' || p.event === 'scroll'; });
+    if (!row.checks.acceptAll) report.errors.push(slug + ': GA consent_choice accept_all missing');
+    if (!row.checks.choiceNotOnMake) report.errors.push(slug + ': Make received a GA-only event');
+    row.shots.after = path.join(OUT, slug + '-after.png');
+    await page.screenshot({ path: row.shots.after });
+  } catch (err) {
+    report.errors.push(slug + ': ' + err.message);
+  }
+  await context.close();
+}
+
+report.ok = report.errors.length === 0;
+report.finished = new Date().toISOString();
+fs.writeFileSync(path.join(OUT, 'report.json'), JSON.stringify(report, null, 2));
+console.log(JSON.stringify({ ok: report.ok, errors: report.errors, pages: report.pages.map(function (p) {
+  return { path: p.path, checks: p.checks, gcs: p.gcs, events: p.events, banner: p.banner && p.banner.h, overlap: p.overlap };
+}) }, null, 2));
+await browser.close();
+process.exit(report.ok ? 0 : 1);
