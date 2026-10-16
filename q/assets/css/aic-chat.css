@@ -414,6 +414,37 @@ body.aic-shell {
   align-items: center;
   padding: 0 8px;
 }
+/* Schedule link sits under the phone form, inside the dock, above the cookie bar. */
+.wa-schedule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  min-width: 44px;
+  margin-top: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: #1F6F4A;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  scroll-margin-bottom: 16px;
+}
+.wa-schedule:hover { background: #24804F; color: #fff; }
+.wa-schedule:focus-visible {
+  outline: 2px solid var(--menifa-champ);
+  outline-offset: 3px;
+}
 @media (max-width: 480px) {
   .aic-frame { max-width: none; padding-inline: 10px; }
   .aic-dock { margin-inline: -10px; padding-inline: 10px; }
