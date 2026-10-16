@@ -1,6 +1,39 @@
 /* Quiz bots · Menifa Mercury shell (Soft brief 2026-10-06)
-   Night #081420 · mercury-hero.jpg · glass · champ hairline.
-   Header logo stays the live-site fan SVG. Question copy is not styled here. */
+   Night #081420 · mercury hero · glass · champ hairline.
+   Header logo stays the live-site fan SVG. Question copy is not styled here.
+   q/mihzur and q/ihud inline this file in a style tag. Edit here, then refresh those copies. */
+@font-face {
+  font-family: "Heebo";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/q/assets/fonts/heebo-hebrew.woff2") format("woff2");
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+@font-face {
+  font-family: "Heebo";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/q/assets/fonts/heebo-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+2013-2014, U+2026, U+20AC;
+}
+@font-face {
+  font-family: "Frank Ruhl Libre";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/q/assets/fonts/frank-ruhl-libre-500-hebrew.woff2") format("woff2");
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/q/assets/fonts/cormorant-garamond-500.woff2") format("woff2");
+  unicode-range: U+0020, U+00B7, U+0041-005A;
+}
 :root {
   --aic-blue: #5BAFD8;
   --aic-blue-user: #5BAFD8;
@@ -60,6 +93,12 @@ body.aic-shell {
     radial-gradient(ellipse 80% 55% at 50% 40%, rgba(6, 16, 28, .25) 0%, transparent 60%),
     linear-gradient(180deg, rgba(6, 16, 28, .55) 0%, rgba(6, 16, 28, .42) 35%, rgba(8, 20, 32, .72) 70%, rgba(6, 14, 22, .88) 100%),
     url("/q/assets/bg/mercury-hero.jpg");
+  background-image:
+    radial-gradient(ellipse 70% 50% at 20% 20%, rgba(91, 175, 216, .18) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 85% 70%, rgba(196, 165, 116, .12) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 55% at 50% 40%, rgba(6, 16, 28, .25) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(6, 16, 28, .55) 0%, rgba(6, 16, 28, .42) 35%, rgba(8, 20, 32, .72) 70%, rgba(6, 14, 22, .88) 100%),
+    url("/q/assets/bg/mercury-hero.webp");
   background-size: cover;
   background-position: center 30%;
   background-repeat: no-repeat;
