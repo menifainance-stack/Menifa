@@ -420,6 +420,24 @@
  ],
  "headers": [
   {
+   "source": "/q/mihzur",
+   "headers": [
+    {
+     "key": "Link",
+     "value": "</q/assets/css/aic-chat.css>; rel=preload; as=style; fetchpriority=high"
+    }
+   ]
+  },
+  {
+   "source": "/q/ihud",
+   "headers": [
+    {
+     "key": "Link",
+     "value": "</q/assets/css/aic-chat.css>; rel=preload; as=style; fetchpriority=high"
+    }
+   ]
+  },
+  {
    "source": "/(.*)",
    "headers": [
     {

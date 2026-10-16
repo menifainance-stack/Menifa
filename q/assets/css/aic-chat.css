@@ -1,7 +1,7 @@
 /* Quiz bots · Menifa Mercury shell (Soft brief 2026-10-06)
    Night #081420 · mercury hero · glass · champ hairline.
    Header logo stays the live-site fan SVG. Question copy is not styled here.
-   q/mihzur and q/ihud inline this file. After an edit run: python3 scripts/inline-quiz-css */
+   This file is the only copy. Quiz pages link it; they do not inline it. */
 @font-face {
   font-family: "Heebo";
   font-style: normal;
