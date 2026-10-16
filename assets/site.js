@@ -446,8 +446,8 @@
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
     var h = a.getAttribute('href') || '';
     if (/wa\.me\/|api\.whatsapp\.com/i.test(h) || a.hasAttribute('data-wa')) {
-      /* Schedule CTA tracks itself, and only after consent. Do not queue it here. */
-      if (a.hasAttribute('data-wa-schedule')) return;
+      /* Schedule CTA and the floating button track themselves, and only after consent. Do not queue them here. */
+      if (a.hasAttribute('data-wa-schedule') || a.hasAttribute('data-wa-float')) return;
       window.menifaTrack('whatsapp_click', {
         wa_variant: waVariant(a.href || h),
         cta_location: ctaLocation(a),
@@ -886,5 +886,270 @@
     box.addEventListener('change', run);
     share.addEventListener('input', run);
     run();
+  })();
+
+  /* Direct WhatsApp button on every page that loads this file.
+     Pages that already have .fab-wa keep that one control (the topic
+     popup is retired). Pages without it get a single injected link.
+     Twin logic: q/assets/js/aic-track.js. Prefill is built at click time.
+     GA4 and Meta Contact run only when consent already allows that
+     category. A click before consent is not queued. */
+  (function mountWaFloat() {
+    if (/^\/(lp|q)\/(ihud|mihzur)(\/|\/index\.html)?$/i.test(String(location.pathname || ''))) return;
+    var WA_NUMBER = CONFIG.whatsapp;
+    var LABEL = 'וואטסאפ — לתיאום שיחה';
+    var GREETING = 'שלום, אשמח לתיאום שיחה';
+    var SVG = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.6 8.6 0 0 1-12.7 7.6L3 20.6l1.5-4.6A8.6 8.6 0 1 1 20.5 11.6z"/><path d="M9 8.6c.2 2.9 2.6 5.6 5.6 6.3l1.2-1.3-1.8-1-1 .8a5 5 0 0 1-2.4-2.4l.8-1-1-1.8z" fill="currentColor" stroke="none"/></svg>';
+    var link = null;
+    var heldFocus = false;
+    var queued = false;
+
+    function isHome() {
+      var path = String(location.pathname || '/');
+      var bare = path.replace(/\/index\.html$/i, '').replace(/\/+$/, '');
+      return bare === '';
+    }
+    function pickAtt() {
+      var att = {};
+      try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (e) {}
+      var qp = null;
+      try { qp = new URLSearchParams(location.search); } catch (e2) {}
+      return function (key) {
+        var fromUrl = qp && qp.get(key);
+        if (fromUrl) return fromUrl;
+        if (att && att[key] != null && att[key] !== '') return String(att[key]);
+        return '';
+      };
+    }
+    function safeToken(value, max) {
+      var s = String(value || '').trim();
+      if (!s) return '';
+      if (/@/.test(s) || /(?:\+972|0)5\d/.test(s)) return '';
+      s = s.replace(/[^A-Za-z0-9_-]/g, '');
+      if (!s) return '';
+      return s.slice(0, max);
+    }
+    function sourceLine() {
+      var pick = pickAtt();
+      var parts = [];
+      ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (key) {
+        var token = safeToken(pick(key), 32);
+        if (token) parts.push(token);
+      });
+      var gclid = safeToken(pick('gclid'), 6);
+      var fbclid = safeToken(pick('fbclid'), 6);
+      if (gclid) parts.push('gclid:' + gclid);
+      if (fbclid) parts.push('fbclid:' + fbclid);
+      if (!parts.length) return '';
+      return 'מקור: ' + parts.join('/');
+    }
+    function pageContext() {
+      if (isHome()) return '';
+      var marked = document.querySelector('[data-wa-page]');
+      var name = marked ? (marked.getAttribute('data-wa-page') || '') : '';
+      if (marked && marked.getAttribute('data-wa-quiz') === '1' && name) name += ' (שאלון)';
+      if (!name) {
+        var h1 = document.querySelector('h1');
+        if (h1) name = h1.textContent || '';
+      }
+      if (!name) name = String(document.title || '').split(/[|·]/)[0];
+      name = name.replace(/[<>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 72);
+      return name;
+    }
+    function messageFor() {
+      var lines = [GREETING];
+      if (!isHome()) {
+        var ctx = pageContext();
+        if (ctx) lines.push('עמוד: ' + ctx);
+      }
+      var source = sourceLine();
+      if (source && !/עלות/.test(source)) lines.push(source);
+      if (isHome()) return GREETING + (lines.length > 1 && lines[1].indexOf('מקור:') === 0 ? '\n' + lines[1] : '');
+      return lines.join('\n');
+    }
+    function hrefFor() {
+      return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(messageFor());
+    }
+    function consentNow() {
+      var api = window.MenifaConsent;
+      if (!api || typeof api.get !== 'function') return null;
+      var value = api.get();
+      if (!value || value.v !== 2) return null;
+      return value;
+    }
+    function track() {
+      var consentValue = consentNow();
+      if (!consentValue) return;
+      var page = location.pathname || '';
+      if (consentValue.statistics && !gaOff() && !window.__menifaGaRevoked && window.gtag && window.__ga) {
+        var pick = pickAtt();
+        var params = { page_path: page, page: page, wa_variant: 'wa.me', cta_location: 'float' };
+        ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (key) {
+          var token = safeToken(pick(key), 80);
+          if (token) params[key] = token;
+        });
+        window.gtag('event', 'whatsapp_click', params);
+      }
+      if (consentValue.marketing && typeof window.fbq === 'function') {
+        window.fbq('track', 'Contact', { content_name: page });
+      }
+    }
+    function arm(anchor) {
+      if (anchor.getAttribute('data-wa-armed') === '1') return;
+      anchor.setAttribute('data-wa-armed', '1');
+      anchor.setAttribute('aria-label', LABEL);
+      function refresh() { anchor.href = hrefFor(); }
+      anchor.addEventListener('pointerdown', refresh);
+      anchor.addEventListener('focus', refresh);
+      anchor.addEventListener('click', function () { refresh(); track(); });
+      anchor.addEventListener('auxclick', function () { refresh(); track(); });
+    }
+    function makeLink(inFab) {
+      var a = document.createElement('a');
+      a.className = inFab ? 'wa-float wa-float-in-fab' : 'wa-float';
+      a.setAttribute('data-wa-float', '');
+      a.href = 'https://wa.me/' + WA_NUMBER;
+      a.rel = 'noopener noreferrer';
+      a.setAttribute('aria-label', LABEL);
+      a.innerHTML = SVG;
+      return a;
+    }
+    function ensure() {
+      if (link && document.body.contains(link)) return link;
+      var existing = document.querySelector('[data-wa-float]');
+      if (existing) { link = existing; arm(link); return link; }
+      var fab = document.querySelector('.fab-wa');
+      if (fab) {
+        var pop = fab.querySelector('.wa-pop, #wa-pop');
+        if (pop) { pop.hidden = true; pop.setAttribute('aria-hidden', 'true'); try { pop.inert = true; } catch (e) {} }
+        var btn = fab.querySelector('#wa-btn');
+        link = makeLink(true);
+        if (btn) fab.replaceChild(link, btn);
+        else fab.appendChild(link);
+        arm(link);
+        return link;
+      }
+      if (document.querySelector('.fab-wa, [data-wa-float]')) return link;
+      link = makeLink(false);
+      document.body.appendChild(link);
+      arm(link);
+      return link;
+    }
+    function safeInset() {
+      var probe = document.getElementById('wa-safe-probe');
+      if (!probe) {
+        probe = document.createElement('div');
+        probe.id = 'wa-safe-probe';
+        probe.setAttribute('aria-hidden', 'true');
+        probe.style.cssText = 'position:fixed;left:0;bottom:0;width:0;height:env(safe-area-inset-bottom,0px);pointer-events:none;visibility:hidden';
+        document.body.appendChild(probe);
+      }
+      return probe.getBoundingClientRect().height || 0;
+    }
+    function baseLift() {
+      var lift = 20 + safeInset();
+      var cookie = document.getElementById('cookie');
+      if (cookie && !cookie.hidden) {
+        var r = cookie.getBoundingClientRect();
+        if (r.height > 8 && r.bottom > 0) lift = Math.max(lift, Math.ceil(window.innerHeight - r.top) + 12);
+      }
+      var dock = document.querySelector('.aic-dock');
+      if (dock) {
+        var d = dock.getBoundingClientRect();
+        if (d.height > 8) lift = Math.max(lift, Math.ceil(window.innerHeight - d.top) + 12);
+      }
+      return lift;
+    }
+    function fieldFocused(el) {
+      if (!el || !el.matches) return false;
+      if (!el.matches('input, textarea, select')) return false;
+      if (el.closest('#cookie, #cookie-modal, .modal')) return false;
+      return !!(el.closest('form, .aic-phone, .aic-input-row'));
+    }
+    function hold(on) {
+      if (!link) return;
+      link.classList.toggle('is-held', on);
+      if (on) { link.setAttribute('aria-hidden', 'true'); link.setAttribute('tabindex', '-1'); }
+      else { link.removeAttribute('aria-hidden'); link.removeAttribute('tabindex'); }
+    }
+    function hits(anchor) {
+      var rect = anchor.getBoundingClientRect();
+      if (rect.width < 2 || rect.height < 2) return false;
+      var parent = anchor.closest('.fab-wa');
+      var prev = anchor.style.pointerEvents;
+      var parentPrev = parent ? parent.style.pointerEvents : '';
+      anchor.style.pointerEvents = 'none';
+      if (parent) parent.style.pointerEvents = 'none';
+      var points = [
+        [rect.left + rect.width / 2, rect.top + rect.height / 2],
+        [rect.left + 3, rect.top + 3],
+        [rect.right - 3, rect.top + 3],
+        [rect.left + 3, rect.bottom - 3],
+        [rect.right - 3, rect.bottom - 3]
+      ];
+      var blocked = false;
+      for (var i = 0; i < points.length; i++) {
+        var el = document.elementFromPoint(points[i][0], points[i][1]);
+        if (!el) continue;
+        if (el.closest && el.closest('[data-wa-float], .wa-pop, #wa-safe-probe')) continue;
+        if (el.closest && el.closest('#cookie, .cookie, .fab-a11y, .aic-dock, form, .aic-phone, .aic-input-row, a.btn-a, a.btn-dark, a.head-cta, button[type="submit"], .aic-send')) {
+          blocked = true;
+          break;
+        }
+      }
+      anchor.style.pointerEvents = prev;
+      if (parent) parent.style.pointerEvents = parentPrev;
+      return blocked;
+    }
+    function place() {
+      if (!ensure()) return;
+      var shell = link.closest('.fab-wa') || link;
+      document.documentElement.style.setProperty('--wa-fab-bottom', baseLift() + 'px');
+      if (heldFocus || fieldFocused(document.activeElement)) {
+        hold(true);
+        return;
+      }
+      shell.classList.remove('wa-float-stack');
+      var step;
+      for (step = 0; step <= 8; step++) {
+        document.documentElement.style.setProperty('--wa-float-extra', (step * 56) + 'px');
+        if (!hits(link)) { hold(false); return; }
+      }
+      if (document.querySelector('.fab-a11y')) {
+        shell.classList.add('wa-float-stack');
+        for (step = 0; step <= 4; step++) {
+          document.documentElement.style.setProperty('--wa-float-extra', (step * 56) + 'px');
+          if (!hits(link)) { hold(false); return; }
+        }
+      }
+      document.documentElement.style.setProperty('--wa-float-extra', '0px');
+      shell.classList.remove('wa-float-stack');
+      hold(true);
+    }
+    function schedule() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; place(); });
+    }
+    ensure();
+    place();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    window.addEventListener('orientationchange', schedule);
+    window.addEventListener('consent-update', schedule);
+    document.addEventListener('focusin', function (e) {
+      if (fieldFocused(e.target)) { heldFocus = true; schedule(); }
+    });
+    document.addEventListener('focusout', function () {
+      setTimeout(function () {
+        heldFocus = fieldFocused(document.activeElement);
+        schedule();
+      }, 0);
+    });
+    var cookie = document.getElementById('cookie');
+    if (cookie && window.MutationObserver) new MutationObserver(schedule).observe(cookie, { attributes: true, attributeFilter: ['hidden', 'style', 'class'] });
+    if (cookie && window.ResizeObserver) new ResizeObserver(schedule).observe(cookie);
+    var dock = document.querySelector('.aic-dock');
+    if (dock && window.ResizeObserver) new ResizeObserver(schedule).observe(dock);
   })();
 })();
