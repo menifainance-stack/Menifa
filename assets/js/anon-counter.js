@@ -1,9 +1,12 @@
-/* Anonymous counter for /lp/mihzur, /lp/ihud, /q/mihzur, /q/ihud.
+/* Campaign counter for /lp/mihzur, /lp/ihud, /q/mihzur, /q/ihud.
+   Make receives only form_start and bot_step1.
+   page_view is the GA4 hit. consent_choice and scroll go to GA4 as well,
+   including the cookieless ping before a choice.
    No cookies, no localStorage or sessionStorage, no client id, no fingerprint.
-   TODO: replace ANON_COUNTER_URL with the Make webhook Tamir creates for this counter.
+   TODO: replace ANON_COUNTER_URL with the Make webhook Tamir creates.
    Do not point it at the lead webhook.
-   While the constant still contains TODO-menifa-anon-counter, the beacon
-   goes to the same-origin route /api/anon-count (204, nothing stored). */
+   While the constant still contains TODO-menifa-anon-counter, form_start and
+   bot_step1 go to the same-origin route /api/anon-count (204, nothing stored). */
 var ANON_COUNTER_URL = "https://hook.us2.make.com/TODO-menifa-anon-counter";
 (function () {
   "use strict";
@@ -28,20 +31,8 @@ var ANON_COUNTER_URL = "https://hook.us2.make.com/TODO-menifa-anon-counter";
     return ANON_COUNTER_URL;
   }
 
-  var q = new URLSearchParams(location.search);
-  function cleanUtm(v) {
-    v = String(v == null ? "" : v).trim().slice(0, 80);
-    if (!v) return "";
-    if (/@/.test(v) || /(?:\+972|0)5\d/.test(v)) return "";
-    return v;
-  }
-  var utm = {
-    utm_source: cleanUtm(q.get("utm_source")),
-    utm_medium: cleanUtm(q.get("utm_medium")),
-    utm_campaign: cleanUtm(q.get("utm_campaign"))
-  };
-  var hasFbclid = q.has("fbclid");
   var seen = {};
+  var MAKE_EVENTS = { form_start: 1, bot_step1: 1 };
 
   function deliver(body) {
     var url = counterUrl();
@@ -64,22 +55,20 @@ var ANON_COUNTER_URL = "https://hook.us2.make.com/TODO-menifa-anon-counter";
       } catch (e) {}
     }
   }
-  function send(event, extra) {
-    var body = { event: event, v: 1, anon: 1, path: path };
-    if (extra) {
-      Object.keys(extra).forEach(function (k) {
-        if (extra[k] == null || extra[k] === "") return;
-        body[k] = extra[k];
-      });
-    }
-    deliver(body);
+  /* Only form_start and bot_step1 leave the site. path is the page, not a person. */
+  function sendMake(event) {
+    if (!MAKE_EVENTS[event]) return;
+    deliver({ event: event, v: 1, anon: 1, path: path });
   }
-  function pageViewExtras() {
-    var extra = { has_fbclid: hasFbclid };
-    if (utm.utm_source) extra.utm_source = utm.utm_source;
-    if (utm.utm_medium) extra.utm_medium = utm.utm_medium;
-    if (utm.utm_campaign) extra.utm_campaign = utm.utm_campaign;
-    return extra;
+  function gaEvent(name, params) {
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag !== "function") {
+      window.gtag = function () { window.dataLayer.push(arguments); };
+    }
+    var payload = { transport_type: "beacon" };
+    var src = params || {};
+    Object.keys(src).forEach(function (k) { payload[k] = src[k]; });
+    window.gtag("event", name, payload);
   }
   function choiceOf(c) {
     if (!c) return "none";
@@ -91,10 +80,11 @@ var ANON_COUNTER_URL = "https://hook.us2.make.com/TODO-menifa-anon-counter";
   }
   function sendChoice() {
     var c = window.MenifaConsent && MenifaConsent.get && MenifaConsent.get();
-    send("consent_choice", { choice: choiceOf(c) });
+    var choice = choiceOf(c);
+    if (!/^(accept_all|reject|custom|none)$/.test(choice)) return;
+    gaEvent("consent_choice", { choice: choice });
   }
 
-  send("page_view", pageViewExtras());
   sendChoice();
   addEventListener("consent-update", sendChoice);
 
@@ -104,10 +94,11 @@ var ANON_COUNTER_URL = "https://hook.us2.make.com/TODO-menifa-anon-counter";
     var span = (doc ? document.documentElement.scrollHeight : el.scrollHeight) - (doc ? document.documentElement.clientHeight : el.clientHeight);
     if (span <= 0) return;
     var pct = Math.min(100, Math.round(top / span * 100));
-    [50, 90].forEach(function (bucket) {
+    [50, 90].forEach(function (bucket, i) {
       if (pct < bucket || seen["d" + bucket]) return;
       seen["d" + bucket] = 1;
-      send("scroll", { depth: bucket });
+      /* Stagger the two depths so the batch keeps both. */
+      setTimeout(function () { gaEvent("scroll", { percent_scrolled: bucket }); }, i * 120);
     });
   }
   addEventListener("scroll", function () { depth(document); }, { passive: true });
@@ -119,13 +110,13 @@ var ANON_COUNTER_URL = "https://hook.us2.make.com/TODO-menifa-anon-counter";
     if (seen.form || !t || !t.form || !/^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName)) return;
     if (t.type === "hidden") return;
     seen.form = 1;
-    send("form_start");
+    sendMake("form_start");
   }, true);
 
   function markBot() {
     if (seen.bot) return;
     seen.bot = 1;
-    send("bot_step1");
+    sendMake("bot_step1");
   }
   document.addEventListener("change", function (e) {
     var t = e.target;

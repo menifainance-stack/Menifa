@@ -47,7 +47,7 @@ for (const pathname of PAGES) {
     const post = req.postData() || '';
     if (/facebook\.net|facebook\.com|fbcdn\.net/i.test(url)) hits.push({ kind: 'meta', url: url });
     if (/google-analytics\.com|googletagmanager\.com|analytics\.google\.com/i.test(url)) {
-      hits.push({ kind: 'ga', url: url, post: post.slice(0, 500) });
+      hits.push({ kind: 'ga', url: url, post: post.slice(0, 2000) });
     }
     if (/\/api\/anon-count/.test(url) || /TODO-menifa-anon-counter/.test(url)) {
       beacons.push(post);
@@ -57,7 +57,8 @@ for (const pathname of PAGES) {
   try {
     await page.goto(BASE + pathname + QS, { waitUntil: 'domcontentloaded', timeout: 30000 });
     await page.locator('#cookie').waitFor({ state: 'visible', timeout: 10000 });
-    await page.waitForTimeout(1800);
+    /* Cookieless custom events leave with the GA4 batch, about five seconds in. */
+    await page.waitForTimeout(5600);
 
     const banner = await page.locator('#cookie').evaluate(function (el) {
       var r = el.getBoundingClientRect();
@@ -103,24 +104,30 @@ for (const pathname of PAGES) {
     const meta = hits.filter(function (h) { return h.kind === 'meta'; });
     const collects = hits.filter(function (h) { return h.kind === 'ga' && /\/collect/.test(h.url); });
     const gcs = collects.map(function (h) { return gcsOf(h.url + '\n' + h.post); }).filter(Boolean);
+    function blobs() {
+      return collects.map(function (h) { return h.url + '\n' + (h.post || ''); }).concat(
+        hits.filter(function (h) { return h.kind === 'ga' && /\/collect/.test(h.url); }).map(function (h) { return h.url + '\n' + (h.post || ''); })
+      );
+    }
+    function hasGa(name, extra) {
+      return blobs().some(function (b) {
+        if (b.indexOf('en=' + name) < 0) return false;
+        return extra ? extra.test(b) : true;
+      });
+    }
     row.checks.noFacebook = meta.length === 0;
     row.checks.gaDenied = collects.length > 0 && gcs.length > 0 && gcs.every(function (g) { return g.indexOf('G100') === 0; });
     row.gcs = gcs.slice(0, 6);
-    row.checks.beacon = beacons.length > 0;
+    row.checks.gaPageView = hasGa('page_view');
+    row.checks.gaChoiceNone = hasGa('consent_choice', /choice=none/);
+    const early = beacons.map(function (raw) { try { return JSON.parse(raw); } catch (e) { return null; } }).filter(Boolean);
+    row.events = early.map(function (p) { return p.event; });
+    row.checks.beaconQuiet = early.every(function (p) { return p.event === 'form_start' || p.event === 'bot_step1'; });
     if (!row.checks.noFacebook) report.errors.push(slug + ': facebook requests ' + meta.length);
     if (!row.checks.gaDenied) report.errors.push(slug + ': GA gcs ' + (gcs.join(',') || 'none') + ' collects=' + collects.length);
-    if (!row.checks.beacon) report.errors.push(slug + ': counter beacon did not fire');
-
-    const parsed = beacons.map(function (raw) { try { return JSON.parse(raw); } catch (e) { return null; } }).filter(Boolean);
-    const names = parsed.map(function (p) { return p.event; });
-    row.events = names;
-    const view = parsed.find(function (p) { return p.event === 'page_view'; });
-    row.checks.pageView = !!(view && view.has_fbclid === true && view.utm_source === 'facebook' && view.utm_medium === 'paid' && view.utm_campaign === 'mihzur-oct' && view.path === pathname);
-    row.checks.choiceNone = parsed.some(function (p) { return p.event === 'consent_choice' && p.choice === 'none'; });
-    row.checks.noPii = !beacons.some(function (raw) { return /IwAR_testvalue|x@y\.com|"sid"|"fbclid":/.test(raw); });
-    if (!row.checks.pageView) report.errors.push(slug + ': page_view payload ' + JSON.stringify(view || null));
-    if (!row.checks.choiceNone) report.errors.push(slug + ': missing consent_choice none');
-    if (!row.checks.noPii) report.errors.push(slug + ': beacon leaked an id or the fbclid value');
+    if (!row.checks.gaPageView) report.errors.push(slug + ': GA page_view missing');
+    if (!row.checks.gaChoiceNone) report.errors.push(slug + ': GA consent_choice none missing');
+    if (!row.checks.beaconQuiet) report.errors.push(slug + ': Make received ' + row.events.join(','));
 
     const storage = await page.evaluate(function () {
       var keys = [];
@@ -152,25 +159,30 @@ for (const pathname of PAGES) {
         log.scrollTop = log.scrollHeight;
       });
     }
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(5600);
     const mid = beacons.map(function (raw) { try { return JSON.parse(raw); } catch (e) { return null; } }).filter(Boolean);
-    row.checks.scroll50 = mid.some(function (p) { return p.event === 'scroll' && p.depth === 50; });
-    row.checks.scroll90 = mid.some(function (p) { return p.event === 'scroll' && p.depth === 90; });
+    row.events = mid.map(function (p) { return p.event; });
+    row.checks.makeOnly = mid.every(function (p) { return p.event === 'form_start' || p.event === 'bot_step1'; });
+    row.checks.noPii = !beacons.some(function (raw) { return /IwAR_testvalue|x@y\.com|"sid"|"fbclid":/.test(raw); });
+    row.checks.scroll50 = hasGa('scroll', /percent_scrolled=50/);
+    row.checks.scroll90 = hasGa('scroll', /percent_scrolled=90/);
     if (pathname.indexOf('/lp/') === 0) {
       row.checks.botStep = mid.some(function (p) { return p.event === 'bot_step1'; });
       row.checks.formStart = mid.some(function (p) { return p.event === 'form_start'; });
-      if (!row.checks.botStep) report.errors.push(slug + ': bot_step1 missing');
-      if (!row.checks.formStart) report.errors.push(slug + ': form_start missing');
+      if (!row.checks.botStep) report.errors.push(slug + ': bot_step1 missing from Make');
+      if (!row.checks.formStart) report.errors.push(slug + ': form_start missing from Make');
     } else {
       row.checks.botStep = mid.some(function (p) { return p.event === 'bot_step1'; });
-      if (!row.checks.botStep) report.errors.push(slug + ': bot_step1 missing');
+      if (!row.checks.botStep) report.errors.push(slug + ': bot_step1 missing from Make');
     }
-    if (!row.checks.scroll50 || !row.checks.scroll90) report.errors.push(slug + ': scroll events ' + mid.filter(function (p) { return p.event === 'scroll'; }).map(function (p) { return p.depth; }).join(','));
+    if (!row.checks.makeOnly) report.errors.push(slug + ': Make events ' + row.events.join(','));
+    if (!row.checks.noPii) report.errors.push(slug + ': beacon leaked an id or the fbclid value');
+    if (!row.checks.scroll50 || !row.checks.scroll90) report.errors.push(slug + ': GA scroll missing');
 
     await page.evaluate(function () { window.scrollTo(0, 0); });
     await page.locator('#ck-all').click();
     await page.locator('#cookie').waitFor({ state: 'hidden', timeout: 5000 });
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(5600);
     const after = await page.evaluate(function () {
       var open = document.documentElement.classList.contains('cookie-open');
       var fab = document.querySelector('.fab-wa');
@@ -182,8 +194,10 @@ for (const pathname of PAGES) {
     row.checks.bannerClosed = after.open === false;
     if (!row.checks.bannerClosed) report.errors.push(slug + ': banner still offsetting the page');
     const choice = beacons.map(function (raw) { try { return JSON.parse(raw); } catch (e) { return null; } }).filter(Boolean);
-    row.checks.acceptAll = choice.some(function (p) { return p.event === 'consent_choice' && p.choice === 'accept_all'; });
-    if (!row.checks.acceptAll) report.errors.push(slug + ': consent_choice accept_all missing');
+    row.checks.acceptAll = hasGa('consent_choice', /choice=accept_all/);
+    row.checks.choiceNotOnMake = !choice.some(function (p) { return p.event === 'consent_choice' || p.event === 'page_view' || p.event === 'scroll'; });
+    if (!row.checks.acceptAll) report.errors.push(slug + ': GA consent_choice accept_all missing');
+    if (!row.checks.choiceNotOnMake) report.errors.push(slug + ': Make received a GA-only event');
     row.shots.after = path.join(OUT, slug + '-after.png');
     await page.screenshot({ path: row.shots.after });
   } catch (err) {
