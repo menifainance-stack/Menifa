@@ -465,6 +465,8 @@
     var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
     var h = a.getAttribute('href') || '';
     if (/wa\.me\/|api\.whatsapp\.com/i.test(h) || a.hasAttribute('data-wa')) {
+      /* Schedule CTA tracks itself, and only after consent. Do not queue it here. */
+      if (a.hasAttribute('data-wa-schedule')) return;
       window.menifaTrack('whatsapp_click', {
         wa_variant: waVariant(a.href || h),
         cta_location: ctaLocation(a),

@@ -407,6 +407,8 @@
       if (!a) return;
       var h = a.getAttribute("href") || "";
       if (!/wa\.me\/|api\.whatsapp\.com/i.test(h) && !a.hasAttribute("data-wa")) return;
+      /* Schedule CTA tracks itself, and only after consent. Do not queue it here. */
+      if (a.hasAttribute("data-wa-schedule")) return;
       var href = a.href || h;
       var link = href;
       try {
