@@ -24,11 +24,10 @@ var ANON_COUNTER_URL = "https://hook.us2.make.com/TODO-menifa-anon-counter";
   if (!allowed[path]) return;
 
   function counterUrl() {
-    var override = window.ANON_COUNTER_URL;
-    if (override) return String(override);
-    if (!ANON_COUNTER_URL || /TODO-menifa-anon-counter/i.test(ANON_COUNTER_URL)) return "/api/anon-count";
-    if (/9pclkzy81|u3ru/i.test(ANON_COUNTER_URL)) return "";
-    return ANON_COUNTER_URL;
+    var url = String(ANON_COUNTER_URL || "");
+    if (!url || /TODO-menifa-anon-counter/i.test(url) || /hook\.us2\.make\.com\/TODO/i.test(url)) return "/api/anon-count";
+    if (/9pclkzy81|u3ru/i.test(url)) return "";
+    return url;
   }
 
   var seen = {};
@@ -36,7 +35,7 @@ var ANON_COUNTER_URL = "https://hook.us2.make.com/TODO-menifa-anon-counter";
 
   function deliver(body) {
     var url = counterUrl();
-    if (!url) return;
+    if (!url || /TODO-menifa-anon-counter|hook\.us2\.make\.com\/TODO/i.test(url)) return;
     var raw = JSON.stringify(body);
     if (window.fetch) {
       fetch(url, {

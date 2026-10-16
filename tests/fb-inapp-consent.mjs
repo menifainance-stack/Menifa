@@ -49,9 +49,8 @@ for (const pathname of PAGES) {
     if (/google-analytics\.com|googletagmanager\.com|analytics\.google\.com/i.test(url)) {
       hits.push({ kind: 'ga', url: url, post: post.slice(0, 2000) });
     }
-    if (/\/api\/anon-count/.test(url) || /TODO-menifa-anon-counter/.test(url)) {
-      beacons.push(post);
-    }
+    if (/TODO-menifa-anon-counter|hook\.us2\.make\.com\/TODO/i.test(url)) hits.push({ kind: 'todo', url: url });
+    if (/\/api\/anon-count/.test(url)) beacons.push(post);
   });
   const page = await context.newPage();
   try {
@@ -68,21 +67,35 @@ for (const pathname of PAGES) {
         return {
           id: b.id,
           text: (b.textContent || '').trim(),
-          visible: style.display !== 'none' && br.width > 0 && br.height > 0,
-          h: Math.round(br.height)
+          visible: style.display !== 'none' && style.visibility !== 'hidden' && br.width > 0 && br.height > 0,
+          h: Math.round(br.height),
+          w: Math.round(br.width),
+          weight: style.fontWeight
         };
       });
+      var note = el.querySelector('p');
+      var noteBox = note ? note.getBoundingClientRect() : { width: 0, height: 0 };
+      var links = note ? Array.prototype.map.call(note.querySelectorAll('a'), function (a) {
+        var ar = a.getBoundingClientRect();
+        return { href: a.getAttribute('href') || '', w: Math.round(ar.width), h: Math.round(ar.height) };
+      }) : [];
       var text = (el.innerText || '').replace(/\s+/g, ' ').trim();
-      return { h: Math.round(r.height), top: Math.round(r.top), bottom: Math.round(r.bottom), buttons: buttons, text: text };
+      return { h: Math.round(r.height), top: Math.round(r.top), bottom: Math.round(r.bottom), buttons: buttons, text: text, noteH: Math.round(noteBox.height), links: links };
     });
     row.banner = banner;
-    row.checks.bannerHeight = banner.h >= 56 && banner.h <= 76;
+    row.checks.bannerHeight = banner.h >= 90 && banner.h <= 200;
     if (!row.checks.bannerHeight) report.errors.push(slug + ': banner height ' + banner.h);
     const visibleBtns = banner.buttons.filter(function (b) { return b.visible; });
-    row.checks.twoButtons = visibleBtns.length === 2 && visibleBtns.some(function (b) { return b.text === 'אישור הכל'; }) && visibleBtns.some(function (b) { return b.text === 'הגדרות'; });
-    if (!row.checks.twoButtons) report.errors.push(slug + ': visible buttons ' + JSON.stringify(visibleBtns));
+    const accept = banner.buttons.filter(function (b) { return b.id === 'ck-all'; })[0];
+    const reject = banner.buttons.filter(function (b) { return b.id === 'ck-none'; })[0];
+    row.checks.threeButtons = visibleBtns.length === 3 && visibleBtns.some(function (b) { return b.text === 'אישור הכל'; }) && visibleBtns.some(function (b) { return b.text === 'חיוניות בלבד'; }) && visibleBtns.some(function (b) { return b.text === 'הגדרות'; });
+    row.checks.equalChoice = !!(accept && reject && accept.visible && reject.visible && accept.h === reject.h && Math.abs((accept.w || 0) - (reject.w || 0)) <= 2 && String(accept.weight) === String(reject.weight));
+    if (!row.checks.threeButtons) report.errors.push(slug + ': visible buttons ' + JSON.stringify(visibleBtns));
+    if (!row.checks.equalChoice) report.errors.push(slug + ': reject is not equal to accept ' + JSON.stringify({ accept: accept, reject: reject }));
     row.checks.noGuillemets = !/[«»]|<<|>>/.test(banner.text);
     if (!row.checks.noGuillemets) report.errors.push(slug + ': banner text has angle quotes');
+    row.checks.textVisible = banner.noteH >= 16 && /מדיניות העוגיות/.test(banner.text) && /מדיניות הפרטיות/.test(banner.text) && banner.links.length >= 2 && banner.links.every(function (a) { return a.w > 8 && a.h > 8; });
+    if (!row.checks.textVisible) report.errors.push(slug + ': banner text or links hidden ' + JSON.stringify({ noteH: banner.noteH, links: banner.links, text: banner.text }));
 
     const overlap = await page.evaluate(function () {
       var bar = document.getElementById('cookie').getBoundingClientRect();
@@ -176,6 +189,8 @@ for (const pathname of PAGES) {
       if (!row.checks.botStep) report.errors.push(slug + ': bot_step1 missing from Make');
     }
     if (!row.checks.makeOnly) report.errors.push(slug + ': Make events ' + row.events.join(','));
+    row.checks.noTodoBeacon = hits.every(function (h) { return h.kind !== 'todo'; });
+    if (!row.checks.noTodoBeacon) report.errors.push(slug + ': beacon to the TODO Make URL');
     if (!row.checks.noPii) report.errors.push(slug + ': beacon leaked an id or the fbclid value');
     if (!row.checks.scroll50 || !row.checks.scroll90) report.errors.push(slug + ': GA scroll missing');
 
