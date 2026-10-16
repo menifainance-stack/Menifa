@@ -392,7 +392,9 @@
     name: 1, phone: 1, source: 1, landing_page: 1, page: 1, need: 1,
     consent: 1, marketing: 1,
     gclid: 1, gbraid: 1, wbraid: 1,
-    event_id: 1, ts: 1, form_version: 1, referrer: 1
+    event_id: 1, ts: 1, form_version: 1, referrer: 1,
+    ua: 1, event_source_url: 1, cookie_marketing: 1,
+    fbp: 1, fbc: 1
   };
   var lockOwner = "t" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   function queueKeyAllowed(k) {
@@ -551,7 +553,9 @@
   }
   function pickQueueFields(data) {
     var fields = {};
+    var keepCookies = String((data && data.cookie_marketing) || "") === "כן";
     Object.keys(data || {}).forEach(function (k) {
+      if ((k === "fbp" || k === "fbc") && !keepCookies) return;
       if (!queueKeyAllowed(k)) return;
       var raw = data[k];
       if (Array.isArray(raw)) {
@@ -762,12 +766,30 @@
     step();
   }
 
+  /* event_source_url keeps utm_*, gclid, gbraid, wbraid and fbclid. Hash and every other query key are dropped. */
+  function capiEventSourceUrl() {
+    try {
+      var u = new URL(location.href);
+      var next = new URL(u.origin + u.pathname);
+      u.searchParams.forEach(function (value, key) {
+        if (key === "gclid" || key === "gbraid" || key === "wbraid" || key === "fbclid" || key.indexOf("utm_") === 0) {
+          next.searchParams.append(key, value);
+        }
+      });
+      return next.origin + next.pathname + next.search;
+    } catch (e) {
+      return location.origin + location.pathname;
+    }
+  }
+
   /* Make gets the quiz summary. Meta gets only a Lead event id — no answers. */
   function postLead(phone, marketing) {
     var ids = window.menifaIds ? window.menifaIds() : fallbackIds();
+    if (!ids.event_id) ids.event_id = "lead_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
     var source = SOURCE[cfg.product] || referrerHost();
     var page = location.pathname;
     var att = readAtt();
+    var cookieMarketing = cookieMarketingLabel();
     var data = {
       phone: phone,
       name: answers.name || "",
@@ -777,15 +799,17 @@
       source: source,
       event_id: ids.event_id,
       form_version: quizFormVersion(),
-      fbp: ids.fbp || "",
-      fbc: ids.fbc || "",
       ts: new Date().toISOString(),
       need: NEED[cfg.product] || "",
       answers: answersSummary(),
       ua: navigator.userAgent,
-      event_source_url: location.origin + location.pathname,
-      cookie_marketing: cookieMarketingLabel()
+      event_source_url: capiEventSourceUrl(),
+      cookie_marketing: cookieMarketing
     };
+    if (cookieMarketing === "כן") {
+      if (ids.fbp) data.fbp = ids.fbp;
+      if (ids.fbc) data.fbc = ids.fbc;
+    }
     ATT_FIELDS.forEach(function (k) {
       if (filled(att[k])) data[k] = String(att[k]);
     });
@@ -827,9 +851,16 @@
 
   function cookieMarketingLabel() {
     try {
+      if (window.MenifaConsent && typeof MenifaConsent.get === "function") {
+        var c = MenifaConsent.get();
+        if (c) return c.marketing ? "כן" : "לא";
+      }
+    } catch (e) {}
+    try {
       var stored = JSON.parse(localStorage.getItem("menifa-consent") || "null");
-      return stored && stored.marketing ? "כן" : "לא";
-    } catch (e) {
+      if (!stored || stored.v !== 2) return "לא";
+      return stored.marketing ? "כן" : "לא";
+    } catch (e2) {
       return "לא";
     }
   }
