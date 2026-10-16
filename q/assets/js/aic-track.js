@@ -495,6 +495,7 @@
      Same rules as the float in assets/site.js: one control, click-time
      prefill, events only after consent, nothing queued before it. */
   (function mountWaFloat() {
+    if (/^\/(lp|q)\/(ihud|mihzur)(\/|\/index\.html)?$/i.test(String(location.pathname || ''))) return;
     var WA_NUMBER = "972524502821";
     var LABEL = "וואטסאפ — לתיאום שיחה";
     var GREETING = "שלום, אשמח לתיאום שיחה";
