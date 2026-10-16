@@ -113,12 +113,12 @@
   function addBotCard(html, trackArr) {
     var card = document.createElement("div");
     card.className = "aic-card";
-    var portrait = cfg.portraitSrc || "/q/assets/img/tamir.jpg";
+    var portrait = cfg.portraitSrc || "/q/assets/img/tamir-96.webp";
     card.innerHTML =
       '<div class="aic-card__row">' +
-      '<img class="aic-avatar" src="' +
+      '<img class="aic-avatar" width="40" height="40" decoding="async" src="' +
       portrait +
-      '" alt="תמיר גרמה" onerror="this.className=\'aic-badge\';this.removeAttribute(\'src\');this.textContent=\'מניפה\';" />' +
+      '" alt="תמיר גרמה" onerror="if(!this.dataset.fb){this.dataset.fb=\'1\';this.src=\'/q/assets/img/tamir.jpg\';return;}this.className=\'aic-badge\';this.removeAttribute(\'src\');this.textContent=\'מניפה\';" />' +
       '<div class="aic-card__body">' +
       html +
       "</div></div>";
@@ -633,7 +633,18 @@
 
   async function start() {
     phase = "intro";
-    addBotCard(cfg.introHtml, introNodes);
+    /* First card is in the HTML so it can paint before these scripts. Do not add it again. */
+    var existing = logEl && logEl.querySelector(".aic-card");
+    if (existing) {
+      introNodes.push(existing);
+      var time = existing.nextElementSibling;
+      if (time && time.classList.contains("aic-time")) {
+        time.textContent = nowTime();
+        introNodes.push(time);
+      }
+    } else {
+      addBotCard(cfg.introHtml, introNodes);
+    }
     await sleep(280);
     if (cfg.lockProduct) {
       await ask(0);
