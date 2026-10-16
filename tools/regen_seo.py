@@ -75,6 +75,17 @@ PAGES = [
 HE_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
+# 16.10.2026: רצפת lastmod כדי שגוגל יסרוק מחדש עמודים בסטטוס
+# Discovered / currently not indexed. seo-autoindex מריץ את הסקריפט
+# אחרי מיזוג ל-main, והרצפה שומרת שהתאריך לא יחזור אחורה.
+LASTMOD_FLOOR = "2026-10-16"
+
+
+def floor_lastmod(mod, floor=LASTMOD_FLOOR):
+    if not mod or mod < floor:
+        return floor
+    return mod
+
 
 def sitemap_pages():
     """נתיבי /q/ (בוטי השאלון בתשלום) הם noindex ולא נכנסים ל-sitemap.
@@ -173,7 +184,7 @@ def article_priority(rank):
 
 
 def build_sitemap(arts, today):
-    newest = arts[0]["mod"] if arts else today
+    newest = floor_lastmod(arts[0]["mod"] if arts else today)
     out = ['<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
            '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n\n']
@@ -182,12 +193,14 @@ def build_sitemap(arts, today):
                              x_default=(path == "/")))
     out.append("\n")
     for rank, a in enumerate(arts):
-        out.append(url_block(a["url"], a["mod"], "weekly", article_priority(rank)))
+        out.append(url_block(a["url"], floor_lastmod(a["mod"]), "weekly",
+                             article_priority(rank)))
     out.append("</urlset>\n")
     return "".join(out)
 
 
 def build_sitemap_pages(newest):
+    newest = floor_lastmod(newest)
     out = ['<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
            '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n\n']
@@ -199,6 +212,7 @@ def build_sitemap_pages(newest):
 
 
 def build_sitemap_index(newest):
+    newest = floor_lastmod(newest)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             f'  <sitemap>\n    <loc>{SITE}/sitemap-pages.xml</loc>\n'
@@ -397,7 +411,7 @@ def main():
     arts = load_articles()
     if not arts:
         sys.exit("לא נמצאו מאמרים בתיקיית blog/ — עוצר.")
-    newest = arts[0]["mod"]
+    newest = floor_lastmod(arts[0]["mod"])
 
     print(f"נמצאו {len(arts)} מאמרים. המאמר החדש ביותר: "
           f"{arts[0]['slug']} ({newest})")
