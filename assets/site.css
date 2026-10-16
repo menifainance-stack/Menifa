@@ -318,13 +318,21 @@ html.fx-refined .wa-schedule{overflow:visible}
 .copy-btn:hover{border-color:var(--gold)}
 
 /* ---------- floating: whatsapp, a11y, cookies ---------- */
-.fab{position:fixed;z-index:150;bottom:calc(20px + env(safe-area-inset-bottom,0px))}
-.fab-wa{left:20px}
+.fab{position:fixed;z-index:150;bottom:var(--wa-fab-bottom, calc(20px + env(safe-area-inset-bottom, 0px)))}
+.fab-wa{left:20px;bottom:calc(var(--wa-fab-bottom, calc(20px + env(safe-area-inset-bottom, 0px))) + var(--wa-float-extra, 0px))}
 .fab-a11y{right:20px}
 .fab-btn{all:unset;cursor:pointer;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,.4);transition:transform .25s}
 .fab-btn:hover{transform:scale(1.06)}
 .fab-btn:focus-visible{outline:3px solid var(--gold-pale);outline-offset:3px}
-.fab-wa .fab-btn{background:#1F8A55;color:#fff}
+.fab-wa .fab-btn{background:#1F8A55;color:#fff;width:48px;height:48px;min-width:48px;min-height:48px}
+/* Direct WhatsApp link. One per page. Inline SVG, fixed, 48px target. */
+a.wa-float{box-sizing:border-box;width:48px;height:48px;min-width:48px;min-height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1F8A55;color:#fff;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,.4);z-index:150;touch-action:manipulation}
+a.wa-float:hover{background:#24804F;color:#fff}
+a.wa-float:focus-visible{outline:3px solid var(--gold-pale);outline-offset:3px}
+a.wa-float:not(.wa-float-in-fab){position:fixed;left:20px;bottom:calc(var(--wa-fab-bottom, calc(20px + env(safe-area-inset-bottom, 0px))) + var(--wa-float-extra, 0px))}
+a.wa-float.wa-float-stack,.fab-wa.wa-float-stack{left:auto;right:20px;bottom:calc(var(--wa-fab-bottom, calc(20px + env(safe-area-inset-bottom, 0px))) + 72px + var(--wa-float-extra, 0px))}
+a.wa-float.is-held{visibility:hidden;pointer-events:none}
+.fab-wa:has(a.wa-float.is-held){pointer-events:none}
 .fab-a11y .fab-btn{background:var(--em-700);color:var(--gold-hi);border:1px solid var(--gold)}
 .wa-pop{position:absolute;bottom:74px;left:0;width:min(340px,calc(100vw - 40px));background:var(--paper);color:var(--ink);border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,.45);overflow:hidden}
 .wa-pop header{background:linear-gradient(135deg,var(--em-700),var(--em-900));color:var(--ivory);padding:18px 20px;display:flex;align-items:center;gap:12px}
@@ -427,6 +435,7 @@ html.a11y-cursor,html.a11y-cursor *{cursor:url("data:image/svg+xml,%3Csvg xmlns=
   .blade .lbl{font-size:.68rem}
   .card{padding:26px}
   .fab-btn{width:54px;height:54px}
+  .fab-wa .fab-btn,a.wa-float{width:48px;height:48px;min-width:48px;min-height:48px}
 }
 .lead-form .chips label.chip{flex-direction:row;align-items:center;color:var(--muted);min-height:44px}
 .lead-form .chips label.chip:has(input:checked){border-color:var(--gold-hi);color:var(--gold-hi);background:rgb(var(--gold-hi-rgb) / .08)}
