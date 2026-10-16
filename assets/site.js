@@ -8,7 +8,8 @@
     phone: '052-4502821',
     // Lead webhook (e.g. Make.com custom webhook -> Google Sheets CRM). Empty = WhatsApp hand-off only.
     leadWebhook: 'https://hook.us2.make.com/9pclkzy81xfnlh1nfyista793l9hbdig',
-    // Tracking IDs load ONLY after the visitor consents to that category.
+    // GA4 loads before a choice, cookieless (Consent Mode v2 default denied).
+    // Meta Pixel and Clarity still wait for the matching consent.
     // IDs are set in parts.py -> TRACKING and injected as window.MENIFA_TRACK
     ga4: (window.MENIFA_TRACK || {}).ga4 || 'G-8ZP1G2VP40', // statistics. Property 557328779.
     // Menifa Website. An empty page-level id still uses this one.
@@ -101,6 +102,7 @@
     store.set(C_KEY, consent);
     if (banner) banner.hidden = true;
     if (modal) modal.hidden = true;
+    syncCookieBarOffset();
     loadTrackers();
     /* One event per save. GA and the cookieless beacon both listen for it. */
     window.dispatchEvent(new CustomEvent('consent-update'));
@@ -291,41 +293,58 @@
     updateGaConsent();
     deleteGaCookies(id);
   }
-  function updateGaConsent() {
-    if (!window.gtag || !window.__ga) return;
-    window.gtag('consent', 'update', {
+  function gaConsentPayload() {
+    return {
       analytics_storage: consent && consent.statistics ? 'granted' : 'denied',
       ad_storage: consent && consent.marketing ? 'granted' : 'denied',
       ad_user_data: consent && consent.marketing ? 'granted' : 'denied',
       ad_personalization: consent && consent.marketing ? 'granted' : 'denied'
-    });
+    };
   }
-  function loadGa() {
-    if (gaOff() || !consent || !consent.statistics || !CONFIG.ga4) return;
-    window.__menifaGaRevoked = false;
-    window['ga-disable-' + CONFIG.ga4] = false;
-    armGaTransport();
-    if (window.__ga) { updateGaConsent(); return; }
-    window.__ga = true;
+  function ensureGtag() {
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function () { window.dataLayer.push(arguments); };
-    /* Consent Mode v2 default is denied, before config. The script loads only after this queue is set. */
+    if (!window.gtag) window.gtag = function () { window.dataLayer.push(arguments); };
+  }
+  /* Default denied is queued before gtag.js is inserted. A stored choice updates immediately after. */
+  function applyConsentDefault() {
+    ensureGtag();
+    if (window.__menifaConsentDefault) return;
+    window.__menifaConsentDefault = true;
     window.gtag('consent', 'default', {
-      analytics_storage: 'denied',
       ad_storage: 'denied',
+      analytics_storage: 'denied',
       ad_user_data: 'denied',
       ad_personalization: 'denied',
       wait_for_update: 500
     });
+  }
+  function updateGaConsent() {
+    if (!window.gtag) return;
+    window.gtag('consent', 'update', gaConsentPayload());
+  }
+  function bootGa() {
+    if (gaOff() || !CONFIG.ga4) return;
+    applyConsentDefault();
+    if (consent) updateGaConsent();
+    armGaTransport();
+    if (!consent || !consent.statistics) deleteGaCookies(CONFIG.ga4);
+    if (window.__ga) return;
+    window.__ga = true;
+    window.__menifaGaRevoked = false;
+    window['ga-disable-' + CONFIG.ga4] = false;
     window.gtag('js', new Date());
     window.gtag('config', CONFIG.ga4, gaConfig());
-    updateGaConsent();
     loadScript('https://www.googletagmanager.com/gtag/js?id=' + CONFIG.ga4);
   }
   function loadTrackers() {
+    if (gaOff()) {
+      if (window.__ga) revokeGa();
+      return;
+    }
+    bootGa();
+    updateGaConsent();
+    if (!consent || !consent.statistics) deleteGaCookies(CONFIG.ga4);
     if (!consent) return;
-    if (!gaOff() && consent.statistics) loadGa();
-    else if (window.__ga) revokeGa();
     if (consent.statistics && CONFIG.clarity && !window.clarity) {
       (function (c, l, a, r, i, t, y) { c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); }; t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i; y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y); })(window, document, 'clarity', 'script', CONFIG.clarity);
     }
@@ -502,10 +521,27 @@
     p.appendChild(document.createTextNode('.'));
     p.setAttribute('data-cookie-compact', '1');
   }
+  function syncCookieBarOffset() {
+    var root = document.documentElement;
+    if (!banner || banner.hidden) {
+      root.classList.remove('cookie-open');
+      root.style.removeProperty('--cookie-bar');
+      return;
+    }
+    var h = Math.ceil(banner.getBoundingClientRect().height);
+    root.classList.add('cookie-open');
+    root.style.setProperty('--cookie-bar', h + 'px');
+  }
   if (banner) {
     syncCompactCookieCopy();
-    window.addEventListener('resize', syncCompactCookieCopy);
-    if (!consent) banner.hidden = false; else loadTrackers();
+    window.addEventListener('resize', function () { syncCompactCookieCopy(); syncCookieBarOffset(); });
+    if (!consent) banner.hidden = false;
+    syncCookieBarOffset();
+    requestAnimationFrame(syncCookieBarOffset);
+    if (window.ResizeObserver) new ResizeObserver(syncCookieBarOffset).observe(banner);
+  }
+  loadTrackers();
+  if (banner) {
     $('#ck-all').addEventListener('click', function () { saveConsent(true, true); });
     $('#ck-none').addEventListener('click', function () { saveConsent(false, false); });
     $('#ck-prefs').addEventListener('click', openPrefs);

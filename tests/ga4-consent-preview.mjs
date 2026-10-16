@@ -63,6 +63,13 @@ function paramsOf(hit) {
   });
   return out;
 }
+function gcsOf(hit) {
+  const m = blobOf(hit).match(/(?:^|[?&])gcs=([^&\s]+)/);
+  return m ? decodeURIComponent(m[1]) : '';
+}
+function isDeniedGcs(hit) {
+  return gcsOf(hit).indexOf('G100') === 0;
+}
 function hasPageView(hit) {
   const b = blobOf(hit);
   return /(?:^|[?&])en=page_view(?:&|$)/.test(b) || /en=page_view/.test(b);
@@ -97,6 +104,19 @@ async function shot(page, name) {
   const file = path.join(OUT, name + '.png');
   await page.screenshot({ path: file, fullPage: false });
   return file;
+}
+
+async function rejectAll(page) {
+  const none = page.locator('#ck-none');
+  if (await none.isVisible()) {
+    await none.click();
+    return;
+  }
+  await page.locator('#ck-prefs').click();
+  await page.locator('#cookie-modal').waitFor({ state: 'visible' });
+  if (await page.locator('#ck-stats').isChecked()) await page.locator('#ck-stats').uncheck();
+  if (await page.locator('#ck-mkt').isChecked()) await page.locator('#ck-mkt').uncheck();
+  await page.locator('#ck-save').click();
 }
 
 async function acceptStatistics(page) {
@@ -285,18 +305,24 @@ for (const spec of PAGES) {
       row.status = opened.status;
       await page.locator('#cookie').waitFor({ state: 'visible', timeout: 10000 });
       await page.waitForTimeout(1500);
-      const before = hits.filter(function (h) { return isGa(h) || isMeta(h); });
-      row.checks.beforeConsent = before.length === 0 && beacons.length === 0;
-      if (before.length) report.errors.push(spec.name + ': requests before consent ' + before.map(function (h) { return h.url; }).join(' | '));
-      if (beacons.length) report.errors.push(spec.name + ': beacon before consent');
+      const beforeMeta = hits.filter(isMeta);
+      const beforeCollect = hits.filter(isCollect);
+      const beforeGranted = beforeCollect.filter(function (h) { return !isDeniedGcs(h); });
+      row.checks.beforeConsent = beforeMeta.length === 0 && beforeGranted.length === 0 && beforeCollect.length > 0 && beacons.length === 0;
+      if (beforeMeta.length) report.errors.push(spec.name + ': Meta before consent ' + beforeMeta.map(function (h) { return h.url; }).join(' | '));
+      if (beforeGranted.length) report.errors.push(spec.name + ': GA before consent was not gcs=G100');
+      if (!beforeCollect.length) report.errors.push(spec.name + ': no cookieless GA ping before consent');
+      if (beacons.length) report.errors.push(spec.name + ': fp-beacon before consent');
       await shot(page, spec.name + '-before-consent');
-      await page.locator('#ck-none').click();
+      await rejectAll(page);
       await page.waitForTimeout(1500);
-      const afterReject = hits.filter(function (h) { return isGa(h) || isMeta(h); });
+      const afterRejectMeta = hits.filter(isMeta);
+      const afterRejectGranted = hits.filter(isCollect).filter(function (h) { return !isDeniedGcs(h); });
       const rejectUpdates = await page.evaluate(function () { return window.__consentUpdates; });
-      row.checks.afterReject = afterReject.length === 0 && beacons.length === 0 && rejectUpdates === 1;
-      if (afterReject.length) report.errors.push(spec.name + ': requests after reject ' + afterReject.map(function (h) { return h.url; }).join(' | '));
-      if (beacons.length) report.errors.push(spec.name + ': beacon after reject');
+      row.checks.afterReject = afterRejectMeta.length === 0 && afterRejectGranted.length === 0 && beacons.length === 0 && rejectUpdates === 1;
+      if (afterRejectMeta.length) report.errors.push(spec.name + ': Meta after reject');
+      if (afterRejectGranted.length) report.errors.push(spec.name + ': GA after reject was not gcs=G100');
+      if (beacons.length) report.errors.push(spec.name + ': fp-beacon after reject');
       if (rejectUpdates !== 1) report.errors.push(spec.name + ': consent-update on reject fired ' + rejectUpdates + ' times');
       await shot(page, spec.name + '-after-reject');
     } catch (err) {
@@ -313,8 +339,8 @@ for (const spec of PAGES) {
       await openPage(page, spec.path);
       await page.locator('#cookie').waitFor({ state: 'visible', timeout: 10000 });
       await page.waitForTimeout(800);
-      const before = hits.filter(isGa);
-      if (before.length) report.errors.push(spec.name + ': GA before accept ' + before.length);
+      const before = hits.filter(isCollect);
+      if (before.some(function (h) { return !isDeniedGcs(h); })) report.errors.push(spec.name + ': GA granted before accept');
       if (beacons.length) report.errors.push(spec.name + ': beacon before statistics');
       await acceptStatistics(page);
       const updates = await page.evaluate(function () { return window.__consentUpdates; });
@@ -500,16 +526,16 @@ for (const spec of PAGES) {
       await page.locator('#ck-save').click();
       await page.waitForTimeout(2500);
       const after = hits.slice(beforeOpt).filter(isCollect);
-      row.checks.optOutSilent = after.length === 0;
-      if (after.length) report.errors.push(spec.name + ': collect after statistics opt-out ' + after.length);
+      row.checks.optOutSilent = after.every(isDeniedGcs);
+      if (!row.checks.optOutSilent) report.errors.push(spec.name + ': collect after statistics opt-out was not gcs=G100');
       const revoked = await page.evaluate(function () {
         return {
           disabled: window['ga-disable-G-8ZP1G2VP40'] === true,
           cookie: document.cookie
         };
       });
-      row.checks.gaDisable = revoked.disabled;
-      if (!revoked.disabled) report.errors.push(spec.name + ': ga-disable flag was not set');
+      row.checks.gaStaysCookieless = revoked.disabled !== true;
+      if (!row.checks.gaStaysCookieless) report.errors.push(spec.name + ': ga-disable blocked advanced cookieless mode');
       row.checks.cookiesDeleted = !/(?:^|; )_ga=/.test(revoked.cookie) && !/_ga_8ZP1G2VP40=/.test(revoked.cookie);
       if (!row.checks.cookiesDeleted) report.errors.push(spec.name + ': GA cookies still present: ' + revoked.cookie);
       await shot(page, spec.name + '-opt-out');
@@ -532,9 +558,10 @@ for (const spec of EXTRA_REF) {
   try {
     await openPage(page, spec.path);
     await page.locator('#cookie').waitFor({ state: 'visible', timeout: 10000 });
-    const before = hits.filter(isGa);
-    row.checks.beforeConsent = before.length === 0;
-    if (before.length) report.errors.push(spec.name + ': GA before consent');
+    const before = hits.filter(isCollect);
+    row.checks.beforeConsent = before.length > 0 && before.every(isDeniedGcs);
+    if (!before.length) report.errors.push(spec.name + ': no cookieless GA ping before consent');
+    if (before.some(function (h) { return !isDeniedGcs(h); })) report.errors.push(spec.name + ': GA before consent was not gcs=G100');
     await acceptStatistics(page);
     await page.waitForTimeout(2500);
     row.checks.referrer = assertCleanReferrer(hits, report.errors, spec.name);

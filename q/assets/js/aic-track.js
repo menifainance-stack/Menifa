@@ -62,10 +62,14 @@
     var bar = $("#cookie");
     if (!bar || bar.hidden) {
       root.style.removeProperty("--aic-cookie-pad");
+      root.classList.remove("cookie-open");
+      root.style.removeProperty("--cookie-bar");
       return;
     }
-    var h = Math.ceil(bar.getBoundingClientRect().height + 24);
-    root.style.setProperty("--aic-cookie-pad", h + "px");
+    var h = Math.ceil(bar.getBoundingClientRect().height);
+    root.classList.add("cookie-open");
+    root.style.setProperty("--cookie-bar", h + "px");
+    root.style.setProperty("--aic-cookie-pad", (h + 12) + "px");
   }
 
   function saveConsent(stats, mkt) {
@@ -83,7 +87,10 @@
     if (modal) modal.hidden = true;
     syncCookiePad();
     maybeLoadPixel();
-    maybeLoadGa();
+    bootGa();
+    updateGaConsent();
+    if (!consent || !consent.statistics) deleteGaCookies(gaId());
+    flushGa();
     window.dispatchEvent(new CustomEvent("consent-update"));
   }
 
@@ -281,14 +288,33 @@
   function gaId() {
     return String((window.MENIFA_TRACK && window.MENIFA_TRACK.ga4) || "").trim() || "G-8ZP1G2VP40";
   }
-  function updateGaConsent() {
-    if (!window.gtag || !window.__ga) return;
-    window.gtag("consent", "update", {
+  function gaConsentPayload() {
+    return {
       analytics_storage: consent && consent.statistics ? "granted" : "denied",
       ad_storage: consent && consent.marketing ? "granted" : "denied",
       ad_user_data: consent && consent.marketing ? "granted" : "denied",
       ad_personalization: consent && consent.marketing ? "granted" : "denied"
+    };
+  }
+  function ensureGtag() {
+    window.dataLayer = window.dataLayer || [];
+    if (!window.gtag) window.gtag = function () { window.dataLayer.push(arguments); };
+  }
+  function applyConsentDefault() {
+    ensureGtag();
+    if (window.__menifaConsentDefault) return;
+    window.__menifaConsentDefault = true;
+    window.gtag("consent", "default", {
+      ad_storage: "denied",
+      analytics_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      wait_for_update: 500
     });
+  }
+  function updateGaConsent() {
+    if (!window.gtag) return;
+    window.gtag("consent", "update", gaConsentPayload());
   }
   var gaQ = [];
   var GA_KEYS = {
@@ -338,27 +364,21 @@
       return String(raw).split("?")[0].split("#")[0];
     }
   }
-  function maybeLoadGa() {
-    if (gaOff() || !consent || !consent.statistics) {
+  function bootGa() {
+    if (gaOff()) {
       if (window.__ga) revokeGa();
       return;
     }
-    window.__menifaGaRevoked = false;
-    window["ga-disable-" + gaId()] = false;
-    armGaTransport();
-    if (window.__ga) { updateGaConsent(); flushGa(); return; }
     var id = gaId();
     if (!id) return;
+    applyConsentDefault();
+    if (consent) updateGaConsent();
+    armGaTransport();
+    if (!consent || !consent.statistics) deleteGaCookies(id);
+    if (window.__ga) return;
     window.__ga = true;
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-    window.gtag("consent", "default", {
-      analytics_storage: "denied",
-      ad_storage: "denied",
-      ad_user_data: "denied",
-      ad_personalization: "denied",
-      wait_for_update: 500
-    });
+    window.__menifaGaRevoked = false;
+    window["ga-disable-" + id] = false;
     window.gtag("js", new Date());
     var cfg = {
       page_location: safePageLocation(),
@@ -369,12 +389,10 @@
     if (ref) cfg.page_referrer = ref;
     if (isPreviewHost()) cfg.debug_mode = true;
     window.gtag("config", id, cfg);
-    updateGaConsent();
     var s = document.createElement("script");
     s.async = true;
     s.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
     document.head.appendChild(s);
-    flushGa();
   }
   if (!window.menifaTrack) {
     window.menifaTrack = function (name, params) {
@@ -487,5 +505,5 @@
   Array.prototype.forEach.call(document.querySelectorAll("[data-cookie-settings]"), function (b) {
     b.addEventListener("click", function (e) { e.preventDefault(); openPrefs(); });
   });
-  if (consent && consent.statistics) maybeLoadGa();
+  bootGa();
 })();
