@@ -75,16 +75,29 @@ PAGES = [
 HE_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-# 16.10.2026: רצפת lastmod כדי שגוגל יסרוק מחדש עמודים בסטטוס
-# Discovered / currently not indexed. seo-autoindex מריץ את הסקריפט
-# אחרי מיזוג ל-main, והרצפה שומרת שהתאריך לא יחזור אחורה.
-LASTMOD_FLOOR = "2026-10-16"
-
-
-def floor_lastmod(mod, floor=LASTMOD_FLOOR):
-    if not mod or mod < floor:
-        return floor
-    return mod
+# 17 העמודים שנערכו ב-16.10.2026. רק הם מקבלים את התאריך הזה.
+# כל שאר הכתובות נשענות על dateModified שבקובץ, בלי רצפה.
+EDITED_HUBS_2026_10_16 = {
+    "/",
+    "/about.html",
+    "/blog.html",
+    "/calculators.html",
+    "/faq.html",
+    "/hashvaat-hatzaot-mashkanta.html",
+    "/ihud-halvaot-lemashkanta.html",
+    "/ishur-ekroni.html",
+    "/lifnei-shehotmim-mashkanta.html",
+    "/madrich-mashkanta.html",
+    "/mashkanta-bneiya-atzmit.html",
+    "/mashkanta-dira-rishona.html",
+    "/mashkanta-kablan.html",
+    "/masurvei-bankim.html",
+    "/mihzur-mashkanta.html",
+    "/tamhil-mashkanta-prime-madad.html",
+    "/yoetz-mashkantaot.html",
+}
+# עמוד בלי dateModified שלא נערך היום נשאר על התאריך שפורסם ב-main.
+UNEDITED_PAGE_LASTMOD = "2026-10-15"
 
 
 def sitemap_pages():
@@ -162,6 +175,27 @@ def load_articles():
     return arts
 
 
+def page_source(path):
+    if path in ("/", "/index.html"):
+        return os.path.join(ROOT, "index.html")
+    if path.endswith("/"):
+        return os.path.join(ROOT, path.strip("/"), "index.html")
+    return os.path.join(ROOT, path.lstrip("/"))
+
+
+def page_lastmod(path):
+    """lastmod של עמוד = dateModified האמיתי. 17 ההאבים שנערכו: 2026-10-16."""
+    key = "/" if path in ("/", "/index.html") else path
+    if key in EDITED_HUBS_2026_10_16 or path in EDITED_HUBS_2026_10_16:
+        return "2026-10-16"
+    html = ""
+    src = page_source(path)
+    if os.path.isfile(src):
+        with open(src, encoding="utf-8") as fh:
+            html = fh.read()
+    return first(r'"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})', html) or UNEDITED_PAGE_LASTMOD
+
+
 def url_block(loc, lastmod, changefreq, priority, x_default=False):
     alt = f'    <xhtml:link rel="alternate" hreflang="he-IL" href="{loc}"/>\n'
     if x_default:
@@ -183,36 +217,32 @@ def article_priority(rank):
     return "0.80"
 
 
-def build_sitemap(arts, today):
-    newest = floor_lastmod(arts[0]["mod"] if arts else today)
+def build_sitemap(arts):
     out = ['<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
            '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n\n']
     for path, prio, freq in sitemap_pages():
-        out.append(url_block(SITE + path, newest, freq, prio,
+        out.append(url_block(SITE + path, page_lastmod(path), freq, prio,
                              x_default=(path == "/")))
     out.append("\n")
     for rank, a in enumerate(arts):
-        out.append(url_block(a["url"], floor_lastmod(a["mod"]), "weekly",
-                             article_priority(rank)))
+        out.append(url_block(a["url"], a["mod"], "weekly", article_priority(rank)))
     out.append("</urlset>\n")
     return "".join(out)
 
 
-def build_sitemap_pages(newest):
-    newest = floor_lastmod(newest)
+def build_sitemap_pages():
     out = ['<?xml version="1.0" encoding="UTF-8"?>\n'
            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
            '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n\n']
     for path, prio, freq in sitemap_pages():
-        out.append(url_block(SITE + path, newest, freq, prio,
+        out.append(url_block(SITE + path, page_lastmod(path), freq, prio,
                              x_default=(path == "/")))
     out.append("</urlset>\n")
     return "".join(out)
 
 
 def build_sitemap_index(newest):
-    newest = floor_lastmod(newest)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n'
             '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             f'  <sitemap>\n    <loc>{SITE}/sitemap-pages.xml</loc>\n'
@@ -411,12 +441,13 @@ def main():
     arts = load_articles()
     if not arts:
         sys.exit("לא נמצאו מאמרים בתיקיית blog/ — עוצר.")
-    newest = floor_lastmod(arts[0]["mod"])
+    mods = [a["mod"] for a in arts] + [page_lastmod(p) for p, _, _ in sitemap_pages()]
+    newest = max(mods) if mods else today
 
     print(f"נמצאו {len(arts)} מאמרים. המאמר החדש ביותר: "
-          f"{arts[0]['slug']} ({newest})")
-    write("sitemap.xml", build_sitemap(arts, today))
-    write("sitemap-pages.xml", build_sitemap_pages(newest))
+          f"{arts[0]['slug']} ({arts[0]['mod']})")
+    write("sitemap.xml", build_sitemap(arts))
+    write("sitemap-pages.xml", build_sitemap_pages())
     write("sitemap-index.xml", build_sitemap_index(newest))
     write("rss.xml", build_rss(arts))
     if sync_llms(arts):
