@@ -1,0 +1,17 @@
+name: Quiz CSS inline
+
+# The quiz landings inline q/assets/css/aic-chat.css so the first paint
+# does not wait on a stylesheet. Fail when that copy drifts.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inlined quiz CSS matches aic-chat.css
+        run: python3 scripts/inline-quiz-css --check

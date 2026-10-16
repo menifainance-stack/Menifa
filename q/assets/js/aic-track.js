@@ -61,7 +61,8 @@
     var root = document.documentElement;
     var bar = $("#cookie");
     if (!bar || bar.hidden) {
-      root.style.removeProperty("--aic-cookie-pad");
+      /* 0px, not removeProperty: mobile CSS reserves the open banner's pad. */
+      root.style.setProperty("--aic-cookie-pad", "0px");
       return;
     }
     var h = Math.ceil(bar.getBoundingClientRect().height + 24);
