@@ -414,6 +414,69 @@ body.aic-shell {
   align-items: center;
   padding: 0 8px;
 }
+/* Schedule link sits under the answers, not as another chip. */
+.wa-schedule-sep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 12px;
+  flex-shrink: 0;
+}
+.wa-schedule-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  color: var(--menifa-champ);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+.wa-schedule-kicker::before,
+.wa-schedule-kicker::after {
+  content: "";
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--gold-hair);
+}
+.wa-schedule {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--menifa-champ);
+  background: transparent;
+  color: var(--gold-pale);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  scroll-margin-bottom: 16px;
+}
+.wa-schedule:hover {
+  background: rgba(196, 165, 116, .14);
+  color: #fff;
+}
+.wa-schedule:focus-visible {
+  outline: 2px solid var(--menifa-champ);
+  outline-offset: 3px;
+}
 @media (max-width: 480px) {
   .aic-frame { max-width: none; padding-inline: 10px; }
   .aic-dock { margin-inline: -10px; padding-inline: 10px; }
