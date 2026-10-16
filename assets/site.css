@@ -90,7 +90,6 @@ a:hover{color:var(--gold-pale)}
 .wa-schedule{align-self:flex-start;width:auto;max-width:100%;min-height:48px;min-width:44px;scroll-margin-bottom:180px;position:relative;z-index:1;white-space:normal;text-align:center;line-height:1.25}
 .wa-schedule:focus-visible{outline:2px solid var(--gold-pale);outline-offset:3px}
 html.fx-refined .wa-schedule{overflow:visible}
-.wa-banner{display:flex;flex-direction:column;align-items:flex-start;gap:8px;width:100%;margin:0;position:relative;z-index:1}
 @media (max-width:480px){
   .card .wa-schedule{max-width:calc(100% - 28px);padding-inline:16px}
 }
