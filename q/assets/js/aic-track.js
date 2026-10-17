@@ -311,6 +311,7 @@
     Object.keys(params).forEach(function (k) {
       if (allowStepOnly && k !== "step_number") return;
       if (!GA_KEYS[k] || params[k] == null || params[k] === "") return;
+      if (k === "utm_source" && String(params[k]) === "direct/unknown") return;
       if (sensitiveValue(params[k])) return;
       clean[k] = params[k];
     });
