@@ -86,6 +86,13 @@ a:hover{color:var(--gold-pale)}
 .btn-dark:hover{color:var(--gold-pale);background:var(--em-700)}
 .btn-wa{background:#1F6F4A;color:#fff}
 .btn-wa:hover{background:#24804F;color:#fff}
+/* Paid LP schedule link. In flow, under the form, clear of the fixed cookie bar and the left FAB. */
+.wa-schedule{align-self:flex-start;width:auto;max-width:100%;min-height:48px;min-width:44px;scroll-margin-bottom:180px;position:relative;z-index:1;white-space:normal;text-align:center;line-height:1.25}
+.wa-schedule:focus-visible{outline:2px solid var(--gold-pale);outline-offset:3px}
+html.fx-refined .wa-schedule{overflow:visible}
+@media (max-width:480px){
+  .card .wa-schedule{max-width:calc(100% - 28px);padding-inline:16px}
+}
 .btn svg{flex:none}
 .chip{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border:1px solid var(--line);border-radius:999px;color:var(--muted);text-decoration:none;font-size:.875rem;background:none;font-family:inherit;cursor:pointer}
 .chip:hover{border-color:var(--gold-hi);color:var(--gold-hi)}
@@ -311,13 +318,21 @@ a:hover{color:var(--gold-pale)}
 .copy-btn:hover{border-color:var(--gold)}
 
 /* ---------- floating: whatsapp, a11y, cookies ---------- */
-.fab{position:fixed;z-index:150;bottom:calc(20px + env(safe-area-inset-bottom,0px))}
-.fab-wa{left:20px}
+.fab{position:fixed;z-index:150;bottom:var(--wa-fab-bottom, calc(20px + env(safe-area-inset-bottom, 0px)))}
+.fab-wa{left:20px;bottom:calc(var(--wa-fab-bottom, calc(20px + env(safe-area-inset-bottom, 0px))) + var(--wa-float-extra, 0px))}
 .fab-a11y{right:20px}
 .fab-btn{all:unset;cursor:pointer;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(0,0,0,.4);transition:transform .25s}
 .fab-btn:hover{transform:scale(1.06)}
 .fab-btn:focus-visible{outline:3px solid var(--gold-pale);outline-offset:3px}
-.fab-wa .fab-btn{background:#1F8A55;color:#fff}
+.fab-wa .fab-btn{background:#1F8A55;color:#fff;width:48px;height:48px;min-width:48px;min-height:48px}
+/* Direct WhatsApp link. One per page. Inline SVG, fixed, 48px target. */
+a.wa-float{box-sizing:border-box;width:48px;height:48px;min-width:48px;min-height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1F8A55;color:#fff;text-decoration:none;box-shadow:0 12px 30px rgba(0,0,0,.4);z-index:150;touch-action:manipulation}
+a.wa-float:hover{background:#24804F;color:#fff}
+a.wa-float:focus-visible{outline:3px solid var(--gold-pale);outline-offset:3px}
+a.wa-float:not(.wa-float-in-fab){position:fixed;left:20px;bottom:calc(var(--wa-fab-bottom, calc(20px + env(safe-area-inset-bottom, 0px))) + var(--wa-float-extra, 0px))}
+a.wa-float.wa-float-stack,.fab-wa.wa-float-stack{left:auto;right:20px;bottom:calc(var(--wa-fab-bottom, calc(20px + env(safe-area-inset-bottom, 0px))) + 72px + var(--wa-float-extra, 0px))}
+a.wa-float.is-held{visibility:hidden;pointer-events:none}
+.fab-wa:has(a.wa-float.is-held){pointer-events:none}
 .fab-a11y .fab-btn{background:var(--em-700);color:var(--gold-hi);border:1px solid var(--gold)}
 .wa-pop{position:absolute;bottom:74px;left:0;width:min(340px,calc(100vw - 40px));background:var(--paper);color:var(--ink);border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,.45);overflow:hidden}
 .wa-pop header{background:linear-gradient(135deg,var(--em-700),var(--em-900));color:var(--ivory);padding:18px 20px;display:flex;align-items:center;gap:12px}
@@ -356,6 +371,17 @@ a:hover{color:var(--gold-pale)}
 .cookie.cookie-campaign .acts{display:grid;grid-template-columns:1fr 1fr;direction:rtl;width:100%;gap:8px;align-items:stretch}
 .cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none{min-height:48px;width:100%;box-sizing:border-box;font-weight:700;font-size:.95rem;padding:10px 12px;line-height:1.25;text-align:center;white-space:normal}
 .cookie.cookie-campaign #ck-prefs{grid-column:1 / -1;min-height:48px;font-size:.92rem;font-weight:500}
+/* Phone only. Desktop and the campaign rules above stay as they are.
+   The two choice buttons keep equal size. Settings stays secondary. */
+@media (max-width:480px){
+  .cookie,.cookie.cookie-campaign{left:0;right:0;bottom:0;max-width:none;margin:0;border-radius:14px 14px 0 0;flex-direction:column;align-items:stretch;gap:14px;direction:rtl;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));box-shadow:0 -12px 40px rgba(0,0,0,.45)}
+  .cookie p,.cookie.cookie-campaign p{flex:none;width:100%;margin:0;font-size:14px;line-height:1.3}
+  .cookie p a{display:inline-block;text-decoration:underline;text-underline-offset:2px;padding-block:13px;margin-block:-13px;padding-inline:2px}
+  .cookie .acts,.cookie.cookie-campaign .acts{display:grid;grid-template-columns:1fr 1fr 1fr;direction:rtl;width:100%;gap:6px;align-items:stretch}
+  .cookie .btn,.cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none,.cookie.cookie-campaign #ck-prefs{min-height:44px;height:44px;width:100%;box-sizing:border-box;padding:0 4px;font-size:13px;line-height:1.15;letter-spacing:0;text-align:center;white-space:nowrap;grid-column:auto}
+  .cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none{font-weight:700}
+  .cookie.cookie-campaign #ck-prefs{font-weight:500}
+}
 .btn-line-dark{background:none;border:1px solid var(--em-700);color:var(--em-700)}
 .btn-line-dark:hover{background:var(--em-700);color:var(--gold-pale)}
 .modal{position:fixed;inset:0;z-index:300;background:rgb(var(--em-950-rgb) / .7);display:flex;align-items:center;justify-content:center;padding:16px}
@@ -409,6 +435,7 @@ html.a11y-cursor,html.a11y-cursor *{cursor:url("data:image/svg+xml,%3Csvg xmlns=
   .blade .lbl{font-size:.68rem}
   .card{padding:26px}
   .fab-btn{width:54px;height:54px}
+  .fab-wa .fab-btn,a.wa-float{width:48px;height:48px;min-width:48px;min-height:48px}
 }
 .lead-form .chips label.chip{flex-direction:row;align-items:center;color:var(--muted);min-height:44px}
 .lead-form .chips label.chip:has(input:checked){border-color:var(--gold-hi);color:var(--gold-hi);background:rgb(var(--gold-hi-rgb) / .08)}

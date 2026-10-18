@@ -7,9 +7,10 @@
   <link rel="canonical" href="https://menifa.org/q/ihud/" />
   <title>איחוד הלוואות · מניפה</title>
   <meta name="description" content="כמה שאלות קצרות על ההלוואות שלכם, ותמיר גרמה ממניפה פיננסית יחזור אליכם לבדיקת איחוד הלוואות. בלי עלות ובלי התחייבות." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Frank+Ruhl+Libre:wght@500&family=Heebo:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/q/assets/css/aic-chat.css" />
+  <link rel="preload" as="style" href="/q/assets/css/aic-chat.css" fetchpriority="high">
+  <link rel="stylesheet" href="/q/assets/css/aic-chat.css">
+  <link rel="preload" href="/q/assets/fonts/heebo-hebrew.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/q/assets/fonts/frank-ruhl-libre-500-hebrew.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body class="aic-shell">
   <div class="aic-bg" aria-hidden="true"></div>
@@ -21,10 +22,14 @@
       </div>
       <button type="button" class="aic-back" id="aic-back" hidden>חזור</button>
     </div>
-    <div class="aic-log" id="aic-log" aria-live="polite"></div>
+    <div class="aic-log" id="aic-log" aria-live="polite"><div class="aic-card aic-card--intro"><div class="aic-card__row"><img class="aic-avatar" width="40" height="40" decoding="async" src="/q/assets/img/tamir-96.webp" alt="תמיר גרמה" onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='/q/assets/img/tamir.jpg';return;}this.className='aic-badge';this.removeAttribute('src');this.textContent='מניפה';"><div class="aic-card__body"><p>היי, כאן <strong>תמיר גרמה</strong> ממניפה פיננסית.</p><p>בכדי שנוכל לבדוק כיצד ניתן לעזור — כמה שאלות קצרות על איחוד הלוואות, לראות אם אפשר להקל על מה שיוצא לכם כל חודש.</p></div></div></div><div class="aic-time">&#8203;</div></div>
     <div class="aic-dock">
       <p class="aic-hint" id="aic-hint"></p>
       <div class="aic-replies" id="aic-replies"></div>
+      <div class="wa-schedule-sep">
+        <p class="wa-schedule-kicker">מעדיפים לדבר?</p>
+        <a class="wa-schedule" data-wa-schedule data-wa-quiz="1" data-wa-page="איחוד הלוואות" href="https://wa.me/972524502821" rel="noopener noreferrer" aria-label="וואטסאפ — לתיאום שיחה"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 11.6a8.6 8.6 0 0 1-12.7 7.6L3 20.6l1.5-4.6A8.6 8.6 0 1 1 20.5 11.6z"/><path d="M9 8.6c.2 2.9 2.6 5.6 5.6 6.3l1.2-1.3-1.8-1-1 .8a5 5 0 0 1-2.4-2.4l.8-1-1-1.8z" fill="currentColor" stroke="none"/></svg>וואטסאפ — לתיאום שיחה</a>
+      </div>
       <p class="aic-foot"><a href="#" data-cookie-settings role="button">הגדרות עוגיות</a></p>
     </div>
   </div>
@@ -40,9 +45,10 @@
     <div class="acts"><button class="btn btn-a" type="button" id="ck-save">שמירת הבחירה</button><button class="btn btn-line-dark" type="button" id="ck-cancel">ביטול</button></div>
   </div></div>
   <script>window.MENIFA_TRACK = window.MENIFA_TRACK || { ga4: "G-8ZP1G2VP40", meta_pixel: "", clarity: "" };</script>
-  <script src="/q/assets/js/aic-track.js"></script>
-  <script src="/q/assets/js/config-ihud.js"></script>
-  <script src="/q/assets/js/aic-engine.js"></script>
+  <script src="/q/assets/js/aic-track.js" defer></script>
+  <script src="/q/assets/js/config-ihud.js" defer></script>
+  <script src="/q/assets/js/aic-engine.js" defer></script>
+  <script src="/assets/js/wa-schedule.js" defer></script>
   <script src="/assets/js/fp-beacon.js" defer></script>
 </body>
 </html>
