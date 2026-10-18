@@ -3,7 +3,7 @@ window.MENIFA_AIC = {
   product: "mihzur",
   meta_pixel: "1085659520839178",
   lockProduct: true,
-  portraitSrc: "/q/assets/img/tamir.jpg",
+  portraitSrc: "/q/assets/img/tamir-96.webp",
   introHtml:
     "<p>היי, כאן <strong>תמיר גרמה</strong> ממניפה פיננסית.</p>" +
     "<p>בכדי שנוכל לבדוק כיצד ניתן לעזור — כמה שאלות קצרות על מחזור משכנתא, לראות אם אפשר להקל על מה שיוצא לכם כל חודש.</p>",

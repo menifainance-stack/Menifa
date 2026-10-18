@@ -61,7 +61,8 @@
     var root = document.documentElement;
     var bar = $("#cookie");
     if (!bar || bar.hidden) {
-      root.style.removeProperty("--aic-cookie-pad");
+      /* 0px, not removeProperty: mobile CSS reserves the open banner's pad. */
+      root.style.setProperty("--aic-cookie-pad", "0px");
       return;
     }
     var h = Math.ceil(bar.getBoundingClientRect().height + 24);
@@ -389,6 +390,8 @@
       if (!a) return;
       var h = a.getAttribute("href") || "";
       if (!/wa\.me\/|api\.whatsapp\.com/i.test(h) && !a.hasAttribute("data-wa")) return;
+      /* Schedule CTA and the floating button track themselves, and only after consent. Do not queue them here. */
+      if (a.hasAttribute("data-wa-schedule") || a.hasAttribute("data-wa-float")) return;
       var href = a.href || h;
       var link = href;
       try {
@@ -420,9 +423,50 @@
     window.MenifaConsent = { get: function () { return consent; }, open: openPrefs };
   }
 
+  function policyHref(p, file, fallback) {
+    var link = p.querySelector('a[href*="' + file + '"]');
+    if (!link) return fallback;
+    var raw = link.getAttribute("href") || "";
+    if (!raw || /^(?:https?:|javascript:|data:)/i.test(raw)) return fallback;
+    return raw;
+  }
+  function policyLink(href, label) {
+    var a = document.createElement("a");
+    a.setAttribute("href", href);
+    a.textContent = label;
+    return a;
+  }
+  function syncCompactCookieCopy(bannerEl) {
+    var p = bannerEl.querySelector("p");
+    if (!p) return;
+    var narrow = window.matchMedia("(max-width: 480px)").matches;
+    if (!narrow) {
+      if (p.getAttribute("data-cookie-compact") === "1" && p.__menifaFull) {
+        p.innerHTML = p.__menifaFull;
+        p.removeAttribute("data-cookie-compact");
+      }
+      return;
+    }
+    if (p.getAttribute("data-cookie-compact") === "1") return;
+    if (!p.__menifaFull) p.__menifaFull = p.innerHTML;
+    /* Same sentence as assets/site.js. Kept in both files: the quiz pages do not load site.js. */
+    var COMPACT_COOKIE_BEFORE = "עוגיות סטטיסטיקה ושיווק פועלות רק באישורכם. פרטים ";
+    var cookiesHref = policyHref(p, "cookies.html", "../../cookies.html");
+    var privacyHref = policyHref(p, "privacy.html", "../../privacy.html");
+    p.textContent = "";
+    p.appendChild(document.createTextNode(COMPACT_COOKIE_BEFORE));
+    p.appendChild(policyLink(cookiesHref, "במדיניות העוגיות"));
+    p.appendChild(document.createTextNode(" "));
+    p.appendChild(policyLink(privacyHref, "ובמדיניות הפרטיות"));
+    p.appendChild(document.createTextNode("."));
+    p.setAttribute("data-cookie-compact", "1");
+  }
+
   var banner = $("#cookie");
   var modal = $("#cookie-modal");
   if (banner) {
+    syncCompactCookieCopy(banner);
+    window.addEventListener("resize", function () { syncCompactCookieCopy(banner); });
     if (!consent) banner.hidden = false;
     syncCookiePad();
     requestAnimationFrame(syncCookiePad);
@@ -447,4 +491,222 @@
     b.addEventListener("click", function (e) { e.preventDefault(); openPrefs(); });
   });
   if (consent && consent.statistics) maybeLoadGa();
+
+  /* Direct WhatsApp button. Quiz pages do not load assets/site.js.
+     Same rules as the float in assets/site.js: one control, click-time
+     prefill, events only after consent, nothing queued before it. */
+  (function mountWaFloat() {
+    if (/^\/(lp|q)\/(ihud|mihzur)(\/|\/index\.html)?$/i.test(String(location.pathname || ''))) return;
+    var WA_NUMBER = "972524502821";
+    var LABEL = "וואטסאפ — לתיאום שיחה";
+    var GREETING = "שלום, אשמח לתיאום שיחה";
+    var SVG = "<svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20.5 11.6a8.6 8.6 0 0 1-12.7 7.6L3 20.6l1.5-4.6A8.6 8.6 0 1 1 20.5 11.6z\"/><path d=\"M9 8.6c.2 2.9 2.6 5.6 5.6 6.3l1.2-1.3-1.8-1-1 .8a5 5 0 0 1-2.4-2.4l.8-1-1-1.8z\" fill=\"currentColor\" stroke=\"none\"/></svg>";
+    var link = null;
+    var heldFocus = false;
+    var queued = false;
+
+    function pickAtt() {
+      var att = {};
+      try { att = JSON.parse(sessionStorage.getItem("menifa-att") || "{}"); } catch (e) {}
+      var qp = null;
+      try { qp = new URLSearchParams(location.search); } catch (e2) {}
+      return function (key) {
+        var fromUrl = qp && qp.get(key);
+        if (fromUrl) return fromUrl;
+        if (att && att[key] != null && att[key] !== "") return String(att[key]);
+        return "";
+      };
+    }
+    function safeToken(value, max) {
+      var s = String(value || "").trim();
+      if (!s) return "";
+      if (/@/.test(s) || /(?:\+972|0)5\d/.test(s)) return "";
+      s = s.replace(/[^A-Za-z0-9_-]/g, "");
+      if (!s) return "";
+      return s.slice(0, max);
+    }
+    function sourceLine() {
+      var pick = pickAtt();
+      var parts = [];
+      ["utm_source", "utm_medium", "utm_campaign"].forEach(function (key) {
+        var token = safeToken(pick(key), 32);
+        if (token) parts.push(token);
+      });
+      var gclid = safeToken(pick("gclid"), 6);
+      var fbclid = safeToken(pick("fbclid"), 6);
+      if (gclid) parts.push("gclid:" + gclid);
+      if (fbclid) parts.push("fbclid:" + fbclid);
+      if (!parts.length) return "";
+      return "מקור: " + parts.join("/");
+    }
+    function pageContext() {
+      var marked = document.querySelector("[data-wa-page]");
+      var name = marked ? (marked.getAttribute("data-wa-page") || "") : "";
+      if (marked && marked.getAttribute("data-wa-quiz") === "1" && name) name += " (שאלון)";
+      if (!name) name = String(document.title || "").split(/[|·]/)[0];
+      name = name.replace(/[<>]/g, "").replace(/\s+/g, " ").trim().slice(0, 72);
+      return name;
+    }
+    function messageFor() {
+      var lines = [GREETING];
+      var ctx = pageContext();
+      if (ctx) lines.push("עמוד: " + ctx);
+      var source = sourceLine();
+      if (source) lines.push(source);
+      return lines.join("\n");
+    }
+    function hrefFor() {
+      return "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(messageFor());
+    }
+    function consentNow() {
+      var api = window.MenifaConsent;
+      if (!api || typeof api.get !== "function") return null;
+      var value = api.get();
+      if (!value || value.v !== 2) return null;
+      return value;
+    }
+    function track() {
+      var consentValue = consentNow();
+      if (!consentValue) return;
+      var page = location.pathname || "";
+      if (consentValue.statistics && !gaOff() && !window.__menifaGaRevoked && window.gtag && window.__ga) {
+        var pick = pickAtt();
+        var params = { page_path: page, page: page, wa_variant: "wa.me", cta_location: "float" };
+        ["utm_source", "utm_medium", "utm_campaign"].forEach(function (key) {
+          var token = safeToken(pick(key), 80);
+          if (token) params[key] = token;
+        });
+        window.gtag("event", "whatsapp_click", params);
+      }
+      if (consentValue.marketing && typeof window.fbq === "function") {
+        window.fbq("track", "Contact", { content_name: page });
+      }
+    }
+    function arm(anchor) {
+      if (anchor.getAttribute("data-wa-armed") === "1") return;
+      anchor.setAttribute("data-wa-armed", "1");
+      anchor.setAttribute("aria-label", LABEL);
+      function refresh() { anchor.href = hrefFor(); }
+      anchor.addEventListener("pointerdown", refresh);
+      anchor.addEventListener("focus", refresh);
+      anchor.addEventListener("click", function () { refresh(); track(); });
+      anchor.addEventListener("auxclick", function () { refresh(); track(); });
+    }
+    function ensure() {
+      if (link && document.body.contains(link)) return link;
+      var existing = document.querySelector("[data-wa-float]");
+      if (existing) { link = existing; arm(link); return link; }
+      if (document.querySelector(".fab-wa")) return null;
+      link = document.createElement("a");
+      link.className = "wa-float";
+      link.setAttribute("data-wa-float", "");
+      link.href = "https://wa.me/" + WA_NUMBER;
+      link.rel = "noopener noreferrer";
+      link.setAttribute("aria-label", LABEL);
+      link.innerHTML = SVG;
+      document.body.appendChild(link);
+      arm(link);
+      return link;
+    }
+    function safeInset() {
+      var probe = document.getElementById("wa-safe-probe");
+      if (!probe) {
+        probe = document.createElement("div");
+        probe.id = "wa-safe-probe";
+        probe.setAttribute("aria-hidden", "true");
+        probe.style.cssText = "position:fixed;left:0;bottom:0;width:0;height:env(safe-area-inset-bottom,0px);pointer-events:none;visibility:hidden";
+        document.body.appendChild(probe);
+      }
+      return probe.getBoundingClientRect().height || 0;
+    }
+    function baseLift() {
+      var lift = 16 + safeInset();
+      var cookie = document.getElementById("cookie");
+      if (cookie && !cookie.hidden) {
+        var r = cookie.getBoundingClientRect();
+        if (r.height > 8 && r.bottom > 0) lift = Math.max(lift, Math.ceil(window.innerHeight - r.top) + 12);
+      }
+      var dock = document.querySelector(".aic-dock");
+      if (dock) {
+        var d = dock.getBoundingClientRect();
+        if (d.height > 8) lift = Math.max(lift, Math.ceil(window.innerHeight - d.top) + 12);
+      }
+      return lift;
+    }
+    function fieldFocused(el) {
+      if (!el || !el.matches) return false;
+      if (!el.matches("input, textarea, select")) return false;
+      if (el.closest("#cookie, #cookie-modal, .modal")) return false;
+      return !!(el.closest("form, .aic-phone, .aic-input-row, .aic-dock"));
+    }
+    function hold(on) {
+      if (!link) return;
+      link.classList.toggle("is-held", on);
+      if (on) { link.setAttribute("aria-hidden", "true"); link.setAttribute("tabindex", "-1"); }
+      else { link.removeAttribute("aria-hidden"); link.removeAttribute("tabindex"); }
+    }
+    function hits(anchor) {
+      var rect = anchor.getBoundingClientRect();
+      if (rect.width < 2 || rect.height < 2) return false;
+      var prev = anchor.style.pointerEvents;
+      anchor.style.pointerEvents = "none";
+      var points = [
+        [rect.left + rect.width / 2, rect.top + rect.height / 2],
+        [rect.left + 3, rect.top + 3],
+        [rect.right - 3, rect.top + 3],
+        [rect.left + 3, rect.bottom - 3],
+        [rect.right - 3, rect.bottom - 3]
+      ];
+      var blocked = false;
+      for (var i = 0; i < points.length; i++) {
+        var el = document.elementFromPoint(points[i][0], points[i][1]);
+        if (!el || !el.closest) continue;
+        if (el.closest("[data-wa-float], #wa-safe-probe")) continue;
+        if (el.closest("#cookie, .cookie, .aic-dock, form, .aic-phone, .aic-input-row, button[type='submit'], .aic-send")) {
+          blocked = true;
+          break;
+        }
+      }
+      anchor.style.pointerEvents = prev;
+      return blocked;
+    }
+    function place() {
+      if (!ensure()) return;
+      document.documentElement.style.setProperty("--wa-fab-bottom", baseLift() + "px");
+      if (heldFocus || fieldFocused(document.activeElement)) { hold(true); return; }
+      var step;
+      for (step = 0; step <= 6; step++) {
+        document.documentElement.style.setProperty("--wa-float-extra", (step * 56) + "px");
+        if (!hits(link)) { hold(false); return; }
+      }
+      document.documentElement.style.setProperty("--wa-float-extra", "0px");
+      hold(true);
+    }
+    function schedule() {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; place(); });
+    }
+    ensure();
+    place();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("consent-update", schedule);
+    document.addEventListener("focusin", function (e) {
+      if (fieldFocused(e.target)) { heldFocus = true; schedule(); }
+    });
+    document.addEventListener("focusout", function () {
+      setTimeout(function () {
+        heldFocus = fieldFocused(document.activeElement);
+        schedule();
+      }, 0);
+    });
+    var bar = document.getElementById("cookie");
+    if (bar && window.MutationObserver) new MutationObserver(schedule).observe(bar, { attributes: true, attributeFilter: ["hidden", "style", "class"] });
+    if (bar && window.ResizeObserver) new ResizeObserver(schedule).observe(bar);
+    var dock = document.querySelector(".aic-dock");
+    if (dock && window.ResizeObserver) new ResizeObserver(schedule).observe(dock);
+    var log = document.getElementById("aic-log");
+    if (log && window.MutationObserver) new MutationObserver(schedule).observe(log, { childList: true, subtree: true });
+  })();
 })();
