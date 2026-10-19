@@ -252,20 +252,20 @@ fetchMarketData();
    BOI MORTGAGE AVERAGES — calculators.html panel
    Policy rate stays on GetInterest / MARKET_FALLBACK (separate block).
    Track averages come ONLY from assets/data/boi-mortgage-averages.json
-   klacApproxPercent is a legacy key name: BOI defines 4.58% as the average of ALL
+   klacApproxPercent is a legacy key name: BOI defines 4.55% as the average of ALL
    new non-indexed mortgages (fixed + variable), not fixed non-indexed only.
    cpiLinkedApproxPercent is the average of ALL new CPI-indexed mortgages.
-   Never invent an unpublished month (Sept 2026 not published as of 2026-09-16).
+   September 2026 is the latest published reporting month (BOI page updated 2026-10-18).
    ═══════════════════════════════════════════════════════════════ */
 const BOI_AVERAGES_JSON_PATH = 'assets/data/boi-mortgage-averages.json';
 const BOI_AVERAGES_FALLBACK = {
   mortgageAverages: {
-    periodMonth: '2026-08',
-    periodLabelHe: 'אוגוסט 2026',
+    periodMonth: '2026-09',
+    periodLabelHe: 'ספטמבר 2026',
     sourceUrl: 'https://www.boi.org.il/information/interestrates/mortgage/',
     tracks: {
-      klacApproxPercent: 4.58,
-      cpiLinkedApproxPercent: 3.45,
+      klacApproxPercent: 4.55,
+      cpiLinkedApproxPercent: 3.49,
       variable5yApproxPercent: null
     }
   }
@@ -285,8 +285,8 @@ function applyBoiMortgageAverages(data) {
 
   if (avg.periodMonth) panel.setAttribute('data-month', avg.periodMonth);
 
-  // Visible title stays «ממוצע משכנתאות — {period} (פרסום אחרון של בנק ישראל)».
-  // periodLabelHe is the month only — never write September onto averages.
+  // Visible title stays: ממוצע משכנתאות — {period} (פרסום אחרון של בנק ישראל).
+  // periodLabelHe is the reporting month only, and it must be the latest published month.
   const periodEl = document.getElementById('boi-avg-period');
   if (periodEl && avg.periodLabelHe) periodEl.textContent = avg.periodLabelHe;
 
@@ -337,14 +337,14 @@ async function loadBoiMortgageAverages() {
   try {
     const ctrl = new AbortController();
     setTimeout(() => ctrl.abort(), 4000);
-    const r = await fetch(BOI_AVERAGES_JSON_PATH + '?v=2026-08', {
+    const r = await fetch(BOI_AVERAGES_JSON_PATH + '?v=2026-10-19', {
       signal: ctrl.signal,
       cache: 'no-store'
     });
     if (!r.ok) return;
     const data = await r.json();
     applyBoiMortgageAverages(data);
-  } catch (e) { /* keep JS/HTML fallback — אוגוסט 2026 */ }
+  } catch (e) { /* keep JS/HTML fallback — ספטמבר 2026 */ }
 }
 loadBoiMortgageAverages();
 

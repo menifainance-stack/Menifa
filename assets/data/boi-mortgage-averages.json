@@ -13,20 +13,20 @@
     "effectiveFromNote": "decisionDate is the BOI press-release date (https://www.boi.org.il/publications/pressreleases/01-09-26/), not the day the 3.25% rate takes effect. The previous window is valid through 2026-09-02 (BOI monetary tools: בתוקף עד 02/09/26). The new rate is effective 2026-09-03 (Bank Hapoalim: החל מ-3.9.2026). The live ticker must read בתוקף מ-3.9.2026 · החלטה הבאה 21.10.2026. Do not copy decisionDate or GetInterest lastPublishedDate into «בתוקף מ». A next business day after 2026-09-01 is 2026-09-02, which is the last day of the old window, not the start of the new rate. effectiveFrom is stored explicitly and must be checked against Hapoalim and https://www.boi.org.il/roles/markets/monetarytools/ before the weekly rate run rewrites the ticker."
   },
   "mortgageAverages": {
-    "periodMonth": "2026-08",
-    "periodLabelHe": "אוגוסט 2026",
-    "effectiveFrom": "2026-09-15",
+    "periodMonth": "2026-09",
+    "periodLabelHe": "ספטמבר 2026",
+    "effectiveFrom": "2026-10-19",
     "sourceUrl": "https://www.boi.org.il/information/interestrates/mortgage/",
     "tracks": {
-      "klacApproxPercent": 4.58,
-      "cpiLinkedApproxPercent": 3.45,
+      "klacApproxPercent": 4.55,
+      "cpiLinkedApproxPercent": 3.49,
       "variable5yApproxPercent": null
     },
     "labelsHe": {
       "klacApproxPercent": "לא צמודות (כל המשכנתאות החדשות הלא צמודות, קבועה ומשתנה יחד)",
       "cpiLinkedApproxPercent": "צמודות למדד (כל המשכנתאות החדשות הצמודות, קבועה ומשתנה יחד)"
     },
-    "notesHe": "ממוצעים משוקללים להלוואות חדשות שפורסמו ע״י בנק ישראל לחודש אוגוסט 2026 (פרסום אחרון). klacApproxPercent הוא שם מפתח היסטורי: 4.58% הוא ממוצע כל המשכנתאות הלא צמודות (קבועה ומשתנה יחד), לא ממוצע קל״צ בלבד. 3.45% הוא ממוצע כל המשכנתאות הצמודות למדד. חודש ספטמבר טרם פורסם — אין להמציא ממוצעי מסלול. ריבית מדיניות/פריים אינן ממוצע חודש דיווח.",
-    "checkedAt": "2026-09-29"
+    "notesHe": "ממוצעים משוקללים להלוואות חדשות שפורסמו ע״י בנק ישראל לחודש ספטמבר 2026 (פרסום אחרון, דף בנק ישראל עודכן ב-18.10.2026, בתוקף מ-19.10.2026, חודש דיווח 30.09.2026). klacApproxPercent הוא שם מפתח היסטורי: 4.55% הוא עיגול של 4.545864869178216, ממוצע כל המשכנתאות הלא צמודות (קבועה ומשתנה יחד), לא ממוצע קל״צ בלבד. 3.49% הוא עיגול של 3.4909803402847603, ממוצע כל המשכנתאות הצמודות למדד. ריבית מדיניות/פריים אינן ממוצע חודש דיווח.",
+    "checkedAt": "2026-10-19"
   }
 }
