@@ -3967,5 +3967,6 @@ body.drawer-open .side-drawer { transform: translateX(0); }
   padding: 2rem 1.2rem 4rem;
 }
 .pilot-hub h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0 0 0.6rem; }
+.pilot-hub h2 { font-size: clamp(1.15rem, 2.2vw, 1.4rem); margin: 1.6rem 0 0.5rem; }
 .pilot-hub .pilot-list { margin: 1.2rem 0; padding-right: 1.2rem; line-height: 2; }
 .pilot-hub .pilot-list a { font-weight: 700; }
