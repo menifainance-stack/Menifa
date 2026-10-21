@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="theme-color" content="#0E3C5C">
+<title>מיחזור משכנתא — עלות כוללת · Mercury Preview | מניפה</title>
+<meta name="description" content="Preview LP מחזור משכנתא עם רקע Mercury רציף. noindex · לא לייב.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0E3C5C;--sky:#5BAFD8;--champ:#C4A574;--wa:#25D366}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Heebo,system-ui,sans-serif;color:#fff;background:#081420;line-height:1.5;text-align:right;overflow-x:hidden;min-height:100vh}
+.preview-strip{position:relative;z-index:2;background:rgba(6,16,24,.92);color:rgba(255,255,255,.55);font-size:11px;text-align:center;padding:6px 10px;letter-spacing:.02em}
+/* Continuous cinematic atmosphere — fixed full-viewport (Tamir lock) */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:#081420 center/cover no-repeat;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 20% 20%, rgba(91,175,216,.18) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 85% 70%, rgba(196,165,116,.12) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 55% at 50% 40%, rgba(6,16,28,.25) 0%, transparent 60%),
+    linear-gradient(180deg,rgba(6,16,28,.55) 0%,rgba(6,16,28,.42) 35%,rgba(8,20,32,.72) 70%,rgba(6,14,22,.88) 100%),
+    url(assets/hero.jpg);
+  background-size:cover;background-position:center 30%}
+.bg::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(ellipse 90% 60% at 50% 0%, transparent 0%, rgba(6,14,22,.35) 100%),
+  linear-gradient(180deg,transparent 0%,rgba(6,14,22,.15) 40%,rgba(6,14,22,.55) 100%);
+  pointer-events:none}
+.shell{position:relative;z-index:1}
+.announce{background:rgba(247,244,239,.12);color:rgba(255,255,255,.9);font-size:13px;text-align:center;padding:9px 16px;font-weight:500;backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid rgba(255,255,255,.1)}
+.announce a{color:var(--sky);text-decoration:none;font-weight:600}
+.announce a:hover{color:#fff}
+.hero{position:relative;min-height:calc(100vh - 34px);display:flex;flex-direction:column;background:transparent}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:16px 36px;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:700;font-size:15px;justify-self:start;letter-spacing:-.01em}
+.brand img{height:32px;width:auto;filter:brightness(0) invert(1)}
+.nav-links{display:flex;gap:24px;font-size:13.5px;font-weight:500;justify-self:center}
+.nav-links a{color:rgba(255,255,255,.88);text-decoration:none}
+.nav-links a:hover{color:#fff}
+.nav-cta{display:flex;gap:12px;align-items:center;justify-self:end}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 18px;border-radius:999px;font-weight:600;font-size:13.5px;text-decoration:none;border:none;cursor:pointer;transition:transform .12s cubic-bezier(.23,1,.32,1),box-shadow .2s,background .15s;font-family:inherit;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-sky{background:var(--sky);color:#fff;box-shadow:0 4px 18px rgba(91,175,216,.38)}
+.btn-sky:hover{background:#4aa3cc}
+.btn-nav{padding:9px 16px;font-size:13px}
+.btn-ghost-frost{background:rgba(255,255,255,.12);color:#fff;backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.2);padding:10px 16px}
+.btn-ghost-frost:hover{background:rgba(255,255,255,.2)}
+.btn-wa{background:var(--wa);color:#fff}
+.btn svg{width:16px;height:16px;flex-shrink:0}
+.hero-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 24px 110px;max-width:780px;margin:0 auto;width:100%}
+.eyebrow{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.04em;color:rgba(255,255,255,.78);margin-bottom:14px;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(10px)}
+.hero-center h1{font-size:clamp(26px,4.4vw,46px);font-weight:800;line-height:1.15;letter-spacing:-.03em;text-shadow:0 2px 28px rgba(0,0,0,.45);margin-bottom:14px}
+.hero-center h1 .hl{color:var(--champ)}
+.hero-center .sub{font-size:clamp(14px,1.4vw,17px);font-weight:400;color:rgba(255,255,255,.9);max-width:540px;margin:0 auto 26px;text-shadow:0 1px 14px rgba(0,0,0,.35);line-height:1.55}
+.cta-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px;margin-bottom:10px}
+.micro{font-size:12px;color:rgba(255,255,255,.62);margin-top:8px}
+.disclaimer{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);width:min(880px,90%);background:rgba(8,18,28,.58);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.1);border-radius:999px;padding:9px 18px;font-size:11px;color:rgba(255,255,255,.62);text-align:center;line-height:1.4}
+/* Below-hero: translucent frosted panels — NEVER flat cream/white/ink slabs */
+.section{padding:56px 24px;background:transparent;color:#fff}
+.section-panel{max-width:1080px;margin:0 auto;padding:36px 28px;background:rgba(8,20,32,.48);backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);border:1px solid rgba(255,255,255,.12);border-radius:24px;box-shadow:0 16px 48px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08)}
+.section.ink-tint .section-panel{background:rgba(14,60,92,.42);border-color:rgba(91,175,216,.18)}
+.section h2{font-size:clamp(20px,2.8vw,26px);font-weight:800;margin-bottom:22px;text-align:center;color:#fff}
+.pain-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.pain-card{background:rgba(255,255,255,.08);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px;padding:20px 16px;box-shadow:0 8px 28px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.12)}
+.pain-card .n{font-size:12px;font-weight:700;color:var(--sky);margin-bottom:6px;letter-spacing:.06em}
+.pain-card h3{font-size:15px;font-weight:700;margin-bottom:6px;color:#fff}
+.pain-card p{font-size:13.5px;color:rgba(255,255,255,.72);line-height:1.45}
+.value-list{list-style:none;display:grid;gap:12px;max-width:720px;margin:0 auto}
+.value-list li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;font-weight:500;color:rgba(255,255,255,.92);padding:12px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;backdrop-filter:blur(10px)}
+.value-list li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--sky);margin-top:7px;flex-shrink:0;box-shadow:0 0 10px rgba(91,175,216,.5)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.step{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px 14px;backdrop-filter:blur(12px)}
+.step .sn{font-size:11px;font-weight:700;color:var(--champ);letter-spacing:.08em;margin-bottom:6px}
+.step h3{font-size:14px;font-weight:700;margin-bottom:6px}
+.step p{font-size:12.5px;color:rgba(255,255,255,.7);line-height:1.4}
+.ins{max-width:720px;margin:0 auto;text-align:center;font-size:15px;color:rgba(255,255,255,.88);line-height:1.65}
+.trust{text-align:center;font-size:14px;color:rgba(255,255,255,.7)}
+.footer-cta{text-align:center;padding:48px 24px 40px;background:transparent;color:#fff}
+.footer-cta .section-panel{padding:40px 28px}
+.footer-cta h2{font-size:22px;margin-bottom:10px}
+.footer-cta p{opacity:.85;margin-bottom:20px}
+.site-foot{text-align:center;padding:16px;font-size:12px;color:rgba(255,255,255,.45);background:transparent;position:relative;z-index:1}
+.wa-float{position:fixed;bottom:22px;left:22px;z-index:50;width:50px;height:50px;border-radius:50%;background:var(--wa);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.4);text-decoration:none}
+.wa-float svg{width:24px;height:24px}
+@media(max-width:900px){
+  .nav{grid-template-columns:minmax(0,1fr) auto;padding:12px 12px;gap:8px}
+  .nav-links{display:none}
+  .brand span{font-size:13px}
+  .brand img{height:28px}
+  .nav-cta .btn-nav{padding:8px 12px;font-size:12px;max-width:46vw;overflow:hidden;text-overflow:ellipsis}
+  .pain-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .disclaimer{border-radius:14px;font-size:10px;width:min(920px,94%)}
+  .hero-center{padding:20px 16px 90px;max-width:100%}
+  .hero-center h1{font-size:clamp(22px,6.5vw,32px)}
+  .announce{font-size:12px;padding:8px 12px}
+  .wa-float{left:14px;bottom:14px}
+  .section-panel{padding:28px 18px;border-radius:18px}
+}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(hover:hover) and (pointer:fine){.btn-sky:hover{box-shadow:0 6px 22px rgba(91,175,216,.5)}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<div class="preview-strip">תצוגת Preview · LP מחזור · Mercury bg · noindex · לא לייב</div>
+<div class="shell">
+<div class="announce">ירידת ריבית על הנייר לא אומרת שהכיס ירוויח. בודקים גם את הפוליסות. <a href="#value">מה בודקים ←</a></div>
+<section class="hero">
+  <header class="nav">
+    <a class="brand" href="#"><img src="assets/menifa-logo.png" alt=""><span>מניפה פיננסית</span></a>
+    <nav class="nav-links" aria-label="ניווט"><a href="#pain">הכאב</a><a href="#value">התהליך</a><a href="#steps">השלבים</a><a href="#ins">ביטוח</a></nav>
+    <div class="nav-cta">
+      <a class="btn btn-sky btn-nav" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94">וואטסאפ — לתיאום שיחה</a>
+    </div>
+  </header>
+  <div class="hero-center">
+    <p class="eyebrow">מחזור משכנתא · עלות כוללת</p>
+    <h1>מיחזור משכנתא — <span class="hl">בדיקת עלות כוללת</span></h1>
+    <p class="sub">ירידת ריבית על הנייר לא אומרת שהכיס ירוויח. במיחזור בודקים גם את הפוליסות — לפני שחותמים על העסקה החדשה.</p>
+    <div class="cta-row">
+      <a class="btn btn-sky" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg> וואטסאפ — לתיאום שיחה</a>
+      <a class="btn btn-ghost-frost" href="#value">איך זה עובד</a>
+    </div>
+    <p class="micro">לא כולם צריכים למחזר עכשיו. קודם בדיקת עלות כוללת — ואז החלטה.</p>
+  </div>
+  <div class="disclaimer">בודקים את כל עלות המשכנתא — ריבית, החזר, וכל הביטוחים — לפני שחותמים.</div>
+</section>
+<section class="section" id="pain">
+  <div class="section-panel">
+    <h2>מיחזור לפי ריבית בלבד מפספס את העלות</h2>
+    <div class="pain-grid"><article class="pain-card"><div class="n">01</div><h3>הריבית ירדה — והביטוח נשאר ישן</h3><p>מחזרים את המשכנתא ושוכחים לבדוק אם הפוליסות עדיין מתאימות ומתומחרות נכון.</p></article><article class="pain-card"><div class="n">02</div><h3>עמלת פירעון מול חיסכון בהחזר</h3><p>בלי תמונה מלאה קל «לחסוך» בהחזר ולשלם את זה בעמלה ובפרמיה.</p></article><article class="pain-card"><div class="n">03</div><h3>תמהיל חדש, עלות ישנה בכיס</h3><p>פריים / קבועה / מדד משנים החזר. ביטוח החיים והמבנה משנים אותו שוב.</p></article><article class="pain-card"><div class="n">04</div><h3>חותמים כי «כולם ממחזרים»</h3><p>לא כולם צריכים למחזר עכשיו. קודם בדיקת עלות כוללת — ואז החלטה.</p></article></div>
+  </div>
+</section>
+<section class="section" id="value">
+  <div class="section-panel">
+    <h2>מה בודקים לפני שממחזרים</h2>
+    <ul class="value-list"><li>מה יש היום — יתרת משכנתא, תמהיל, החזר, פוליסות ביטוח קיימות.</li><li>עלות העסקה — עמלות, הפרשי ריבית, ומה קורה לביטוח במעבר.</li><li>השוואה מלאה — לא רק «החזר חדש מול ישן» — עלות כוללת מול עלות כוללת.</li><li>לפני שחותמים — אתם מחליטים. בלי הבטחת חיסכון מראש.</li></ul>
+  </div>
+</section>
+
+<section class="section" id="steps">
+  <div class="section-panel">
+    <h2>ארבעה צעדים, בלי בירוקרטיה</h2>
+    <div class="steps"><div class="step"><div class="sn">01</div><h3>שיחת בדיקה</h3><p>מתאם חוזר אליכם. שיחה קצרה — מבינים צורך ומצב.</p></div><div class="step"><div class="sn">02</div><h3>מיפוי עלות</h3><p>ריבית, החזר, ביטוח חיים ומבנה, נלוות רלוונטיות.</p></div><div class="step"><div class="sn">03</div><h3>השוואה ברורה</h3><p>מה אפשר לשפר ומה לא. בלי לחץ לחתום בשיחה.</p></div><div class="step"><div class="sn">04</div><h3>אתם מחליטים</h3><p>אם ממשיכים — ליווי מול הבנקים והביטוח.</p></div></div>
+  </div>
+</section>
+<section class="section ink-tint" id="ins">
+  <div class="section-panel"><p class="ins">במיחזור בודקים גם את <strong>הפוליסות</strong> — חיים ומבנה — לפני שחותמים על העסקה החדשה.</p></div>
+</section>
+<section class="section" id="trust"><div class="section-panel"><p class="trust">יועץ משכנתאות מוסמך · שפה ברורה · בלי הבטחת חיסכון מראש.</p></div></section>
+<section class="footer-cta">
+  <div class="section-panel">
+    <h2>רוצים לבדוק אם מיחזור משתלם?</h2>
+    <p>שיחה בוואטסאפ לתיאום. נבדוק עלות כוללת — כולל ביטוח — לפני שחותמים.</p>
+    <a class="btn btn-wa" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg> וואטסאפ — לתיאום שיחה</a>
+  </div>
+</section>
+<footer class="site-foot">מניפה פיננסית · תמיר גרמה · LP מחזור · Mercury bg Preview · noindex · טל׳ <span dir="ltr">052-450-2821</span></footer>
+</div>
+<a class="wa-float" href="https://wa.me/972524502821?text=%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%A9%D7%99%D7%97%D7%94" aria-label="וואטסאפ"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.91-7.01zm-7.01 15.24h-.01c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.26 8.26 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.22 8.23z"/></svg></a>
+</body>
+</html>
