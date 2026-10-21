@@ -364,6 +364,7 @@
       if (allow && !allow[k]) return;
       var v = params[k];
       if (v == null || v === '') return;
+      if (k === 'utm_source' && String(v) === 'direct/unknown') return;
       if (sensitiveValue(v)) return;
       clean[k] = v;
     });
@@ -384,16 +385,69 @@
   function isCampaignLead(source) {
     return source === 'lp-ihud' || source === 'lp-mihzur';
   }
+  /* In-memory copy of menifa-att. FB/IG in-app browsers throw on sessionStorage;
+     the visit still keeps attribution for the Make body. */
+  var attMem = {};
+  function attFilled(v) { return v != null && String(v).trim() !== ''; }
+  function referrerHost() {
+    var raw = '';
+    try { raw = document.referrer || ''; } catch (e) { raw = ''; }
+    if (!raw) return 'direct';
+    try {
+      var host = new URL(raw).hostname;
+      return host || 'direct';
+    } catch (e2) {
+      var loose = String(raw).replace(/^[a-z][a-z0-9+.-]*:\/\//i, '').split('/')[0].split('?')[0].split('#')[0];
+      return loose || 'direct';
+    }
+  }
+  function readAtt() {
+    try {
+      var raw = sessionStorage.getItem('menifa-att');
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+          if (String(parsed.utm_source) === 'direct/unknown') delete parsed.utm_source;
+          attMem = parsed;
+          return parsed;
+        }
+      }
+    } catch (e) {}
+    return attMem && typeof attMem === 'object' ? attMem : {};
+  }
+  function writeAtt(obj) {
+    attMem = obj || {};
+    try { sessionStorage.setItem('menifa-att', JSON.stringify(attMem)); } catch (e) {}
+  }
+  function captureAtt() {
+    var att0 = readAtt();
+    var qp;
+    try { qp = new URLSearchParams(location.search || ''); } catch (e) { qp = new URLSearchParams(); }
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) {
+      var v = '';
+      try { v = qp.get(k) || ''; } catch (e2) { v = ''; }
+      if (attFilled(v)) att0[k] = v;
+    });
+    if (!attFilled(att0.landing_page) && attFilled(att0.landing)) att0.landing_page = String(att0.landing).split('?')[0].split('#')[0];
+    if (!attFilled(att0.landing) && attFilled(att0.landing_page)) att0.landing = att0.landing_page;
+    if (!attFilled(att0.landing)) att0.landing = location.pathname;
+    if (!attFilled(att0.landing_page)) att0.landing_page = location.pathname;
+    if (!attFilled(att0.referrer)) att0.referrer = referrerHost();
+    if (String(att0.utm_source) === 'direct/unknown') delete att0.utm_source;
+    writeAtt(att0);
+    return att0;
+  }
   function attributionParams() {
-    var att = {};
-    try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (e) {}
+    var att = readAtt();
     var out = { page_path: location.pathname };
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
-      if (att[k]) out[k] = String(att[k]).slice(0, 120);
+      if (!attFilled(att[k])) return;
+      if (k === 'utm_source' && String(att[k]) === 'direct/unknown') return;
+      out[k] = String(att[k]).slice(0, 120);
     });
-    var landing = att.landing || location.pathname;
+    var landing = attFilled(att.landing_page) ? att.landing_page : (attFilled(att.landing) ? att.landing : location.pathname);
     try { if (/^https?:/i.test(landing)) landing = new URL(landing).pathname; } catch (e) {}
-    out.landing_page_path = String(landing).split('?')[0].split('#')[0];
+    out.landing_page_path = String(landing).split('?')[0].split('#')[0] || location.pathname;
     return out;
   }
   function trackFormSuccess(form, data) {
@@ -408,6 +462,291 @@
     if (consent && consent.statistics && !gaOff()) sendEvent(name, params);
     else if (!consent) evQ.push([name, params]);
   };
+
+  /* Essential queue: a lead the visitor already submitted.
+     Same storage keys as q/assets/js/aic-engine.js so either page can replay the other.
+     Only the allowlist is stored. LP answers (q0…), when, fbp, fbc, event_source_url and cookie_marketing are not. */
+  var LEAD_QUEUE_KEY = 'menifa-lead-queue';
+  var SENT_KEY = 'menifa-lead-sent';
+  var LOCK_KEY = 'menifa-lead-lock';
+  var QUEUE_TTL = 48 * 60 * 60 * 1000;
+  var LOCK_MS = 30000;
+  var MAX_ATTEMPTS = 3;
+  var QUEUE_ALLOW = {
+    name: 1, phone: 1, source: 1, landing_page: 1, page: 1, need: 1,
+    consent: 1, marketing: 1,
+    gclid: 1, gbraid: 1, wbraid: 1,
+    event_id: 1, ts: 1, form_version: 1, referrer: 1
+  };
+  var lockOwner = 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  function queueKeyAllowed(k) {
+    if (!k || k === '[]' || /^q\d+$/.test(k)) return false;
+    if (k.indexOf('utm_') === 0) return true;
+    return !!QUEUE_ALLOW[k];
+  }
+  var TRACK_KEYS = {
+    form_id: 1, lead_uuid: 1, page_path: 1, landing_page_path: 1,
+    utm_source: 1, utm_medium: 1, utm_campaign: 1, utm_content: 1, utm_term: 1
+  };
+
+  function pruneSent(map) {
+    var now = Date.now();
+    var out = {};
+    Object.keys(map || {}).forEach(function (id) {
+      var t = map[id];
+      if (typeof t === 'number' && (now - t) < QUEUE_TTL) out[id] = t;
+    });
+    return out;
+  }
+  function readSentMap() {
+    try {
+      var parsed = JSON.parse(localStorage.getItem(SENT_KEY) || '{}');
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+      return pruneSent(parsed);
+    } catch (e) { return {}; }
+  }
+  function writeSentMap(map) {
+    try { localStorage.setItem(SENT_KEY, JSON.stringify(pruneSent(map))); return true; }
+    catch (e) { return false; }
+  }
+  function markSent(eventId) {
+    if (!eventId) return;
+    var map = readSentMap();
+    map[String(eventId)] = Date.now();
+    writeSentMap(map);
+  }
+  function wasSent(eventId) {
+    if (!eventId) return false;
+    return !!readSentMap()[String(eventId)];
+  }
+  function readLocks() {
+    try {
+      var parsed = JSON.parse(localStorage.getItem(LOCK_KEY) || '{}');
+      if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {};
+      return parsed;
+    } catch (e) { return {}; }
+  }
+  function writeLocks(map) {
+    try {
+      if (!map || !Object.keys(map).length) {
+        localStorage.removeItem(LOCK_KEY);
+        return true;
+      }
+      localStorage.setItem(LOCK_KEY, JSON.stringify(map));
+      return true;
+    } catch (e) { return false; }
+  }
+  function lockFresh(entry) {
+    return !!(entry && entry.owner && typeof entry.ts === 'number' && (Date.now() - entry.ts) < LOCK_MS);
+  }
+  function claimLock(eventId) {
+    return new Promise(function (resolve) {
+      var id = String(eventId || '');
+      if (!id) { resolve(true); return; }
+      var token = lockOwner + ':' + Date.now().toString(36) + ':' + Math.random().toString(36).slice(2);
+      var map = readLocks();
+      var cur = map[id];
+      if (lockFresh(cur) && cur.owner !== lockOwner) { resolve(false); return; }
+      map[id] = { owner: lockOwner, token: token, ts: Date.now() };
+      if (!writeLocks(map)) { resolve(true); return; }
+      try {
+        if (window.BroadcastChannel) {
+          var ch = new BroadcastChannel('menifa-lead-lock');
+          ch.postMessage({ eventId: id, token: token, ts: Date.now() });
+          ch.close();
+        }
+      } catch (e) {}
+      setTimeout(function () {
+        var again = readLocks()[id];
+        resolve(!!(again && again.token === token));
+      }, 50 + Math.floor(Math.random() * 40));
+    });
+  }
+  function releaseLock(eventId) {
+    var id = String(eventId || '');
+    if (!id) return;
+    var map = readLocks();
+    var cur = map[id];
+    if (cur && cur.owner === lockOwner) {
+      delete map[id];
+      writeLocks(map);
+    }
+  }
+  function pickQueueFields(data) {
+    var fields = {};
+    Object.keys(data || {}).forEach(function (k) {
+      if (!queueKeyAllowed(k)) return;
+      var raw = data[k];
+      if (Array.isArray(raw)) {
+        if (!raw.length) return;
+        fields[k] = raw.join(' | ');
+        return;
+      }
+      if (raw === true) { fields[k] = 'כן'; return; }
+      if (raw === false) { fields[k] = 'לא'; return; }
+      if (raw == null) return;
+      var s = String(raw);
+      if (s === '' || s === '[]') return;
+      fields[k] = s;
+    });
+    return fields;
+  }
+  function fieldsFromBody(body) {
+    var fields = {};
+    try {
+      body.forEach(function (v, k) { fields[k] = v; });
+    } catch (e) {}
+    return pickQueueFields(fields);
+  }
+  function cleanTrack(track) {
+    var clean = {};
+    Object.keys(TRACK_KEYS).forEach(function (k) {
+      if (!attFilled(track && track[k])) return;
+      if (k === 'utm_source' && String(track[k]) === 'direct/unknown') return;
+      clean[k] = String(track[k]).slice(0, 120);
+    });
+    return clean;
+  }
+  function normalizeQueue(items) {
+    var now = Date.now();
+    var kept = [];
+    (items || []).forEach(function (item) {
+      if (!item || typeof item !== 'object') return;
+      if (item.body && !item.fields) return;
+      if (!item.event_id || !item.fields) return;
+      if (wasSent(item.event_id)) return;
+      var savedAt = typeof item.savedAt === 'number' ? item.savedAt : 0;
+      if (!savedAt || (now - savedAt) > QUEUE_TTL) return;
+      var attempts = typeof item.attempts === 'number' ? item.attempts : 0;
+      if (attempts >= MAX_ATTEMPTS) return;
+      kept.push({
+        event_id: String(item.event_id),
+        savedAt: savedAt,
+        attempts: attempts,
+        fields: pickQueueFields(item.fields),
+        track: cleanTrack(item.track)
+      });
+    });
+    return kept;
+  }
+  function readLeadQueue() {
+    var items = [];
+    try {
+      var parsed = JSON.parse(localStorage.getItem(LEAD_QUEUE_KEY) || '[]');
+      items = Array.isArray(parsed) ? parsed : [];
+    } catch (e) { items = []; }
+    var kept = normalizeQueue(items);
+    writeLeadQueue(kept);
+    return kept;
+  }
+  function writeLeadQueue(items) {
+    try {
+      if (!items || !items.length) {
+        localStorage.removeItem(LEAD_QUEUE_KEY);
+        return true;
+      }
+      localStorage.setItem(LEAD_QUEUE_KEY, JSON.stringify(items));
+      return true;
+    } catch (e) { return false; }
+  }
+  function enqueueLead(data, track) {
+    try {
+      if (!data || !data.event_id || wasSent(data.event_id)) return false;
+      var q = readLeadQueue().filter(function (item) { return item.event_id !== String(data.event_id); });
+      q.push({
+        event_id: String(data.event_id),
+        savedAt: Date.now(),
+        attempts: 0,
+        fields: pickQueueFields(data),
+        track: cleanTrack(track)
+      });
+      return writeLeadQueue(q);
+    } catch (e) { return false; }
+  }
+  function bodyFromFields(fields) {
+    var body = new URLSearchParams();
+    Object.keys(fields || {}).forEach(function (k) {
+      if (!queueKeyAllowed(k)) return;
+      var v = fields[k];
+      if (Array.isArray(v)) {
+        if (!v.length) return;
+        v = v.join(' | ');
+      }
+      if (v == null) return;
+      var s = String(v);
+      if (s === '[]') return;
+      body.append(k, s);
+    });
+    return body;
+  }
+  function postOnce(body) {
+    return fetch(CONFIG.leadWebhook, {
+      method: 'POST', mode: 'cors', keepalive: true, body: body
+    }).then(function (res) {
+      if (!res || !res.ok) throw new Error('http');
+      return res;
+    });
+  }
+  function fireReplayEvents(item) {
+    var track = cleanTrack(item && item.track);
+    if (window.menifaTrack) window.menifaTrack('form_submit_success', track);
+    var source = item && item.fields && item.fields.source;
+    if (isCampaignLead(source) && item.event_id) fireMetaLead(item.event_id);
+  }
+  function flushLeadQueue() {
+    if (window.__menifaLeadFlushing) return;
+    if (!CONFIG.leadWebhook) return;
+    window.__menifaLeadFlushing = true;
+    function step() {
+      var rest = readLeadQueue();
+      if (!rest.length) { window.__menifaLeadFlushing = false; return; }
+      var item = rest[0];
+      if (wasSent(item.event_id)) {
+        writeLeadQueue(rest.slice(1));
+        step();
+        return;
+      }
+      claimLock(item.event_id).then(function (got) {
+        if (!got) { window.__menifaLeadFlushing = false; return; }
+        if (wasSent(item.event_id)) {
+          releaseLock(item.event_id);
+          writeLeadQueue(readLeadQueue().filter(function (x) { return x.event_id !== item.event_id; }));
+          step();
+          return;
+        }
+        var curQ = readLeadQueue();
+        var idx = -1;
+        curQ.forEach(function (x, i) { if (x.event_id === item.event_id) idx = i; });
+        if (idx === -1) { releaseLock(item.event_id); step(); return; }
+        var current = curQ[idx];
+        current.attempts = (current.attempts || 0) + 1;
+        if (current.attempts > MAX_ATTEMPTS) {
+          curQ.splice(idx, 1);
+          writeLeadQueue(curQ);
+          releaseLock(item.event_id);
+          step();
+          return;
+        }
+        curQ[idx] = current;
+        writeLeadQueue(curQ);
+        var eventId = current.event_id;
+        postOnce(bodyFromFields(current.fields)).then(function () {
+          markSent(eventId);
+          releaseLock(eventId);
+          writeLeadQueue(readLeadQueue().filter(function (x) { return x.event_id !== eventId; }));
+          fireReplayEvents(current);
+          step();
+        }).catch(function () {
+          releaseLock(eventId);
+          if (current.attempts >= MAX_ATTEMPTS) {
+            writeLeadQueue(readLeadQueue().filter(function (x) { return x.event_id !== eventId; }));
+          }
+          window.__menifaLeadFlushing = false;
+        });
+      });
+    }
+    step();
+  }
   function waLinkUrl(href) {
     try {
       var u = new URL(href, location.href);
@@ -432,14 +771,11 @@
     return zone.tagName.toLowerCase();
   }
   function cookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; }
-  // remember campaign attribution for the whole visit (first landing page)
-  try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
-    if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
-    if (got) sessionStorage.setItem('menifa-att', JSON.stringify(att0));
-    /* The address bar stays intact, including fbclid, so Meta can write _fbc after marketing consent.
-       GA still receives only the allowlisted page_location from gaConfig. */
-  } catch (er) {}
+  // remember campaign attribution for the whole visit (first landing page).
+  // The address bar stays intact, including fbclid, so Meta can write _fbc after marketing consent.
+  // GA still receives only the allowlisted page_location from gaConfig.
+  captureAtt();
+  flushLeadQueue();
   window.menifaIds = function () { return { event_id: 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8), fbp: cookie('_fbp'), fbc: cookie('_fbc') }; };
   // clicks: WhatsApp / phone
   document.addEventListener('click', function (e) {
@@ -638,19 +974,31 @@
       if (!/^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test((data.phone || '').replace(/\s/g, '')) && !/^\+?972/.test(data.phone || '')) { err.textContent = 'נא למלא מספר נייד תקין, לדוגמה 050-1234567.'; $('[name=phone]', form).focus(); return; }
       if (!data.consent) { err.textContent = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.'; $('[name=consent]', form).focus(); return; }
       err.textContent = '';
-      data.page = location.pathname; data.source = form.getAttribute('data-lead'); data.ts = new Date().toISOString();
+      data.page = location.pathname;
+      data.source = form.getAttribute('data-lead') || '';
+      data.ts = new Date().toISOString();
       data.form_version = 'site-v1';
       var ids = window.menifaIds ? window.menifaIds() : {};
-      data.event_id = ids.event_id || '';
-      var att = {}; try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (er) {}
-      Object.keys(att).forEach(function (k) { data[k] = att[k]; });
+      if (!ids.event_id) ids.event_id = 'lead_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      data.event_id = ids.event_id;
+      var att = readAtt();
+      Object.keys(att).forEach(function (k) {
+        if (k === 'source') return;
+        if (!attFilled(att[k])) return;
+        data[k] = att[k];
+      });
+      if (!attFilled(data.source)) data.source = referrerHost();
+      data.landing_page = location.pathname;
+      if (!attFilled(data.landing)) data.landing = location.pathname;
+      if (!attFilled(data.referrer)) data.referrer = referrerHost();
+      if (!attFilled(data.utm_source)) data.utm_source = 'direct/unknown';
       data.fbp = ids.fbp || '';
       data.fbc = ids.fbc || '';
       data.ua = navigator.userAgent;
       data.event_source_url = location.origin + location.pathname;
       data.cookie_marketing = (consent && consent.marketing) ? 'כן' : 'לא';
       var msg = 'שלום תמיר, השארתי פרטים באתר מניפה.\nשם: ' + data.name + '\nטלפון: ' + data.phone + (data.need ? '\nנושא: ' + data.need : '') + (data.when ? '\nמתי נוח: ' + data.when : '') + (extra.length ? '\n' + extra.join('\n') : '') + (data.note ? '\nהערה: ' + data.note : '');
-      data.answers = extra;
+      if (extra.length) data.answers = extra.join(' | ');
       var finish = function (sent) {
         form.hidden = true;
         if (ok) {
@@ -663,19 +1011,63 @@
       if (CONFIG.leadWebhook) {
         // form-urlencoded + cors, so a non-2xx Make response is visible. keepalive survives page navigation.
         var body = new URLSearchParams();
-        Object.keys(data).forEach(function (k) { var v = data[k]; body.append(k, Array.isArray(v) ? v.join(' | ') : (v === true ? 'כן' : v === false ? 'לא' : String(v == null ? '' : v))); });
-        var done = false, t = setTimeout(function () { if (!done) { done = true; finish(false); } }, 6000);
-        fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'cors', keepalive: true, body: body })
-          .then(function (res) {
+        Object.keys(data).forEach(function (k) {
+          var v = data[k];
+          if (!k || k === '[]') return;
+          if (Array.isArray(v)) {
+            if (!v.length) return;
+            v = v.join(' | ');
+          } else if (v === true) v = 'כן';
+          else if (v === false) v = 'לא';
+          else v = v == null ? '' : String(v);
+          if (v === '[]') return;
+          body.append(k, v);
+        });
+        var queuedFields = fieldsFromBody(body);
+        var queuedOnce = false;
+        var queueFailure = function () {
+          if (queuedOnce || wasSent(data.event_id)) return;
+          queuedOnce = true;
+          enqueueLead(queuedFields, {
+            form_id: (form.id || form.getAttribute('data-lead')) || data.source,
+            lead_uuid: data.event_id,
+            page_path: location.pathname,
+            landing_page_path: data.landing_page,
+            utm_source: data.utm_source,
+            utm_medium: data.utm_medium,
+            utm_campaign: data.utm_campaign,
+            utm_content: data.utm_content,
+            utm_term: data.utm_term
+          });
+        };
+        claimLock(data.event_id).then(function (got) {
+          if (!got) { finish(false); return; }
+          var done = false, t = setTimeout(function () {
             if (done) return;
             done = true;
-            clearTimeout(t);
-            if (res && res.ok) {
-              if (isCampaignLead(data.source)) fireMetaLead(data.event_id);
-              trackFormSuccess(form, data);
-              finish(true);
-            } else finish(false);
-          }, function () { if (!done) { done = true; clearTimeout(t); finish(false); } });
+            queueFailure();
+            finish(false);
+          }, 6000);
+          fetch(CONFIG.leadWebhook, { method: 'POST', mode: 'cors', keepalive: true, body: body })
+            .then(function (res) {
+              if (res && res.ok) {
+                markSent(data.event_id);
+                releaseLock(data.event_id);
+                if (done) return;
+                done = true;
+                clearTimeout(t);
+                if (isCampaignLead(data.source)) fireMetaLead(data.event_id);
+                trackFormSuccess(form, data);
+                finish(true);
+                return;
+              }
+              releaseLock(data.event_id);
+              if (!done) { done = true; clearTimeout(t); queueFailure(); finish(false); }
+            }, function () {
+              releaseLock(data.event_id);
+              if (!done) { done = true; clearTimeout(t); queueFailure(); finish(false); }
+            });
+        });
       } else finish(false);
     });
   });
