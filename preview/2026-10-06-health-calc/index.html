@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>מחשבון פרמיית בריאות · מניפה</title>
+<style>
+:root{--bg:#0f1419;--card:#1a222c;--line:#2a3542;--txt:#f4f1ea;--muted:#9aa7b5;--gold:#c9a227;--warn:#e8b86d;--ok:#7dcea0;--bad:#f0b4b4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;padding:16px 16px 80px;max-width:520px;margin-inline:auto;line-height:1.45}
+h1{font-size:1.2rem;margin:0 0 4px;font-weight:800}
+.sub{color:var(--muted);font-size:.82rem;margin:0 0 12px}
+.disc{background:#2a1f12;border:1px solid #5c4520;color:#f0d9a0;padding:10px 12px;border-radius:10px;font-size:.78rem;margin-bottom:14px}
+label{display:block;font-size:.78rem;color:var(--muted);margin:12px 0 5px}
+input,select,button{font-size:16px}
+input,select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#121820;color:var(--txt)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:70px;padding:10px;border-radius:10px;border:1px solid var(--line);background:#121820;color:var(--txt);font-weight:600;cursor:pointer}
+.seg button.on{border-color:var(--gold);background:#241c0a;color:var(--gold)}
+.tog{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px;font-size:.88rem}
+.tog input{width:auto;accent-color:var(--gold)}
+.hint{font-size:.72rem;color:var(--muted);margin-top:4px;line-height:1.35}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+.card.net{border-color:var(--gold);background:#241c0a}
+.k{font-size:.72rem;color:var(--muted)}.v{font-size:1.15rem;font-weight:800;margin-top:4px}
+.lines{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px 0;overflow:hidden}
+.line{display:flex;justify-content:space-between;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);font-size:.88rem}
+.line:last-child{border-bottom:0}
+.line .nm{flex:1}.line .pr{font-weight:700;white-space:nowrap}
+.line.miss .pr{color:var(--bad);font-weight:600}
+.line .disc-tag{font-size:.72rem;color:var(--ok);display:block}
+.note{margin-top:10px;padding:10px;border-radius:10px;font-size:.8rem;background:#1e2a22;border:1px solid #3d5c45;color:var(--ok);display:none}
+.warn{margin-top:10px;padding:10px;border-radius:10px;font-size:.8rem;background:#2a2214;border:1px solid #5c4520;color:var(--warn);display:none}
+.empty{margin-top:14px;padding:16px;border-radius:12px;background:var(--card);border:1px dashed var(--line);font-size:.9rem;color:var(--muted);display:none}
+.empty strong{color:var(--txt)}
+.meta{margin-top:12px;font-size:.75rem;color:var(--muted);line-height:1.5}
+.chkgrid{display:grid;gap:6px;margin-top:8px}
+.chk{display:flex;align-items:flex-start;gap:8px;background:#121820;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:.85rem}
+.chk input{margin-top:3px;width:auto;accent-color:var(--gold)}
+.chk.disabled{opacity:.45;pointer-events:none}
+.foot{margin-top:18px;font-size:.7rem;color:var(--muted);text-align:center}
+</style></head><body>
+<h1>מחשבון פרמיית בריאות</h1>
+<p class="sub">תמיר גרמה · מניפה · כלי פנימי ליועץ / קלוזר · לא וו של לידים</p>
+<div class="disc">לא הצעת מחיר · לא ייעוץ · תעריפים ממסמכי סוכן שצורפו · חיתום רפואי יכול לשנות · צמוד מדד · מומלץ אימות מול סוכן מורשה / חברה לפני הצגה ללקוח.</div>
+
+<label>חברה</label>
+<select id="company">
+  <option value="harel">הראל</option>
+  <option value="clal">כלל</option>
+  <option value="ayalon" selected>איילון</option>
+  <option value="migdal">מגדל (רק הנחות)</option>
+</select>
+
+<div class="row2">
+  <div><label>גיל</label><input id="age" type="number" min="0" max="85" value="35"/></div>
+  <div><label>רמת כיסוי (פריסט)</label>
+    <select id="preset">
+      <option value="base_full">בסיס מלא</option>
+      <option value="base_plus_first">בסיס + שקל ראשון</option>
+      <option value="base_plus_shaban" selected>בסיס + משלים שב"ן</option>
+      <option value="base_plus_shaban_ded">בסיס + שב"ן ה.ע 5,000</option>
+      <option value="full_amb_basic">בסיס + שב"ן + אמבולטורי בסיס</option>
+      <option value="full_amb_ext">בסיס + שב"ן + אמבולטורי מורחב</option>
+      <option value="modular">מודולרי</option>
+    </select>
+  </div>
+</div>
+
+<div class="row2">
+  <div>
+    <label>מין</label>
+    <div class="seg" id="sexSeg">
+      <button type="button" data-v="male" class="on">זכר</button>
+      <button type="button" data-v="female">נקבה</button>
+    </div>
+  </div>
+  <div>
+    <label>עישון</label>
+    <div class="seg" id="smokeSeg">
+      <button type="button" data-v="0" class="on">לא מעשן</button>
+      <button type="button" data-v="1">מעשן</button>
+    </div>
+  </div>
+</div>
+<p class="hint" id="paramNote"></p>
+
+<label>כיסויים (מודולרי / התאמה)</label>
+<div class="chkgrid" id="coverChecks"></div>
+
+<div class="tog" id="ciBox" style="display:none">
+  <span>מחלות קשות כלל (ל־₪100,000)</span>
+  <input type="checkbox" id="ciToggle"/>
+</div>
+<div class="row2" id="ciAmtBox" style="display:none">
+  <div><label>סכום ביטוח מחלות קשות (₪)</label><input id="ciAmount" type="number" min="50000" step="50000" value="100000"/></div>
+</div>
+
+<div class="tog" id="agencyBox">
+  <span>הנחת סוכנות סלע (לא מחייב) — 20% / 33% שקל ראשון</span>
+  <input type="checkbox" id="agencyDisc"/>
+</div>
+<p class="hint">הנחת מבצע מנורה מהקובץ 4e3b1ac2 מזהה מנורה מבטחים — לא מוחלת כאן (אין תעריף בסיס מנורה).</p>
+
+<div class="empty" id="empty"></div>
+
+<div id="results">
+  <div class="cards">
+    <div class="card"><div class="k">לפני הנחה · חודשי</div><div class="v" id="before">—</div></div>
+    <div class="card net"><div class="k">נטו אחרי הנחה · חודשי</div><div class="v" id="after">—</div></div>
+  </div>
+  <div class="meta" id="discMeta"></div>
+  <div class="lines" id="lines"></div>
+  <div class="note" id="sexSmokeNote"></div>
+  <div class="warn" id="warn"></div>
+  <div class="meta" id="meta"></div>
+</div>
+
+<p class="foot">מקורות: תעריפי הראל 06/2024 · מדיכלל · איילון יוני 2026 · הנחות מגדל ספט–אוק 2026 · הטבות סלע 2026<br/>מחשבון פנימי · Menifa · 2026-09-27</p>
+
+<script>
+const RATES = {"meta":{"built":"2026-09-27","for":"תמיר גרמה / מניפה","disclaimer":"לא הצעת מחיר · לא ייעוץ · תעריפים ממסמכי סוכן שצורפו · חיתום רפואי יכול לשנות · צמוד מדד · מומלץ אימות מול סוכן מורשה / חברה לפני הצגה ללקוח.","sources":{"harel_tariff":"/workspace/mortgage-ops/deliverables/mortgage-insurance/health-calc-source/28ad0b6e555a683ae6da095ba0c4b5fc32fea7766a13872d3d2129828e094e50.txt","menora_discount_mislabelled":"/workspace/mortgage-ops/deliverables/mortgage-insurance/health-calc-source/4e3b1ac28faf534b410428df7a6a533f2cca7fc83695ef1733e9464a3d02ab13.txt","migdal_discounts":"/workspace/mortgage-ops/deliverables/mortgage-insurance/health-calc-source/90d698e0ddbdc7dc3e773188a501b76b37cc183bf61ab80333f22b5440dabd40.txt","sela_agency":"/workspace/mortgage-ops/deliverables/mortgage-insurance/health-calc-source/792b696fa7cb74e381a46ee2dca3d39a2d932afeeea94a1b03ef3ffa70e14dcc.txt","clal_tariff":"/workspace/mortgage-ops/deliverables/mortgage-insurance/health-calc-source/cdb4030420dba40a59f33e061c387cf28a007a2f47350a57fd17564b8ff61bb1.txt","ayalon_tariff":"/workspace/mortgage-ops/deliverables/mortgage-insurance/health-calc-source/09b6d4cdfa3ca6a985fab887e4ce2c9508bb7263782023c84b306899985423ab.txt"}},"companies":{"harel":{"id":"harel","name":"הראל","hasBaseRates":true,"indexBase":13396,"indexNote":"מדד בסיס 13396 (תעריפי בריאות 06/2024)","sourceFile":"28ad0b6e555a683ae6da095ba0c4b5fc32fea7766a13872d3d2129828e094e50.txt","params":{"age":true,"sex":false,"smoker":false},"paramsNote":"תעריפי הוצאות רפואיות לפי קבוצת גיל בלבד. מין/עישון לא מופיעים במקור.","covers":{"transplants":{"label":"השתלות וטיפולים מיוחדים בחו\"ל","group":"base","bands":[{"lo":0,"hi":20,"label":"ילד","rate":9.77},{"lo":21,"hi":30,"label":"21-30","rate":15.57},{"lo":31,"hi":40,"label":"31-40","rate":16.98},{"lo":41,"hi":50,"label":"41-50","rate":20.41},{"lo":51,"hi":55,"label":"51-55","rate":23.15},{"lo":56,"hi":60,"label":"56-60","rate":25.72},{"lo":61,"hi":65,"label":"61-65","rate":29.15},{"lo":66,"hi":69,"label":"66-69","rate":29.76}]},"drugs":{"label":"תרופות מחוץ לסל","group":"base","bands":[{"lo":0,"hi":20,"label":"ילד","rate":11.61},{"lo":21,"hi":30,"label":"21-30","rate":17.43},{"lo":31,"hi":40,"label":"31-40","rate":24.18},{"lo":41,"hi":50,"label":"41-50","rate":39.11},{"lo":51,"hi":55,"label":"51-55","rate":56.49},{"lo":56,"hi":60,"label":"56-60","rate":74.3},{"lo":61,"hi":65,"label":"61-65","rate":101.41},{"lo":66,"hi":69,"label":"66-69","rate":135.61}]},"surgery_abroad":{"label":"ניתוחים וטיפולים מחליפי ניתוח בחו\"ל","group":"base","bands":[{"lo":0,"hi":20,"label":"ילד","rate":6.27},{"lo":21,"hi":30,"label":"21-30","rate":8.23},{"lo":31,"hi":40,"label":"31-40","rate":9.79},{"lo":41,"hi":50,"label":"41-50","rate":12.15},{"lo":51,"hi":55,"label":"51-55","rate":20.55},{"lo":56,"hi":60,"label":"56-60","rate":25.19},{"lo":61,"hi":65,"label":"61-65","rate":28.7},{"lo":66,"hi":69,"label":"66-69","rate":29.4}]},"surgery_il_first":{"label":"ניתוחים בישראל מהשקל הראשון","group":"surgery_il","mutex":"surgery_il","bands":[{"lo":0,"hi":20,"label":"ילד","rate":38.27},{"lo":21,"hi":30,"label":"21-30","rate":72.02},{"lo":31,"hi":40,"label":"31-40","rate":126.17},{"lo":41,"hi":50,"label":"41-50","rate":174.8},{"lo":51,"hi":55,"label":"51-55","rate":278.06},{"lo":56,"hi":60,"label":"56-60","rate":329.64},{"lo":61,"hi":65,"label":"61-65","rate":476.88},{"lo":66,"hi":69,"label":"66-69","rate":712.81}]},"surgery_il_shaban":{"label":"ניתוחים משלים שב\"ן ללא ה.ע","group":"surgery_il","mutex":"surgery_il","bands":[{"lo":0,"hi":20,"label":"ילד","rate":17.94},{"lo":21,"hi":30,"label":"21-30","rate":33.77},{"lo":31,"hi":40,"label":"31-40","rate":59.12},{"lo":41,"hi":50,"label":"41-50","rate":81.94},{"lo":51,"hi":55,"label":"51-55","rate":130.86},{"lo":56,"hi":60,"label":"56-60","rate":159.38},{"lo":61,"hi":65,"label":"61-65","rate":234.02},{"lo":66,"hi":69,"label":"66-69","rate":364.99}]},"surgery_il_shaban_deductible":{"label":"ניתוחים משלים שב\"ן עם ה.ע ₪5,000","group":"surgery_il","mutex":"surgery_il","bands":[{"lo":0,"hi":20,"label":"ילד","rate":13.9},{"lo":21,"hi":30,"label":"21-30","rate":26.17},{"lo":31,"hi":40,"label":"31-40","rate":45.82},{"lo":41,"hi":50,"label":"41-50","rate":63.5},{"lo":51,"hi":55,"label":"51-55","rate":101.42},{"lo":56,"hi":60,"label":"56-60","rate":123.52},{"lo":61,"hi":65,"label":"61-65","rate":181.37},{"lo":66,"hi":69,"label":"66-69","rate":282.87}]},"ambulatory_basic":{"label":"ייעוץ ובדיקות — בסיס","group":"ambulatory","mutex":"ambulatory","gapsNote":"בחלק מקבוצות הגיל (21-40, 46-60) ערך בסיס לא הופיע בחילוץ הטקסט","bands":[{"lo":0,"hi":20,"label":"ילד","rate":18.04},{"lo":21,"hi":30,"label":"21-30","rate":null},{"lo":31,"hi":35,"label":"31-35","rate":null},{"lo":36,"hi":40,"label":"36-40","rate":null},{"lo":41,"hi":45,"label":"41-45","rate":55.27},{"lo":46,"hi":50,"label":"46-50","rate":null},{"lo":51,"hi":55,"label":"51-55","rate":null},{"lo":56,"hi":60,"label":"56-60","rate":null},{"lo":61,"hi":65,"label":"61-65","rate":65.73},{"lo":66,"hi":69,"label":"66-69","rate":98.15}]},"ambulatory_extended":{"label":"ייעוץ ובדיקות — מורחב","group":"ambulatory","mutex":"ambulatory","gapsNote":"בחלק מקבוצות הגיל ערך מורחב לא הופיע בחילוץ","bands":[{"lo":0,"hi":20,"label":"ילד","rate":27.25},{"lo":21,"hi":30,"label":"21-30","rate":null},{"lo":31,"hi":35,"label":"31-35","rate":null},{"lo":36,"hi":40,"label":"36-40","rate":null},{"lo":41,"hi":45,"label":"41-45","rate":75.93},{"lo":46,"hi":50,"label":"46-50","rate":null},{"lo":51,"hi":55,"label":"51-55","rate":null},{"lo":56,"hi":60,"label":"56-60","rate":null},{"lo":61,"hi":65,"label":"61-65","rate":89.64},{"lo":66,"hi":69,"label":"66-69","rate":134.78}]},"service_complementary":{"label":"כתב שירות — רפואה משלימה","group":"service","bands":[{"lo":0,"hi":20,"label":"ילד","rate":8.35},{"lo":21,"hi":69,"label":"21-69","rate":13.26}]},"service_doctor_home":{"label":"כתב שירות — ביקור רופא בבית","group":"service","bands":[{"lo":0,"hi":20,"label":"ילד","rate":5.42},{"lo":21,"hi":69,"label":"21-69","rate":8.97}]},"service_online":{"label":"כתב שירות — רפואה אישית און ליין","group":"service","bands":[{"lo":0,"hi":20,"label":"ילד","rate":11.14},{"lo":21,"hi":69,"label":"21-69","rate":16.48}]}},"discounts":[],"discountNote":"קובץ הנחות 4e3b1ac2 מזהה מנורה מבטחים (לא הראל) — לא הוחל על הראל."},"clal":{"id":"clal","name":"כלל","hasBaseRates":true,"indexBase":13684,"indexNote":"מדד 13684 מיום 15.08.2023 (מדיכלל)","sourceFile":"cdb4030420dba40a59f33e061c387cf28a007a2f47350a57fd17564b8ff61bb1.txt","params":{"age":true,"sex":false,"smoker":false},"paramsNote":"הוצאות רפואיות לפי גיל בלבד. מין/עישון רק במחלות קשות / פיצוי לסרטן.","covers":{"transplants":{"label":"מדיכלל השתלות וטיפולים מיוחדים בחו\"ל","group":"base","bands":[{"lo":0,"hi":20,"rate":9.6},{"lo":21,"hi":30,"rate":15.2},{"lo":31,"hi":40,"rate":16.6},{"lo":41,"hi":50,"rate":21.0},{"lo":51,"hi":55,"rate":22.6},{"lo":56,"hi":60,"rate":25.2},{"lo":61,"hi":65,"rate":28.5},{"lo":66,"hi":99,"rate":30.0,"label":"66 ומעלה"}]},"drugs":{"label":"מדיכלל תרופות מחוץ לסל","group":"base","bands":[{"lo":0,"hi":20,"rate":11.4},{"lo":21,"hi":30,"rate":17.38},{"lo":31,"hi":40,"rate":23.8},{"lo":41,"hi":50,"rate":39.0},{"lo":51,"hi":55,"rate":56.0},{"lo":56,"hi":60,"rate":74.0},{"lo":61,"hi":65,"rate":100.8},{"lo":66,"hi":99,"rate":134.7,"label":"66 ומעלה"}]},"surgery_abroad":{"label":"מדיכלל ניתוחים וטיפולים מחליפי ניתוח בחו\"ל","group":"base","bands":[{"lo":0,"hi":20,"rate":6.4},{"lo":21,"hi":30,"rate":8.9},{"lo":31,"hi":40,"rate":10.0},{"lo":41,"hi":50,"rate":11.9},{"lo":51,"hi":55,"rate":20.17},{"lo":56,"hi":60,"rate":24.7},{"lo":61,"hi":65,"rate":28.2},{"lo":66,"hi":99,"rate":29.0,"label":"66 ומעלה"}]},"surgery_il_first":{"label":"ניתוחים בישראל שקל ראשון","group":"surgery_il","mutex":"surgery_il","bands":[{"lo":0,"hi":20,"rate":36.25},{"lo":21,"hi":30,"rate":76.0},{"lo":31,"hi":40,"rate":132.0},{"lo":41,"hi":50,"rate":183.02},{"lo":51,"hi":55,"rate":278.5},{"lo":56,"hi":60,"rate":314.0},{"lo":61,"hi":65,"rate":398.69},{"lo":66,"hi":99,"rate":567.98,"label":"66 ומעלה"}]},"surgery_il_shaban":{"label":"משלים שב\"ן ללא ה.ע","group":"surgery_il","mutex":"surgery_il","bands":[{"lo":0,"hi":20,"rate":19.18},{"lo":21,"hi":30,"rate":34.5},{"lo":31,"hi":40,"rate":60.0},{"lo":41,"hi":50,"rate":83.5},{"lo":51,"hi":55,"rate":133.5},{"lo":56,"hi":60,"rate":162.5},{"lo":61,"hi":65,"rate":212.9},{"lo":66,"hi":99,"rate":272.8,"label":"66 ומעלה"}]},"surgery_il_shaban_deductible":{"label":"משלים שב\"ן עם ה.ע","group":"surgery_il","mutex":"surgery_il","bands":[{"lo":0,"hi":20,"rate":13.6},{"lo":21,"hi":30,"rate":27.4},{"lo":31,"hi":40,"rate":44.95},{"lo":41,"hi":50,"rate":66.5},{"lo":51,"hi":55,"rate":94.5},{"lo":56,"hi":60,"rate":118.4},{"lo":61,"hi":65,"rate":169.5},{"lo":66,"hi":99,"rate":258.4,"label":"66 ומעלה"}]},"ambulatory_basic":{"label":"ייעוץ ובדיקות","group":"ambulatory","bands":[{"lo":0,"hi":20,"rate":17.45},{"lo":21,"hi":30,"rate":41.6},{"lo":31,"hi":35,"rate":56.75},{"lo":36,"hi":40,"rate":56.75},{"lo":41,"hi":45,"rate":56.75},{"lo":46,"hi":50,"rate":56.75},{"lo":51,"hi":55,"rate":56.75},{"lo":56,"hi":60,"rate":56.75},{"lo":61,"hi":65,"rate":62.4},{"lo":66,"hi":66,"rate":73.7},{"lo":67,"hi":70,"rate":77.5}]},"ambulatory_fast_diag":{"label":"אבחון רפואי מהיר","group":"ambulatory_extra","bands":[{"lo":0,"hi":20,"rate":7.92},{"lo":21,"hi":70,"rate":18.82}]},"ambulatory_tech":{"label":"טיפולים בטכנולוגיות מתקדמות ואביזרים","group":"ambulatory_extra","bands":[{"lo":0,"hi":20,"rate":6.95},{"lo":21,"hi":30,"rate":12.69},{"lo":31,"hi":35,"rate":13.06},{"lo":36,"hi":40,"rate":14.34},{"lo":41,"hi":45,"rate":16.11},{"lo":46,"hi":50,"rate":18.86},{"lo":51,"hi":55,"rate":21.72},{"lo":56,"hi":60,"rate":27.71},{"lo":61,"hi":65,"rate":34.0},{"lo":66,"hi":70,"rate":45.12}]},"service_complementary_child":{"label":"רפואה משלימה — ילד עד 25 (הצטרפות עד 20)","group":"service","bands":[{"lo":0,"hi":20,"rate":8.22}]},"service_complementary_adult":{"label":"רפואה משלימה — יחיד","group":"service","bands":[{"lo":0,"hi":70,"rate":21.86}]},"service_online":{"label":"רופא מומחה און-ליין — יחיד","group":"service","bands":[{"lo":0,"hi":85,"rate":19.87}]},"critical_illness":{"label":"מדיכלל מחלות קשות (ל־₪100,000 סכום ביטוח)","group":"critical","usesSexSmoker":true,"perAmount":100000,"maxEntryAge":65,"bands":[{"lo":0,"hi":20,"mn":7.08,"ms":7.08,"fn":7.08,"fs":7.08},{"lo":21,"hi":25,"mn":13.0,"ms":14.17,"fn":12.58,"fs":13.0},{"lo":26,"hi":30,"mn":14.58,"ms":17.08,"fn":16.67,"fs":18.33},{"lo":31,"hi":35,"mn":20.42,"ms":25.42,"fn":25.83,"fs":27.5},{"lo":36,"hi":40,"mn":30.83,"ms":45.83,"fn":38.75,"fs":42.92},{"lo":41,"hi":45,"mn":54.58,"ms":85.83,"fn":56.67,"fs":67.5},{"lo":46,"hi":50,"mn":109.17,"ms":156.67,"fn":96.25,"fs":127.5},{"lo":51,"hi":55,"mn":174.58,"ms":256.25,"fn":138.75,"fs":196.67},{"lo":56,"hi":60,"mn":279.58,"ms":482.08,"fn":210.42,"fs":287.92},{"lo":61,"hi":65,"mn":509.58,"ms":803.33,"fn":343.33,"fs":491.67},{"lo":66,"hi":66,"mn":697.08,"ms":1089.17,"fn":441.67,"fs":655.42},{"lo":67,"hi":67,"mn":775.83,"ms":1235.83,"fn":492.08,"fs":715.42},{"lo":68,"hi":68,"mn":885.0,"ms":1430.42,"fn":550.83,"fs":814.17},{"lo":69,"hi":69,"mn":969.17,"ms":1541.67,"fn":644.58,"fs":892.08},{"lo":70,"hi":70,"mn":1142.08,"ms":1792.92,"fn":768.33,"fs":1053.75},{"lo":71,"hi":71,"mn":1375.83,"ms":2137.08,"fn":935.42,"fs":1274.58},{"lo":72,"hi":99,"mn":1840.42,"ms":2851.67,"fn":1255.0,"fs":1711.67,"label":"72 ומעלה"}]}},"discounts":[],"packageNotes":{"basic_child_0_20":{"label":"מדיכלל לילד (0-20)","rate":85.46,"note":"חבילת מסלול כולל — לא סכום כיסויים בודדים"},"premium_packages":"מסלולי פרימיום/פירסט/בייסיק מוצגים כחבילות במקור; המחשבון משתמש בכיסויים הבודדים."}},"ayalon":{"id":"ayalon","name":"איילון","hasBaseRates":true,"indexBase":14234,"indexBaseAmbulatory":14556,"indexNote":"מדד 14234 לכיסויי בסיס/ניתוחים; מדד 14556 לאמבולטורי ייעוץ ובדיקות (יוני 2026)","sourceFile":"09b6d4cdfa3ca6a985fab887e4ce2c9508bb7263782023c84b306899985423ab.txt","params":{"age":true,"sex":false,"smoker":false},"paramsNote":"תעריפים לפי קבוצת גיל בלבד. מין/עישון לא מופיעים במקור.","covers":{"transplants":{"label":"השתלות וטיפולים מיוחדים בחו\"ל","group":"base","index":14234,"bands":[{"lo":0,"hi":20,"rate":10.38},{"lo":21,"hi":30,"rate":16.54},{"lo":31,"hi":40,"rate":18.21},{"lo":41,"hi":50,"rate":22.52},{"lo":51,"hi":55,"rate":24.59},{"lo":56,"hi":60,"rate":27.32},{"lo":61,"hi":65,"rate":30.98},{"lo":66,"hi":99,"rate":31.62,"label":"66 ואילך"}]},"drugs":{"label":"תרופות שלא בסל הבריאות","group":"base","index":14234,"bands":[{"lo":0,"hi":20,"rate":13.23},{"lo":21,"hi":30,"rate":18.33},{"lo":31,"hi":40,"rate":25.8},{"lo":41,"hi":50,"rate":41.94},{"lo":51,"hi":55,"rate":60.73},{"lo":56,"hi":60,"rate":80.5},{"lo":61,"hi":65,"rate":108.41},{"lo":66,"hi":99,"rate":143.98,"label":"66 ואילך"}]},"surgery_abroad":{"label":"ניתוחים ומחליפי ניתוח בחו\"ל","group":"base","index":14234,"bands":[{"lo":0,"hi":20,"rate":6.66},{"lo":21,"hi":30,"rate":9.25},{"lo":31,"hi":40,"rate":10.72},{"lo":41,"hi":50,"rate":13.2},{"lo":51,"hi":55,"rate":21.83},{"lo":56,"hi":60,"rate":26.76},{"lo":61,"hi":65,"rate":30.5},{"lo":66,"hi":99,"rate":31.35,"label":"66 ואילך"}]},"surgery_il_first":{"label":"ניתוחים בארץ מהשקל הראשון (מלא)","group":"surgery_il","mutex":"surgery_il","index":14234,"bands":[{"lo":0,"hi":20,"rate":45.54},{"lo":21,"hi":30,"rate":98.65},{"lo":31,"hi":40,"rate":127.59},{"lo":41,"hi":50,"rate":199.61},{"lo":51,"hi":55,"rate":299.29},{"lo":56,"hi":60,"rate":391.14},{"lo":61,"hi":65,"rate":471.87},{"lo":66,"hi":99,"rate":624.91,"label":"66 ואילך"}]},"surgery_il_shaban":{"label":"ניתוחים משלים שב\"ן","group":"surgery_il","mutex":"surgery_il","index":14234,"bands":[{"lo":0,"hi":20,"rate":19.06},{"lo":21,"hi":30,"rate":35.88},{"lo":31,"hi":40,"rate":62.81},{"lo":41,"hi":50,"rate":87.07},{"lo":51,"hi":55,"rate":139.04},{"lo":56,"hi":60,"rate":169.35},{"lo":61,"hi":65,"rate":224.11},{"lo":66,"hi":99,"rate":289.99,"label":"66 ואילך"}]},"surgery_il_shaban_deductible":{"label":"ניתוחים משלים שב\"ן עם ה.ע ₪5,000","group":"surgery_il","mutex":"surgery_il","index":14234,"bands":[{"lo":0,"hi":20,"rate":14.86},{"lo":21,"hi":30,"rate":27.99},{"lo":31,"hi":40,"rate":49.0},{"lo":41,"hi":50,"rate":67.92},{"lo":51,"hi":55,"rate":108.45},{"lo":56,"hi":60,"rate":132.09},{"lo":61,"hi":65,"rate":174.81},{"lo":66,"hi":99,"rate":226.2,"label":"66 ואילך"}]},"ambulatory_extended":{"label":"אמבולטורי ייעוץ ובדיקות — מורחב","group":"ambulatory","mutex":"ambulatory","index":14556,"bands":[{"lo":0,"hi":17,"rate":28.8},{"lo":18,"hi":30,"rate":73.0},{"lo":31,"hi":55,"rate":80.3},{"lo":56,"hi":64,"rate":82.1},{"lo":65,"hi":75,"rate":118.0},{"lo":76,"hi":99,"rate":144.1,"label":"76 ואילך"}]},"ambulatory_basic":{"label":"אמבולטורי ייעוץ ובדיקות — בסיס","group":"ambulatory","mutex":"ambulatory","index":14556,"bands":[{"lo":0,"hi":17,"rate":16.99},{"lo":18,"hi":30,"rate":46.52},{"lo":31,"hi":55,"rate":57.56},{"lo":56,"hi":64,"rate":62.19},{"lo":65,"hi":75,"rate":83.59},{"lo":76,"hi":99,"rate":97.23,"label":"76 ואילך"}]},"treatments_appendix":{"label":"נספח לטיפולים","group":"extra","index":14234,"bands":[{"lo":0,"hi":17,"rate":1.86},{"lo":18,"hi":30,"rate":5.08},{"lo":31,"hi":55,"rate":6.3},{"lo":56,"hi":64,"rate":6.8},{"lo":65,"hi":75,"rate":9.14},{"lo":76,"hi":99,"rate":10.63}]},"fast_diag_appendix":{"label":"נספח אבחון מהיר","group":"extra","index":14234,"bands":[{"lo":0,"hi":20,"rate":4.06},{"lo":21,"hi":99,"rate":18.76,"label":"21 ואילך"}]}},"discounts":[]},"migdal":{"id":"migdal","name":"מגדל","hasBaseRates":false,"emptyState":"אין תעריף בסיס בקבצים — רק הנחות","indexBase":null,"sourceFile":"90d698e0ddbdc7dc3e773188a501b76b37cc183bf61ab80333f22b5440dabd40.txt","params":{"age":true,"sex":false,"smoker":false},"covers":{},"discounts":[{"id":"family_21792","label":"מבצע משפחה הסכם 21792 — 20% על תוכניות בריאות ל־10 שנים (מותנה ברובד בסיס מלא)","pct":20,"years":10,"appliesTo":"health_plans","period":"ספט–אוק 2026"},{"id":"family_child_dev","label":"25% לכתב שירות טיפולים פרק ב' התפתחות הילד — 10 שנים","pct":25,"years":10,"appliesTo":"child_development_rider"},{"id":"start_21355","label":"מגדל START (21355) — 15% ברכישת רובד בסיס/ניתוחים/אמבולטורי; 20% במחלות קשות","pct":15,"package":"START"},{"id":"plus_21585","label":"מגדל PLUS (21585) — 15% רובד בסיס; 20% רובד שני; 20% רובד רביעי; 20% מחלות קשות","pct":20,"package":"PLUS"},{"id":"top_21594","label":"מגדל TOP (21594) — 15% רובד בסיס; 25% רובד שני שקל ראשון; 25% רובד רביעי; 25% מחלות קשות","pct":25,"package":"TOP"},{"id":"ci_20452","label":"מחלות קשות מזור — 10% ל־20 שנים (הסכם 20452)","pct":10,"years":20},{"id":"ci_20890","label":"מחלות קשות מזור מורחב חבילה — 20% ל־10 שנים (הסכם 20890)","pct":20,"years":10}],"discountNote":"הנחות בלבד; ללא טבלאות תעריף מוחלטות בקבצים שצורפו."}},"agencyDiscounts":{"sela_2026":{"id":"sela_2026","label":"הטבות סוכנות סלע 2026 (לא מחייב)","sourceFile":"792b696fa7cb74e381a46ee2dca3d39a2d932afeeea94a1b03ef3ffa70e14dcc.txt","binding":false,"rules":[{"id":"health_20","label":"20% הנחה על כל כיסויי הבריאות ל־10 שנים","pct":20,"appliesTo":"all_health","years":10},{"id":"first_shekel_33","label":"33% הנחה על כיסוי ניתוחים שקל ראשון ל־10 שנים (מותנה באישור)","pct":33,"appliesTo":"surgery_il_first","years":10,"overrides":"health_20"}]},"menora_2026":{"id":"menora_2026","label":"הנחות מנורה מבטחים 17.05.2026–31.10.2026 (אין תעריף בסיס מנורה בקבצים)","sourceFile":"4e3b1ac28faf534b410428df7a6a533f2cca7fc83695ef1733e9464a3d02ab13.txt","companyNamed":"מנורה מבטחים","binding":false,"usableWithBase":false,"note":"הטקסט מזהה מנורה מבטחים — לא הוחל על הראל/כלל/איילון. אין תעריפי בסיס מנורה בקבצים.","rules":[{"package":"101650","pct_main":25,"pct_shaban":10,"years":10,"excludes":["drugs"],"covers_main":["ambulatory","tech_top","surgery_il_first","surgery_abroad","transplants"]},{"package":"101660","pct_main":20,"pct_shaban":10,"years":10,"includes_drugs":true},{"package":"101652","pct_child":35,"pct_parents":25,"years":10,"condition":"שני הורים לניתוחים שקל ראשון"}]}},"presets":{"base_full":{"label":"בסיס מלא","covers":["transplants","drugs","surgery_abroad"]},"base_plus_first":{"label":"בסיס + ניתוחים שקל ראשון","covers":["transplants","drugs","surgery_abroad","surgery_il_first"]},"base_plus_shaban":{"label":"בסיס + משלים שב\"ן (ללא ה.ע)","covers":["transplants","drugs","surgery_abroad","surgery_il_shaban"]},"base_plus_shaban_ded":{"label":"בסיס + משלים שב\"ן ה.ע ₪5,000","covers":["transplants","drugs","surgery_abroad","surgery_il_shaban_deductible"]},"full_amb_basic":{"label":"בסיס + שב\"ן + אמבולטורי בסיס","covers":["transplants","drugs","surgery_abroad","surgery_il_shaban","ambulatory_basic"]},"full_amb_ext":{"label":"בסיס + שב\"ן + אמבולטורי מורחב","covers":["transplants","drugs","surgery_abroad","surgery_il_shaban","ambulatory_extended"]},"modular":{"label":"מודולרי (בחירה ידנית)","covers":[]}}};
+
+const state = {sex:'male', smoker:false};
+
+function $(id){return document.getElementById(id)}
+function ils(n){
+  if(n===null||n===undefined||!isFinite(n)) return 'חסר במקור';
+  try{return new Intl.NumberFormat('he-IL',{style:'currency',currency:'ILS',maximumFractionDigits:2}).format(n)}
+  catch(e){return (Math.round(n*100)/100)+' ₪'}
+}
+function company(){return RATES.companies[$('company').value]}
+function age(){return Math.max(0, Math.min(99, parseInt($('age').value,10)||0))}
+
+function bandFor(cover, ageVal){
+  if(!cover||!cover.bands) return null;
+  for(const b of cover.bands){
+    if(ageVal>=b.lo && ageVal<=b.hi) return b;
+  }
+  return null;
+}
+
+function rateForCover(cover, ageVal, sex, smoker){
+  const b = bandFor(cover, ageVal);
+  if(!b) return {rate:null, missing:true, band:null};
+  if(cover.usesSexSmoker){
+    const key = (sex==='male'?(smoker?'ms':'mn'):(smoker?'fs':'fn'));
+    const r = b[key];
+    return {rate: r==null?null:r, missing:r==null, band:b, sexSmoker:true};
+  }
+  const r = b.rate;
+  return {rate: (r===null||r===undefined)?null:r, missing:(r===null||r===undefined), band:b, sexSmoker:false};
+}
+
+function availableCoverKeys(co){
+  if(!co||!co.covers) return [];
+  return Object.keys(co.covers).filter(k=>k!=='critical_illness');
+}
+
+function renderChecks(){
+  const co = company();
+  const box = $('coverChecks');
+  box.innerHTML = '';
+  if(!co.hasBaseRates){ return; }
+  const keys = availableCoverKeys(co);
+  const preset = RATES.presets[$('preset').value];
+  const selected = new Set(preset && preset.covers ? preset.covers.slice() : []);
+  // keep previous modular selections if modular
+  if($('preset').value==='modular'){
+    box.querySelectorAll && null;
+  }
+  keys.forEach(k=>{
+    const c = co.covers[k];
+    const div = document.createElement('label');
+    div.className = 'chk';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.value = k;
+    cb.checked = selected.has(k) || ($('preset').value==='modular' && false);
+    if($('preset').value!=='modular'){
+      cb.checked = selected.has(k);
+    } else {
+      // default modular: base three on
+      cb.checked = ['transplants','drugs','surgery_abroad'].includes(k);
+    }
+    cb.addEventListener('change', ()=>{
+      if($('preset').value!=='modular') $('preset').value='modular';
+      // mutex surgery_il / ambulatory
+      enforceMutex(cb);
+      calc();
+    });
+    div.appendChild(cb);
+    const span = document.createElement('span');
+    span.textContent = c.label;
+    div.appendChild(span);
+    box.appendChild(div);
+  });
+  // CI toggle visibility
+  const hasCi = !!(co.covers && co.covers.critical_illness);
+  $('ciBox').style.display = hasCi ? 'flex' : 'none';
+  $('ciAmtBox').style.display = (hasCi && $('ciToggle').checked) ? 'grid' : 'none';
+  if(!hasCi) $('ciToggle').checked = false;
+}
+
+function enforceMutex(changed){
+  const co = company();
+  const cover = co.covers[changed.value];
+  if(!cover || !cover.mutex) return;
+  if(!changed.checked) return;
+  document.querySelectorAll('#coverChecks input').forEach(cb=>{
+    if(cb===changed) return;
+    const c2 = co.covers[cb.value];
+    if(c2 && c2.mutex===cover.mutex) cb.checked = false;
+  });
+}
+
+function selectedCovers(){
+  return Array.from(document.querySelectorAll('#coverChecks input:checked')).map(cb=>cb.value);
+}
+
+function applyAgencyDiscount(coverKey, baseRate, useAgency){
+  if(!useAgency || baseRate==null) return {rate:baseRate, pct:0, label:null};
+  const rules = RATES.agencyDiscounts.sela_2026.rules;
+  if(coverKey==='surgery_il_first'){
+    const r = rules.find(x=>x.id==='first_shekel_33');
+    return {rate: baseRate*(1-r.pct/100), pct:r.pct, label:r.label};
+  }
+  const r = rules.find(x=>x.id==='health_20');
+  return {rate: baseRate*(1-r.pct/100), pct:r.pct, label:r.label};
+}
+
+function calc(){
+  const co = company();
+  const a = age();
+  const sex = state.sex;
+  const smoker = state.smoker;
+  $('paramNote').textContent = co.paramsNote || '';
+
+  const empty = $('empty');
+  const results = $('results');
+  if(!co.hasBaseRates){
+    empty.style.display = 'block';
+    results.style.display = 'none';
+    let html = '<strong>'+co.emptyState+'</strong><br/><br/>הנחות מגדל שזוהו במקור (ספט–אוק 2026):<ul style="margin:8px 0;padding-inline-start:18px">';
+    (co.discounts||[]).forEach(d=>{ html += '<li>'+d.label+'</li>'; });
+    html += '</ul><span class="hint">'+ (co.discountNote||'') +'</span>';
+    empty.innerHTML = html;
+    return;
+  }
+  empty.style.display = 'none';
+  results.style.display = 'block';
+
+  const useAgency = $('agencyDisc').checked;
+  const lines = [];
+  let gross = 0, net = 0;
+  let anySexSmoke = false;
+  let anyMissing = false;
+  let maxDiscPct = 0;
+  const discLabels = new Set();
+
+  selectedCovers().forEach(k=>{
+    const cover = co.covers[k];
+    const rr = rateForCover(cover, a, sex, smoker);
+    if(rr.sexSmoker) anySexSmoke = true;
+    if(rr.missing || rr.rate===null){
+      anyMissing = true;
+      lines.push({name:cover.label, gross:null, net:null, miss:true, disc:null});
+      return;
+    }
+    const d = applyAgencyDiscount(k, rr.rate, useAgency);
+    gross += rr.rate;
+    net += d.rate;
+    if(d.pct>maxDiscPct) maxDiscPct = d.pct;
+    if(d.label) discLabels.add(d.label);
+    lines.push({name:cover.label, gross:rr.rate, net:d.rate, miss:false, disc:d.pct?d.pct:null, band:rr.band});
+  });
+
+  // Critical illness
+  if(co.covers.critical_illness && $('ciToggle').checked){
+    $('ciAmtBox').style.display = 'grid';
+    const ci = co.covers.critical_illness;
+    anySexSmoke = true;
+    const rr = rateForCover(ci, a, sex, smoker);
+    const amt = Math.max(0, parseFloat($('ciAmount').value)||0);
+    if(rr.missing || rr.rate===null){
+      lines.push({name:ci.label, gross:null, net:null, miss:true});
+      anyMissing = true;
+    } else {
+      const units = amt / (ci.perAmount||100000);
+      const g = rr.rate * units;
+      const d = applyAgencyDiscount('critical_illness', g, useAgency);
+      gross += g; net += d.rate;
+      if(d.pct>maxDiscPct) maxDiscPct = d.pct;
+      if(d.label) discLabels.add(d.label);
+      lines.push({name:ci.label+' × '+(units)+' יח׳', gross:g, net:d.rate, miss:false, disc:d.pct||null});
+    }
+  } else {
+    $('ciAmtBox').style.display = 'none';
+  }
+
+  $('before').textContent = ils(gross);
+  $('after').textContent = ils(net);
+  $('discMeta').textContent = useAgency
+    ? ('הנחה שהוחלה: עד '+maxDiscPct+'% · '+Array.from(discLabels).join(' · '))
+    : 'ללא הנחת סוכנות · נטו = סכום תעריפי הבסיס';
+
+  const linesEl = $('lines');
+  linesEl.innerHTML = lines.map(L=>{
+    if(L.miss) return '<div class="line miss"><span class="nm">'+L.name+'</span><span class="pr">חסר במקור</span></div>';
+    const tag = L.disc ? '<span class="disc-tag">הנחה '+L.disc+'%</span>' : '';
+    return '<div class="line"><span class="nm">'+L.name+tag+'</span><span class="pr">'+ils(L.net)+(L.disc?' <span style="color:var(--muted);font-weight:400;font-size:.75rem">('+ils(L.gross)+')</span>':'')+'</span></div>';
+  }).join('') || '<div class="line"><span class="nm">לא נבחרו כיסויים</span><span class="pr">—</span></div>';
+
+  const sn = $('sexSmokeNote');
+  if(!anySexSmoke){
+    sn.style.display = 'block';
+    sn.textContent = 'פרמטר מין/עישון לא משפיע על תעריף הכיסוי הזה במקור (לכיסויים שנבחרו כרגע).';
+  } else {
+    sn.style.display = 'block';
+    sn.textContent = 'מין/עישון משפיעים רק על מחלות קשות (כלל). שאר הכיסויים לפי גיל בלבד.';
+  }
+
+  const w = $('warn');
+  const warns = [];
+  if(anyMissing) warns.push('יש כיסויים עם "חסר במקור" — לא הומצא מספר.');
+  if(a>69 && co.id==='harel') warns.push('הראל: החל מגיל 66 הפרמיה מתקבעת (למעט ייעוץ ובדיקות).');
+  if(useAgency) warns.push('הנחת סוכנות סלע מסומנת כלא מחייבת במקור — לאימות מול הסוכנות/חברה.');
+  w.style.display = warns.length?'block':'none';
+  w.textContent = warns.join(' ');
+
+  $('meta').innerHTML = 'מדד בסיס מהמקור: <strong>'+(co.indexBase||'—')+'</strong>'
+    +(co.indexBaseAmbulatory?' · אמבולטורי: <strong>'+co.indexBaseAmbulatory+'</strong>':'')
+    +'<br/>'+ (co.indexNote||'')
+    +'<br/>קובץ מקור: '+ (co.sourceFile||'');
+}
+
+// Seg buttons
+function wireSeg(id, onPick){
+  const el = $(id);
+  el.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      el.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+      onPick(btn.getAttribute('data-v'));
+      calc();
+    });
+  });
+}
+wireSeg('sexSeg', v=>{ state.sex=v; });
+wireSeg('smokeSeg', v=>{ state.smoker = v==='1'; });
+
+$('company').addEventListener('change', ()=>{ renderChecks(); calc(); });
+$('preset').addEventListener('change', ()=>{ renderChecks(); calc(); });
+$('age').addEventListener('input', calc);
+$('agencyDisc').addEventListener('change', calc);
+$('ciToggle').addEventListener('change', ()=>{ $('ciAmtBox').style.display=$('ciToggle').checked?'grid':'none'; calc(); });
+$('ciAmount').addEventListener('input', calc);
+
+renderChecks();
+calc();
+</script>
+</body></html>
