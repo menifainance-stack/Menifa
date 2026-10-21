@@ -1152,7 +1152,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         </a>
         <a href="${pathPrefix}blog/הורדת-ריבית-בדרך-ל-3-5-מה-לעשות-עם-המשכנתא.html" class="drawer-article-card">
           <span class="article-tag">ריבית</span>
-          <div class="article-title">הורדת ריבית נוספת בדרך ל-3.5% — מה לעשות?</div>
+          <div class="article-title">הריבית כבר מתחת ל-3.5%: מה לעשות?</div>
         </a>
         <a href="${pathPrefix}blog/מתי-כדאי-למחזר-משכנתא.html" class="drawer-article-card">
           <span class="article-tag">מחזור</span>
