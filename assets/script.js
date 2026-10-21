@@ -47,7 +47,7 @@ const MARKET_FALLBACK = {
   // Old #m-update label is the decision/publication date, not «בתוקף מ».
   updateDate: 'מדד 15.10 · BOI 01.09'
 };
-// ממוצעי מסלולי משכנתא (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
+// ממוצעים לפי מגזר ותקופה (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
 
 function formatTickerUpdateDate(boiPublished) {
   const cpi = 'מדד ' + CPI_PUBLISHED_SHORT;
