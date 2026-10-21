@@ -73,25 +73,33 @@ fetchMarketData();
    SCROLL EFFECTS
    ═══════════════════════════════════════════════════════════════ */
 const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  if (y > 30) navbar.classList.add('scrolled');
-  else navbar.classList.remove('scrolled');
-}, { passive: true });
+if (navbar) {
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > 30) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  }, { passive: true });
+}
 
 /* ═══════════════════════════════════════════════════════════════
    REVEAL ON SCROLL (IntersectionObserver)
+   Respects prefers-reduced-motion — no fade/lift for those users.
    ═══════════════════════════════════════════════════════════════ */
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+const revealNodes = document.querySelectorAll('.reveal');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (prefersReducedMotion) {
+  revealNodes.forEach(el => el.classList.add('visible'));
+} else {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -48px 0px' });
+  revealNodes.forEach(el => observer.observe(el));
+}
 
 /* ═══════════════════════════════════════════════════════════════
    NUMBER COUNT-UP
