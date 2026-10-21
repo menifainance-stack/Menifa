@@ -94,37 +94,26 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 /* ═══════════════════════════════════════════════════════════════
-   NUMBER COUNT-UP
+   TRUST NUMBERS — static (no count-from-0 on every entry)
    ═══════════════════════════════════════════════════════════════ */
-const counterObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      const els = e.target.querySelectorAll('[data-count]');
-      els.forEach(el => {
-        const target = parseInt(el.dataset.count);
-        const dur = 1800;
-        const start = performance.now();
-        const step = (now) => {
-          const progress = Math.min((now - start) / dur, 1);
-          const ease = 1 - Math.pow(1 - progress, 3);
-          const val = Math.floor(target * ease);
-          el.firstChild ? el.firstChild.nodeValue = val : el.textContent = val;
-          // Handle elements with mixed content (units)
-          if (el.childNodes.length > 0 && el.childNodes[el.childNodes.length - 1].nodeType === 3) {
-            el.childNodes[el.childNodes.length - 1].nodeValue = val;
-          } else {
-            el.textContent = val;
-          }
-          if (progress < 1) requestAnimationFrame(step);
-        };
-        requestAnimationFrame(step);
-      });
-      counterObserver.unobserve(e.target);
+document.querySelectorAll('[data-count]').forEach(el => {
+  const target = parseInt(el.dataset.count, 10);
+  if (Number.isNaN(target)) return;
+  const unit = el.querySelector('.unit');
+  if (unit) {
+    el.childNodes.forEach(n => {
+      if (n.nodeType === 3) n.nodeValue = '';
+    });
+    if (!el.querySelector('.stat-num')) {
+      const num = document.createElement('span');
+      num.className = 'stat-num';
+      num.textContent = String(target);
+      el.insertBefore(num, el.firstChild);
     }
-  });
-}, { threshold: 0.4 });
-
-document.querySelectorAll('.stats-grid').forEach(el => counterObserver.observe(el));
+  } else {
+    el.textContent = String(target);
+  }
+});
 
 /* ═══════════════════════════════════════════════════════════════
    CALCULATOR TABS (+ deep-link support via URL hash)
@@ -170,6 +159,10 @@ function calc1() {
   const mo = monthlyPayment(loan, rate, years);
   document.getElementById('m1-out').textContent = fmt(mo) + ' / חודש';
   document.getElementById('m1-total').textContent = fmt(mo * years * 12);
+  const bar = document.getElementById('m1-bar');
+  const share = document.getElementById('m1-share');
+  if (bar) bar.style.width = Math.min(100, (mo / 15000) * 100) + '%';
+  if (share) share.textContent = Math.round((mo / 15000) * 100) + '%';
 }
 if (document.getElementById('m1-loan')) ['m1-loan','m1-rate','m1-years'].forEach(id => document.getElementById(id).addEventListener('input', calc1));
 if (document.getElementById('m1-loan')) calc1();
@@ -213,7 +206,7 @@ document.querySelectorAll('.yield-preset').forEach(btn => {
     // Visual feedback — briefly highlight the chosen preset
     document.querySelectorAll('.yield-preset').forEach(b => b.style.borderColor = '');
     btn.style.borderColor = 'var(--gold)';
-    btn.style.background = 'rgba(201, 168, 118, 0.1)';
+    btn.style.background = 'rgba(91, 175, 216, 0.12)';
     setTimeout(() => { btn.style.background = ''; }, 1500);
   });
 });
@@ -659,7 +652,7 @@ setTimeout(() => {
   } catch (e) {
     document.getElementById('cookieBanner').classList.add('visible');
   }
-}, 1800);
+}, 8000);
 
 /* ═══════════════════════════════════════════════════════════════
    LEAD FORM
@@ -743,7 +736,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       <div class="drawer-hero-cta">
         <div class="eyebrow">פנוי עכשיו</div>
         <h3>שיחת ייעוץ — חינם וללא התחייבות</h3>
-        <p>30 דקות שיכולות לחסוך לכם 180,000 ₪ על חיי המשכנתא</p>
+        <p>30 דקות שיחת היכרות — בלי התחייבות ובלי הבטחה מראש</p>
         <div class="btn-row">
           <a href="tel:052-4502821">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
@@ -916,63 +909,57 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 })();
 
 /* ═══════════════════════════════════════════════════════════════
-   HERO PREMIUM EFFECTS — 3D tilt on advisor card + floating particles
+   HOME QUIZ — 4 slides, RTL, progress, name+phone (or soft skip)
    ═══════════════════════════════════════════════════════════════ */
-(function() {
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = window.matchMedia('(pointer: fine)').matches;
+(function () {
+  const root = document.getElementById('home-quiz');
+  if (!root) return;
 
-  function initHeroEffects() {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
+  const track = root.querySelector('.quiz-track');
+  const slides = Array.from(root.querySelectorAll('.quiz-slide'));
+  const bar = root.querySelector('.quiz-progress-bar > i');
+  const label = root.querySelector('[data-quiz-step]');
+  const total = slides.length;
+  const answers = {};
+  let step = 0;
 
-    // Inject particles container (only on hero pages)
-    if (!reduced && !hero.querySelector('.hero-particles')) {
-      const particlesEl = document.createElement('div');
-      particlesEl.className = 'hero-particles';
-      particlesEl.setAttribute('aria-hidden', 'true');
-      const count = 16;
-      for (let i = 0; i < count; i++) {
-        const p = document.createElement('div');
-        p.className = 'hero-particle ' + (i % 2 === 0 ? 'sky' : 'mint');
-        const size = 2 + Math.random() * 3;
-        p.style.cssText = `
-          left: ${Math.random() * 100}%;
-          bottom: -10px;
-          width: ${size}px; height: ${size}px;
-          animation-duration: ${14 + Math.random() * 20}s;
-          animation-delay: ${-Math.random() * 28}s;
-          opacity: ${0.4 + Math.random() * 0.4};
-        `;
-        particlesEl.appendChild(p);
-      }
-      hero.insertBefore(particlesEl, hero.firstChild);
-    }
-
-    // 3D tilt on the advisor card
-    if (!reduced && fine) {
-      const card = document.querySelector('.advisor-card');
-      if (card) {
-        card.addEventListener('mousemove', function(e) {
-          const rect = this.getBoundingClientRect();
-          const x = (e.clientX - rect.left) / rect.width;
-          const y = (e.clientY - rect.top) / rect.height;
-          const rotateY = (x - 0.5) * 12;
-          const rotateX = (y - 0.5) * -12;
-          this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
-          this.style.setProperty('--mx', (x * 100) + '%');
-          this.style.setProperty('--my', (y * 100) + '%');
-        });
-        card.addEventListener('mouseleave', function() {
-          this.style.transform = '';
-        });
-      }
-    }
+  function paint() {
+    track.style.transform = 'translateX(' + (step * 100) + '%)';
+    if (bar) bar.style.width = (((step + 1) / total) * 100) + '%';
+    if (label) label.textContent = 'שלב ' + (step + 1) + ' מתוך ' + total;
+    slides.forEach((s, i) => s.setAttribute('aria-hidden', i === step ? 'false' : 'true'));
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeroEffects);
-  } else {
-    initHeroEffects();
+  root.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.getAttribute('data-q');
+      answers[key] = btn.getAttribute('data-a');
+      btn.parentElement.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('is-on'));
+      btn.classList.add('is-on');
+      if (step < total - 1) {
+        step += 1;
+        paint();
+      }
+    });
+  });
+
+  const form = root.querySelector('.quiz-form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = (form.querySelector('[name="name"]') || {}).value || '';
+      const phone = (form.querySelector('[name="phone"]') || {}).value || '';
+      if (name.trim().length < 2 || phone.replace(/\D/g, '').length < 9) return;
+      const note = Object.keys(answers).map(k => k + ': ' + answers[k]).join(' · ');
+      const msg = encodeURIComponent('שלום, אשמח לתיאום שיחה. ' + name.trim() + ' · ' + note);
+      window.open('https://wa.me/972524502821?text=' + msg, '_blank', 'noopener');
+      const done = root.querySelector('.quiz-done');
+      if (done) {
+        form.hidden = true;
+        done.hidden = false;
+      }
+    });
   }
+
+  paint();
 })();
