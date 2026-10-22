@@ -435,13 +435,19 @@
   function cookie(n) { var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : ''; }
   // remember campaign attribution for the whole visit (first landing page)
   try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
-    /* Opt-in (lp-haredi only). If this URL has no utm_source — nothing, or only utm_medium — force source and medium. Never invent utm_campaign. Never use hm-news as a fallback. A URL that already has utm_source is copied above and left as-is. */
+    var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
     var utmDefault = document.documentElement.getAttribute('data-utm-default');
-    if (utmDefault && !qp.get('utm_source')) {
+    ['gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
+    /* UTM group is one unit. Stored first-touch wins. On lp-haredi the direct default runs only when that store has no utm_source. */
+    if (!(utmDefault && att0.utm_source)) {
+      utmKeys.forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
+    }
+    if (utmDefault && !qp.get('utm_source') && !att0.utm_source) {
       att0.utm_source = 'lp-haredi-direct';
       att0.utm_medium = 'none';
       delete att0.utm_campaign;
+      delete att0.utm_content;
+      delete att0.utm_term;
       got = true;
     }
     if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
@@ -466,18 +472,11 @@
     else if (/^tel:/.test(h)) {
       var phoneParams = { page: location.pathname, page_path: location.pathname };
       if (document.documentElement.classList.contains('lp-haredi')) {
-        var phoneAtt = {};
-        try { phoneAtt = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (errAtt) {}
+        var phoneForm = document.querySelector('form[data-lead="lp-haredi"]');
         ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
-          if (phoneAtt[k]) phoneParams[k] = String(phoneAtt[k]).slice(0, 120);
+          var phoneField = phoneForm && phoneForm.querySelector('[name="' + k + '"]');
+          if (phoneField && phoneField.value) phoneParams[k] = String(phoneField.value).slice(0, 120);
         });
-        var phoneEvent = { event: 'contact_phone' };
-        Object.keys(phoneParams).forEach(function (k) { phoneEvent[k] = phoneParams[k]; });
-        (window.dataLayer = window.dataLayer || []).push(phoneEvent);
-        try {
-          var phoneBlob = new Blob([new URLSearchParams(phoneEvent).toString()], { type: 'application/x-www-form-urlencoded' });
-          if (navigator.sendBeacon) navigator.sendBeacon(location.origin + '/lp/haredi/?event=contact_phone', phoneBlob);
-        } catch (errBeacon) {}
       }
       window.menifaTrack('contact_phone', phoneParams);
     }
