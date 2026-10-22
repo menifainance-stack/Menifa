@@ -61,6 +61,38 @@ body.lp-haredi:has(#cookie:not([hidden])) {
   padding-bottom: 240px;
 }
 
+@media (max-width: 799px) {
+  body.lp-haredi:has(#cookie:not([hidden])) {
+    padding-bottom: calc(220px + env(safe-area-inset-bottom, 0px));
+  }
+
+  body.lp-haredi:has(#cookie:not([hidden])) .hz-hero .hz-actions {
+    margin-top: 12px;
+    padding-bottom: 16px;
+    scroll-margin-bottom: 200px;
+  }
+
+  body.lp-haredi:has(#cookie:not([hidden])) main {
+    padding-top: 12px;
+  }
+
+  body.lp-haredi:has(#cookie:not([hidden])) .hz-hero h1 {
+    margin-bottom: 8px;
+  }
+
+  body.lp-haredi:has(#cookie:not([hidden])) .hz-hero .hz-kicker {
+    margin-bottom: 6px;
+  }
+
+  body.lp-haredi:has(#cookie:not([hidden])) .hz-hero .hz-lead {
+    margin-bottom: 10px;
+  }
+
+  body.lp-haredi:has(#cookie:not([hidden])) .hz-hero .hz-points {
+    gap: 6px;
+  }
+}
+
 html.lp-haredi :focus-visible {
   outline: 3px solid #0E3C5C;
   outline-offset: 3px;
@@ -298,6 +330,8 @@ body.lp-haredi .hz-choices {
 
 body.lp-haredi .hz-choice {
   display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 8px;
   min-height: 44px;
