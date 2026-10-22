@@ -942,6 +942,7 @@
      category. A click before consent is not queued. */
   (function mountWaFloat() {
     if (/^\/(lp|q)\/(ihud|mihzur)(\/|\/index\.html)?$/i.test(String(location.pathname || ''))) return;
+    if (document.documentElement.getAttribute('data-wa-float') === 'off') return;
     var WA_NUMBER = CONFIG.whatsapp;
     var LABEL = 'וואטסאפ — לתיאום שיחה';
     var GREETING = 'שלום, אשמח לתיאום שיחה';
