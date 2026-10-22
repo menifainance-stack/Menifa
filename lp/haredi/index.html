@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="he" dir="rtl" class="lp-haredi" data-wa-float="off" data-utm-default="utm_source=lp-haredi-direct&amp;utm_medium=none">
+<html lang="he" dir="rtl" class="lp-haredi" data-wa-float="off">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -95,6 +95,7 @@
 <input type="hidden" name="utm_content" value="">
 <input type="hidden" name="utm_term" value="">
 <input type="hidden" name="ref_host" value="">
+<input type="hidden" name="landing" value="">
 <button class="hz-btn hz-btn-primary" type="submit">שלחו, ונחזור אליכם</button>
 </form>
 <div class="form-ok" tabindex="-1" role="status"><p data-f="okmsg"></p><a class="hz-btn hz-btn-primary" data-f="tel" hidden href="tel:0524502821">התקשרו: <bdi dir="ltr">052-4502821</bdi></a></div>
@@ -219,20 +220,18 @@
     values.utm_term = '';
     try {
       var att = stored && typeof stored === 'object' ? stored : {};
+      keys.forEach(function (key) { delete att[key]; });
       att.utm_source = values.utm_source;
       att.utm_medium = values.utm_medium;
-      delete att.utm_campaign;
-      delete att.utm_content;
-      delete att.utm_term;
+      if (!att.landing) att.landing = location.pathname;
       sessionStorage.setItem('menifa-att', JSON.stringify(att));
     } catch (e2) {}
   } else {
     try {
       var attUrl = stored && typeof stored === 'object' ? stored : {};
-      keys.forEach(function (key) {
-        if (values[key]) attUrl[key] = values[key];
-        else delete attUrl[key];
-      });
+      keys.forEach(function (key) { delete attUrl[key]; });
+      keys.forEach(function (key) { if (values[key]) attUrl[key] = values[key]; });
+      if (!attUrl.landing) attUrl.landing = location.pathname;
       sessionStorage.setItem('menifa-att', JSON.stringify(attUrl));
     } catch (e3) {}
   }
@@ -245,8 +244,9 @@
     }
   } catch (e4) {}
   values.ref_host = refHost;
+  values.landing = (stored && stored.landing) ? String(stored.landing) : location.pathname;
   if (!values.utm_source) values.utm_source = 'lp-haredi-direct';
-  keys.concat(['ref_host']).forEach(function (key) {
+  keys.concat(['ref_host', 'landing']).forEach(function (key) {
     var el = form.querySelector('[name="' + key + '"]');
     if (el) el.value = values[key] || '';
   });

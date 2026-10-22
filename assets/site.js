@@ -436,19 +436,24 @@
   // remember campaign attribution for the whole visit (first landing page)
   try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
     var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-    var utmDefault = document.documentElement.getAttribute('data-utm-default');
+    var harediLp = document.documentElement.classList.contains('lp-haredi');
     ['gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
-    /* UTM group is one unit. Stored first-touch wins. On lp-haredi the direct default runs only when that store has no utm_source. */
-    if (!(utmDefault && att0.utm_source)) {
+    if (harediLp) {
+      /* UTM group is one unit. A stored first-touch utm_source keeps the whole group.
+         A write (URL utm_source, or the direct default) clears every utm_* key first
+         so an earlier utm_content/utm_term cannot survive. landing is not part of the group. */
+      if (qp.get('utm_source') && !att0.utm_source) {
+        utmKeys.forEach(function (k) { delete att0[k]; });
+        utmKeys.forEach(function (k) { if (qp.get(k)) att0[k] = qp.get(k); });
+        got = true;
+      } else if (!qp.get('utm_source') && !att0.utm_source) {
+        utmKeys.forEach(function (k) { delete att0[k]; });
+        att0.utm_source = 'lp-haredi-direct';
+        att0.utm_medium = 'none';
+        got = true;
+      }
+    } else {
       utmKeys.forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
-    }
-    if (utmDefault && !qp.get('utm_source') && !att0.utm_source) {
-      att0.utm_source = 'lp-haredi-direct';
-      att0.utm_medium = 'none';
-      delete att0.utm_campaign;
-      delete att0.utm_content;
-      delete att0.utm_term;
-      got = true;
     }
     if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
     if (got) sessionStorage.setItem('menifa-att', JSON.stringify(att0));
@@ -470,8 +475,9 @@
       });
     }
     else if (/^tel:/.test(h)) {
-      var phoneParams = { page: location.pathname, page_path: location.pathname };
+      var phoneParams = { page: location.pathname };
       if (document.documentElement.classList.contains('lp-haredi')) {
+        phoneParams.page_path = location.pathname;
         var phoneForm = document.querySelector('form[data-lead="lp-haredi"]');
         ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
           var phoneField = phoneForm && phoneForm.querySelector('[name="' + k + '"]');
@@ -694,6 +700,7 @@
       data.event_id = ids.event_id || '';
       var att = {}; try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (er) {}
       Object.keys(att).forEach(function (k) { data[k] = att[k]; });
+      if (leadKey === 'lp-haredi' && !data.landing) data.landing = location.pathname;
       data.fbp = ids.fbp || '';
       data.fbc = ids.fbc || '';
       data.ua = navigator.userAgent;
