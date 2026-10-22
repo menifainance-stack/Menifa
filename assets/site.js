@@ -436,9 +436,13 @@
   // remember campaign attribution for the whole visit (first landing page)
   try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
-    /* Opt-in page defaults. Applied only when the URL has no utm_source and the visit has none stored yet. Incoming URL values already copied above win. */
+    /* Opt-in page defaults. Any utm_* already in the URL is left as-is. The default runs only when this URL has no utm_* and the visit has no utm_source yet. */
     var utmDefault = document.documentElement.getAttribute('data-utm-default');
-    if (utmDefault && !qp.get('utm_source') && !att0.utm_source) {
+    var urlHasUtm = false;
+    qp.forEach(function (value, key) {
+      if (value && key.indexOf('utm_') === 0) urlHasUtm = true;
+    });
+    if (utmDefault && !urlHasUtm && !att0.utm_source) {
       new URLSearchParams(utmDefault).forEach(function (value, key) {
         if (value && !att0[key]) { att0[key] = value; got = true; }
       });
