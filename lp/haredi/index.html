@@ -210,7 +210,15 @@
   keys.forEach(function (key) { values[key] = params.get(key) || ''; });
   var stored = null;
   try { stored = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (e) { stored = null; }
-  if (stored && stored.utm_source) {
+  if (params.get('utm_source')) {
+    try {
+      var attUrl = stored && typeof stored === 'object' ? stored : {};
+      keys.forEach(function (key) { delete attUrl[key]; });
+      keys.forEach(function (key) { if (values[key]) attUrl[key] = values[key]; });
+      if (!attUrl.landing) attUrl.landing = location.pathname;
+      sessionStorage.setItem('menifa-att', JSON.stringify(attUrl));
+    } catch (e3) {}
+  } else if (stored && stored.utm_source) {
     keys.forEach(function (key) { values[key] = stored[key] ? String(stored[key]) : ''; });
   } else if (!params.get('utm_source')) {
     values.utm_source = 'lp-haredi-direct';
@@ -226,14 +234,6 @@
       if (!att.landing) att.landing = location.pathname;
       sessionStorage.setItem('menifa-att', JSON.stringify(att));
     } catch (e2) {}
-  } else {
-    try {
-      var attUrl = stored && typeof stored === 'object' ? stored : {};
-      keys.forEach(function (key) { delete attUrl[key]; });
-      keys.forEach(function (key) { if (values[key]) attUrl[key] = values[key]; });
-      if (!attUrl.landing) attUrl.landing = location.pathname;
-      sessionStorage.setItem('menifa-att', JSON.stringify(attUrl));
-    } catch (e3) {}
   }
   var refHost = '';
   try {

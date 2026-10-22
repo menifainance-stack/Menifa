@@ -438,21 +438,21 @@
     var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
     var harediLp = document.documentElement.classList.contains('lp-haredi');
     ['gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
-    if (harediLp) {
-      /* UTM group is one unit. A stored first-touch utm_source keeps the whole group.
-         A write (URL utm_source, or the direct default) clears every utm_* key first
-         so an earlier utm_content/utm_term cannot survive. landing is not part of the group. */
-      if (qp.get('utm_source') && !att0.utm_source) {
-        utmKeys.forEach(function (k) { delete att0[k]; });
-        utmKeys.forEach(function (k) { if (qp.get(k)) att0[k] = qp.get(k); });
-        got = true;
-      } else if (!qp.get('utm_source') && !att0.utm_source) {
-        utmKeys.forEach(function (k) { delete att0[k]; });
-        att0.utm_source = 'lp-haredi-direct';
-        att0.utm_medium = 'none';
-        got = true;
-      }
-    } else {
+    if (harediLp && qp.get('utm_source')) {
+      /* A URL utm_source replaces the stored group, same as every other page.
+         On /lp/haredi the replacement deletes every utm_* key first, so a stale
+         utm_content/utm_term cannot survive. landing is not part of the group. */
+      utmKeys.forEach(function (k) { delete att0[k]; });
+      utmKeys.forEach(function (k) { if (qp.get(k)) att0[k] = qp.get(k); });
+      got = true;
+    } else if (harediLp && !qp.get('utm_source') && !att0.utm_source) {
+      utmKeys.forEach(function (k) { delete att0[k]; });
+      att0.utm_source = 'lp-haredi-direct';
+      att0.utm_medium = 'none';
+      got = true;
+    } else if (!harediLp) {
+      /* Pre-existing site-wide merge, left as it is. A new URL utm_source overwrites
+         a stored first-touch. Keys absent from the URL stay stored. */
       utmKeys.forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
     }
     if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
