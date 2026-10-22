@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="he" dir="rtl" class="lp-haredi" data-wa-float="off" data-utm-default="utm_source=lp-haredi-direct">
+<html lang="he" dir="rtl" class="lp-haredi" data-wa-float="off" data-utm-default="utm_source=lp-haredi-direct&amp;utm_medium=none">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -89,6 +89,11 @@
 <label class="consent" for="f-haredi-c"><input id="f-haredi-c" name="consent" type="checkbox"><span>אני מאשר/ת שמניפה פיננסית תחזור אליי בטלפון או בוואטסאפ בנוגע לפנייה, ושקראתי את <a href="../../privacy.html" style="color:inherit;text-decoration:underline">מדיניות הפרטיות</a>. הפרטים ישמשו רק לטיפול בפנייה.</span></label>
 <label class="consent" for="f-haredi-m"><input id="f-haredi-m" name="marketing" type="checkbox"><span>אשמח לקבל עדכונים מקצועיים ותוכן שיווקי (לא חובה, אפשר להסיר בכל עת).</span></label>
 <p class="form-err" id="haredi-err" aria-live="polite"></p>
+<input type="hidden" name="utm_source" value="">
+<input type="hidden" name="utm_medium" value="">
+<input type="hidden" name="utm_campaign" value="">
+<input type="hidden" name="utm_content" value="">
+<input type="hidden" name="utm_term" value="">
 <button class="hz-btn hz-btn-primary" type="submit">שלחו, ונחזור אליכם</button>
 </form>
 <div class="form-ok" tabindex="-1" role="status"><p data-f="okmsg"></p><a class="hz-btn hz-btn-primary" data-f="tel" hidden href="tel:0524502821">התקשרו: <bdi dir="ltr">052-4502821</bdi></a></div>
@@ -193,5 +198,20 @@
 </div></div>
 </div>
 <script src="../../assets/site.js"></script>
+<script>
+(function () {
+  var form = document.querySelector('form[data-lead="lp-haredi"]');
+  if (!form) return;
+  var att = {};
+  try { att = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (e) {}
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (key) {
+    var el = form.querySelector('[name="' + key + '"]');
+    if (!el) return;
+    var value = att[key] ? String(att[key]) : '';
+    if (!value) { el.parentNode.removeChild(el); return; }
+    el.value = value;
+  });
+})();
+</script>
 </body>
 </html>

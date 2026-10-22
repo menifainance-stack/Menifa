@@ -345,7 +345,7 @@
     quiz_start: { quiz: 1 },
     quiz_complete: { quiz: 1 },
     form_start: { form_id: 1, page_path: 1, lead_source: 1 },
-    contact_phone: { page: 1, page_path: 1 },
+    contact_phone: { page: 1, page_path: 1, utm_source: 1, utm_medium: 1, utm_campaign: 1, utm_content: 1, utm_term: 1 },
     calculator_use: { calculator: 1, page: 1, page_path: 1 }
   };
   var BLOCK_KEYS = { need: 1, answers: 1, currency: 1, value: 1, phone: 1, name: 1, email: 1, form: 1, link_text: 1, note: 1, income: 1, loan: 1, balance: 1, equity: 1, health: 1, amount: 1, text: 1, message: 1, ua: 1 };
@@ -436,16 +436,13 @@
   // remember campaign attribution for the whole visit (first landing page)
   try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
-    /* Opt-in page defaults. Any utm_* already in the URL is left as-is. The default runs only when this URL has no utm_* and the visit has no utm_source yet. */
+    /* Opt-in (lp-haredi only). If this URL has no utm_source — nothing, or only utm_medium — force source and medium. Never invent utm_campaign. Never use hm-news as a fallback. A URL that already has utm_source is copied above and left as-is. */
     var utmDefault = document.documentElement.getAttribute('data-utm-default');
-    var urlHasUtm = false;
-    qp.forEach(function (value, key) {
-      if (value && key.indexOf('utm_') === 0) urlHasUtm = true;
-    });
-    if (utmDefault && !urlHasUtm && !att0.utm_source) {
-      new URLSearchParams(utmDefault).forEach(function (value, key) {
-        if (value && !att0[key]) { att0[key] = value; got = true; }
-      });
+    if (utmDefault && !qp.get('utm_source')) {
+      att0.utm_source = 'lp-haredi-direct';
+      att0.utm_medium = 'none';
+      delete att0.utm_campaign;
+      got = true;
     }
     if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
     if (got) sessionStorage.setItem('menifa-att', JSON.stringify(att0));
@@ -466,7 +463,24 @@
         link_url: waLinkUrl(a.href || h)
       });
     }
-    else if (/^tel:/.test(h)) window.menifaTrack('contact_phone', { page: location.pathname });
+    else if (/^tel:/.test(h)) {
+      var phoneParams = { page: location.pathname, page_path: location.pathname };
+      if (document.documentElement.classList.contains('lp-haredi')) {
+        var phoneAtt = {};
+        try { phoneAtt = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'); } catch (errAtt) {}
+        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
+          if (phoneAtt[k]) phoneParams[k] = String(phoneAtt[k]).slice(0, 120);
+        });
+        var phoneEvent = { event: 'contact_phone' };
+        Object.keys(phoneParams).forEach(function (k) { phoneEvent[k] = phoneParams[k]; });
+        (window.dataLayer = window.dataLayer || []).push(phoneEvent);
+        try {
+          var phoneBlob = new Blob([new URLSearchParams(phoneEvent).toString()], { type: 'application/x-www-form-urlencoded' });
+          if (navigator.sendBeacon) navigator.sendBeacon(location.origin + '/lp/haredi/?event=contact_phone', phoneBlob);
+        } catch (errBeacon) {}
+      }
+      window.menifaTrack('contact_phone', phoneParams);
+    }
   }, true);
   // first interaction with each calculator
   var usedCalc = {};
