@@ -381,6 +381,7 @@
     (window.dataLayer = window.dataLayer || []).push({ event: 'Lead', event_id: eventId });
   }
   // Campaign landing pages only. Every other page that loads site.js stays on PageView.
+  // lp-haredi is excluded on purpose: no Meta Lead until Meta and PM decide.
   function isCampaignLead(source) {
     return source === 'lp-ihud' || source === 'lp-mihzur';
   }
@@ -435,6 +436,13 @@
   // remember campaign attribution for the whole visit (first landing page)
   try { var qp = new URLSearchParams(location.search), att0 = JSON.parse(sessionStorage.getItem('menifa-att') || '{}'), got = false;
     ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'gbraid', 'wbraid', 'fbclid'].forEach(function (k) { if (qp.get(k)) { att0[k] = qp.get(k); got = true; } });
+    /* Opt-in page defaults. Applied only when the URL has no utm_source and the visit has none stored yet. Incoming URL values already copied above win. */
+    var utmDefault = document.documentElement.getAttribute('data-utm-default');
+    if (utmDefault && !qp.get('utm_source') && !att0.utm_source) {
+      new URLSearchParams(utmDefault).forEach(function (value, key) {
+        if (value && !att0[key]) { att0[key] = value; got = true; }
+      });
+    }
     if (!att0.landing) { att0.landing = location.pathname; att0.referrer = document.referrer ? new URL(document.referrer).hostname : 'direct'; got = true; }
     if (got) sessionStorage.setItem('menifa-att', JSON.stringify(att0));
     /* The address bar stays intact, including fbclid, so Meta can write _fbc after marketing consent.
@@ -613,6 +621,16 @@
     run();
   });
 
+  /* Israeli mobile, geographic landline, or 07x. Used only when a form opts in with data-phone-mode="any-il". */
+  function validIlPhone(raw) {
+    var d = String(raw || '').replace(/[^\d+]/g, '');
+    if (d.indexOf('+972') === 0) d = '0' + d.slice(4);
+    else if (d.indexOf('972') === 0) d = '0' + d.slice(3);
+    d = d.replace(/\D/g, '');
+    if (/^5\d{8}$/.test(d)) d = '0' + d;
+    return /^05\d{8}$/.test(d) || /^0[23489]\d{7}$/.test(d) || /^07\d{8}$/.test(d);
+  }
+
   /* ===== lead forms ===== */
   $$('form[data-lead]').forEach(function (form) {
     var err = $('.form-err', form), ok = form.parentNode.querySelector('.form-ok');
@@ -634,8 +652,23 @@
       var data = {}, extra = [];
       $$('input, select, textarea', form).forEach(function (el) { if (!el.name) return; if (el.type === 'radio') { if (el.checked) data[el.name] = el.value; return; } data[el.name] = el.type === 'checkbox' ? el.checked : el.value.trim(); });
       $$('fieldset[data-q]', form).forEach(function (fs) { var c = $('input:checked', fs); if (c) extra.push($('legend', fs).textContent.trim() + ' ' + c.value); });
+      if (data.kosher_phone === true) extra.push('טלפון כשר: כן');
       if (!data.name || data.name.length < 2) { err.textContent = 'נא למלא שם מלא.'; $('[name=name]', form).focus(); return; }
-      if (!/^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test((data.phone || '').replace(/\s/g, '')) && !/^\+?972/.test(data.phone || '')) { err.textContent = 'נא למלא מספר נייד תקין, לדוגמה 050-1234567.'; $('[name=phone]', form).focus(); return; }
+      var phoneEl = $('[name=phone]', form);
+      if (form.getAttribute('data-phone-mode') === 'any-il') {
+        var phoneRaw = data.phone || '';
+        if (!String(phoneRaw).replace(/\D/g, '')) {
+          err.textContent = form.getAttribute('data-err-phone-empty') || 'בלי מספר טלפון לא נוכל לחזור אליכם. מלאו מספר, בבקשה.';
+          if (phoneEl) { phoneEl.setAttribute('aria-invalid', 'true'); phoneEl.focus(); }
+          return;
+        }
+        if (!validIlPhone(phoneRaw)) {
+          err.textContent = form.getAttribute('data-err-phone-bad') || 'המספר לא נראה תקין. בדקו אותו שוב, בבקשה.';
+          if (phoneEl) { phoneEl.setAttribute('aria-invalid', 'true'); phoneEl.focus(); }
+          return;
+        }
+        if (phoneEl) phoneEl.removeAttribute('aria-invalid');
+      } else if (!/^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test((data.phone || '').replace(/\s/g, '')) && !/^\+?972/.test(data.phone || '')) { err.textContent = 'נא למלא מספר נייד תקין, לדוגמה 050-1234567.'; phoneEl.focus(); return; }
       if (!data.consent) { err.textContent = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.'; $('[name=consent]', form).focus(); return; }
       err.textContent = '';
       data.page = location.pathname; data.source = form.getAttribute('data-lead'); data.ts = new Date().toISOString();
@@ -653,12 +686,25 @@
       data.answers = extra;
       var finish = function (sent) {
         form.hidden = true;
-        if (ok) {
-          ok.classList.add('show');
-          $('[data-f=okmsg]', ok).textContent = sent ? 'הפרטים התקבלו. תמיר יחזור אליכם בהקדם, בשעות הפעילות.' : 'עוד צעד אחד: לחצו על הכפתור כדי לשלוח את הפרטים לתמיר בוואטסאפ.';
-          var a = $('[data-f=wa]', ok); a.href = waLink(msg); a.textContent = sent ? 'רוצים מענה מהיר יותר? כתבו בוואטסאפ' : 'שליחת הפרטים בוואטסאפ';
+        if (!ok) return;
+        ok.classList.add('show');
+        if (form.getAttribute('data-fallback') === 'tel') {
+          var telBtn = $('[data-f=tel]', ok);
+          var waBtn = $('[data-f=wa]', ok);
+          if (waBtn) waBtn.hidden = true;
+          if (sent) {
+            $('[data-f=okmsg]', ok).textContent = form.getAttribute('data-ok-msg') || 'תודה, הפרטים הגיעו. תמיר יחזור אליכם בטלפון בהקדם, בשעות הפעילות.';
+            if (telBtn) telBtn.hidden = true;
+          } else {
+            $('[data-f=okmsg]', ok).textContent = form.getAttribute('data-fail-msg') || 'הפרטים לא נשלחו, כנראה בגלל החיבור. אפשר להתקשר ישירות.';
+            if (telBtn) telBtn.hidden = false;
+          }
           ok.focus();
+          return;
         }
+        $('[data-f=okmsg]', ok).textContent = sent ? 'הפרטים התקבלו. תמיר יחזור אליכם בהקדם, בשעות הפעילות.' : 'עוד צעד אחד: לחצו על הכפתור כדי לשלוח את הפרטים לתמיר בוואטסאפ.';
+        var a = $('[data-f=wa]', ok); a.href = waLink(msg); a.textContent = sent ? 'רוצים מענה מהיר יותר? כתבו בוואטסאפ' : 'שליחת הפרטים בוואטסאפ';
+        ok.focus();
       };
       if (CONFIG.leadWebhook) {
         // form-urlencoded + cors, so a non-2xx Make response is visible. keepalive survives page navigation.

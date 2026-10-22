@@ -1,0 +1,629 @@
+/* /lp/haredi/ — calm light page. Mercury ink and gold, no decorative motion. */
+@font-face {
+  font-family: "Frank Ruhl Libre";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/frank-ruhl-libre-500-hebrew.woff2") format("woff2");
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+@font-face {
+  font-family: "Heebo";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("fonts/heebo-hebrew.woff2") format("woff2");
+  unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F;
+}
+@font-face {
+  font-family: "Heebo";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("fonts/heebo-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+2013-2014, U+2026, U+20AC;
+}
+
+html.lp-haredi {
+  color-scheme: light;
+  background: #F7F4EE;
+  --f-display: "Frank Ruhl Libre", "Times New Roman", serif;
+  --f-body: "Heebo", "Arial Hebrew", Arial, sans-serif;
+  --f-num: "Heebo", Arial, sans-serif;
+  --em-950: #F7F4EE;
+  --em-900: #F7F4EE;
+  --em-800: #0E3C5C;
+  --em-700: #0E3C5C;
+  --ivory: #0E3C5C;
+  --ink: #0E3C5C;
+  --ink-soft: #24384A;
+  --paper: #FFFFFF;
+  --muted: #24384A;
+  --muted-2: #24384A;
+  --muted-3: #3E5160;
+  --gold: #B8956A;
+  --gold-hi: #0E3C5C;
+  --gold-deep: #B8956A;
+  --line: #E4D8C4;
+  --line-soft: #E4D8C4;
+  --line-strong: #0E3C5C;
+}
+
+body.lp-haredi {
+  background: #F7F4EE;
+  color: #0E3C5C;
+  font-family: "Heebo", "Arial Hebrew", Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+body.lp-haredi:has(#cookie:not([hidden])) {
+  padding-bottom: 240px;
+}
+
+html.lp-haredi :focus-visible {
+  outline: 3px solid #0E3C5C;
+  outline-offset: 3px;
+}
+
+body.lp-haredi .skip {
+  background: #0E3C5C;
+  color: #fff;
+}
+
+body.lp-haredi .site-head {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(247, 244, 238, 0.96);
+  border-bottom: 1px solid #E4D8C4;
+}
+
+body.lp-haredi .head-row {
+  padding-block: 12px;
+  gap: 10px;
+}
+
+body.lp-haredi .brand {
+  min-width: 0;
+}
+
+body.lp-haredi .brand-name b {
+  font-size: clamp(1.05rem, 4.2vw, 1.45rem);
+}
+
+body.lp-haredi .hz-tel {
+  flex: none;
+}
+
+body.lp-haredi .brand,
+body.lp-haredi .brand-name b {
+  color: #0E3C5C;
+}
+
+body.lp-haredi .brand-name b {
+  font-weight: 500;
+}
+
+body.lp-haredi .hz-tel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: #0E3C5C;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+body.lp-haredi main {
+  padding-block: 28px 64px;
+}
+
+body.lp-haredi .hz-hero-grid {
+  display: grid;
+  gap: 28px;
+  align-items: start;
+}
+
+body.lp-haredi .hz-kicker {
+  margin: 0 0 10px;
+  color: #3E5160;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+body.lp-haredi h1 {
+  font-family: "Frank Ruhl Libre", "Times New Roman", serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 8vw, 3.35rem);
+  line-height: 1.25;
+  color: #0E3C5C;
+  margin: 0 0 14px;
+}
+
+body.lp-haredi h2 {
+  font-family: "Frank Ruhl Libre", "Times New Roman", serif;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 4vw, 2.15rem);
+  line-height: 1.3;
+  color: #0E3C5C;
+  margin: 0 0 14px;
+}
+
+body.lp-haredi h3 {
+  font-family: "Heebo", "Arial Hebrew", Arial, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0 0 6px;
+  color: #0E3C5C;
+}
+
+body.lp-haredi .hz-lead,
+body.lp-haredi .hz-block p,
+body.lp-haredi li {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: #24384A;
+}
+
+body.lp-haredi .hz-lead {
+  margin: 0 0 18px;
+}
+
+body.lp-haredi .hz-points,
+body.lp-haredi .hz-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+body.lp-haredi .hz-points li,
+body.lp-haredi .hz-list li {
+  position: relative;
+  padding-inline-start: 18px;
+}
+
+body.lp-haredi .hz-points li::before,
+body.lp-haredi .hz-list li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 1.5px solid #B8956A;
+  border-radius: 50%;
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.62em;
+  background: transparent;
+}
+
+body.lp-haredi .hz-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+body.lp-haredi .hz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  min-width: 44px;
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1.5px solid #0E3C5C;
+  font: 600 1rem/1.3 "Heebo", "Arial Hebrew", Arial, sans-serif;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+body.lp-haredi .hz-btn-primary {
+  background: #0E3C5C;
+  color: #fff;
+}
+
+body.lp-haredi .hz-btn-secondary,
+body.lp-haredi .hz-btn-wa {
+  background: #fff;
+  color: #0E3C5C;
+}
+
+body.lp-haredi .hz-trustline {
+  margin: 18px 0 0;
+  color: #3E5160;
+  font-size: 0.95rem;
+}
+
+body.lp-haredi .hz-form-card {
+  background: #fff;
+  border: 1px solid #E6DCC8;
+  border-inline-start: 4px solid #C4A574;
+  border-radius: 16px;
+  padding: 20px 16px 22px;
+  scroll-margin-top: 84px;
+}
+
+body.lp-haredi .hz-form-card h2 {
+  font-size: 1.65rem;
+}
+
+body.lp-haredi .hz-form-card .hz-sub {
+  margin: 0 0 16px;
+  color: #24384A;
+}
+
+body.lp-haredi .lead-form {
+  gap: 18px;
+}
+
+body.lp-haredi .lead-form .row {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body.lp-haredi .lead-form label,
+body.lp-haredi .hz-legend {
+  color: #0E3C5C;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+body.lp-haredi fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+body.lp-haredi .hz-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+body.lp-haredi .hz-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid #D9CDB8;
+  border-radius: 999px;
+  background: #fff;
+  color: #0E3C5C;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+body.lp-haredi .hz-choice input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: #0E3C5C;
+  flex: none;
+}
+
+body.lp-haredi .hz-choice:has(input:checked) {
+  border-color: #0E3C5C;
+  background: #E7F3F8;
+}
+
+body.lp-haredi .lead-form input[type="text"],
+body.lp-haredi .lead-form input[type="tel"] {
+  min-height: 48px;
+  font-size: 1rem;
+  background: #fff;
+  color: #0E3C5C;
+  border: 1px solid #C9BBA6;
+  border-radius: 10px;
+}
+
+body.lp-haredi .hz-phone {
+  direction: ltr;
+  text-align: right;
+}
+
+body.lp-haredi .lead-form input:focus {
+  border-color: #0E3C5C;
+  outline: 3px solid #0E3C5C;
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+body.lp-haredi .consent {
+  min-height: 44px;
+  padding-block: 6px;
+  color: #24384A;
+  font-size: 0.98rem;
+  font-weight: 400;
+}
+
+body.lp-haredi .consent input {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  accent-color: #0E3C5C;
+}
+
+body.lp-haredi .consent a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+body.lp-haredi .form-err {
+  color: #8E1D2C;
+  font-size: 0.95rem;
+  font-weight: 600;
+  min-height: 0;
+  margin: 0;
+}
+
+body.lp-haredi .form-ok {
+  background: #E7F2EA;
+  border: 1px solid #1F6F4A;
+  color: #0E3C5C;
+  border-radius: 12px;
+  margin-top: 14px;
+}
+
+body.lp-haredi .form-ok p {
+  margin: 0;
+  color: #0E3C5C;
+}
+
+body.lp-haredi .hz-noscript {
+  margin: 14px 0 0;
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #E6DCC8;
+  border-radius: 12px;
+  color: #0E3C5C;
+}
+
+body.lp-haredi .hz-noscript a {
+  color: #0E3C5C;
+  font-weight: 700;
+}
+
+body.lp-haredi .hz-block {
+  margin-top: 56px;
+}
+
+body.lp-haredi .hz-end {
+  margin: 16px 0 0;
+  font-weight: 600;
+  color: #0E3C5C;
+}
+
+body.lp-haredi .hz-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 16px;
+  counter-reset: step;
+}
+
+body.lp-haredi .hz-steps li {
+  position: relative;
+  padding-inline-start: 42px;
+  color: #24384A;
+}
+
+body.lp-haredi .hz-steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid #B8956A;
+  color: #0E3C5C;
+  display: grid;
+  place-items: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+body.lp-haredi .hz-fit {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+body.lp-haredi .hz-card {
+  background: #fff;
+  border: 1px solid #E6DCC8;
+  border-radius: 14px;
+  padding: 16px;
+  color: #24384A;
+}
+
+body.lp-haredi .hz-card svg {
+  display: block;
+  margin-bottom: 10px;
+  color: #0E3C5C;
+}
+
+body.lp-haredi .hz-card p {
+  margin: 0;
+}
+
+body.lp-haredi .hz-faq {
+  display: grid;
+  gap: 8px;
+}
+
+body.lp-haredi .hz-faq details {
+  background: #fff;
+  border: 1px solid #E6DCC8;
+  border-radius: 12px;
+  padding: 0 14px;
+}
+
+body.lp-haredi .hz-faq summary {
+  min-height: 44px;
+  padding: 12px 0;
+  cursor: pointer;
+  font-weight: 700;
+  color: #0E3C5C;
+  list-style: none;
+}
+
+body.lp-haredi .hz-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+body.lp-haredi .hz-faq details p {
+  margin: 0 0 14px;
+  color: #24384A;
+}
+
+body.lp-haredi .hz-faq a {
+  color: #0E3C5C;
+  font-weight: 700;
+}
+
+body.lp-haredi .hz-bottom .hz-actions {
+  margin-top: 16px;
+}
+
+body.lp-haredi .hz-soft {
+  margin: 12px 0 0;
+  color: #3E5160;
+}
+
+body.lp-haredi .site-foot {
+  background: #F7F4EE;
+  color: #0E3C5C;
+  border-top: 1px solid #E4D8C4;
+  padding-block: 36px 28px;
+}
+
+body.lp-haredi .hz-member {
+  margin: 0 0 16px;
+  font-weight: 600;
+  color: #0E3C5C;
+}
+
+body.lp-haredi .hz-member a {
+  color: inherit;
+}
+
+body.lp-haredi .disclaimer {
+  color: #3E5160;
+  border-top: 1px solid #E4D8C4;
+  margin-top: 8px;
+  font-size: 0.92rem;
+}
+
+body.lp-haredi .hz-foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  margin: 18px 0 0;
+  color: #0E3C5C;
+}
+
+body.lp-haredi .hz-foot-links a,
+body.lp-haredi .hz-foot-links button {
+  color: #0E3C5C;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+}
+
+body.lp-haredi .hz-foot-links button {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+body.lp-haredi .cookie .btn-a {
+  background: #0E3C5C;
+  color: #fff;
+  box-shadow: none;
+}
+
+body.lp-haredi .cookie .btn-line-dark,
+body.lp-haredi .modal .btn-line-dark {
+  border-color: #0E3C5C;
+  color: #0E3C5C;
+  background: #fff;
+}
+
+body.lp-haredi .switch {
+  width: 64px;
+  height: 44px;
+}
+
+body.lp-haredi .switch span::after {
+  width: 36px;
+  height: 36px;
+  top: 4px;
+}
+
+body.lp-haredi .switch input:checked + span::after {
+  transform: translateX(-20px);
+}
+
+@media (min-width: 800px) {
+  body.lp-haredi .hz-hero-grid {
+    grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+    gap: 40px;
+  }
+
+  body.lp-haredi .hz-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  body.lp-haredi .hz-btn {
+    width: auto;
+  }
+
+  body.lp-haredi .hz-form-card .hz-btn {
+    width: 100%;
+  }
+
+  body.lp-haredi .hz-fit {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  body.lp-haredi:has(#cookie:not([hidden])) {
+    padding-bottom: 160px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.lp-haredi {
+    scroll-behavior: auto;
+  }
+}
