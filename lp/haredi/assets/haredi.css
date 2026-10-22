@@ -141,8 +141,8 @@ body.lp-haredi .hz-kicker {
 body.lp-haredi h1 {
   font-family: "Frank Ruhl Libre", "Times New Roman", serif;
   font-weight: 500;
-  font-size: clamp(2rem, 8vw, 3.35rem);
-  line-height: 1.25;
+  font-size: clamp(2.6rem, 11vw, 3.8rem);
+  line-height: 1.22;
   color: #0E3C5C;
   margin: 0 0 14px;
 }
