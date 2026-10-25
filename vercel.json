@@ -496,7 +496,9 @@
    "dest": "/__blocked-internal-md",
    "status": 404,
    "headers": {
-    "X-Robots-Tag": "noindex"
+    "X-Robots-Tag": "noindex",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
    }
   }
  ]
