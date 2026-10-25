@@ -1,0 +1,26 @@
+# Preview upload exclusions. Same set as .github/workflows/pages-artifact.yml.
+# Production menifa.org is GitHub Pages; this file only affects Vercel.
+# Percent-encoded ".md" paths bypass the vercel.json routes rule and would
+# otherwise return the file. Keeping the files out of the deployment makes
+# those paths 404 with no body.
+#
+# vercel.json is NOT ignored. Vercel reads it for redirects, headers,
+# cleanUrls, and trailingSlash. It is not a public page.
+#
+# No markdown file is intentionally public (none are linked from sitemap,
+# robots, llms, rss, or HTML).
+
+*.md
+docs/
+social/
+.github/
+tools/
+scripts/
+tests/
+redirects.csv
+.gitignore
+.vercelignore
+.env
+.env.*
+*.secret
+.pat

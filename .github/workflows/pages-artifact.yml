@@ -1,0 +1,153 @@
+name: Pages artifact
+
+# Builds the directory GitHub Pages should publish, without internal files.
+# Build and deploy use separate concurrency groups so a pull request cannot
+# cancel a queued deploy on main.
+# actions/deploy-pages runs on a push to main, and on workflow_dispatch only
+# when the ref is main. It does not change Pages settings. While
+# Settings → Pages → Source stays "Deploy from a branch", this deploy job
+# does not publish menifa.org. Switching that source is a live change and
+# needs Tamir's yes. After the switch, run this workflow with
+# workflow_dispatch on main, or re-run the latest main run.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages-build-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - name: Assemble clean site directory
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+          # Exclusions (explicit). No *.md is intentionally public.
+          # Kept on purpose: HTML pages, assets/ (including
+          # assets/data/boi-mortgage-averages.json, which calculators fetch
+          # from the site), blog/, lp/, q/, mockups/, CNAME, .nojekyll,
+          # robots.txt, sitemap*.xml, llms.txt, llms-full.txt, rss.xml,
+          # menifa-indexnow-*.txt, and root verification tokens.
+          # GNU tar exclude patterns (no slash) match that name anywhere.
+          # ./1.jpeg is the repo-root file only. It stays in the repo.
+          tar -cf - \
+            --exclude .git \
+            --exclude _site \
+            --exclude '*.md' \
+            --exclude docs \
+            --exclude social \
+            --exclude .github \
+            --exclude tools \
+            --exclude scripts \
+            --exclude tests \
+            --exclude redirects.csv \
+            --exclude .gitignore \
+            --exclude vercel.json \
+            --exclude .vercelignore \
+            --exclude .env \
+            --exclude '.env.*' \
+            --exclude '*.secret' \
+            --exclude .pat \
+            --exclude ./1.jpeg \
+            . | tar -C _site -xf -
+          echo "files=$(find _site -type f | wc -l)"
+
+      - name: Fail if markdown or an excluded path is in the site
+        run: |
+          set -euo pipefail
+          leaked=0
+          if find _site -iname '*.md' -print | grep -q .; then
+            echo "markdown leaked into the site directory:"
+            find _site -iname '*.md' -print
+            leaked=1
+          fi
+          for d in docs social .github tools scripts tests; do
+            if [ -e "_site/$d" ]; then
+              echo "excluded directory leaked: $d"
+              leaked=1
+            fi
+          done
+          for f in redirects.csv .gitignore vercel.json .vercelignore 1.jpeg; do
+            if [ -e "_site/$f" ]; then
+              echo "excluded work file leaked: $f"
+              leaked=1
+            fi
+          done
+          if [ "$leaked" -ne 0 ]; then
+            exit 1
+          fi
+          echo "clean: no markdown and no excluded work paths"
+
+      - name: Fail if a required public file is missing
+        run: |
+          set -euo pipefail
+          missing=0
+          for f in CNAME .nojekyll robots.txt sitemap.xml sitemap-pages.xml sitemap-index.xml llms.txt llms-full.txt rss.xml assets/data/boi-mortgage-averages.json; do
+            if [ ! -f "_site/$f" ]; then
+              echo "missing required public file: $f"
+              missing=1
+            fi
+          done
+          # Repo-root verification files must be copied. ads.txt is required
+          # only when the repo actually has one (it does not today).
+          shopt -s nullglob
+          for f in google*.html *verification* BingSiteAuth.xml facebook-domain-verification* menifa-indexnow-*.txt a7f3b2c8e9d14f6a8b5c2e9f1d3a7b4e.txt ads.txt; do
+            if [ -f "$f" ] && [ ! -f "_site/$f" ]; then
+              echo "missing verification or ads file: $f"
+              missing=1
+            fi
+          done
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+          echo "required public files present"
+          find _site -type f | sed 's|^_site/||' | sort
+
+      # upload-pages-artifact v3.0.1 archives with tar and keeps dotfiles.
+      # v4 and v5 exclude them unless include-hidden-files is true, which
+      # would drop .nojekyll. This step mirrors the v3 archive command.
+      - name: Confirm the Pages tar keeps CNAME and .nojekyll
+        run: |
+          set -euo pipefail
+          tar --directory _site -cf /tmp/pages-check.tar --exclude=.git --exclude=.github .
+          tar -tf /tmp/pages-check.tar > /tmp/pages-check.list
+          grep -qx './.nojekyll' /tmp/pages-check.list
+          grep -qx './CNAME' /tmp/pages-check.list
+          if grep -Ei '(^|/)[^/]*\.md$|(^|/)(docs|social|\.github|tools|scripts|tests)(/|$)' /tmp/pages-check.list; then
+            echo "excluded path inside the Pages tar"
+            exit 1
+          fi
+
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: _site
+          retention-days: 14
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
