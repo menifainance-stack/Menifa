@@ -117,9 +117,10 @@ jobs:
         run: |
           set -euo pipefail
           tar --directory _site -cf /tmp/pages-check.tar --exclude=.git --exclude=.github .
-          tar -tf /tmp/pages-check.tar | grep -qx './.nojekyll'
-          tar -tf /tmp/pages-check.tar | grep -qx './CNAME'
-          if tar -tf /tmp/pages-check.tar | grep -Ei '(^|/)[^/]*\.md$|(^|/)(docs|social|\.github|tools|scripts|tests)(/|$)' ; then
+          tar -tf /tmp/pages-check.tar > /tmp/pages-check.list
+          grep -qx './.nojekyll' /tmp/pages-check.list
+          grep -qx './CNAME' /tmp/pages-check.list
+          if grep -Ei '(^|/)[^/]*\.md$|(^|/)(docs|social|\.github|tools|scripts|tests)(/|$)' /tmp/pages-check.list; then
             echo "excluded path inside the Pages tar"
             exit 1
           fi
