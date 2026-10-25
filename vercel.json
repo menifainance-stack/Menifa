@@ -479,6 +479,24 @@
      "value": "noindex, nofollow"
     }
    ]
+  },
+  {
+   "source": "/(.*).md",
+   "headers": [
+    {
+     "key": "X-Robots-Tag",
+     "value": "noindex"
+    }
+   ]
+  }
+ ],
+ "routes": [
+  {
+   "src": "/(?:[^/]+\\.md|docs/.+\\.md)",
+   "status": 404,
+   "headers": {
+    "X-Robots-Tag": "noindex"
+   }
   }
  ]
 }
