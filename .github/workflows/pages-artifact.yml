@@ -40,6 +40,7 @@ jobs:
           # robots.txt, sitemap*.xml, llms.txt, llms-full.txt, rss.xml,
           # menifa-indexnow-*.txt, and root verification tokens.
           # GNU tar exclude patterns (no slash) match that name anywhere.
+          # ./1.jpeg is the repo-root file only. It stays in the repo.
           tar -cf - \
             --exclude .git \
             --exclude _site \
@@ -58,6 +59,7 @@ jobs:
             --exclude '.env.*' \
             --exclude '*.secret' \
             --exclude .pat \
+            --exclude ./1.jpeg \
             . | tar -C _site -xf -
           echo "files=$(find _site -type f | wc -l)"
 
@@ -76,7 +78,7 @@ jobs:
               leaked=1
             fi
           done
-          for f in redirects.csv .gitignore vercel.json .vercelignore; do
+          for f in redirects.csv .gitignore vercel.json .vercelignore 1.jpeg; do
             if [ -e "_site/$f" ]; then
               echo "excluded work file leaked: $f"
               leaked=1
