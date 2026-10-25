@@ -493,6 +493,7 @@
  "routes": [
   {
    "src": "/(?:[^/]+\\.md|docs/.+\\.md)",
+   "dest": "/__blocked-internal-md",
    "status": 404,
    "headers": {
     "X-Robots-Tag": "noindex"
