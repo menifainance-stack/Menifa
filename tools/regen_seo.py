@@ -184,16 +184,23 @@ def page_source(path):
 
 
 def page_lastmod(path):
-    """lastmod של עמוד = dateModified האמיתי. 17 ההאבים שנערכו: 2026-10-16."""
+    """lastmod של עמוד = dateModified האמיתי.
+
+    17 ההאבים שנערכו ב-16.10.2026 נשארים על התאריך הזה, אלא אם
+    dateModified בקובץ חדש יותר.
+    """
     key = "/" if path in ("/", "/index.html") else path
-    if key in EDITED_HUBS_2026_10_16 or path in EDITED_HUBS_2026_10_16:
-        return "2026-10-16"
     html = ""
     src = page_source(path)
     if os.path.isfile(src):
         with open(src, encoding="utf-8") as fh:
             html = fh.read()
-    return first(r'"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})', html) or UNEDITED_PAGE_LASTMOD
+    mod = first(r'"dateModified"\s*:\s*"(\d{4}-\d{2}-\d{2})', html)
+    if key in EDITED_HUBS_2026_10_16 or path in EDITED_HUBS_2026_10_16:
+        if mod and mod > "2026-10-16":
+            return mod
+        return "2026-10-16"
+    return mod or UNEDITED_PAGE_LASTMOD
 
 
 def url_block(loc, lastmod, changefreq, priority, x_default=False):

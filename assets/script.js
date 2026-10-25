@@ -25,13 +25,13 @@ const CPI_PERIOD_LABEL = 'ספטמבר 2026';
 const CPI_PUBLISHED_SHORT = '15.10';
 const CPI_INDEX_LEVEL = 105.3; // נקודות, בסיס ממוצע 2024 = 100.0 — למ״ס 326/2026
 // decisionDate (GetInterest lastPublishedDate / press release 01-09-26) is NOT
-// the day the rate takes effect. Live ticker «בתוקף מ-…» reads effectiveFrom
-// from assets/data/boi-mortgage-averages.json (2026-09-03 → 3.9.2026).
+// the day the rate takes effect. effectiveFrom (assets/data/boi-mortgage-averages.json) is internal only.
+// Visible wording (PM 25.10.2026): «מאז ההחלטה מ-1.9.2026», never an effective date.
 // Next business day after 2026-09-01 is 2026-09-02, the last day of the OLD
 // window (BOI: בתוקף עד 02/09/26), so do not derive «בתוקף מ» from decisionDate.
 const BOI_DECISION_DATE = '2026-10-21';
 const BOI_EFFECTIVE_FROM = '2026-09-03';
-const BOI_NEXT_DECISION = '2026-11-24';
+const BOI_NEXT_DECISION = '2026-11-23';
 const MARKET_FALLBACK = {
   boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 21.10.2026)
   prime: 4.75,       // פריים = BoI + 1.5
@@ -42,12 +42,12 @@ const MARKET_FALLBACK = {
   cpiPublishedShort: CPI_PUBLISHED_SHORT,
   cpiSourceUrl: CBS_CPI_PDF,
   decisionDate: BOI_DECISION_DATE,
-  effectiveFrom: BOI_EFFECTIVE_FROM, // טיקר חי: בתוקף מ-3.9.2026 — לא 1.9.2026
+  effectiveFrom: BOI_EFFECTIVE_FROM, // internal only, not displayed. Ticker text: «מאז ההחלטה מ-1.9.2026»
   nextDecisionDate: BOI_NEXT_DECISION,
   // Old #m-update label is the decision/publication date, not «בתוקף מ».
   updateDate: 'מדד 15.10 · BOI 21.10'
 };
-// ממוצעי מסלולי משכנתא (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
+// ממוצעים לפי מגזר ותקופה (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
 
 function formatTickerUpdateDate(boiPublished) {
   const cpi = 'מדד ' + CPI_PUBLISHED_SHORT;
@@ -1152,7 +1152,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
         </a>
         <a href="${pathPrefix}blog/הורדת-ריבית-בדרך-ל-3-5-מה-לעשות-עם-המשכנתא.html" class="drawer-article-card">
           <span class="article-tag">ריבית</span>
-          <div class="article-title">הורדת ריבית נוספת בדרך ל-3.5% — מה לעשות?</div>
+          <div class="article-title">הריבית כבר מתחת ל-3.5%: מה לעשות?</div>
         </a>
         <a href="${pathPrefix}blog/מתי-כדאי-למחזר-משכנתא.html" class="drawer-article-card">
           <span class="article-tag">מחזור</span>
