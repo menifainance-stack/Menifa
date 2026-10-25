@@ -492,7 +492,7 @@
  ],
  "routes": [
   {
-   "src": "/(?:[^/]+\\.md|docs/.+\\.md)",
+   "src": "/.*\\.md",
    "dest": "/__blocked-internal-md",
    "status": 404,
    "headers": {
