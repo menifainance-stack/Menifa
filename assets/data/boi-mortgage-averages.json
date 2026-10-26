@@ -11,7 +11,7 @@
     "nextDecisionDate": "2026-11-23",
     "tickerEffectiveHe": "1.9.2026",
     "tickerNextDecisionHe": "23.11.2026",
-    "effectiveFromNote": "The 3.25% rate was set on 2026-09-01 and is effective from 2026-09-03. lastDecision on 2026-10-21 left the rate unchanged at 3.25% (prime 4.75%): https://www.boi.org.il/publications/pressreleases/21-10-26b/. decisionDate and asOf record that latest decision. effectiveFrom stays 2026-09-03. The live ticker must read: מאז ההחלטה מ-1.9.2026 · ההחלטה הבאה ב-23.11.2026, ולא ידוע מה תהיה. Next publication 2026-11-23: https://www.boi.org.il/roles/monetary-policy/interest-rate-dates. Do not copy decisionDate into the ticker."
+    "effectiveFromNote": "decisionDate is the BOI press-release date (https://www.boi.org.il/publications/pressreleases/01-09-26/), not the day the 3.25% rate takes effect. The previous window is valid through 2026-09-02 (BOI monetary tools: בתוקף עד 02/09/26). The new rate is effective 2026-09-03 (Bank Hapoalim: החל מ-3.9.2026). The live ticker must read: מאז ההחלטה מ-1.9.2026 · ההחלטה הבאה ב-23.11.2026, ולא ידוע מה תהיה. decisionDate and asOf record the 2026-10-21 hold at 3.25% (prime 4.75%). Do not copy decisionDate or GetInterest lastPublishedDate into the ticker label. A next business day after 2026-09-01 is 2026-09-02, which is the last day of the old window, not the start of the new rate. effectiveFrom is stored explicitly and must be checked against Hapoalim and https://www.boi.org.il/roles/markets/monetarytools/ before the weekly rate run rewrites the ticker."
   },
   "mortgageAverages": {
     "periodMonth": "2026-09",
