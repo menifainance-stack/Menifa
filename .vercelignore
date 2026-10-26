@@ -27,11 +27,11 @@ redirects.csv
 
 # noindex work files. They stay in the repo and are not uploaded.
 # Same 17 paths the Pages artifact excludes, plus the root screenshot.
-preview*.html
-mockups.html
-mockups/
-index-v2.html
-assets/v2.css
-assets/v2.js
-assets/premium.*
-1.jpeg
+/preview*.html
+/mockups.html
+/mockups/
+/index-v2.html
+/assets/v2.css
+/assets/v2.js
+/assets/premium.*
+/1.jpeg
