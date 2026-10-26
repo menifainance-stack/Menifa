@@ -36,9 +36,12 @@ jobs:
           # Exclusions (explicit). No *.md is intentionally public.
           # Kept on purpose: HTML pages, assets/ (including
           # assets/data/boi-mortgage-averages.json, which calculators fetch
-          # from the site), blog/, lp/, q/, mockups/, CNAME, .nojekyll,
+          # from the site), blog/, lp/, q/, CNAME, .nojekyll,
           # robots.txt, sitemap*.xml, llms.txt, llms-full.txt, rss.xml,
           # menifa-indexnow-*.txt, and root verification tokens.
+          # Not published (noindex work files, still in the repo):
+          # preview*.html, mockups.html, mockups/, index-v2.html,
+          # assets/v2.css, assets/v2.js, assets/premium.*.
           # GNU tar exclude patterns (no slash) match that name anywhere.
           # ./1.jpeg is the repo-root file only. It stays in the repo.
           tar -cf - \
@@ -60,6 +63,13 @@ jobs:
             --exclude '*.secret' \
             --exclude .pat \
             --exclude ./1.jpeg \
+            --exclude './preview*.html' \
+            --exclude ./mockups.html \
+            --exclude ./mockups \
+            --exclude ./index-v2.html \
+            --exclude ./assets/v2.css \
+            --exclude ./assets/v2.js \
+            --exclude './assets/premium.*' \
             . | tar -C _site -xf -
           echo "files=$(find _site -type f | wc -l)"
 
@@ -78,9 +88,16 @@ jobs:
               leaked=1
             fi
           done
-          for f in redirects.csv .gitignore vercel.json .vercelignore 1.jpeg; do
+          for f in redirects.csv .gitignore vercel.json .vercelignore 1.jpeg CLAUDE.md; do
             if [ -e "_site/$f" ]; then
               echo "excluded work file leaked: $f"
+              leaked=1
+            fi
+          done
+          shopt -s nullglob
+          for f in _site/preview*.html _site/mockups.html _site/mockups _site/index-v2.html _site/assets/v2.css _site/assets/v2.js _site/assets/premium.*; do
+            if [ -e "$f" ]; then
+              echo "excluded work file leaked: ${f#_site/}"
               leaked=1
             fi
           done
