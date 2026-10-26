@@ -24,16 +24,14 @@ const CBS_CPI_TITLE = 'למ״ס הודעה 326/2026 — מדד ספטמבר 2026
 const CPI_PERIOD_LABEL = 'ספטמבר 2026';
 const CPI_PUBLISHED_SHORT = '15.10';
 const CPI_INDEX_LEVEL = 105.3; // נקודות, בסיס ממוצע 2024 = 100.0 — למ״ס 326/2026
-// decisionDate (GetInterest lastPublishedDate / press release 01-09-26) is NOT
-// the day the rate takes effect. Live ticker «בתוקף מ-…» reads effectiveFrom
-// from assets/data/boi-mortgage-averages.json (2026-09-03 → 3.9.2026).
-// Next business day after 2026-09-01 is 2026-09-02, the last day of the OLD
-// window (BOI: בתוקף עד 02/09/26), so do not derive «בתוקף מ» from decisionDate.
+// The 3.25% rate is effective from 2026-09-03. The latest decision, 2026-10-21,
+// left it unchanged. The live ticker reads: מאז ההחלטה מ-1.9.2026.
+// Do not derive that label from decisionDate. Next publication is BOI_NEXT_DECISION.
 const BOI_DECISION_DATE = '2026-10-21';
 const BOI_EFFECTIVE_FROM = '2026-09-03';
 const BOI_NEXT_DECISION = '2026-11-23'; // Publication date on the 2026 BOI decision calendar, checked 2026-10-26. https://www.boi.org.il/roles/monetary-policy/interest-rate-dates
 const MARKET_FALLBACK = {
-  boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 21.10.2026)
+  boi: 3.25,         // ריבית בנק ישראל — ללא שינוי בהחלטה שהתקבלה ב-21.10.2026
   prime: 4.75,       // פריים = BoI + 1.5
   cpiMonthly: -0.5,  // % שינוי חודשי — ספטמבר 2026 מול אוגוסט 2026 (למ״ס 326/2026)
   cpiYearly: 1.6,    // % שינוי שנתי — ספטמבר 2026 מול ספטמבר 2025 (למ״ס 326/2026)
@@ -42,9 +40,9 @@ const MARKET_FALLBACK = {
   cpiPublishedShort: CPI_PUBLISHED_SHORT,
   cpiSourceUrl: CBS_CPI_PDF,
   decisionDate: BOI_DECISION_DATE,
-  effectiveFrom: BOI_EFFECTIVE_FROM, // טיקר חי: בתוקף מ-3.9.2026 — לא 1.9.2026
+  effectiveFrom: BOI_EFFECTIVE_FROM, // טיקר חי: מאז ההחלטה מ-1.9.2026 — לא 1.9.2026
   nextDecisionDate: BOI_NEXT_DECISION,
-  // Old #m-update label is the decision/publication date, not «בתוקף מ».
+  // Old #m-update label is the decision/publication date, not the ticker sentence.
   updateDate: 'מדד 15.10 · BOI 21.10'
 };
 // ממוצעי מסלולי משכנתא (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
