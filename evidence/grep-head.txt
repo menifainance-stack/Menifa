@@ -1,0 +1,4 @@
+a cd112dd04782 <<=0 >>=0 חינם=0 h1_phrase=1 h1s=1
+b 415970274c9e <<=0 >>=0 חינם=0 h1_phrase=1 h1s=1
+c 92edf2ae2ed7 <<=0 >>=0 חינם=0 h1_phrase=1 h1s=1
+meta db3643990f13 <<=0 >>=0 חינם=1 h1_phrase=1 h1s=1

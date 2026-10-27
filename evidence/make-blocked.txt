@@ -1,0 +1,4 @@
+Make webhook probe on the variant א Preview.
+A fetch POST to hook.us2.make.com was intercepted in the browser and aborted (blockedbyclient).
+The page returned ABORTED TypeError. The request did not complete.
+No lead form was submitted.

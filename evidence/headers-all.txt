@@ -1,0 +1,84 @@
+===== a =====
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 15
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline; filename="mashkanta-kablan.html"
+content-type: text/html; charset=utf-8
+date: Tue, 27 Oct 2026 07:34:11 GMT
+etag: "2529745d8617f5cdf99f054f2b9d75af"
+last-modified: Tue, 27 Oct 2026 07:33:56 GMT
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-robots-tag: noindex, nofollow
+x-vercel-cache: HIT
+x-vercel-id: pdx1::9spnt-1793086451397-6e84a8d43e19
+content-length: 45683
+
+
+===== b =====
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 0
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline; filename="mashkanta-kablan.html"
+content-type: text/html; charset=utf-8
+date: Tue, 27 Oct 2026 07:34:11 GMT
+etag: "ddf1b6e9eb45848ea58f7838ab2be5af"
+last-modified: Tue, 27 Oct 2026 07:34:11 GMT
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-robots-tag: noindex, nofollow
+x-vercel-cache: MISS
+x-vercel-id: pdx1::vxt74-1793086451579-4eeaf292c0ed
+content-length: 45742
+
+
+===== c =====
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 0
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline; filename="mashkanta-kablan.html"
+content-type: text/html; charset=utf-8
+date: Tue, 27 Oct 2026 07:34:12 GMT
+etag: "3f122561641172a1b1a8cc7444a0130b"
+last-modified: Tue, 27 Oct 2026 07:34:12 GMT
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-robots-tag: noindex, nofollow
+x-vercel-cache: MISS
+x-vercel-id: pdx1::jtmqk-1793086451956-6f20b007a141
+content-length: 45733
+
+
+===== meta =====
+HTTP/2 200 
+accept-ranges: bytes
+access-control-allow-origin: *
+age: 0
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline; filename="mashkanta-kablan.html"
+content-type: text/html; charset=utf-8
+date: Tue, 27 Oct 2026 07:34:12 GMT
+etag: "a66c5162d73b66842514a6399b28a264"
+last-modified: Tue, 27 Oct 2026 07:34:12 GMT
+referrer-policy: strict-origin-when-cross-origin
+server: Vercel
+strict-transport-security: max-age=63072000; includeSubDomains; preload
+x-content-type-options: nosniff
+x-robots-tag: noindex, nofollow
+x-vercel-cache: MISS
+x-vercel-id: pdx1::7gxs7-1793086452363-108fd99271f3
+content-length: 45258
+
+
