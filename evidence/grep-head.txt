@@ -1,4 +1,4 @@
-a f2b7528ed0f7 <<=0 >>=0 חינם=0 h1_phrase=1 h1s=1
+a 3d33085a322d <<=0 >>=0 חינם=0 h1_phrase=1 h1s=1
 b 0d8dfcdfc1b3 <<=0 >>=0 חינם=0 h1_phrase=1 h1s=1
-c c7e1ca73a798 <<=0 >>=0 חינם=0 h1_phrase=1 h1s=1
+c 1b70901a3dc8 <<=0 >>=0 חינם=0 h1_phrase=1 h1s=1
 meta db3643990f13 <<=0 >>=0 חינם=1 h1_phrase=1 h1s=1
