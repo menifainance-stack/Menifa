@@ -895,7 +895,19 @@
      GA4 and Meta Contact run only when consent already allows that
      category. A click before consent is not queued. */
   (function mountWaFloat() {
-    if (/^\/(lp|q)\/(ihud|mihzur)(\/|\/index\.html)?$/i.test(String(location.pathname || ''))) return;
+    var path = String(location.pathname || '');
+    if (/^\/(lp|q)\/(ihud|mihzur)(\/|\/index\.html)?$/i.test(path)) return;
+    /* Same skip for mashkanta-kablan.html: no injected float. The page
+       already ships .fab-wa, so that shell is hidden too. The shared
+       cookie lift still runs, so .fab-a11y stays where it is. */
+    var kablanOnly = /^\/mashkanta-kablan(\.html)?$/i.test(path);
+    if (kablanOnly) {
+      var kablanFab = document.querySelector('.fab-wa');
+      if (kablanFab) {
+        kablanFab.hidden = true;
+        kablanFab.setAttribute('aria-hidden', 'true');
+      }
+    }
     var WA_NUMBER = CONFIG.whatsapp;
     var LABEL = 'וואטסאפ — לתיאום שיחה';
     var GREETING = 'שלום, אשמח לתיאום שיחה';
@@ -1015,6 +1027,7 @@
       return a;
     }
     function ensure() {
+      if (kablanOnly) return null;
       if (link && document.body.contains(link)) return link;
       var existing = document.querySelector('[data-wa-float]');
       if (existing) { link = existing; arm(link); return link; }
@@ -1102,6 +1115,10 @@
       return blocked;
     }
     function place() {
+      if (kablanOnly) {
+        document.documentElement.style.setProperty('--wa-fab-bottom', baseLift() + 'px');
+        return;
+      }
       if (!ensure()) return;
       var shell = link.closest('.fab-wa') || link;
       document.documentElement.style.setProperty('--wa-fab-bottom', baseLift() + 'px');
