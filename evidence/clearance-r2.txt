@@ -1,0 +1,21 @@
+Recaptured 2026-10-27 from the new Preview HEADs. Cookie banner left visible (menifa-consent not set), so the floating buttons are lifted. Make and every POST aborted. No form submit. Fonts Frank Ruhl Libre and IBM Plex Sans Hebrew loaded. scrollWidth equals viewport. חינם absent. One h1 matches the variant copy.
+
+#175 HEAD 78574921d615898b04e4b73ce76718a9a506d4e4
+Preview https://menifa-534hy97xk-menifainance-stacks-projects.vercel.app/mashkanta-kablan.html
+x-robots-tag: noindex, nofollow
+
+#176 HEAD 1c91366502738ef14b2a2816e8db678e29d226de
+Preview https://menifa-7ybgfchod-menifainance-stacks-projects.vercel.app/mashkanta-kablan.html
+x-robots-tag: noindex, nofollow
+
+#177 HEAD 11839c3f9a6d6f9d6cda4c31d10fac089c18443e
+Preview https://menifa-f1goun7dy-menifainance-stacks-projects.vercel.app/mashkanta-kablan.html
+x-robots-tag: noindex, nofollow
+At 390, matchMedia (max-width:390px) is true. .hero-closer computed padding-inline 80px and margin-bottom 96px.
+Text line boxes (rounded): (138,658)-(294,678), (97,684)-(294,704), (107,711)-(294,731).
+WhatsApp button (20,671)-(68,719). Accessibility button (314,663)-(370,719). Cookie top 732.
+Each text line is to the right of the WhatsApp button and to the left of the accessibility button, and the last line ends 1px above the cookie.
+At 1280 the media query does not apply and the closer text does not meet either button.
+
+Line 2 of mashkanta-kablan.html on #175 #176 #177 is byte-identical to origin/main (sha256/12 7365ffe106ff, 6725 bytes).
+#178 unchanged at db3643990f135195efe36eceee02f5330ce1253b. No JSON-LD commit on that branch.
