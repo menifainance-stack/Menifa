@@ -14,3 +14,6 @@ __pycache__/
 .env
 .pat
 *.secret
+
+# Draft homepage from tools/build-v2.js. tools/ is excluded from the Pages artifact.
+tools/out/index-v2.html
