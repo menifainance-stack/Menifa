@@ -1,5 +1,5 @@
 /**
- * build-v2.js — assembles index-v2.html from index.html.
+ * build-v2.js — assembles a draft homepage from index.html.
  * Keeps head/schema/nav/ticker/footer byte-identical. Replaces the hero,
  * inserts the ledger + Tamir sections after the proof bar, links v2 assets.
  * Live index.html is never touched.
@@ -175,8 +175,9 @@ const LEDGER = `<!-- ═══ LEDGER — same mortgage, two readings ═══ 
 html = html.replace('<!-- ═══ SERVICES ═══ -->', LEDGER + '<!-- ═══ SERVICES ═══ -->');
 
 /* ── 4. write ── */
-const out = path.join(ROOT, 'index-v2.html');
+const out = path.join(ROOT, 'tools/out/index-v2.html');
+fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.writeFileSync(out, html, 'utf8');
-console.log('index-v2.html נכתב · ' + (html.length / 1024).toFixed(0) + ' KB');
+console.log(path.relative(ROOT, out) + ' נכתב · ' + (html.length / 1024).toFixed(0) + ' KB');
 console.log('v2.css: ' + (fs.statSync(path.join(ROOT, 'assets/v2.css')).size / 1024).toFixed(1) + ' KB');
 console.log('v2.js:  ' + (fs.statSync(path.join(ROOT, 'assets/v2.js')).size / 1024).toFixed(1) + ' KB');
