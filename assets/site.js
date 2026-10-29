@@ -1153,13 +1153,14 @@
     if (dock && window.ResizeObserver) new ResizeObserver(schedule).observe(dock);
   })();
 
-  /* At 360–390, keep .fab-a11y off the lead-form consent labels and the
-     submit control while the form is on screen. The mailing consent is
-     the one the check measures; the privacy consent sits directly above
-     it, so it is cleared too. The button stays visible, named, and in
-     tab order. Wider viewports are left alone. */
+  /* At 360–390, keep .fab-a11y off every lead-form control: inputs,
+     selects (including מתי), textareas, consent labels, and the submit
+     button. First try the normal corner, then a vertical slot, then a
+     side gutter, then above or below the controls. Shrink to 44px only
+     if the full size has no clear slot. The button stays visible, named,
+     and in tab order. Wider viewports are left alone. */
   (function placeA11yClearOfConsent() {
-    var GAP = 6;
+    var GAP = 4;
     var mq = window.matchMedia('(max-width: 390px)');
     var queued = false;
     var again = false;
@@ -1171,65 +1172,149 @@
       if (w <= 0 || h <= 0) return 0;
       return w * h;
     }
-    function targets() {
+    function shown(el) {
+      if (!el || el.disabled) return false;
+      if (el.matches && el.matches('input[type=hidden]')) return false;
+      var cs = window.getComputedStyle(el);
+      if (cs.display === 'none' || cs.visibility === 'hidden') return false;
+      var r = el.getBoundingClientRect();
+      if (r.width < 2 || r.height < 2) return false;
+      if (r.bottom <= 0 || r.top >= window.innerHeight) return false;
+      return r;
+    }
+    function obstacles() {
       var out = [];
       var forms = document.querySelectorAll('form.lead-form, form[data-lead]');
       for (var i = 0; i < forms.length; i++) {
-        var form = forms[i];
-        var labels = form.querySelectorAll('label.consent');
-        for (var j = 0; j < labels.length; j++) out.push(labels[j]);
-        var submit = form.querySelector('button[type="submit"], input[type="submit"]');
-        if (submit) out.push(submit);
+        var nodes = forms[i].querySelectorAll('input, select, textarea, label.consent, label.chip, button[type=submit], input[type=submit]');
+        for (var j = 0; j < nodes.length; j++) {
+          var r = shown(nodes[j]);
+          if (r) out.push({ left: r.left - 1, top: r.top - 1, right: r.right + 1, bottom: r.bottom + 1, width: r.width + 2, height: r.height + 2 });
+        }
       }
       return out;
     }
-    function applyLift(px) {
-      if (!px) root.style.removeProperty('--a11y-fab-lift');
-      else root.style.setProperty('--a11y-fab-lift', px + 'px');
+    function extras() {
+      var out = [];
+      var nodes = document.querySelectorAll('.fab-wa, a.wa-float');
+      for (var i = 0; i < nodes.length; i++) {
+        var r = shown(nodes[i]);
+        if (r) out.push(r);
+      }
+      return out;
+    }
+    function resetPos() {
+      root.style.removeProperty('--a11y-fab-lift');
+      root.style.removeProperty('--a11y-fab-x');
+    }
+    function applyPos(base, left, top) {
+      var lift = Math.round(base.top - top);
+      var x = Math.round(base.left - left);
+      if (lift) root.style.setProperty('--a11y-fab-lift', lift + 'px');
+      else root.style.removeProperty('--a11y-fab-lift');
+      if (x) root.style.setProperty('--a11y-fab-x', x + 'px');
+      else root.style.removeProperty('--a11y-fab-x');
+    }
+    function clearOf(rect, list) {
+      for (var i = 0; i < list.length; i++) if (area(rect, list[i]) > 0) return false;
+      return true;
+    }
+    /* Pick the on-screen slot closest to the default corner. */
+    function findSlot(w, h, blocks, prefer) {
+      var vw = window.innerWidth;
+      var vh = window.innerHeight;
+      var best = null;
+      var bestDist = Infinity;
+      function consider(left, top) {
+        if (left < 1 || top < 1 || left + w > vw - 1 || top + h > vh - 1) return;
+        var rect = { left: left, top: top, right: left + w, bottom: top + h };
+        if (!clearOf(rect, blocks)) return;
+        var dist = Math.abs(left - prefer.left) + Math.abs(top - prefer.top);
+        if (dist < bestDist) { bestDist = dist; best = { left: left, top: top }; }
+      }
+      consider(prefer.left, prefer.top);
+      var top = Infinity, bottom = -Infinity, left = Infinity, right = -Infinity, has = false;
+      for (var i = 0; i < blocks.length; i++) {
+        var o = blocks[i];
+        has = true;
+        if (o.top < top) top = o.top;
+        if (o.bottom > bottom) bottom = o.bottom;
+        if (o.left < left) left = o.left;
+        if (o.right > right) right = o.right;
+      }
+      if (has) {
+        consider(prefer.left, bottom + GAP);
+        consider(prefer.left, top - GAP - h);
+        consider(right + GAP, prefer.top);
+        consider(right + GAP, vh - h - 1);
+        consider(left - GAP - w, prefer.top);
+        consider(left - GAP - w, vh - h - 1);
+      }
+      consider(vw - w - 1, prefer.top);
+      consider(1, prefer.top);
+      consider(vw - w - 1, vh - h - 1);
+      consider(1, vh - h - 1);
+      var xs = [prefer.left, vw - w - 1, 1];
+      if (has) { xs.push(right + GAP); xs.push(left - GAP - w); }
+      for (var xi = 0; xi < xs.length; xi++) {
+        for (var y = 1; y <= vh - h - 1; y += 8) consider(xs[xi], y);
+      }
+      return best;
     }
     function place() {
       var fab = document.querySelector('.fab-a11y');
       if (!fab) return;
-      if (!mq.matches) { applyLift(0); return; }
-      var els = targets();
-      if (!els.length) { applyLift(0); return; }
-      applyLift(0);
+      if (!mq.matches) {
+        fab.classList.remove('is-compact');
+        resetPos();
+        return;
+      }
+      var blocks = obstacles();
+      var wa = extras();
+      if (!blocks.length) {
+        fab.classList.remove('is-compact');
+        resetPos();
+        return;
+      }
+      fab.classList.remove('is-compact');
+      resetPos();
       var base = fab.getBoundingClientRect();
       if (base.width < 1 || base.height < 1) return;
-      var baseTop = base.top;
-      var vh = window.innerHeight;
-      var lift = 0;
+      var both = blocks.concat(wa);
+      var slot = findSlot(base.width, base.height, both, base) || findSlot(base.width, base.height, blocks, base);
+      if (!slot) {
+        fab.classList.add('is-compact');
+        resetPos();
+        base = fab.getBoundingClientRect();
+        slot = findSlot(base.width, base.height, both, base) || findSlot(base.width, base.height, blocks, base);
+      }
+      if (!slot) {
+        resetPos();
+        return;
+      }
+      applyPos(base, slot.left, slot.top);
+      /* Re-read the controls after the move. A late shift or a rounded
+         pixel can leave a thin overlap; step clear of it. */
       var guard = 0;
-      while (guard++ < 12) {
+      while (guard++ < 6) {
+        var live = obstacles();
         var now = fab.getBoundingClientRect();
         var hit = null;
         var hitArea = 0;
-        for (var i = 0; i < els.length; i++) {
-          var r = els[i].getBoundingClientRect();
-          var a = area(now, r);
-          if (a > hitArea) { hitArea = a; hit = r; }
+        for (var i = 0; i < live.length; i++) {
+          var a = area(now, live[i]);
+          if (a > hitArea) { hitArea = a; hit = live[i]; }
         }
         if (!hit) break;
-        var prev = lift;
-        var upTop = hit.top - GAP - now.height;
-        if (upTop >= 8) {
-          var next = Math.ceil(baseTop - upTop);
-          if (next <= lift) next = lift + 1;
-          lift = next;
-        } else {
-          var downTop = hit.bottom + GAP;
-          if (downTop + now.height <= vh - 8) {
-            var down = Math.floor(baseTop - downTop);
-            if (down === lift) down = lift - 1;
-            lift = down;
-          } else {
-            lift = Math.max(lift, Math.ceil(baseTop - 8));
-            applyLift(lift);
-            break;
-          }
-        }
-        if (lift === prev) break;
-        applyLift(lift);
+        var lift = parseFloat(root.style.getPropertyValue('--a11y-fab-lift')) || 0;
+        var x = parseFloat(root.style.getPropertyValue('--a11y-fab-x')) || 0;
+        var overlapY = Math.min(now.bottom, hit.bottom) - Math.max(now.top, hit.top);
+        var overlapX = Math.min(now.right, hit.right) - Math.max(now.left, hit.left);
+        if (now.top - (overlapY + GAP) >= 1) lift += Math.ceil(overlapY + GAP);
+        else if (now.left + now.width + overlapX + GAP <= window.innerWidth - 1) x -= Math.ceil(overlapX + GAP);
+        else x += Math.ceil(overlapX + GAP);
+        root.style.setProperty('--a11y-fab-lift', Math.round(lift) + 'px');
+        root.style.setProperty('--a11y-fab-x', Math.round(x) + 'px');
       }
     }
     /* content-visibility above the form can shift it a frame after scroll.
@@ -1238,11 +1323,25 @@
     function schedule() {
       if (queued) { again = true; return; }
       queued = true;
-      var left = 4;
+      var last = '';
+      var stable = 0;
+      var frames = 0;
       function step() {
         place();
-        left -= 1;
-        if (left > 0) requestAnimationFrame(step);
+        frames += 1;
+        var form = document.querySelector('form.lead-form, form[data-lead]');
+        var fab = document.querySelector('.fab-a11y');
+        var sig = '';
+        if (form && fab) {
+          var fr = form.getBoundingClientRect();
+          var ar = fab.getBoundingClientRect();
+          sig = Math.round(fr.top) + ',' + Math.round(fr.bottom) + ',' + Math.round(ar.top) + ',' + Math.round(ar.left);
+        }
+        if (sig === last) stable += 1;
+        else { stable = 0; last = sig; }
+        if (again) { again = false; stable = 0; }
+        /* .rv cards ease in for 1.1s. Keep placing until that transform settles. */
+        if (stable < 2 && frames < 80) requestAnimationFrame(step);
         else {
           queued = false;
           if (again) { again = false; schedule(); }
@@ -1251,6 +1350,10 @@
       requestAnimationFrame(step);
     }
     place();
+    document.addEventListener('transitionend', function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest('form.lead-form, form[data-lead], .card, #form')) schedule();
+    }, true);
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('scrollend', schedule);
     window.addEventListener('resize', schedule);
