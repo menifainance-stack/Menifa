@@ -16,8 +16,11 @@ on:
       - '*.html'
   workflow_dispatch:
 
+# actions: write is only the ceiling for the job below. GitHub rejects a job
+# that requests a scope the workflow permissions omit. No other scope.
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: seo-autoindex
@@ -26,6 +29,9 @@ concurrency:
 jobs:
   sync-and-index:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
     steps:
       - uses: actions/checkout@v4
 
@@ -79,3 +85,14 @@ jobs:
           else
             echo "✗ $newest חסר מה-sitemap החי — ייתכן שהפריסה עוד לא הסתיימה"
           fi
+
+      # A GITHUB_TOKEN push does not start other workflows. After this job
+      # actually pushes a commit to main, workflow_dispatch is allowed and
+      # starts pages-artifact.yml. That workflow does not push, so this
+      # workflow is not started again. !cancelled() lets the dispatch run
+      # when an earlier step failed after the push already landed.
+      - name: הפעלת פריסת Pages אחרי קומיט ל-main
+        if: (!cancelled() && steps.sync.outputs.changed == 'true' && github.ref == 'refs/heads/main')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run pages-artifact.yml --ref main
