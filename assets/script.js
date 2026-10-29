@@ -32,7 +32,7 @@ const CPI_INDEX_LEVEL = 105.3; // נקודות, בסיס ממוצע 2024 = 100.0
 // window (BOI: בתוקף עד 02/09/26), so do not derive «בתוקף מ» from decisionDate.
 const BOI_DECISION_DATE = '2026-10-21';
 const BOI_EFFECTIVE_FROM = '2026-09-03';
-const BOI_NEXT_DECISION = '2026-11-23'; // Publication date on the 2026 BOI decision calendar, checked 2026-10-26. https://www.boi.org.il/roles/monetary-policy/interest-rate-dates
+const BOI_NEXT_DECISION = '2026-11-23'; // Monday 23.11.2026. Source: https://www.boi.org.il/publications/pressreleases/21-10-26b/
 const MARKET_FALLBACK = {
   boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 21.10.2026)
   prime: 4.75,       // פריים = BoI + 1.5
