@@ -1,0 +1,24 @@
+Measured on the article at c18792c, cookie dismissed, full scroll, step 24px.
+POST requests were aborted. .fab-a11y stayed visible (display:block, visibility:visible). One .fab-wa.
+scrollWidth equals clientWidth at both widths.
+
+.fab-wa is hidden with visibility:hidden, aria-hidden=true and inert while #form or .bg-cta intersects the viewport, and shown again when both have left it. Focusing the hidden link does not move focus into it.
+
+.fab-a11y vs #form button.btn, .bg-cta a.btn, .bg-cta:
+360x780 worst overlap: 0 px² for every pair
+390x844 worst overlap: 0 px² for every pair
+
+Line counts and band width, same viewports:
+submit button «שליחת הפרטים לתמיר»: 1 line (height 54px)
+closing WhatsApp button «לתיאום בוואטסאפ»: 1 line (height 54px)
+closing phone button «052-4502821»: 1 line (height 54px)
+closing heading «שיחת היכרות בלי התחייבות»: 2 lines
+band width: 288px at 360 (80.0% of the viewport), 318px at 390 (81.5%)
+
+Shots:
+  360-form-wa-hidden.png
+  390-form-wa-hidden.png
+  360-mid-wa-visible.png
+  390-mid-wa-visible.png
+  360-closing-cta.png
+  390-closing-cta.png
