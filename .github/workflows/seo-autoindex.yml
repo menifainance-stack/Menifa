@@ -16,8 +16,11 @@ on:
       - '*.html'
   workflow_dispatch:
 
+# actions: write is only the ceiling for the job below. GitHub rejects a job
+# that requests a scope the workflow permissions omit. No other scope.
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: seo-autoindex
@@ -26,10 +29,13 @@ concurrency:
 jobs:
   sync-and-index:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: '3.12'
 
@@ -42,7 +48,7 @@ jobs:
         id: sync
         run: |
           if [ -z "$(git status --porcelain)" ]; then
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "אין שינוי בפידים."
             exit 0
           fi
@@ -51,7 +57,7 @@ jobs:
           git add sitemap.xml sitemap-pages.xml sitemap-index.xml rss.xml llms.txt index.html
           git commit -m "SEO: סנכרון אוטומטי של sitemap, RSS ו-llms.txt"
           git push
-          echo "changed=true" >> $GITHUB_OUTPUT
+          echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: דחיפת כל הכתובות ל-IndexNow
         run: python3 tools/push_indexnow.py
@@ -79,3 +85,33 @@ jobs:
           else
             echo "✗ $newest חסר מה-sitemap החי — ייתכן שהפריסה עוד לא הסתיימה"
           fi
+
+      # A GITHUB_TOKEN push does not start other workflows. After this job
+      # actually pushes a commit to main, workflow_dispatch is allowed and
+      # starts pages-artifact.yml. That workflow does not push, so this
+      # workflow is not started again. !cancelled() lets the dispatch run
+      # when an earlier step failed after the push already landed.
+      # The shell retries the same dispatch call only. It does not push and
+      # it does not start this workflow again.
+      - name: הפעלת פריסת Pages אחרי קומיט ל-main
+        if: (!cancelled() && steps.sync.outputs.changed == 'true' && github.ref == 'refs/heads/main')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          n=0
+          for delay in 0 10 30 60; do
+            if [ "$delay" -ne 0 ]; then
+              echo "dispatch failed; waiting ${delay}s before retry"
+              sleep "$delay"
+            fi
+            n=$((n + 1))
+            if gh workflow run pages-artifact.yml --ref main; then
+              echo "pages-artifact dispatch accepted on attempt ${n}"
+              exit 0
+            fi
+            echo "dispatch attempt ${n} failed"
+          done
+          echo "::error::pages-artifact workflow_dispatch failed after 3 retries"
+          exit 1
