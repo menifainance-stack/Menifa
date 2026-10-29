@@ -1,14 +1,14 @@
 name: Pages artifact
 
-# Builds the directory GitHub Pages should publish, without internal files.
-# Build and deploy use separate concurrency groups so a pull request cannot
-# cancel a queued deploy on main.
-# actions/deploy-pages runs on a push to main, and on workflow_dispatch only
-# when the ref is main. It does not change Pages settings. While
-# Settings → Pages → Source stays "Deploy from a branch", this deploy job
-# does not publish menifa.org. Switching that source is a live change and
-# needs Tamir's yes. After the switch, run this workflow with
-# workflow_dispatch on main, or re-run the latest main run.
+# The deploy job DOES publish to production on a push to main and on
+# workflow_dispatch when the ref is main. While Pages Source is
+# "Deploy from a branch", that publish races the legacy branch build:
+# the later of the two is what menifa.org serves. A pull_request run
+# builds and leak-checks only. The deploy job does not run on
+# pull_request. This workflow does not change Pages settings.
+# Switching Source to GitHub Actions needs Tamir's yes.
+# Build and deploy use separate concurrency groups so a pull request
+# cannot cancel a queued deploy on main.
 
 on:
   pull_request:
@@ -29,67 +29,120 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
       - name: Assemble clean site directory
+        shell: bash
         run: |
           set -euo pipefail
           rm -rf _site
           mkdir -p _site
-          # Exclusions (explicit). No *.md is intentionally public.
-          # Kept on purpose: HTML pages, assets/ (including
-          # assets/data/boi-mortgage-averages.json, which calculators fetch
-          # from the site), blog/, lp/, q/, mockups/, CNAME, .nojekyll,
-          # robots.txt, sitemap*.xml, llms.txt, llms-full.txt, rss.xml,
-          # menifa-indexnow-*.txt, and root verification tokens.
-          # GNU tar exclude patterns (no slash) match that name anywhere.
-          # ./1.jpeg is the repo-root file only. It stays in the repo.
-          tar -cf - \
-            --exclude .git \
-            --exclude _site \
-            --exclude '*.md' \
-            --exclude docs \
-            --exclude social \
-            --exclude .github \
-            --exclude tools \
-            --exclude scripts \
-            --exclude tests \
-            --exclude redirects.csv \
-            --exclude .gitignore \
-            --exclude vercel.json \
-            --exclude .vercelignore \
-            --exclude .env \
-            --exclude '.env.*' \
-            --exclude '*.secret' \
-            --exclude .pat \
-            --exclude ./1.jpeg \
-            . | tar -C _site -xf -
-          echo "files=$(find _site -type f | wc -l)"
 
-      - name: Fail if markdown or an excluded path is in the site
+          copy_file() {
+            local src="$1"
+            mkdir -p "_site/$(dirname -- "$src")"
+            cp -a -- "$src" "_site/$src"
+          }
+
+          # Explicit allowlist. A path that does not match is not staged.
+          # Root: HTML (including google*.html), CNAME, .nojekyll, robots.txt,
+          # the sitemap XML files, rss.xml, llms.txt, llms-full.txt,
+          # menifa-indexnow-*.txt, a 32-hex verification txt, BingSiteAuth.xml.
+          shopt -s nullglob
+          for f in *.html CNAME .nojekyll robots.txt \
+              sitemap.xml sitemap-pages.xml sitemap-index.xml \
+              rss.xml llms.txt llms-full.txt \
+              menifa-indexnow-*.txt BingSiteAuth.xml
+          do
+            if [ -f "$f" ]; then
+              copy_file "$f"
+            fi
+          done
+          for f in *.txt; do
+            if [[ "$f" =~ ^[0-9a-f]{32}\.txt$ ]]; then
+              copy_file "$f"
+            fi
+          done
+          shopt -u nullglob
+
+          # assets/, blog/, lp/, q/, mockups/ — site extensions only.
+          # txt there is only the font license that already ships (OFL.txt).
+          # assets/lead-capture.js and assets/tco-lead.js are not staged.
+          for dir in assets blog lp q mockups; do
+            if [ ! -d "$dir" ]; then
+              continue
+            fi
+            while IFS= read -r -d '' src; do
+              rel="${src#./}"
+              case "$rel" in
+                assets/lead-capture.js|assets/tco-lead.js) continue ;;
+              esac
+              base="${rel##*/}"
+              case "$base" in
+                .*) continue ;;
+              esac
+              ext="${base##*.}"
+              ext_lc=$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')
+              case "$ext_lc" in
+                html|css|js|json|svg|png|jpg|jpeg|webp|avif|ico|woff|woff2|xml|webmanifest)
+                  copy_file "$rel"
+                  ;;
+                txt)
+                  if [ "$base" = "OFL.txt" ]; then
+                    copy_file "$rel"
+                  fi
+                  ;;
+              esac
+            done < <(find "$dir" -type f -print0)
+          done
+
+          echo "files=$(find _site -type f | wc -l)"
+          echo "html=$(find _site -type f -name '*.html' | wc -l)"
+
+      - name: Fail if the staged tree leaks a non-site path
+        shell: bash
         run: |
           set -euo pipefail
           leaked=0
-          if find _site -iname '*.md' -print | grep -q .; then
-            echo "markdown leaked into the site directory:"
-            find _site -iname '*.md' -print
+          while IFS= read -r -d '' f; do
+            echo "forbidden extension leaked: ${f#_site/}"
             leaked=1
-          fi
-          for d in docs social .github tools scripts tests; do
+          done < <(find _site -type f \( \
+            -iname '*.md' -o -iname '*.py' -o -iname '*.mjs' -o \
+            -iname '*.csv' -o -iname '*.yml' -o -iname '*.yaml' \
+            \) -print0)
+
+          for d in social docs tools tests .github scripts; do
             if [ -e "_site/$d" ]; then
-              echo "excluded directory leaked: $d"
+              echo "forbidden directory leaked: $d"
               leaked=1
             fi
           done
-          for f in redirects.csv .gitignore vercel.json .vercelignore 1.jpeg; do
+
+          for f in CLAUDE.md README.md DATA_SOURCE_OF_TRUTH.md \
+              vercel.json redirects.csv .gitignore .vercelignore \
+              1.jpeg assets/lead-capture.js assets/tco-lead.js
+          do
             if [ -e "_site/$f" ]; then
-              echo "excluded work file leaked: $f"
+              echo "forbidden file leaked: $f"
               leaked=1
             fi
           done
+
+          while IFS= read -r -d '' f; do
+            rel="${f#_site/}"
+            if [ "$rel" = ".nojekyll" ]; then
+              continue
+            fi
+            echo "dotfile leaked: $rel"
+            leaked=1
+          done < <(find _site -name '.*' -print0)
+
           if [ "$leaked" -ne 0 ]; then
+            echo "leak check failed"
             exit 1
           fi
-          echo "clean: no markdown and no excluded work paths"
+          echo "clean: leak check passed"
 
       - name: Fail if a required public file is missing
+        shell: bash
         run: |
           set -euo pipefail
           missing=0
@@ -118,14 +171,21 @@ jobs:
       # v4 and v5 exclude them unless include-hidden-files is true, which
       # would drop .nojekyll. This step mirrors the v3 archive command.
       - name: Confirm the Pages tar keeps CNAME and .nojekyll
+        shell: bash
         run: |
           set -euo pipefail
           tar --directory _site -cf /tmp/pages-check.tar --exclude=.git --exclude=.github .
           tar -tf /tmp/pages-check.tar > /tmp/pages-check.list
           grep -qx './.nojekyll' /tmp/pages-check.list
           grep -qx './CNAME' /tmp/pages-check.list
-          if grep -Ei '(^|/)[^/]*\.md$|(^|/)(docs|social|\.github|tools|scripts|tests)(/|$)' /tmp/pages-check.list; then
+          if grep -Ei '(^|/)[^/]*\.(md|py|mjs|csv|yml|yaml)$|(^|/)(docs|social|\.github|tools|scripts|tests)(/|$)|^\./(CLAUDE\.md|README\.md|DATA_SOURCE_OF_TRUTH\.md|vercel\.json|redirects\.csv|1\.jpeg)$|^\./assets/(lead-capture|tco-lead)\.js$' /tmp/pages-check.list; then
             echo "excluded path inside the Pages tar"
+            exit 1
+          fi
+          dots=$(grep -E '(^|/)\.[^/]+$' /tmp/pages-check.list | grep -v -x './.nojekyll' || true)
+          if [ -n "$dots" ]; then
+            echo "dotfile other than .nojekyll inside the Pages tar"
+            printf '%s\n' "$dots"
             exit 1
           fi
 
@@ -136,6 +196,7 @@ jobs:
 
   deploy:
     needs: build
+    # pull_request must never deploy. Publish only from main.
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
