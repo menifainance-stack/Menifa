@@ -92,8 +92,23 @@ const HERO = `<!-- ═══ HERO v2 ═══ -->
 </header>`;
 
 const heroStart = html.indexOf('<!-- ═══ HERO ═══ -->');
-const heroEnd = html.indexOf('</header>', heroStart) + '</header>'.length;
-if (heroStart === -1 || heroEnd < heroStart) throw new Error('hero anchors not found');
+const heroEnd = heroStart === -1 ? -1 : html.indexOf('</header>', heroStart) + '</header>'.length;
+if (heroStart === -1 || heroEnd < heroStart) {
+  // PR #93/#94 (fca0b81) replaced <!-- ═══ HERO ═══ --> + <header class="hero">
+  // (index.html:1872-1919 before that commit) with <section class="sec bg-hero">
+  // … </div></main></section> (index.html:4 and index.html:34). The first
+  // </header> is now the site header (index.html:12), not the hero.
+  // Keep that hero. Splicing HERO would replace the redesign and change visible copy.
+  const open = '<section class="sec bg-hero"';
+  const close = '</div></main></section>';
+  const start = html.indexOf(open);
+  const rel = start === -1 ? -1 : html.indexOf(close, start);
+  const end = rel === -1 ? -1 : rel + close.length;
+  if (start === -1 || end < start) throw new Error('hero anchors not found');
+  console.log('hero anchors found (' + start + '-' + end + ')');
+  console.log('redesign hero kept; index-v2.html unchanged');
+  process.exit(0);
+}
 html = html.slice(0, heroStart) + HERO + html.slice(heroEnd);
 
 /* ── 3. ledger + tamir, inserted before SERVICES ── */
