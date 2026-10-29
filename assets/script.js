@@ -879,7 +879,7 @@ if (leadForm) {
     const email = leadForm.querySelector('[name="email"]').value.trim();
     if (!name || !phone || !email) return;
     // Send to WhatsApp as fallback (until backend wired)
-    const msg = encodeURIComponent('שלום תמיר, אשמח לקבל את המדריך החינמי.\nשם: ' + name + '\nטלפון: ' + phone + '\nמייל: ' + email);
+    const msg = encodeURIComponent('שלום תמיר, אשמח שתחזור אליי.\nשם: ' + name + '\nטלפון: ' + phone + '\nמייל: ' + email);
     window.open('https://wa.me/972524502821?text=' + msg, '_blank');
     leadForm.innerHTML = '<div style="text-align:center; padding:1.5rem;"><div style="font-size:2.5rem; margin-bottom:0.5rem;">✓</div><h4 style="color:var(--gold-light); margin-bottom:0.5rem;">תודה! קיבלנו את פרטיכם</h4><p style="color:rgba(255,255,255,0.7); font-size:0.9rem;">המדריך נשלח אליכם, ונחזור אליכם בקרוב.</p></div>';
   });
@@ -1057,9 +1057,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       </div>
 
       <div class="drawer-hero-cta">
-        <div class="eyebrow">פנוי עכשיו</div>
-        <h3>שיחת ייעוץ — חינם וללא התחייבות</h3>
-        <p>30 דקות לשיחת היכרות — בלי התחייבות, בלי הבטחה מראש</p>
+        <div class="eyebrow">דברו עם תמיר</div>
+        <h3>שיחת היכרות בלי התחייבות</h3>
+        <p>ספרו מה מטריד אתכם במשכנתא, ובודקים יחד מה אפשר לעשות. בלי הבטחה מראש.</p>
         <div class="btn-row">
           <a href="tel:052-4502821">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.5 4.49a1 1 0 01-.27 1.06l-2 1.69a11 11 0 005.62 5.62l1.69-2a1 1 0 011.06-.27l4.49 1.5a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.72 21 3 14.28 3 6V5z"/></svg>
