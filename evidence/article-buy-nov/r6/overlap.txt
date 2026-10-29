@@ -1,0 +1,11 @@
+Measured on the article at commit b854641, cookie dismissed, full scroll, step 24px.
+
+.fab-wa vs .bg-cta (the gold closing band), .ticker.bg-gold, .gold-rule, aside .stack span, a.btn.btn-a, button.btn.btn-a, span.eyebrow:
+360x780 worst overlap: 0 px²
+390x844 worst overlap: 0 px²
+
+Form heading at 390x844:
+computed color rgb(244, 238, 225) = var(--ivory)
+container background linear-gradient(160deg, rgb(19, 36, 63), rgb(10, 20, 38))
+sampled background behind the glyphs (17, 32, 57) to (19, 36, 63)
+contrast 13.44:1 to 14.11:1
