@@ -60,6 +60,8 @@ jobs:
             --exclude '*.secret' \
             --exclude .pat \
             --exclude ./1.jpeg \
+            --exclude ./assets/lead-capture.js \
+            --exclude ./assets/tco-lead.js \
             . | tar -C _site -xf -
           echo "files=$(find _site -type f | wc -l)"
 
@@ -78,7 +80,7 @@ jobs:
               leaked=1
             fi
           done
-          for f in redirects.csv .gitignore vercel.json .vercelignore 1.jpeg; do
+          for f in redirects.csv .gitignore vercel.json .vercelignore 1.jpeg assets/lead-capture.js assets/tco-lead.js; do
             if [ -e "_site/$f" ]; then
               echo "excluded work file leaked: $f"
               leaked=1
