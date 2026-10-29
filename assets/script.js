@@ -29,11 +29,11 @@ const CPI_INDEX_LEVEL = 105.3; // נקודות, בסיס ממוצע 2024 = 100.0
 // from assets/data/boi-mortgage-averages.json (2026-09-03 → 3.9.2026).
 // Next business day after 2026-09-01 is 2026-09-02, the last day of the OLD
 // window (BOI: בתוקף עד 02/09/26), so do not derive «בתוקף מ» from decisionDate.
-const BOI_DECISION_DATE = '2026-09-01';
+const BOI_DECISION_DATE = '2026-10-21';
 const BOI_EFFECTIVE_FROM = '2026-09-03';
-const BOI_NEXT_DECISION = '2026-11-23';
+const BOI_NEXT_DECISION = '2026-11-23'; // Monday 23.11.2026. Source: https://www.boi.org.il/publications/pressreleases/21-10-26b/
 const MARKET_FALLBACK = {
-  boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 01.09.2026)
+  boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 21.10.2026)
   prime: 4.75,       // פריים = BoI + 1.5
   cpiMonthly: -0.5,  // % שינוי חודשי — ספטמבר 2026 מול אוגוסט 2026 (למ״ס 326/2026)
   cpiYearly: 1.6,    // % שינוי שנתי — ספטמבר 2026 מול ספטמבר 2025 (למ״ס 326/2026)
@@ -45,13 +45,13 @@ const MARKET_FALLBACK = {
   effectiveFrom: BOI_EFFECTIVE_FROM, // טיקר חי: בתוקף מ-3.9.2026 — לא 1.9.2026
   nextDecisionDate: BOI_NEXT_DECISION,
   // Old #m-update label is the decision/publication date, not «בתוקף מ».
-  updateDate: 'מדד 15.10 · BOI 01.09'
+  updateDate: 'מדד 15.10 · BOI 21.10'
 };
 // ממוצעי מסלולי משכנתא (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
 
 function formatTickerUpdateDate(boiPublished) {
   const cpi = 'מדד ' + CPI_PUBLISHED_SHORT;
-  let boi = 'BOI 01.09';
+  let boi = 'BOI 21.10';
   if (boiPublished && !Number.isNaN(boiPublished.getTime())) {
     const dd = String(boiPublished.getDate()).padStart(2, '0');
     const mm = String(boiPublished.getMonth() + 1).padStart(2, '0');
@@ -170,7 +170,7 @@ function ensureCombinedCpiItem(data) {
 }
 
 function setMarketData(data) {
-  const fmt = n => '\u200e' + (n > 0 ? '+' : '') + n.toFixed(1) + '%';
+  const fmt = n => '‎' + (n > 0 ? '+' : '') + n.toFixed(1) + '%';
   const fmtRate = n => n.toFixed(2) + '%';
 
   // לא בכל דף יש טיקר — במדריך, ב-FAQ ובחלק ממאמרי הבלוג הוא לא קיים.
