@@ -1,5 +1,0 @@
-consent visible-string diff vs main HEAD
-labels scanned: 242
-files whose visible consent strings differ: 0
-diff of visible strings = 0
-double angle brackets in the code diff: 0
