@@ -28,7 +28,7 @@ const HERO = `<!-- ═══ HERO v2 ═══ -->
     <div class="hero-v2-grid">
 
       <div class="hv2-copy">
-        <span class="hv2-kicker"><span class="pulse" aria-hidden="true"></span> פנוי לשיחת ייעוץ · ללא עלות</span>
+        <span class="hv2-kicker"><span class="pulse" aria-hidden="true"></span> שיחת היכרות בלי התחייבות</span>
 
         <h1>
           ייעוץ משכנתאות.
@@ -47,7 +47,7 @@ const HERO = `<!-- ═══ HERO v2 ═══ -->
 
         <div class="hv2-ctas">
           <a href="#contact" class="btn btn-primary btn-large">
-            לשיחת אבחון חינם
+            שיחת היכרות בלי התחייבות
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           </a>
           <a href="#ledger" class="btn btn-ghost btn-large">איך זה עובד</a>
