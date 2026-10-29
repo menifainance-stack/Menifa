@@ -437,6 +437,14 @@ html.a11y-cursor,html.a11y-cursor *{cursor:url("data:image/svg+xml,%3Csvg xmlns=
   .fab-btn{width:54px;height:54px}
   .fab-wa .fab-btn,a.wa-float{width:48px;height:48px;min-width:48px;min-height:48px}
 }
+/* 360 and 390: the fixed accessibility button sits on the mailing
+   consent and the submit control as the form scrolls past.
+   --a11y-fab-lift (site.js) moves only this button, and only then.
+   The 44px target, the name, and the keyboard path stay. Desktop does not use this rule. */
+@media (max-width:390px){
+  .fab-a11y{bottom:calc(var(--wa-fab-bottom, calc(20px + env(safe-area-inset-bottom, 0px))) + var(--a11y-fab-lift, 0px))}
+  .fab-a11y .fab-btn{min-width:44px;min-height:44px}
+}
 .lead-form .chips label.chip{flex-direction:row;align-items:center;color:var(--muted);min-height:44px}
 .lead-form .chips label.chip:has(input:checked){border-color:var(--gold-hi);color:var(--gold-hi);background:rgb(var(--gold-hi-rgb) / .08)}
 

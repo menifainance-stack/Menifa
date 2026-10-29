@@ -1152,4 +1152,122 @@
     var dock = document.querySelector('.aic-dock');
     if (dock && window.ResizeObserver) new ResizeObserver(schedule).observe(dock);
   })();
+
+  /* At 360–390, keep .fab-a11y off the lead-form consent labels and the
+     submit control while the form is on screen. The mailing consent is
+     the one the check measures; the privacy consent sits directly above
+     it, so it is cleared too. The button stays visible, named, and in
+     tab order. Wider viewports are left alone. */
+  (function placeA11yClearOfConsent() {
+    var GAP = 6;
+    var mq = window.matchMedia('(max-width: 390px)');
+    var queued = false;
+    var again = false;
+    var root = document.documentElement;
+
+    function area(a, b) {
+      var w = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+      var h = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+      if (w <= 0 || h <= 0) return 0;
+      return w * h;
+    }
+    function targets() {
+      var out = [];
+      var forms = document.querySelectorAll('form.lead-form, form[data-lead]');
+      for (var i = 0; i < forms.length; i++) {
+        var form = forms[i];
+        var labels = form.querySelectorAll('label.consent');
+        for (var j = 0; j < labels.length; j++) out.push(labels[j]);
+        var submit = form.querySelector('button[type="submit"], input[type="submit"]');
+        if (submit) out.push(submit);
+      }
+      return out;
+    }
+    function applyLift(px) {
+      if (!px) root.style.removeProperty('--a11y-fab-lift');
+      else root.style.setProperty('--a11y-fab-lift', px + 'px');
+    }
+    function place() {
+      var fab = document.querySelector('.fab-a11y');
+      if (!fab) return;
+      if (!mq.matches) { applyLift(0); return; }
+      var els = targets();
+      if (!els.length) { applyLift(0); return; }
+      applyLift(0);
+      var base = fab.getBoundingClientRect();
+      if (base.width < 1 || base.height < 1) return;
+      var baseTop = base.top;
+      var vh = window.innerHeight;
+      var lift = 0;
+      var guard = 0;
+      while (guard++ < 12) {
+        var now = fab.getBoundingClientRect();
+        var hit = null;
+        var hitArea = 0;
+        for (var i = 0; i < els.length; i++) {
+          var r = els[i].getBoundingClientRect();
+          var a = area(now, r);
+          if (a > hitArea) { hitArea = a; hit = r; }
+        }
+        if (!hit) break;
+        var prev = lift;
+        var upTop = hit.top - GAP - now.height;
+        if (upTop >= 8) {
+          var next = Math.ceil(baseTop - upTop);
+          if (next <= lift) next = lift + 1;
+          lift = next;
+        } else {
+          var downTop = hit.bottom + GAP;
+          if (downTop + now.height <= vh - 8) {
+            var down = Math.floor(baseTop - downTop);
+            if (down === lift) down = lift - 1;
+            lift = down;
+          } else {
+            lift = Math.max(lift, Math.ceil(baseTop - 8));
+            applyLift(lift);
+            break;
+          }
+        }
+        if (lift === prev) break;
+        applyLift(lift);
+      }
+    }
+    /* content-visibility above the form can shift it a frame after scroll.
+       Run once more on the following frames so the button clears the
+       settled position, and catch a scroll that arrived mid-pass. */
+    function schedule() {
+      if (queued) { again = true; return; }
+      queued = true;
+      var left = 4;
+      function step() {
+        place();
+        left -= 1;
+        if (left > 0) requestAnimationFrame(step);
+        else {
+          queued = false;
+          if (again) { again = false; schedule(); }
+        }
+      }
+      requestAnimationFrame(step);
+    }
+    place();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('scrollend', schedule);
+    window.addEventListener('resize', schedule);
+    window.addEventListener('orientationchange', schedule);
+    window.addEventListener('consent-update', schedule);
+    window.addEventListener('load', schedule);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(schedule);
+    if (mq.addEventListener) mq.addEventListener('change', schedule);
+    else if (mq.addListener) mq.addListener(schedule);
+    var cookie = document.getElementById('cookie');
+    if (cookie && window.MutationObserver) new MutationObserver(schedule).observe(cookie, { attributes: true, attributeFilter: ['hidden', 'style', 'class'] });
+    if (cookie && window.ResizeObserver) new ResizeObserver(schedule).observe(cookie);
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(schedule);
+      ro.observe(document.body);
+      var forms = document.querySelectorAll('form.lead-form, form[data-lead]');
+      for (var f = 0; f < forms.length; f++) ro.observe(forms[f]);
+    }
+  })();
 })();
