@@ -1,11 +1,28 @@
-Measured on the article at commit b854641, cookie dismissed, full scroll, step 24px.
+Measured on the article at fcad072, cookie dismissed, full scroll, step 24px.
+POST requests were aborted. .fab-a11y stayed display:block. One .fab-wa.
+scrollWidth equals clientWidth at both widths (360 and 390).
 
-.fab-wa vs .bg-cta (the gold closing band), .ticker.bg-gold, .gold-rule, aside .stack span, a.btn.btn-a, button.btn.btn-a, span.eyebrow:
-360x780 worst overlap: 0 px²
-390x844 worst overlap: 0 px²
+.fab-a11y and .fab-wa against each of:
+  #form button.btn
+  .bg-cta a.btn
+  .bg-cta
+  .ticker.bg-gold
+  .gold-rule
+  aside .stack span
+  a.btn.btn-a
+  button.btn.btn-a
+  span.eyebrow
 
-Form heading at 390x844:
+360x780 worst overlap: 0 px² for every pair
+390x844 worst overlap: 0 px² for every pair
+
+Shots in this folder:
+  360-form-button.png
+  390-form-button.png
+  360-closing-cta.png
+  390-closing-cta.png
+
+Form heading contrast, unchanged from the earlier r6 measurement:
 computed color rgb(244, 238, 225) = var(--ivory)
-container background linear-gradient(160deg, rgb(19, 36, 63), rgb(10, 20, 38))
 sampled background behind the glyphs (17, 32, 57) to (19, 36, 63)
 contrast 13.44:1 to 14.11:1
