@@ -6,7 +6,8 @@ import importlib
 # usage: python3 build_carousels.py <content_module> <out_dir> [day numbers...]
 CONTENT = sys.argv[1] if len(sys.argv) > 1 else "content_2026_10"
 MOD = importlib.import_module(CONTENT); C = MOD.C
-STYLE = getattr(MOD, "STYLE", "themes")  # "templates" → rotate the 20 skins in templates.py
+STYLE = getattr(MOD, "STYLE", "themes")
+PHOTO = getattr(MOD, "PHOTO", None)  # path to a transparent cut-out of Tamir → shown on every hook slide  # "templates" → rotate the 20 skins in templates.py
 import templates as TPL
 
 FONT = os.environ.get("FONTSOURCE_DIR", os.path.join(HERE, "node_modules/@fontsource"))  # npm i @fontsource/heebo @fontsource/secular-one
@@ -43,6 +44,9 @@ mark{{background:linear-gradient(transparent 18%,var(--acc) 18%,var(--acc) 88%,t
 .sticker{{position:absolute;left:70px;bottom:150px;transform:rotate(-8deg);background:var(--acc);color:var(--acc_ink);font-family:Sec;font-size:46px;padding:14px 30px;border-radius:18px;box-shadow:8px 8px 0 rgba(0,0,0,.35);display:flex;gap:10px;align-items:center;z-index:3}}
 .sticker svg{{width:46px;height:46px}}
 h1{{font-family:Sec;font-weight:400;line-height:1.04;text-wrap:balance;position:relative;z-index:2}}
+.has-me .me{{position:absolute;left:-120px;bottom:0;height:640px;z-index:1;filter:drop-shadow(0 12px 28px rgba(0,0,0,.35))}}
+.s.has-me h1{{margin-left:370px;font-size:84px}} .s.has-me.k-tape h1{{font-size:82px}} .s.has-me.k-bubble h1,.s.has-me.k-strike h1{{font-size:78px}}
+.has-me .sticker{{left:auto;right:88px;bottom:150px}}
 /* num */
 .k-num .big{{font-family:Sec;line-height:.85;color:var(--acc);margin-top:24px;white-space:nowrap;text-shadow:10px 10px 0 var(--soft)}}
 .k-num h1{{font-size:104px;margin-top:auto;margin-bottom:120px}}
@@ -106,7 +110,8 @@ def hook(d, n):
                 f'<div class="bub">{e(d["bub"])}</div><div class="seen">נקרא ✓✓</div></div><h1>{rich(t)}</h1>')
     else:
         body = f'<div class="tag">{e(d["cat"])}</div><div class="q">"{e(d["q"])}"</div><h1>{rich(t)}</h1>'
-    return f'<div class="s k-{k}">{prog(0,n)}{body}{STICK}{foot()}</div>'
+    me = f'<img class="me" src="file://{os.path.join(HERE, PHOTO)}">' if PHOTO else ""
+    return f'<div class="s k-{k}{" has-me" if PHOTO else ""}">{prog(0,n)}{me}{body}{STICK}{foot()}</div>'
 
 def content(txt, i, n):
     lines = txt.split("\n"); size = "xxl" if len(txt) < 42 and len(lines) == 1 else ("" if len(txt) < 95 else ("long" if len(txt) < 150 else "xl"))

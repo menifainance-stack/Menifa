@@ -5,6 +5,7 @@
 # src and conf (1-10). Worked examples are computed in Python and say "להמחשה".
 # The 23.11.2026 rate decision is NOT known at writing time, so no slide states a current rate.
 STYLE = "templates"
+PHOTO = "assets/tamir_cut.png"  # Tamir on every hook slide (request 01.11.2026)
 DIS = "מידע כללי בלבד, לא ייעוץ משפטי או ייעוץ מס."
 ILL = "הדוגמאות להמחשה בלבד, בריבית שהנחנו. ההצעה שלכם תלויה בבנק ובנתונים שלכם."
 

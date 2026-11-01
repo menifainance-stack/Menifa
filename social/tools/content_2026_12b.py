@@ -4,6 +4,7 @@
 # BoI directives 329/451 read directly, Tax Authority and news check). Every item carries src and conf.
 # Worked examples are computed in Python and say "להמחשה". Past fund returns are history, never a forecast.
 STYLE = "templates"
+PHOTO = "assets/tamir_cut.png"  # Tamir on every hook slide (request 01.11.2026)
 DIS = "מידע כללי בלבד, לא ייעוץ משפטי או ייעוץ מס."
 NFA = "נתוני עבר כפי שמופיעים באתרי רשות שוק ההון (נומינלי), לא תחזית ולא המלצה על קרן."
 ILL = "הדוגמאות להמחשה בלבד, בריבית שהנחנו."
