@@ -12,7 +12,7 @@
     <copyright>© מניפה פיננסית — תמיר גרמה</copyright>
     <managingEditor>menifainance@gmail.com (תמיר גרמה)</managingEditor>
     <webMaster>menifainance@gmail.com (תמיר גרמה)</webMaster>
-    <lastBuildDate>Sun, 08 Nov 2026 12:00:00 +0300</lastBuildDate>
+    <lastBuildDate>Tue, 10 Nov 2026 12:00:00 +0300</lastBuildDate>
     <generator>Menifa Editorial</generator>
     <image>
       <url>https://menifa.org/assets/images/tamir-og.jpg</url>
@@ -20,6 +20,15 @@
       <link>https://menifa.org/</link>
     </image>
 
+    <item>
+      <title>כמה חסכתם מהורדות הריבית של בנק ישראל ב-2026? חישוב ריאלי למשכנתא שלכם</title>
+      <link>https://menifa.org/blog/%D7%97%D7%99%D7%A1%D7%9B%D7%95%D7%9F-%D7%9E%D7%94%D7%95%D7%A8%D7%93%D7%95%D7%AA-%D7%A8%D7%99%D7%91%D7%99%D7%AA-2026-%D7%97%D7%99%D7%A9%D7%95%D7%91-%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90.html</link>
+      <guid isPermaLink="true">https://menifa.org/blog/%D7%97%D7%99%D7%A1%D7%9B%D7%95%D7%9F-%D7%9E%D7%94%D7%95%D7%A8%D7%93%D7%95%D7%AA-%D7%A8%D7%99%D7%91%D7%99%D7%AA-2026-%D7%97%D7%99%D7%A9%D7%95%D7%91-%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90.html</guid>
+      <description>ריבית בנק ישראל ירדה מ-4% ל-3.25% תוך פחות משנה. כמה זה שווה על המשכנתא שלכם? חישוב מפורט לפי גדלי משכנתא שונים ומה כדאי לעשות עם החיסכון.</description>
+      <pubDate>Tue, 10 Nov 2026 12:00:00 +0300</pubDate>
+      <dc:creator>תמיר גרמה</dc:creator>
+      <category>ריבית</category>
+    </item>
     <item>
       <title>אחרי הבחירות: מה מחכה לשוק הנדל&quot;ן ולמשכנתאות שלכם?</title>
       <link>https://menifa.org/blog/%D7%90%D7%97%D7%A8%D7%99-%D7%91%D7%97%D7%99%D7%A8%D7%95%D7%AA-2026-%D7%A9%D7%95%D7%A7-%D7%94%D7%A0%D7%93%D7%9C%D7%9F-%D7%9E%D7%A9%D7%9B%D7%A0%D7%AA%D7%90%D7%95%D7%AA.html</link>
@@ -280,15 +289,6 @@
       <pubDate>Wed, 16 Sep 2026 12:00:00 +0300</pubDate>
       <dc:creator>תמיר גרמה</dc:creator>
       <category>מדד</category>
-    </item>
-    <item>
-      <title>ריבית בנק ישראל 3.25%: האם הגיע הזמן למחזר?</title>
-      <link>https://menifa.org/blog/%D7%A8%D7%99%D7%91%D7%99%D7%AA-3-25-%D7%94%D7%96%D7%9E%D7%9F-%D7%9C%D7%9E%D7%97%D7%96%D7%A8.html</link>
-      <guid isPermaLink="true">https://menifa.org/blog/%D7%A8%D7%99%D7%91%D7%99%D7%AA-3-25-%D7%94%D7%96%D7%9E%D7%9F-%D7%9C%D7%9E%D7%97%D7%96%D7%A8.html</guid>
-      <description>ריבית בנק ישראל ירדה ל־3.25% (ספט׳ 2026). למי כדאי לבדוק מיחזור אחרי ההורדות, למי לחכות, ומה בודקים בפריים, קבועים וביטוחים לפני חתימה. וואטסאפ לתיאום שיחה · מניפה פיננסית.</description>
-      <pubDate>Wed, 16 Sep 2026 12:00:00 +0300</pubDate>
-      <dc:creator>תמיר גרמה</dc:creator>
-      <category>ריבית</category>
     </item>
   </channel>
 </rss>
