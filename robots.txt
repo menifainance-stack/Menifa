@@ -1,3 +1,5 @@
 User-agent: *
+Disallow: /studio/
+Disallow: /api/
 Allow: /
 Sitemap: https://menifa.org/sitemap.xml

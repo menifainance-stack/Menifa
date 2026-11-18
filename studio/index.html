@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#14222F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="רילים · מניפה">
+<link rel="apple-touch-icon" href="/assets/favicon-180.png">
+<title>אישור רילים · מניפה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F1EA; --surface:#FFFFFF; --ink:#1B232C; --muted:#5E6B78; --line:#E3DED3;
+  --gold:#B89259; --gold-ink:#7A5B2A; --navy:#14222F;
+  --ok:#1C8A6A; --ok-bg:#E3F4EE; --warn:#B4610E; --warn-bg:#FCEFD9; --bad:#B8322E; --bad-bg:#FBE4E2;
+  --info:#2C5C8A; --info-bg:#E2ECF6; --chip:#EFEAE0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F161D; --surface:#17212B; --ink:#EEF1F4; --muted:#9AA7B4; --line:#26323F;
+    --gold:#D2AE72; --gold-ink:#E6C891; --navy:#0B1219;
+    --ok:#4CC9A2; --ok-bg:#12302A; --warn:#F0A65A; --warn-bg:#33240F; --bad:#F07C77; --bad-bg:#3A1A19;
+    --info:#7FB0E0; --info-bg:#162A3D; --chip:#1F2B37;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F161D; --surface:#17212B; --ink:#EEF1F4; --muted:#9AA7B4; --line:#26323F;
+  --gold:#D2AE72; --gold-ink:#E6C891; --navy:#0B1219;
+  --ok:#4CC9A2; --ok-bg:#12302A; --warn:#F0A65A; --warn-bg:#33240F; --bad:#F07C77; --bad-bg:#3A1A19;
+  --info:#7FB0E0; --info-bg:#162A3D; --chip:#1F2B37;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Rubik,system-ui,sans-serif;direction:rtl;line-height:1.55}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 64px}
+header{background:var(--navy);color:#fff;border-radius:18px;padding:22px 22px 18px;margin-bottom:18px}
+header .kicker{color:var(--gold);font-weight:700;font-size:13px;letter-spacing:.02em}
+header h1{margin:4px 0 6px;font-size:26px;font-weight:800}
+header p{margin:0;color:#C9D2DB;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.stat{background:rgba(255,255,255,.07);border-radius:12px;padding:10px 12px}
+.stat b{display:block;font-size:22px;font-weight:800;color:#fff}
+.stat span{font-size:12px;color:#AEB9C4}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:0 0 14px}
+.note{font-size:13px;color:var(--muted)}
+.alert{background:var(--warn-bg);color:var(--warn);border-radius:12px;padding:10px 14px;font-size:14px;margin-bottom:14px;display:none}
+.alert.show{display:block}
+button{font-family:inherit;font-size:14px;font-weight:700;border-radius:10px;border:1px solid transparent;padding:9px 14px;cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
+.b-ok{background:var(--ok);color:#fff}
+.b-warn{background:var(--surface);color:var(--warn);border-color:var(--warn)}
+.b-ghost{background:transparent;color:var(--muted);border-color:var(--line)}
+.b-gold{background:var(--gold);color:#1B1206}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:12px}
+.card.today{border-color:var(--gold);box-shadow:0 0 0 2px color-mix(in srgb,var(--gold) 30%,transparent)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.date{font-weight:700;font-size:14px;color:var(--gold-ink)}
+.date small{color:var(--muted);font-weight:500;margin-inline-start:6px}
+.pill{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px}
+.st-voicing,.st-producing{background:var(--info-bg);color:var(--info)}
+.st-skipped{background:var(--chip);color:var(--muted)}
+audio{width:100%;margin:6px 0 2px;height:40px}
+.listen{font-size:13px;font-weight:700;color:var(--gold-ink);margin-top:6px}
+.st-pending{background:var(--chip);color:var(--muted)}
+.st-approved{background:var(--ok-bg);color:var(--ok)}
+.st-changes{background:var(--warn-bg);color:var(--warn)}
+.st-rejected{background:var(--bad-bg);color:var(--bad)}
+.st-queued{background:var(--info-bg);color:var(--info)}
+.st-published{background:var(--ok-bg);color:var(--ok)}
+h2{font-size:19px;margin:8px 0 4px;font-weight:800}
+.hook{font-size:15px;margin:0 0 8px}
+.hook b{color:var(--gold-ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 8px}
+.chip{background:var(--chip);border-radius:8px;padding:3px 9px;font-size:12px;color:var(--muted)}
+.summary{font-size:14px;color:var(--ink);margin:0 0 8px}
+details{border-top:1px dashed var(--line);margin-top:8px;padding-top:8px}
+summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--muted)}
+.script{white-space:pre-wrap;font-size:14px;background:var(--bg);border-radius:10px;padding:10px 12px;margin-top:8px}
+.src{font-size:13px;margin:6px 0 0;padding-inline-start:18px}
+.src a{color:var(--info)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+textarea{width:100%;min-height:70px;font-family:inherit;font-size:14px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:8px 10px;margin-top:10px;display:none}
+textarea.show{display:block}
+.fix{margin-top:12px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px}
+.fix h3{margin:0 0 6px;font-size:14px;font-weight:800;color:var(--gold-ink)}
+.fix label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:8px 0 4px}
+.fix textarea{display:block;margin-top:0;min-height:58px;background:var(--surface)}
+.fix .row{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.fix .saved{font-size:12px;color:var(--muted)}
+.track{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface)}
+.track h3{margin:0 0 8px;font-size:14px;font-weight:800}
+.step{display:flex;gap:8px;align-items:flex-start;font-size:14px;margin:6px 0;color:var(--muted)}
+.step .ic{width:20px;flex:none;text-align:center}
+.step.done{color:var(--ok);font-weight:700}
+.step.now{color:var(--info);font-weight:700}
+.step.err{color:var(--bad);font-weight:700}
+.spin{display:inline-block;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.newscript{white-space:pre-wrap;font-size:14px;background:var(--ok-bg);border-radius:10px;padding:10px 12px;margin-top:8px;color:var(--ink)}
+.newscript mark{background:var(--gold);color:#1B1206;border-radius:4px;padding:0 3px}
+.pronlist{margin:6px 0 0;padding-inline-start:18px;font-size:14px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;font-weight:700;padding:12px 18px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.25);z-index:9;display:none;width:max-content;max-width:90vw;text-align:center}
+.toast.show{display:block}
+.mynote{font-size:13px;color:var(--warn);margin-top:8px}
+.empty{text-align:center;color:var(--muted);padding:40px 10px}
+.foot{font-size:12px;color:var(--muted);text-align:center;margin-top:20px}
+@media (max-width:560px){.stats{grid-template-columns:repeat(2,1fr)} h2{font-size:17px} header h1{font-size:22px}}
+.login{max-width:380px;margin:12vh auto;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px;text-align:center}
+.login h1{font-size:22px;margin:0 0 6px}
+.login input{width:100%;font:inherit;font-size:16px;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin:14px 0 10px;text-align:center}
+.login button{width:100%;padding:12px}
+.login .err{color:var(--bad);font-size:14px;min-height:20px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="login hidden" id="login"><div class="kicker" style="color:var(--gold-ink);font-weight:700">מניפה פיננסית</div><h1>אישור רילים</h1><p class="note">הכניסה לתמיר בלבד</p><form id="lf"><input id="pw" type="password" autocomplete="current-password" placeholder="סיסמה" required><button class="b-gold" type="submit">כניסה</button></form><div class="err" id="lerr"></div></div>
+<div class="wrap hidden" id="app">
+  <header>
+    <div class="kicker">מניפה פיננסית · רוטינת רילים יומית</div>
+    <h1>התכנים של 7 הימים הקרובים</h1>
+    <p>פעם בשבוע נבנים כאן 7 תכנים חדשים, כל אחד עם הקול שלך להאזנה. ריל עולה רק אחרי שאישרת את התוכן ואת ההגייה, ובאותו יום הוא מופק ומתפרסם. בכל תוכן יש תיבת תיקונים: מה שתכתוב שם נכנס לתסריט ולקול החדשים, שחוזרים אליך לאישור.</p>
+    <div class="stats">
+      <div class="stat"><b id="sApproved">–</b><span>מאושרים</span></div>
+      <div class="stat"><b id="sPending">–</b><span>ממתינים לך</span></div>
+      <div class="stat"><b id="sCredits">–</b><span>קרדיטים ב־HeyGen</span></div>
+      <div class="stat"><b id="sDays">–</b><span>ימים שהקרדיטים מכסים</span></div>
+    </div>
+  </header>
+
+  <div class="alert" id="alert"></div>
+  <div class="bar">
+    <span class="note" id="lastRun">טוען…</span>
+    <button class="b-gold" id="approveAll" disabled>אשר את כל הממתינים</button>
+  </div>
+  <div id="list"><div class="empty">טוען את התוכנית…</div></div>
+  <div class="toast" id="toast"></div>
+  <div class="foot">שעות פרסום: א׳–ה׳ 19:27 · שישי 14:27 · מוצ״ש 20:27 · אינסטגרם @tamirgarame + פייסבוק "תמיר גרמה משכנתאות ופיננסים"</div>
+</div>
+
+
+<script>
+const ST = {voicing:"מכין קול", producing:"בהפקה", skipped:"לא עלה (לא אושר)", pending:"ממתין לאישור", approved:"מאושר", changes:"בתיקון", rejected:"נדחה", queued:"בתור לפרסום", published:"פורסם"};
+const LAY = {split:"מסך מפוצל", pip:"דמות קטנה + כתבות", full:"רק תמיר"};
+const DAYS = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+const FIXING = ["received","script_ready","voicing"];
+let rows = [], meta = {}, live = {}, pollT = null, busy = false;
+let drafts = {}; try { drafts = JSON.parse(localStorage.getItem("menifa-fix-drafts") || "{}"); } catch(e){}
+const saveDrafts = () => { try { localStorage.setItem("menifa-fix-drafts", JSON.stringify(drafts)); } catch(e){} };
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const todayISO = () => new Intl.DateTimeFormat("en-CA", {timeZone: "Asia/Jerusalem"}).format(new Date());
+function toast(msg){ const t = $("#toast"); t.textContent = msg; t.classList.add("show"); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove("show"), 4500); }
+
+async function api(path, body){
+  const r = await fetch("/api/studio/" + path, body ? {method: "POST", headers: {"content-type": "application/json"}, body: JSON.stringify(body)} : {cache: "no-store"});
+  if (r.status === 401){ showLogin(); throw {code: 401}; }
+  if (!r.ok){ let m = ""; try { m = (await r.json()).error; } catch(e){} throw {code: r.status, message: m}; }
+  return r.json();
+}
+function showLogin(){ $("#app").classList.add("hidden"); $("#login").classList.remove("hidden"); clearTimeout(pollT); }
+$("#lf").addEventListener("submit", async ev => {
+  ev.preventDefault(); $("#lerr").textContent = "";
+  try { await api("login", {password: $("#pw").value}); $("#login").classList.add("hidden"); $("#app").classList.remove("hidden"); load(); }
+  catch(e){ $("#lerr").textContent = e.code === 401 || e.code === 403 ? "סיסמה שגויה" : e.code === 503 ? "הדשבורד עוד לא הוגדר ב־Vercel (חסרים STUDIO_PASSWORD ו־GH_TOKEN)" : "לא ניתן להתחבר כרגע"; }
+});
+
+async function load(){
+  clearTimeout(pollT);
+  try {
+    const d = await api("plan");
+    $("#login").classList.add("hidden"); $("#app").classList.remove("hidden");
+    rows = d.plan || []; meta = d.meta || {};
+    for (const r of rows){ const L = live[r.date]; if (L && (r.fix_stage !== "voice_ready" || !L.sentAt || Date.parse(r.fixed_at || 0) >= L.sentAt) && r.fix_stage !== "received") delete live[r.date]; }
+    render();
+  } catch(e){ if (e.code === 500 || e.code === 503){ showLogin(); $("#lerr").textContent = "הדשבורד עוד לא הוגדר ב־Vercel (חסרים STUDIO_PASSWORD ו־GH_TOKEN)"; return; } if (e.code !== 401){ $("#lastRun").textContent = "לא ניתן לטעון כרגע. מנסה שוב…"; } }
+  const fixing = rows.some(r => FIXING.includes(r.fix_stage)) || Object.keys(live).length;
+  pollT = setTimeout(load, fixing ? 4000 : 60000);
+}
+
+let deferred = false;
+document.addEventListener("focusout", ev => { if (ev.target.matches && ev.target.matches("textarea[data-f]") && deferred){ if (ev.relatedTarget && ev.relatedTarget.closest && ev.relatedTarget.closest(".card")) return; setTimeout(() => { if (deferred && (!document.activeElement || !document.activeElement.matches("textarea[data-f]"))){ deferred = false; render(); } }, 600); } });
+
+function hl(script, pron){
+  let h = esc(script || "");
+  for (const x of (pron || [])){ const w = esc(x.word || ""); if (w.length > 1) h = h.split(w).join(`<mark>${w}</mark>`); }
+  return h;
+}
+function trackHTML(r){
+  const L = live[r.date];
+  const stage = (L && L.stage) || r.fix_stage;
+  if (!stage) return "";
+  const recent = r.fixed_at && (Date.now() - Date.parse(r.fixed_at) < 36*3600e3);
+  if (stage === "voice_ready" && !recent) return "";
+  const hasScript = !!r.script_new;
+  const doneUpTo = {received: 0, waiting_claude: 0, script_ready: 1, voicing: hasScript ? 1 : 0, voice_ready: 3, error: hasScript ? 1 : 0}[stage] ?? 0;
+  const nowAt = stage === "voice_ready" ? -1 : stage === "voicing" ? 2 : doneUpTo + 1;
+  const st = (i, label, nowLabel) => {
+    if (stage === "error" && i === doneUpTo + 1) return `<div class="step err"><span class="ic">⚠️</span><span>${esc(r.fix_error || "משהו נכשל. התיקון יטופל בריצה הקרובה.")}</span></div>`;
+    if (stage === "waiting_claude" && i === 1) return `<div class="step now"><span class="ic">⏳</span><span>${esc(r.fix_note || "התיקון יטופל בריצה הקרובה (11:43 / 15:43)")}</span></div>`;
+    const cls = i <= doneUpTo ? "done" : i === nowAt ? "now" : "";
+    const ic = cls === "done" ? "✓" : cls === "now" ? '<span class="spin">◌</span>' : "○";
+    return `<div class="step ${cls}"><span class="ic">${ic}</span><span>${cls === "now" && nowLabel ? nowLabel : label}</span></div>`;
+  };
+  const fc = r.fix_content || (L && L.c) || "", fp = r.fix_pron || (L && L.p) || "";
+  const fixes = [fc, fp ? "הגייה: " + fp : ""].filter(Boolean).join(" · ");
+  const pron = (r.pron_map && r.pron_map.length ? r.pron_map : r.pron_fixed) || [];
+  let out = `<div class="track"><h3>${stage === "voice_ready" ? "✅ התיקון הושלם · ההגייה תוקנה" : "🛠️ התיקון שלך בעבודה"}</h3>`;
+  if (fixes && stage !== "voice_ready") out += `<div class="note" style="margin-bottom:6px">ביקשת: ${esc(fixes)}</div>`;
+  out += st(0, "התיקון התקבל");
+  out += st(1, "התסריט המתוקן מוכן", "מעדכן את התסריט ואת מילון ההגייה…");
+  out += st(2, "הקול המתוקן נוצר", "מייצר את הקול שלך מחדש (בערך 2 דקות)…");
+  out += st(3, "ההגייה תוקנה · האזן לגרסה החדשה למעלה");
+  if (pron.length) out += `<ul class="pronlist">${pron.map(x => `<li>${stage === "voice_ready" ? "✓ " : ""}${esc(x.word)} ← ${esc(x.spoken)}</li>`).join("")}</ul>`;
+  if (r.script_new && stage !== "voice_ready") out += `<div class="listen" style="margin-top:10px">התסריט המתוקן${pron.length ? " (המילים שתוקנו מסומנות)" : ""}:</div><div class="newscript">${hl(r.script_new, pron)}</div>`;
+  return out + `</div>`;
+}
+
+function render(){
+  const ae = document.activeElement;
+  if (ae && ae.matches && ae.matches("textarea[data-f]")){ deferred = true; return; }
+  const t = todayISO();
+  const visible = rows.filter(r => r.date >= t).sort((a,b) => a.date.localeCompare(b.date));
+  $("#sApproved").textContent = visible.filter(r => ["approved","queued","published","producing"].includes(r.status)).length;
+  const pend = visible.filter(r => r.status === "pending").length;
+  $("#sPending").textContent = pend;
+  $("#sCredits").textContent = meta.credits ?? "–";
+  $("#sDays").textContent = meta.credits != null ? Math.floor(meta.credits / 32) : "–";
+  $("#lastRun").textContent = meta.last_run ? "עדכון אחרון של הרוטינה: " + meta.last_run : "";
+  const al = $("#alert");
+  if (meta.alert){ al.textContent = meta.alert; al.classList.add("show"); } else al.classList.remove("show");
+  $("#approveAll").disabled = busy || pend === 0;
+  if (!visible.length){ $("#list").innerHTML = '<div class="empty">אין עדיין תכנים מתוכננים. התכנון השבועי ממלא את השבוע הקרוב.</div>'; return; }
+  $("#list").innerHTML = visible.map(r => {
+    const d = new Date(r.date + "T12:00:00");
+    const srcs = (r.sources || []).map(s => `<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.name)}</a></li>`).join("");
+    const L = live[r.date];
+    const stage = (L && L.stage) || r.fix_stage;
+    const fixing = FIXING.includes(stage) || stage === "waiting_claude";
+    const closed = ["queued","published","producing","skipped"].includes(r.status);
+    const dr = drafts[r.date] || {};
+    const audio = r.audio_path ? `/api/studio/audio?date=${encodeURIComponent(r.date)}&v=${encodeURIComponent(r.audio_rev || "")}` : "";
+    return `<article class="card ${r.date===t?'today':''}" data-id="${esc(r.date)}">
+      <div class="top"><span class="date">יום ${DAYS[d.getDay()]} · ${d.getDate()}.${d.getMonth()+1} <small>${esc(r.slot||"")}</small></span>
+      <span class="pill st-${esc(r.status)}">${ST[r.status]||esc(r.status)}</span></div>
+      <h2>${esc(r.topic)}</h2>
+      <p class="hook">פתיח: <b>${esc(r.hook)}</b></p>
+      <div class="chips">${r.pillar?`<span class="chip">${esc(r.pillar)}</span>`:""}<span class="chip">${LAY[r.layout]||esc(r.layout||"")}</span>${r.comment_word?`<span class="chip">מילת תגובה: ${esc(r.comment_word)}</span>`:""}${r.confidence?`<span class="chip">ביטחון בנתונים: ${esc(r.confidence)}/10</span>`:""}</div>
+      ${r.summary?`<p class="summary">${esc(r.summary)}</p>`:""}
+      ${audio?`<div class="listen">🎧 האזן לקול ולהגייה</div><audio controls preload="none" src="${audio}"></audio>`:`<div class="note">הקול בהכנה ויופיע כאן בקרוב</div>`}
+      ${trackHTML(r)}
+      ${(r.script||srcs)?`<details><summary>התסריט המלא והמקורות</summary>${r.script?`<div class="script">${esc(r.script)}</div>`:""}${srcs?`<ul class="src">${srcs}</ul>`:""}</details>`:""}
+      ${closed||fixing||!audio||r.status==="changes"?"":`<div class="actions">
+        <button class="b-ok" data-act="approve">אשר תוכן והגייה</button>
+        <button class="b-ghost" data-act="reject">החלף נושא</button>
+      </div>`}
+      ${closed||fixing?"":`<div class="fix">
+        <h3>✏️ תיבת תיקונים</h3>
+        <label>תיקון לתוכן (נושא, פתיח, ניסוח, נתון, מה להוסיף או להוריד)</label>
+        <textarea data-f="c" placeholder="למשל: הפתיח חלש, תפתח עם המספר. תוריד את המשפט על…">${esc(dr.c||"")}</textarea>
+        <label>תיקון להגייה: מילה ← איך לומר אותה, באותיות עבריות</label>
+        <textarea data-f="p" placeholder="למשל: שכר ← סָחָר · היוון ← אִיווֹן (אפשר גם לכתוב חופשי)">${esc(dr.p||"")}</textarea>
+        <div class="row"><button class="b-warn" data-act="fix">שלח תיקונים</button><span class="saved">התסריט והקול ייווצרו מחדש ויחזרו אליך לאישור</span></div>
+      </div>`}
+    </article>`;
+  }).join("");
+}
+
+document.addEventListener("input", ev => {
+  const ta = ev.target.closest("textarea[data-f]"); if (!ta) return;
+  const id = ta.closest(".card").dataset.id;
+  drafts[id] = Object.assign(drafts[id] || {}, {[ta.dataset.f]: ta.value}); saveDrafts();
+});
+
+document.addEventListener("click", async ev => {
+  const b = ev.target.closest("button[data-act]");
+  if (!b){ if (deferred && !(document.activeElement && document.activeElement.matches && document.activeElement.matches("textarea[data-f]"))){ deferred = false; render(); } return; }
+  deferred = false;
+  const card = b.closest(".card"), id = card.dataset.id, act = b.dataset.act;
+  const c = (card.querySelector('textarea[data-f="c"]')?.value || "").trim();
+  const p = (card.querySelector('textarea[data-f="p"]')?.value || "").trim();
+  if (act === "fix" && !c && !p){ card.querySelector('textarea[data-f="c"]').focus(); return; }
+  b.disabled = true;
+  if (act === "fix"){ live[id] = {stage: "received", c, p, sentAt: Date.now()}; render(); toast("✓ התיקון התקבל. מעדכן את התסריט וההגייה…"); }
+  try {
+    const res = await api("act", {date: id, action: act, fix_content: c, fix_pron: p});
+    const i = rows.findIndex(x => x.date === id); if (i >= 0 && res.doc) rows[i] = res.doc;
+    if (act === "fix"){ delete drafts[id]; saveDrafts(); }
+    if (act === "approve") toast("✓ אושר. הריל יופק ויעלה היום בשעה שנקבעה");
+    if (act === "reject") toast("✓ נושא חדש יוכן ויחזור אליך לאישור");
+  } catch(e){ delete live[id]; if (e.code !== 401) toast("השמירה לא הצליחה, נסה שוב"); }
+  render(); load();
+});
+
+$("#approveAll").addEventListener("click", async () => {
+  const t = todayISO(); busy = true; render();
+  for (const r of rows.filter(r => r.date >= t && r.status === "pending" && r.audio_path)){ try { await api("act", {date: r.date, action: "approve"}); } catch(e){} }
+  busy = false; toast("✓ כל הממתינים אושרו"); load();
+});
+
+load();
+
+</script>
+</body>
+</html>

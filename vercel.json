@@ -488,6 +488,28 @@
      "value": "noindex"
     }
    ]
+  },
+  {
+   "source": "/studio/(.*)",
+   "headers": [
+    {
+     "key": "X-Robots-Tag",
+     "value": "noindex, nofollow"
+    },
+    {
+     "key": "Cache-Control",
+     "value": "no-store"
+    }
+   ]
+  },
+  {
+   "source": "/studio",
+   "headers": [
+    {
+     "key": "X-Robots-Tag",
+     "value": "noindex, nofollow"
+    }
+   ]
   }
  ],
  "routes": [
