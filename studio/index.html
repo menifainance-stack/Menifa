@@ -148,7 +148,7 @@ const ST = {voicing:"מכין קול", producing:"בהפקה", skipped:"לא ע�
 const LAY = {split:"מסך מפוצל", pip:"דמות קטנה + כתבות", full:"רק תמיר"};
 const DAYS = ["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
 const FIXING = ["received","script_ready","voicing"];
-let rows = [], meta = {}, live = {}, pollT = null, busy = false;
+let rows = [], meta = {}, live = {}, pollT = null, busy = false, focusCard = null;
 let drafts = {}; try { drafts = JSON.parse(localStorage.getItem("menifa-fix-drafts") || "{}"); } catch(e){}
 const saveDrafts = () => { try { localStorage.setItem("menifa-fix-drafts", JSON.stringify(drafts)); } catch(e){} };
 const $ = s => document.querySelector(s);
@@ -211,6 +211,8 @@ function trackHTML(r){
   const pron = (r.pron_map && r.pron_map.length ? r.pron_map : r.pron_fixed) || [];
   let out = `<div class="track"><h3>${stage === "voice_ready" ? "✅ התיקון הושלם · ההגייה תוקנה" : "🛠️ התיקון שלך בעבודה"}</h3>`;
   if (fixes && stage !== "voice_ready") out += `<div class="note" style="margin-bottom:6px">ביקשת: ${esc(fixes)}</div>`;
+  const last = (r.history || []).slice(-1)[0];
+  if (stage === "voice_ready" && last){ const lf = [last.fix_content, last.fix_pron ? "הגייה: " + last.fix_pron : ""].filter(Boolean).join(" · "); if (lf) out += `<div class="note" style="margin-bottom:6px">התיקון שביקשת: ${esc(lf)}</div>`; }
   out += st(0, "התיקון התקבל");
   out += st(1, "התסריט המתוקן מוכן", "מעדכן את התסריט ואת מילון ההגייה…");
   out += st(2, "הקול המתוקן נוצר", "מייצר את הקול שלך מחדש (בערך 2 דקות)…");
@@ -234,6 +236,12 @@ function render(){
   const al = $("#alert");
   if (meta.alert){ al.textContent = meta.alert; al.classList.add("show"); } else al.classList.remove("show");
   $("#approveAll").disabled = busy || pend === 0;
+  // keep the screen where it was: remember which card is on screen (or the one just edited) and its position
+  let anchorId = null, anchorTop = 0;
+  const pref = focusCard && document.querySelector(`.card[data-id="${focusCard}"]`);
+  const cardsNow = pref ? [pref] : [...document.querySelectorAll(".card")];
+  for (const c of cardsNow){ const rc = c.getBoundingClientRect(); if (rc.bottom > 80 || pref){ anchorId = c.dataset.id; anchorTop = rc.top; break; } }
+  const restore = () => { if (!anchorId) return; const el = document.querySelector(`.card[data-id="${anchorId}"]`); if (el) window.scrollBy(0, el.getBoundingClientRect().top - anchorTop); };
   if (!visible.length){ $("#list").innerHTML = '<div class="empty">אין עדיין תכנים מתוכננים. התכנון השבועי ממלא את השבוע הקרוב.</div>'; return; }
   $("#list").innerHTML = visible.map(r => {
     const d = new Date(r.date + "T12:00:00");
@@ -268,6 +276,7 @@ function render(){
       </div>`}
     </article>`;
   }).join("");
+  restore();
 }
 
 document.addEventListener("input", ev => {
@@ -281,11 +290,13 @@ document.addEventListener("click", async ev => {
   if (!b){ if (deferred && !(document.activeElement && document.activeElement.matches && document.activeElement.matches("textarea[data-f]"))){ deferred = false; render(); } return; }
   deferred = false;
   const card = b.closest(".card"), id = card.dataset.id, act = b.dataset.act;
+  focusCard = id; clearTimeout(window.__fcT); window.__fcT = setTimeout(() => { focusCard = null; }, 120000);
   const c = (card.querySelector('textarea[data-f="c"]')?.value || "").trim();
   const p = (card.querySelector('textarea[data-f="p"]')?.value || "").trim();
   if (act === "fix" && !c && !p){ card.querySelector('textarea[data-f="c"]').focus(); return; }
   b.disabled = true;
-  if (act === "fix"){ live[id] = {stage: "received", c, p, sentAt: Date.now()}; render(); toast("✓ התיקון התקבל. מעדכן את התסריט וההגייה…"); }
+  if (act === "fix"){ live[id] = {stage: "received", c, p, sentAt: Date.now()}; render(); toast("✓ התיקון התקבל. מעדכן את התסריט וההגייה…");
+    const tr = document.querySelector(`.card[data-id="${id}"] .track`); if (tr) tr.scrollIntoView({block: "nearest", behavior: "smooth"}); }
   try {
     const res = await api("act", {date: id, action: act, fix_content: c, fix_pron: p});
     const i = rows.findIndex(x => x.date === id); if (i >= 0 && res.doc) rows[i] = res.doc;
