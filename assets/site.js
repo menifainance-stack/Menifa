@@ -895,7 +895,11 @@
      GA4 and Meta Contact run only when consent already allows that
      category. A click before consent is not queued. */
   (function mountWaFloat() {
-    if (/^\/(lp|q)\/(ihud|mihzur)(\/|\/index\.html)?$/i.test(String(location.pathname || ''))) return;
+    var path = String(location.pathname || '');
+    /* Paid LPs bring their own schedule button. The soft gerushin skeleton
+       does too, and must not gain a second floating wa.me. */
+    if (/^\/(lp|q)\/(ihud|mihzur)(\/|\/index\.html)?$/i.test(path)) return;
+    if (/\/mashkanta-gerushin\.html$/i.test(path)) return;
     var WA_NUMBER = CONFIG.whatsapp;
     var LABEL = 'וואטסאפ — לתיאום שיחה';
     var GREETING = 'שלום, אשמח לתיאום שיחה';
