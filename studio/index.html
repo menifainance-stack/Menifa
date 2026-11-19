@@ -222,6 +222,15 @@ function trackHTML(r){
   return out + `</div>`;
 }
 
+function viralHTML(v){
+  if (!v) return "";
+  const bm = (v.benchmarks || []).slice(0, 5).map(x => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.handle || x.url)}</a>${x.views ? " · " + Number(x.views).toLocaleString("he-IL") + " צפיות" : ""}${x.comments ? " · " + esc(x.comments) + " תגובות" : ""}${x.length ? " · " + esc(x.length) + " שנ׳" : ""}${x.hook ? `<br><span class="note">הוק: ${esc(x.hook)}</span>` : ""}</li>`).join("");
+  return `<details><summary>📈 דוח ויראליות${v.confidence ? " · ביטחון " + esc(v.confidence) + "/10" : ""}</summary>
+    ${bm ? `<div class="listen" style="margin-top:8px">רילים מקבילים שהצליחו</div><ul class="src">${bm}</ul>` : ""}
+    ${v.takeaways ? `<p class="summary"><b>מה לוקחים:</b> ${esc(v.takeaways)}</p>` : ""}
+    ${v.our_edge ? `<p class="summary"><b>מה אצלנו טוב יותר:</b> ${esc(v.our_edge)}</p>` : ""}
+    ${v.demand ? `<p class="summary"><b>ביקוש בשוק:</b> ${esc(v.demand)}</p>` : ""}</details>`;
+}
 function render(){
   const ae = document.activeElement;
   if (ae && ae.matches && ae.matches("textarea[data-f]")){ deferred = true; return; }
@@ -261,6 +270,7 @@ function render(){
       ${r.summary?`<p class="summary">${esc(r.summary)}</p>`:""}
       ${audio?`<div class="listen">🎧 האזן לקול ולהגייה</div><audio controls preload="none" src="${audio}"></audio>`:`<div class="note">הקול בהכנה ויופיע כאן בקרוב</div>`}
       ${trackHTML(r)}
+      ${viralHTML(r.virality)}
       ${(r.script||srcs)?`<details><summary>התסריט המלא והמקורות</summary>${r.script?`<div class="script">${esc(r.script)}</div>`:""}${srcs?`<ul class="src">${srcs}</ul>`:""}</details>`:""}
       ${closed||fixing||!audio||r.status==="changes"?"":`<div class="actions">
         <button class="b-ok" data-act="approve">אשר תוכן והגייה</button>
