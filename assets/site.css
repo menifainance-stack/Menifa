@@ -390,8 +390,12 @@ a.wa-float.is-held{visibility:hidden;pointer-events:none}
   .cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none{font-weight:700}
   .cookie.cookie-campaign #ck-prefs{font-weight:500}
   /* Off the form while a lead form occupies the bar, or while a field is focused.
-     Consent storage is untouched: this is not the hidden attribute. */
+     Consent storage is untouched: this is not the hidden attribute.
+     Reduced motion: hide and show in place, with no slide. */
   #cookie.is-yielded{transform:translate3d(0, calc(100% + 24px), 0);pointer-events:none}
+  @media (prefers-reduced-motion: reduce){
+    #cookie.is-yielded{transform:none;visibility:hidden;transition:none}
+  }
 }
 .btn-line-dark{background:none;border:1px solid var(--em-700);color:var(--em-700)}
 .btn-line-dark:hover{background:var(--em-700);color:var(--gold-pale)}
