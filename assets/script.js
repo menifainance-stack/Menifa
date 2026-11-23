@@ -24,17 +24,17 @@ const CBS_CPI_TITLE = 'למ״ס הודעה 327/2026 — מדד אוקטובר 20
 const CPI_PERIOD_LABEL = 'אוקטובר 2026';
 const CPI_PUBLISHED_SHORT = '15.11';
 const CPI_INDEX_LEVEL = 105.2; // נקודות, בסיס ממוצע 2024 = 100.0 — למ״ס 327/2026
-// decisionDate (GetInterest lastPublishedDate / press release 01-09-26) is NOT
+// decisionDate (GetInterest lastPublishedDate / press release 23-11-26) is NOT
 // the day the rate takes effect. The live ticker sentence is hardcoded:
-// מאז ההחלטה מ-1.9.2026 · ההחלטה הבאה ב-23.11.2026, ולא ידוע מה תהיה.
+// מאז ההחלטה מ-1.9.2026 · ההחלטה הבאה ב-04.01.2027.
 // effectiveFrom in assets/data/boi-mortgage-averages.json stays 2026-09-03.
 // Next business day after 2026-09-01 is 2026-09-02, the last day of the OLD
 // window (BOI: בתוקף עד 02/09/26), so do not derive «בתוקף מ» from decisionDate.
-const BOI_DECISION_DATE = '2026-10-21';
+const BOI_DECISION_DATE = '2026-11-23';
 const BOI_EFFECTIVE_FROM = '2026-09-03';
-const BOI_NEXT_DECISION = '2026-11-23'; // Monday 23.11.2026. Source: https://www.boi.org.il/publications/pressreleases/21-10-26b/
+const BOI_NEXT_DECISION = '2027-01-04'; // Monday 04.01.2027. Source: https://boi.org.il/en/bank-of-israel/interest-rate-announcement-dates-2027-2028/
 const MARKET_FALLBACK = {
-  boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 21.10.2026)
+  boi: 3.25,         // ריבית בנק ישראל — מדיניות (החלטה/API 23.11.2026, ללא שינוי)
   prime: 4.75,       // פריים = BoI + 1.5
   cpiMonthly: -0.1,  // % שינוי חודשי — אוקטובר 2026 מול ספטמבר 2026 (למ״ס 327/2026)
   cpiYearly: 1.1,    // % שינוי שנתי — אוקטובר 2026 מול אוקטובר 2025 (למ״ס 327/2026)
@@ -43,16 +43,16 @@ const MARKET_FALLBACK = {
   cpiPublishedShort: CPI_PUBLISHED_SHORT,
   cpiSourceUrl: CBS_CPI_PDF,
   decisionDate: BOI_DECISION_DATE,
-  effectiveFrom: BOI_EFFECTIVE_FROM, // טיקר חי: מאז ההחלטה מ-1.9.2026 · ההחלטה הבאה ב-23.11.2026, ולא ידוע מה תהיה
+  effectiveFrom: BOI_EFFECTIVE_FROM, // טיקר חי: מאז ההחלטה מ-1.9.2026 · ההחלטה הבאה ב-04.01.2027
   nextDecisionDate: BOI_NEXT_DECISION,
   // Old #m-update label is the decision/publication date, not «בתוקף מ».
-  updateDate: 'מדד 15.10 · BOI 21.10'
+  updateDate: 'מדד 15.11 · BOI 23.11'
 };
 // ממוצעי מסלולי משכנתא (חודש דיווח נפרד): assets/data/boi-mortgage-averages.json
 
 function formatTickerUpdateDate(boiPublished) {
   const cpi = 'מדד ' + CPI_PUBLISHED_SHORT;
-  let boi = 'BOI 21.10';
+  let boi = 'BOI 23.11';
   if (boiPublished && !Number.isNaN(boiPublished.getTime())) {
     const dd = String(boiPublished.getDate()).padStart(2, '0');
     const mm = String(boiPublished.getMonth() + 1).padStart(2, '0');
