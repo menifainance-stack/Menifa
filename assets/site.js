@@ -512,6 +512,75 @@
     $('#ck-none').addEventListener('click', function () { saveConsent(false, false); });
     $('#ck-prefs').addEventListener('click', openPrefs);
   }
+  /* Phone only. The bar stays fixed, so it must step aside when a lead form
+     occupies that strip or a field in it is focused. saveConsent is unchanged. */
+  var dockQueued = false;
+  function leadFieldFocused() {
+    var el = document.activeElement;
+    if (!el || !el.closest || !el.matches) return false;
+    if (!el.matches('input, textarea, select, button')) return false;
+    return !!el.closest('form[data-lead]');
+  }
+  function leadCluster(form) {
+    return form.closest('#form') || form.parentElement || form;
+  }
+  function bannerCoversLead() {
+    if (!banner) return false;
+    var h = banner.offsetHeight || 0;
+    if (h < 8) return false;
+    var zone = { left: 0, top: (window.innerHeight || 0) - h, right: window.innerWidth || 0, bottom: window.innerHeight || 0 };
+    var forms = $$('form[data-lead]');
+    for (var i = 0; i < forms.length; i++) {
+      var r = leadCluster(forms[i]).getBoundingClientRect();
+      if (r.width < 2 || r.height < 2) continue;
+      if (r.bottom > zone.top && r.top < zone.bottom && r.right > zone.left && r.left < zone.right) return true;
+    }
+    return false;
+  }
+  function syncCookieDock() {
+    if (!banner) return;
+    var narrow = window.matchMedia('(max-width: 480px)').matches;
+    var open = !banner.hidden;
+    if (!open || !narrow) {
+      banner.classList.remove('is-yielded');
+      try { banner.inert = false; } catch (e) {}
+      document.documentElement.classList.remove('cookie-live');
+      document.documentElement.style.setProperty('--menifa-cookie-pad', '0px');
+      return;
+    }
+    document.documentElement.classList.add('cookie-live');
+    document.documentElement.style.setProperty('--menifa-cookie-pad', Math.ceil(banner.offsetHeight || 0) + 'px');
+    var yieldBar = leadFieldFocused() || bannerCoversLead();
+    banner.classList.toggle('is-yielded', yieldBar);
+    try { banner.inert = yieldBar; } catch (e2) {}
+  }
+  function scheduleDock() {
+    if (dockQueued) return;
+    dockQueued = true;
+    requestAnimationFrame(function () {
+      dockQueued = false;
+      syncCookieDock();
+    });
+  }
+  if (banner) {
+    syncCookieDock();
+    window.addEventListener('scroll', scheduleDock, { passive: true });
+    window.addEventListener('resize', scheduleDock);
+    window.addEventListener('orientationchange', scheduleDock);
+    window.addEventListener('consent-update', scheduleDock);
+    document.addEventListener('focusin', function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest('form[data-lead]')) syncCookieDock();
+      else scheduleDock();
+    });
+    document.addEventListener('focusout', function () { setTimeout(scheduleDock, 0); });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', scheduleDock);
+      window.visualViewport.addEventListener('scroll', scheduleDock);
+    }
+    if (window.MutationObserver) new MutationObserver(scheduleDock).observe(banner, { attributes: true, attributeFilter: ['hidden'] });
+    if (window.ResizeObserver) new ResizeObserver(scheduleDock).observe(banner);
+  }
   if (modal) {
     $('#ck-save').addEventListener('click', function () { saveConsent($('#ck-stats').checked, $('#ck-mkt').checked); });
     $('#ck-cancel').addEventListener('click', function () { modal.hidden = true; });
@@ -614,8 +683,48 @@
   });
 
   /* ===== lead forms ===== */
+  var CONSENT_MSG = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.';
+  function ensureConsentAlert(form) {
+    var box = $('[name=consent]', form);
+    if (!box) return null;
+    var alertEl = $('.consent-err', form);
+    if (!alertEl) {
+      alertEl = document.createElement('p');
+      alertEl.className = 'consent-err';
+      alertEl.id = (box.id || 'consent') + '-err';
+      alertEl.setAttribute('role', 'alert');
+      alertEl.setAttribute('aria-live', 'polite');
+      var label = box.closest('label');
+      if (label) label.insertAdjacentElement('afterend', alertEl);
+      else box.insertAdjacentElement('afterend', alertEl);
+      box.addEventListener('change', function () { if (box.checked) clearConsentAlert(form); });
+    }
+    return alertEl;
+  }
+  function clearConsentAlert(form) {
+    var box = $('[name=consent]', form);
+    var alertEl = $('.consent-err', form);
+    if (alertEl) alertEl.textContent = '';
+    if (!box) return;
+    box.removeAttribute('aria-invalid');
+    if (alertEl && box.getAttribute('aria-describedby') === alertEl.id) box.removeAttribute('aria-describedby');
+  }
+  function showConsentAlert(form) {
+    var box = $('[name=consent]', form);
+    var alertEl = ensureConsentAlert(form);
+    if (alertEl) alertEl.textContent = CONSENT_MSG;
+    if (box) {
+      box.setAttribute('aria-invalid', 'true');
+      if (alertEl) box.setAttribute('aria-describedby', alertEl.id);
+      try { box.focus({ preventScroll: true }); } catch (e) { box.focus(); }
+    }
+    var reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var target = (box && (box.closest('label') || box)) || alertEl;
+    if (target && target.scrollIntoView) target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center', inline: 'nearest' });
+  }
   $$('form[data-lead]').forEach(function (form) {
     var err = $('.form-err', form), ok = form.parentNode.querySelector('.form-ok');
+    ensureConsentAlert(form);
     var leadKey = form.getAttribute('data-lead') || '';
     if (leadKey.indexOf('lp') === 0) {
       var formStarted = false;
@@ -634,9 +743,10 @@
       var data = {}, extra = [];
       $$('input, select, textarea', form).forEach(function (el) { if (!el.name) return; if (el.type === 'radio') { if (el.checked) data[el.name] = el.value; return; } data[el.name] = el.type === 'checkbox' ? el.checked : el.value.trim(); });
       $$('fieldset[data-q]', form).forEach(function (fs) { var c = $('input:checked', fs); if (c) extra.push($('legend', fs).textContent.trim() + ' ' + c.value); });
-      if (!data.name || data.name.length < 2) { err.textContent = 'נא למלא שם מלא.'; $('[name=name]', form).focus(); return; }
-      if (!/^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test((data.phone || '').replace(/\s/g, '')) && !/^\+?972/.test(data.phone || '')) { err.textContent = 'נא למלא מספר נייד תקין, לדוגמה 050-1234567.'; $('[name=phone]', form).focus(); return; }
-      if (!data.consent) { err.textContent = 'כדי שתמיר יוכל לחזור אליכם יש לאשר את מדיניות הפרטיות.'; $('[name=consent]', form).focus(); return; }
+      if (!data.name || data.name.length < 2) { clearConsentAlert(form); err.textContent = 'נא למלא שם מלא.'; $('[name=name]', form).focus(); return; }
+      if (!/^0?5\d[-\s]?\d{3}[-\s]?\d{4}$/.test((data.phone || '').replace(/\s/g, '')) && !/^\+?972/.test(data.phone || '')) { clearConsentAlert(form); err.textContent = 'נא למלא מספר נייד תקין, לדוגמה 050-1234567.'; $('[name=phone]', form).focus(); return; }
+      if (!data.consent) { err.textContent = ''; showConsentAlert(form); return; }
+      clearConsentAlert(form);
       err.textContent = '';
       data.page = location.pathname; data.source = form.getAttribute('data-lead'); data.ts = new Date().toISOString();
       data.form_version = 'site-v1';
@@ -1049,7 +1159,7 @@
     function baseLift() {
       var lift = 20 + safeInset();
       var cookie = document.getElementById('cookie');
-      if (cookie && !cookie.hidden) {
+      if (cookie && !cookie.hidden && !cookie.classList.contains('is-yielded')) {
         var r = cookie.getBoundingClientRect();
         if (r.height > 8 && r.bottom > 0) lift = Math.max(lift, Math.ceil(window.innerHeight - r.top) + 12);
       }

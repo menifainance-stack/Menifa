@@ -299,6 +299,11 @@ html.fx-refined .wa-schedule{overflow:visible}
 .consent{flex-direction:row!important;align-items:flex-start;gap:12px!important;line-height:1.6}
 .consent input{width:20px;height:20px;margin-top:3px;accent-color:var(--gold);flex:none}
 .form-err{color:#FFB4BF;font-size:.85rem;min-height:1.2em}
+/* Privacy-consent error sits on the checkbox, not in the shared form slot.
+   Ink #0E3C5C on #E8F6FC is the readable pair. Accent #5BAFD8 marks the edge. */
+.consent-err{margin:0;padding:10px 12px;border-radius:var(--radius);border-inline-start:3px solid #5BAFD8;background:#E8F6FC;color:#0E3C5C;font-size:.95rem;font-weight:600;line-height:1.5;grid-column:1 / -1}
+.consent-err:empty{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.consent input[aria-invalid="true"]{outline:2px solid #5BAFD8;outline-offset:3px}
 .form-ok{display:none;background:rgba(31,111,74,.2);border:1px solid #2F8A5C;border-radius:var(--radius);padding:20px;gap:12px;flex-direction:column}
 .form-ok.show{display:flex}
 .on-paper .lead-form label{color:var(--ink-soft)}
@@ -374,13 +379,23 @@ a.wa-float.is-held{visibility:hidden;pointer-events:none}
 /* Phone only. Desktop and the campaign rules above stay as they are.
    The two choice buttons keep equal size. Settings stays secondary. */
 @media (max-width:480px){
-  .cookie,.cookie.cookie-campaign{left:0;right:0;bottom:0;max-width:none;margin:0;border-radius:14px 14px 0 0;flex-direction:column;align-items:stretch;gap:14px;direction:rtl;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));box-shadow:0 -12px 40px rgba(0,0,0,.45)}
-  .cookie p,.cookie.cookie-campaign p{flex:none;width:100%;margin:0;font-size:14px;line-height:1.3}
+  html.cookie-live body{padding-bottom:var(--menifa-cookie-pad, 0px)}
+  html.cookie-live{scroll-padding-bottom:calc(var(--menifa-cookie-pad, 0px) + 12px)}
+  .lead-form input,.lead-form select,.lead-form textarea,.lead-form .consent,.lead-form .consent-err,.lead-form button[type=submit]{scroll-margin-bottom:calc(var(--menifa-cookie-pad, 0px) + 12px);scroll-margin-top:12px}
+  .cookie,.cookie.cookie-campaign{left:0;right:0;bottom:0;max-width:none;margin:0;border-radius:14px 14px 0 0;flex-direction:column;align-items:stretch;gap:8px;direction:rtl;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -12px 40px rgba(0,0,0,.45)}
+  .cookie p,.cookie.cookie-campaign p{flex:none;width:100%;margin:0;font-size:13px;line-height:1.25}
   .cookie p a{display:inline-block;text-decoration:underline;text-underline-offset:2px;padding-block:13px;margin-block:-13px;padding-inline:2px}
   .cookie .acts,.cookie.cookie-campaign .acts{display:grid;grid-template-columns:1fr 1fr 1fr;direction:rtl;width:100%;gap:6px;align-items:stretch}
   .cookie .btn,.cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none,.cookie.cookie-campaign #ck-prefs{min-height:44px;height:44px;width:100%;box-sizing:border-box;padding:0 4px;font-size:13px;line-height:1.15;letter-spacing:0;text-align:center;white-space:nowrap;grid-column:auto}
   .cookie.cookie-campaign #ck-all,.cookie.cookie-campaign #ck-none{font-weight:700}
   .cookie.cookie-campaign #ck-prefs{font-weight:500}
+  /* Off the form while a lead form occupies the bar, or while a field is focused.
+     Consent storage is untouched: this is not the hidden attribute.
+     Reduced motion: hide and show in place, with no slide. */
+  #cookie.is-yielded{transform:translate3d(0, calc(100% + 24px), 0);pointer-events:none}
+  @media (prefers-reduced-motion: reduce){
+    #cookie.is-yielded{transform:none;visibility:hidden;transition:none}
+  }
 }
 .btn-line-dark{background:none;border:1px solid var(--em-700);color:var(--em-700)}
 .btn-line-dark:hover{background:var(--em-700);color:var(--gold-pale)}
